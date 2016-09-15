@@ -37,25 +37,25 @@ vector<vector<char>> getMap(int playerX, int playerY, int mapSize){
 
 	vector<vector<char>> map(mapSize);
 
-    for (int i = 0; i < map.size(); i++){
-    	map[i] = vector<char>(mapSize);
-    }
+	for (int i = 0; i < map.size(); i++){
+		map[i] = vector<char>(mapSize);
+	}
 
-    int k = 0;
-    for (vector<char>& i : map) {
-    	for (char& j : i){
-    		j = ' ';
-    	}
-    }
+	int k = 0;
+	for (vector<char>& i : map) {
+		for (char& j : i){
+			j = ' ';
+		}
+	}
 
-    map[playerY][playerX] = '#';
+	map[playerY][playerX] = '#';
 
-    return map;
+	return map;
 }
 
 int main() {
 
 	cout << "Welcome to RogueReborn" << endl;
 
-    printMap(getMap(5,5,10));
+	printMap(getMap(5,5,10));
 }
