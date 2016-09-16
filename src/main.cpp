@@ -5,7 +5,7 @@
 #include <string>
 
 void putString(int x, int y, std::string text) {
-	for (int i = 0; i < text.size(); i++){
+	for (uint i = 0; i < text.size(); i++){
 		TCODConsole::root->putChar(x+i,y,text[i]);
 	}
 }
