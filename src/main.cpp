@@ -67,14 +67,8 @@ int main() {
         //Place player
         TCODConsole::root->putChar(px, py,'@');
 
-        //???
+        //Push changes to screen
         TCODConsole::flush();
-    }
-
-    if (TCODColor::red != TCODColor::blue) {
-        std::cout << "ne\n";
-    } else {
-        std::cout << "e\n";
     }
     return 0;
 }
