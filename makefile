@@ -1,6 +1,0 @@
-compile: main.cpp
-	@echo Compiling...
-	@g++ main.cpp -o RogueReborn -std=c++11
-clean:
-	@echo Cleaning...
-	@rm RogueReborn
