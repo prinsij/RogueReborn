@@ -1,5 +1,4 @@
 # Rogue Reborn
----
 #### **Team Name:** Team Seven
 #### **Group Number:** 6
 #### **Contributors:** Or Almog @almogo, Mikhail Andrenkov @andrem5, Ian Prins @prinsij
@@ -11,12 +10,10 @@
 <p> The original source code is available <a href="https://github.com/weiss/original-bsd/tree/master/games/rogue">here</a>.</p>
 ---
 #### Repository Layout
-<p> The repository file system is structured in the following way: </p>
----
-| **Directory**   |  **Description**        |
-| :--------:      | :--------:              |
-| doc/            |  Project documentation  |
-| src/            |  Source code            |
-| sch/            |  Project schedule       |
-| ref/            |  Reference material     |
----
+<p> The repository file system is structured in the following way:<br><br></p>
+| **Directory**          |  **Description**       |
+| :--------:             | :--------:             |
+| [doc/](doc)            |  Project documentation |
+| [src/](src)            |  Source code           |
+| [sch/](sch)            |  Project schedule      |
+| [ref/](ref)            |  Reference material    |
