@@ -1,22 +1,24 @@
-# RogueReborn
+<h1>RogueReborn</h1>
 
-Team Name: Team Seven
+<pre>
+	Team Name: Team Seven
 
-Actual team number: 6
+	Actual team number: 6
 
-Team Members: Or Almog, Mikhail Andrenkov, Ian Prins
+	Team Members: Or Almog, Mikhail Andrenkov, Ian Prins
+</pre>
 
 
-<h1>This project is a reimplementation of the game Rogue that came out in 1980.</h1>
+<p>This project is a reimplementation of the game Rogue that came out in 1980.</p>
 
-The source code is available here: https://github.com/weiss/original-bsd/tree/master/games/rogue
+<p>The source code is available <a href="https://github.com/weiss/original-bsd/tree/master/games/rogue">here</a></p>
 
-The folders and files for this project are as follows:
+<p>The folders and files for this project are as follows:</p>
 
-Doc - Documentation for the project
+<p>Doc/ - Documentation for the project</p>
 
-src - Implementation
+<p>src/ - Implementation</p>
 
-Project Schedule - ___
+<p>Project Schedule/ - ___</p>
 
-Reference Material - ___
+<p>Reference Material/ - ___</p>
