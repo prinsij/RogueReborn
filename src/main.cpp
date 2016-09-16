@@ -2,10 +2,19 @@
 #include "tcodsrc/libtcod.hpp"
 #include <random>
 #include <vector>
+#include <string>
+
+void putString(int x, int y, std::string text) {
+	for (int i = 0; i < text.size(); i++){
+		TCODConsole::root->putChar(x+i,y,text[i]);
+	}
+}
 
 int main() {
 
     std::cout << "RogueReborn" << std::endl;
+
+    TCODConsole::setCustomFont("terminal-large.png");
 
     //Some stdlib blabber
     std::random_device rand_device;
@@ -23,7 +32,7 @@ int main() {
     }
 
     //Init console
-    TCODConsole::initRoot(mapx, mapy, "Rogue Reborn", false);
+    TCODConsole::initRoot(mapx, mapy + 20, "Rogue Reborn", false);
 
     //Player X and Y
     int px = 5, py = 5;
@@ -55,7 +64,6 @@ int main() {
         }
 
         //Keypad controls
-
         switch (key.vk){
 
 			case TCODK_KP1:
@@ -127,6 +135,9 @@ int main() {
                 }
             }
         }
+
+
+        putString(0, 40, "test");
 
         //Place player
         TCODConsole::root->putChar(px, py,'@');
