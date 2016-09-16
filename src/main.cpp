@@ -3,12 +3,16 @@
 #include <random>
 #include <vector>
 
-
 int main() {
-    std::cout << "hello world\n";
+
+    std::cout << "RogueReborn" << std::endl;
+
+    //Some stdlib blabber
     std::random_device rand_device;
     std::mt19937 twister(rand_device());
     std::discrete_distribution<> distribution({3, 1});
+
+    //Set map
     int mapx = 40, mapy = 40;
     std::vector<std::vector<int> > map;
     for (auto x=0; x < mapx; x++) {
@@ -17,9 +21,17 @@ int main() {
             map[x].push_back(distribution(twister));
         }
     }
+
+    //Init console
     TCODConsole::initRoot(mapx, mapy, "Rogue Reborn", false);
+
+    //Player X and Y
     int px = 5, py = 5;
+
+    //Game loop
     while (!TCODConsole::isWindowClosed()) {
+
+    	//Handle user input
         TCOD_key_t key;
         TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS, &key, NULL);
         if (key.vk == TCODK_UP) {
@@ -39,19 +51,26 @@ int main() {
                 px += 1;
             }
         }
+
+        //Redraw
         TCODConsole::root->clear();
         for (auto x=0; x < mapx; x++) {
             for (auto y=0; y < mapy; y++) {
                 if (map[x][y] == 0) {
-                    TCODConsole::root->putChar(x, y, '.');
+                    TCODConsole::root->putChar(x, y, ' ');
                 } else {
                     TCODConsole::root->putChar(x, y, '#');
                 }
             }
         }
+
+        //Place player
         TCODConsole::root->putChar(px, py,'@');
+
+        //???
         TCODConsole::flush();
     }
+
     if (TCODColor::red != TCODColor::blue) {
         std::cout << "ne\n";
     } else {
