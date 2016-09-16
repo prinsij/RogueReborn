@@ -2,10 +2,19 @@
 #include "tcodsrc/libtcod.hpp"
 #include <random>
 #include <vector>
+#include <string>
+
+void putString(int x, int y, std::string text) {
+	for (uint i = 0; i < text.size(); i++){
+		TCODConsole::root->putChar(x+i,y,text[i]);
+	}
+}
 
 int main() {
 
     std::cout << "RogueReborn" << std::endl;
+
+    TCODConsole::setCustomFont("terminal-large.png");
 
     //Some stdlib blabber
     std::random_device rand_device;
@@ -23,7 +32,7 @@ int main() {
     }
 
     //Init console
-    TCODConsole::initRoot(mapx, mapy, "Rogue Reborn", false);
+    TCODConsole::initRoot(mapx, mapy + 20, "Rogue Reborn", false);
 
     //Player X and Y
     int px = 5, py = 5;
@@ -34,6 +43,8 @@ int main() {
     	//Handle user input
         TCOD_key_t key;
         TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS, &key, NULL);
+
+        //Arrow controls
         if (key.vk == TCODK_UP) {
             if (py > 0 and map[px][py-1] == 0) {
                 py -= 1;
@@ -52,6 +63,67 @@ int main() {
             }
         }
 
+        //Keypad controls
+        switch (key.vk){
+
+			case TCODK_KP1:
+	            if ((py < mapy-1 and px > 0) and map[px-1][py+1] == 0) {
+	                py += 1;
+	                px -= 1;
+	            }
+				break;
+
+			case TCODK_KP2:
+	            if (py < mapy-1 and map[px][py+1] == 0) {
+	                py += 1;
+	            }
+				break;
+
+			case TCODK_KP3:
+	            if ((py < mapy-1 and px < mapx-1) and map[px+1][py+1] == 0) {
+	                py += 1;
+	                px += 1;
+	            }
+
+				break;
+
+			case TCODK_KP4:
+	            if (px > 0 and map[px-1][py] == 0) {
+	                px -= 1;
+	            }
+				break;
+
+			case TCODK_KP6:
+	            if (px < mapx-1 and map[px+1][py] == 0) {
+	                px += 1;
+	            }
+				break;
+
+			case TCODK_KP7:
+	            if ((py > 0 and px > 0) and map[px-1][py-1] == 0) {
+	                py -= 1;
+	                px -= 1;
+	            }
+				break;
+
+			case TCODK_KP8:
+	            if (py > 0 and map[px][py-1] == 0) {
+	                py -= 1;
+	            }
+				break;
+
+			case TCODK_KP9:
+	            if ((py > 0 and px < mapx-1) and map[px+1][py-1] == 0) {
+	                py -= 1;
+	                px += 1;
+	            }
+				break;
+
+			default:
+				break;
+        }
+
+
         //Redraw
         TCODConsole::root->clear();
         for (auto x=0; x < mapx; x++) {
@@ -63,6 +135,9 @@ int main() {
                 }
             }
         }
+
+
+        putString(0, 40, "test");
 
         //Place player
         TCODConsole::root->putChar(px, py,'@');
