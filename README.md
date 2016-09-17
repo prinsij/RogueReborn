@@ -11,9 +11,9 @@
 ---
 #### Repository Layout
 <p> The repository file system is structured in the following way:<br><br></p>
-| **Directory**                   |  **Description**       |
-| :--------:                      | :--------:             |
-| [doc/](Doc)                     |  Project documentation |
-| [src/](src)                     |  Source code           |
-| [sch/](ProjectSchedule)         |  Project schedule      |
-| [ref/](ReferenceMaterial)       |  Reference material    |
+| **Directory**                               |  **Description**       |
+| :--------:                                  | :--------:             |
+| [Doc/](Doc)                                 |  Project documentation |
+| [src/](src)                                 |  Source code           |
+| [ProjectSchedule/](ProjectSchedule)         |  Project schedule      |
+| [ReferenceMaterial/](ReferenceMaterial)     |  Reference material    |
