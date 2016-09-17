@@ -1,8 +1,10 @@
 #include <iostream>
-#include "tcodsrc/libtcod.hpp"
+#include "libtcod/include/libtcod.hpp"
 #include <random>
 #include <vector>
 #include <string>
+
+using uint = unsigned int;
 
 void putString(int x, int y, std::string text) {
 	for (uint i = 0; i < text.size(); i++){
@@ -10,32 +12,36 @@ void putString(int x, int y, std::string text) {
 	}
 }
 
+/**
+  * Execution starts here
+  */
 int main() {
+    std::cout << "Welcome to Rogue Reborn!" << std::endl;
 
-    std::cout << "RogueReborn" << std::endl;
-
-    TCODConsole::setCustomFont("terminal-large.png");
+    TCODConsole::setCustomFont("assets/terminal-large.png");
 
     //Some stdlib blabber
     std::random_device rand_device;
     std::mt19937 twister(rand_device());
     std::discrete_distribution<> distribution({3, 1});
 
-    //Set map
-    int mapx = 40, mapy = 40;
+    // Map dimensions (from original Rogue) 
+    uint mapx = 80, mapy = 25;
+
     std::vector<std::vector<int> > map;
-    for (auto x=0; x < mapx; x++) {
+
+    for (uint x = 0; x < mapx; x++) {
         map.push_back(std::vector<int>());
-        for (auto y=0; y < mapy; y++) {
+        for (uint y = 0; y < mapy; y++) {
             map[x].push_back(distribution(twister));
         }
     }
 
     //Init console
-    TCODConsole::initRoot(mapx, mapy + 20, "Rogue Reborn", false);
+    TCODConsole::initRoot(mapx, mapy + 5, "Rogue Reborn", false);
 
     //Player X and Y
-    int px = 5, py = 5;
+    uint px = 5, py = 5;
 
     //Game loop
     while (!TCODConsole::isWindowClosed()) {
@@ -126,8 +132,8 @@ int main() {
 
         //Redraw
         TCODConsole::root->clear();
-        for (auto x=0; x < mapx; x++) {
-            for (auto y=0; y < mapy; y++) {
+        for (uint x=0; x < mapx; x++) {
+            for (uint y=0; y < mapy; y++) {
                 if (map[x][y] == 0) {
                     TCODConsole::root->putChar(x, y, ' ');
                 } else {
@@ -137,7 +143,7 @@ int main() {
         }
 
 
-        putString(0, 40, "test");
+        putString(0, 26, "test");
 
         //Place player
         TCODConsole::root->putChar(px, py,'@');
