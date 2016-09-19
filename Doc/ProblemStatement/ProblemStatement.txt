@@ -1,0 +1,11 @@
+Team #: 6
+Team Name: Team 6
+Members:    Ian Prins, prinsij
+            Mikhail Andrenkov, mandrenkov
+            Ori Almogo, almogo
+
+The software will be developed for aLinux desktop environment. The library in 
+use (libtcod) has support for Windows environments, so a hypothetical windows
+port would be relatively easy. Stakeholders include players of the original
+Rogue game as well as players and developers of successor games, who may be
+interested in playing/developing from the original. 
