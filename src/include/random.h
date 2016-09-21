@@ -1,5 +1,8 @@
 #include <random>
 
+#ifndef RANDOM_H
+#define RANDOM_H
+
 class Generator {
 	public:
 		Generator();
@@ -7,3 +10,5 @@ class Generator {
 	private:
 		std::mt19937 gen;
 }
+
+#endif
