@@ -1,10 +1,21 @@
 Team #: 6
 Team Name: Team 6
 Members:    Ian Prins, prinsij
-            Mikhail Andrenkov, mandrenkov
+            Mikhail Andrenkov, andrem5
             Ori Almogo, almogo
 
-The software will be developed for aLinux desktop environment. The library in 
+From the humble beginnings of Pong and Pacman, the video game industry has evolved to 
+define modern entertainment by constantly pushing the limits of hardware and software.
+The technology behind contemporary video games encompasses a large variety of academic
+subjects and can be as sophisticated and rigorous as any other traditional software project.
+Although it is easy to forget that modern developers stand on the shoulders of giants,
+it is important to remember that even classic video games were considered immense feats
+of technical accomplishment in their time.  The primary goal of the "Rogue Reborn" project
+is to re-create what is arguably one of the most iconic video games of all time "Rogue".
+This will serve to demonstrate how the proper utilitzation of today's tools and technologies
+can enhance the development process of a legacy application.
+
+The software will be developed for a Linux desktop environment. The library in 
 use (libtcod) has support for Windows environments, so a hypothetical windows
 port would be relatively easy. Stakeholders include players of the original
 Rogue game as well as players and developers of successor games, who may be
