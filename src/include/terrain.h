@@ -1,3 +1,8 @@
+
+
+#ifndef TERRAIN_H
+#define TERRAIN_H
+
 class Terrain {
 	public:
 		static enum Passability {Blocked, Passable};
@@ -10,3 +15,5 @@ class Terrain {
 		Visibility visible;
 		Passability passable;
 }
+
+#endif

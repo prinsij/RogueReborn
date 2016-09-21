@@ -2,6 +2,9 @@
 #include "coord.h"
 #include "itemzone.h"
 
+#ifndef PLAYERCHAR_H
+#define PLAYERCHAR_H
+
 class PlayerChar {
 	public:
 		int getStrength();
@@ -22,4 +25,6 @@ class PlayerChar {
 		Coord coord;
 		ItemZone backpack;
 		int level;
-}
+};
+
+#endif

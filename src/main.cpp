@@ -15,7 +15,7 @@ void putString(int x, int y, std::string text) {
 /**
   * Execution starts here
   */
-int main() {
+int main(int argv, char** args) {
     std::cout << "Welcome to Rogue Reborn!" << std::endl;
 
     TCODConsole::setCustomFont("assets/terminal-large.png");
