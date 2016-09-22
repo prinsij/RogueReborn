@@ -1,19 +1,18 @@
 #include <string>
 #include "coord.h"
 #include "itemzone.h"
+#include "mob.h"
 
 #ifndef PLAYERCHAR_H
 #define PLAYERCHAR_H
 
-class PlayerChar {
+class PlayerChar : Mob {
 	public:
 		int getStrength();
 		int getArmor();
-		std::string getName();
 		int getGold();
 		int getHP();
 		int getMaxHP();
-		Coord getCoord();
 		int getLevel();
 	private:
 		int HP;
@@ -21,8 +20,6 @@ class PlayerChar {
 		int armor;
 		int strength;
 		int gold;
-		std::string name;
-		Coord coord;
 		ItemZone backpack;
 		int level;
 };
