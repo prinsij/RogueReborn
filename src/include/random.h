@@ -6,9 +6,10 @@
 class Generator {
 	public:
 		Generator();
-		int getNum(int, int);
+		int intFromRange(int, int);
+		double operator()();
 	private:
 		std::mt19937 gen;
-}
+};
 
 #endif

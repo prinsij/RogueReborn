@@ -1,6 +1,6 @@
 #include <iostream>
 #include "libtcod/include/libtcod.hpp"
-#include <random>
+#include "include/random.h"
 #include <vector>
 #include <string>
 
@@ -20,20 +20,19 @@ int main(int argv, char** args) {
 
     TCODConsole::setCustomFont("assets/terminal-large.png");
 
-    //Some stdlib blabber
-    std::random_device rand_device;
-    std::mt19937 twister(rand_device());
-    std::discrete_distribution<> distribution({3, 1});
 
     // Map dimensions (from original Rogue) 
     uint mapx = 80, mapy = 25;
 
     std::vector<std::vector<int> > map;
 
+	Generator rand;
+
     for (uint x = 0; x < mapx; x++) {
         map.push_back(std::vector<int>());
         for (uint y = 0; y < mapy; y++) {
-            map[x].push_back(distribution(twister));
+			int block = rand() < .25 ? 1 : 0;
+            map[x].push_back(block);
         }
     }
 
