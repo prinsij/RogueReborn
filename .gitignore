@@ -10,3 +10,9 @@
 
 # General
 *.tmp
+
+# CLion stuff (ignore)
+.idea/*
+
+# Library files
+src/*.so
