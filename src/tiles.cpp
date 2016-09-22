@@ -4,3 +4,7 @@
 Floor::Floor() 
 	: Terrain(' ', Terrain::Transparent, Terrain::Passable)
 {}
+
+Wall::Wall()
+	: Terrain('#', Terrain::Opaque, Terrain::Blocked)
+{}

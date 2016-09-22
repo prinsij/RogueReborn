@@ -8,4 +8,9 @@ class Floor : public Terrain {
 		Floor();
 };
 
+class Wall : public Terrain {
+	public:
+		Wall();
+};
+
 #endif
