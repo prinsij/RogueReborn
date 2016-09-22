@@ -1,7 +1,5 @@
 
 #include <string>
-#include <iostream>
-#include <vector>
 #include "include/playerchar.h"
 #include "include/coord.h"
 
