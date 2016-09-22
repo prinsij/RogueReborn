@@ -6,7 +6,14 @@ Terrain::Terrain(char character, Terrain::Visibility vis, Terrain::Passability p
 	, passable(pass)
 {}
 
+char Terrain::getChar() {
+	return character;
+}
+
 Terrain::Passability Terrain::isPassable() {
 	return passable;
-	return arglebargle;
+}
+
+Terrain::Visibility Terrain::getVisibility() {
+	return visible;
 }
