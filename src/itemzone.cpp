@@ -1,29 +1,30 @@
-
-#include <string>
-#include <iostream>
-#include <vector>
-
 #include "include/itemzone.h"
-#include "include/item.h"
+#include <vector>
+#include <algorithm>
 
-void ItemZone::add(Item toAdd) {
-	contents.push_back(toAdd);
+using namespace std;
+
+ItemZone::ItemZone()
+	: contents() {
 }
 
-bool ItemZone::remove(Item toRemove) {
-	int* removeIndex = nullptr;
-	*removeIndex = -1;
-	for (uint i = 0; i < contents.size(); i++){
-		if (contents[i] == toRemove){
-			*removeIndex = i;
-		}
+Item ItemZone::operator[](int i) {
+	return contents[i];
+}
+
+bool ItemZone::remove(Item& item) {
+	auto it = find(begin(contents), end(contents), item);
+	if (it != end(contents)) {
+		contents.erase(it);
+		return true;
 	}
-
-//	if (*removeIndex == -1) return false;
-//	else {
-//		contents.erase(removeIndex);
-//		return true;
-//	}
-	contents.erase(&toRemove);
+	return false;
 }
 
+void ItemZone::add(Item& item) {
+	contents.push_back(item);
+}
+
+bool ItemZone::contains(Item& item) {
+	return find(begin(contents), end(contents), item) != end(contents);
+}

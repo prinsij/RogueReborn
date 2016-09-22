@@ -4,9 +4,10 @@
 
 class Coord {
 	public:
+		Coord(int, int);
 		int& operator[](int);
-		Coord operator+(Coord);
-		Coord operator-(Coord);
+		Coord operator+(const Coord&);
+		Coord operator-(const Coord&);
 
 	private:
 		int x;

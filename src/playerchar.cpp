@@ -24,14 +24,6 @@ int PlayerChar::getGold() {
 	return gold;
 }
 
-std::string PlayerChar::getName() {
-	return name;
-}
-
-Coord PlayerChar::getCoord() {
-	return coord;
-}
-
 int PlayerChar::getLevel() {
 	return level;
 }
