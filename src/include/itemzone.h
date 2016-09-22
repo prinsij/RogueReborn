@@ -6,9 +6,11 @@
 
 class ItemZone {
 	public:
+		ItemZone();
 		Item operator[](int);
-		bool remove(Item);
-		void add(Item);
+		bool remove(Item&);
+		void add(Item&);
+		bool contains(Item&);
 	private:
 		std::vector<Item> contents;
 };
