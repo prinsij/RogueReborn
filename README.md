@@ -1,5 +1,5 @@
 # Rogue Reborn
-##### **Team Name:** Team Seven
+##### **Team Name:** Team Rogue++
 ##### **Group Number:** 6
 ##### **Contributors:** Or Almog @almogo, Mikhail Andrenkov @andrem5, Ian Prins @prinsij
 ---
