@@ -4,7 +4,7 @@
 \usepackage{tabularx}
 \usepackage{indentfirst}
 
-\title{SE 3XA3: Development Plan\\Title of Project}
+\title{SE 3XA3: Development Plan\\Rogue Reborn}
 
 \author{Group \#6, Team Rogue++\\\\
 	\begin{tabular} {l l}
@@ -28,6 +28,7 @@
 		\midrule
 		09/23/2016 & Or & Create outline .tex\\
 		09/25/2016 & Mikhail & Added Communication Plan and Technology\\
+		09/26/2016 & Mikhail & Added Git Workflow Plan\\
 		... & ... & ...\\
 		\bottomrule
 	\end{tabularx}
@@ -46,13 +47,17 @@ Meetings will be held once weekly, in Thode library at 3:30pm on Wednesday. Thes
 
 \section{Team Communication Plan}
 
-Team communications will be distributed across several social platforms.  This way, conversations can be grouped together according to formality, visibility, and accessibility.  In particular, Slack will be used to exchange informal messages in order to convey meeting times and briefly discuss topics.  Team members will be required to check this service at least once per day in order to facilitate quicker response times and encourage more open communcation.  Next, the GitLab ITS will serve as an official means of tracking bugs, reporting issues, and announcing any other code correction request.  All other communications will be performed in person during the lab sessions as well as the weekly group meeting.  Currently, there is no plan to include any other communication streams as this will most likely dilute the conversations to a point where accessability and traceability is sacrificed.     
+Team communications will be distributed across several social platforms. This way, conversations can be grouped together according to the degree of formality and desired visibility.  Specifically, Slack will be used to exchange informal messages for purposes such as conveying meeting times or briefly discussing topics.  Team members will be required to check this service at least once per day in order to facilitate quicker response times and encourage more open communication.  Next, the GitLab ITS will serve as an official means of tracking bugs, reporting issues, and announcing any other code correction request.  All other communications will be performed in person during the lab sessions as well as the weekly group meeting.  Currently, there is no plan to include any other communication streams as this will most likely dilute the conversations to a point where accessibility and traceability is sacrificed.
 
 \section{Team Member Roles}
 
 Mikhail will be the team leader. The team leader is responsible for chairing the meetings, allocating work to the team members, and ensuring that all team members are up-to-date about the project status and deadlines. The other team members will alternate fulfilling the role of meeting scribe. Outside of meetings, various team members will fill the role of experts in the project technology. Mikhail will git LaTeX expert, Ori testing/Git expert, and Ian C++/libtcod expert. Expert roles don't constitute work allocations, but rather an indication of who should make sure to be up-to-date on portions of the project and who questions should be directed to.
 
 \section{Git Workflow Plan}
+
+To minimize the overhead associated with creating, updating, and managing project files, the Rogue++ team will collaborate using several Git integration flows.  In general, all project source files and documents associated with the main (stable) development branch will be hosted in a central GitLab repository.  Any developers (or distinguished stakeholders) may clone, view, and modify this code, given that their changes do not compromise any tested functionality.  Note that it is still acceptable to commit a change to this branch that is not fully integrated; however, the application must be able to successfully compile and run.  In the event that a prototype demonstration is required, a new branch will be created to host any temporary changes that will not be merged back into the main branch.  This way, developers are free to adapt existing source code in any manner they choose in order to showcase their progress to a stakeholder without violating the integrity of the stable branch.\\
+
+To create a semantic history of the development process, labels will be used extensively throughout the course of the Rogue Reborn project.  This will enable stakeholders to oversee the progress of the project more clearly and developers to gauge their own productivity with greater ease.  Milestones will also be incorporated as a means of measuring the progress of the application against the goals of the stakeholders.  These milestones will also be used internally within the Rogue++ team to coordinate feature implementation or debug deadlines. If done correctly, this system will allow for more efficient communication between the involved parties and improve the visibility of the entire development cycle.
 
 \section{Proof of Concept Demonstration Plan}
 
@@ -72,9 +77,9 @@ It is unlikely that a straight-forward implementation of the PoC features will p
 
 \section{Technology}
 
-The technology behind the Rogue Reborn project was selected to facilitate a productive development process and an effective user experience.  At the very core, C++ will serve as the primary programming language for this application.  Aside from the obvious performance and community benefits, C++ also dominates the gaming industry as the language of choice for many studios.  Another advantage of C++ is that it contains a binding for the \textit{libtcod} graphics library.  This library offers a simple interface to draw ASCII-style art and collect user input --- perfect for implementing a terminal-style game.  For these reasons, the Rogue++ team decided that developing a C++ project would yield the best experience from both a practical and technical perspective.\\
+The technology behind the Rogue Reborn project was selected to facilitate a productive development process and a powerful user experience. At its very core, C++ will serve as the primary programming language for this application.  This decision was heavily influenced by the superior performance benefits and community support behind the language, not to mention its prevalence in the professional game developer industry.  Another factor that motivated the use of C++ was its compatibility with \textit{libtcod}: a lightweight graphics library that offers a simple interface to draw ASCII-style art and collect user input.  For these reasons, the development team believes that developing a C++ project would yield the best experience from both a technical and practical perspective.\\
 
-Aside from the functional code itself, there are several other considerations that constitute the technology environment.  With regards to the IDE, every team member is free to use a text editor of their choice.  Imposing a constraint on the development environment may result in unnecessary complications and will undoubtedly interfere with the personal preferences of individual team.  Next, to gain confidence in the correctness and versatility of the code, the Boost Test framework will be at the forefront of the Rogue Reborn unit testing effort.  This library was selected for its superb decumentation, simple approach to test creation, and robust assertion support.  Lastly, all design documentation will be generated using LaTeX, while the documentation of the source code will be delegated to the Doxygen tool.
+With respect to the environment of the technology, the Rogue++ team agreed to use Linux as the primary development platform (attempting to achieve cross-platform portability from the start could significantly hinder progress).  Otherwise, every team member is free to use a text editor of their choice: imposing a constraint on an IDE could result in unnecessary complications and may interfere with productivity during the early coding stages.  To gain confidence in the correctness and versatility of the code, the Boost Test framework will be heavily utilized to perform unit testing across the project.  This library was selected on the merits of its superb documentation, simple approach to test creation, and robust assertion support.  On a final note, the Rogue Reborn documentation will be generated using two tools.  Specifically, all design documentation will be generated using LaTeX, while all source code documentation will be delegated to the Doxygen tool.
 
 \section{Coding Style}
 
@@ -82,4 +87,6 @@ Aside from the functional code itself, there are several other considerations th
 
 Provide a pointer to your Gantt Chart.
 
-\end{document}
+\section{Project Review}
+
+\end{document}D
