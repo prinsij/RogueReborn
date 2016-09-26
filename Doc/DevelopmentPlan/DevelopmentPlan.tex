@@ -38,18 +38,45 @@ Put your introductory blurb here.
 
 \section{Team Meeting Plan}
 
+\paragraph
+
+Meetings will be held once weekly, in Thode library at 3:30pm on Wednesday. These weekly meetings will be chaired by the team leader. The team leader will be responsible for developing a rough meeting agenda and ensuring the meeting follows the agenda. This agenda will no be posted but will be briefly outlined to the meeting participants. Full minutes will not be recorded, but the meeting scribe will record the outcomes of the meeting. Any such outcomes will be posted to the team git repository. If a team member cannot make the meeting, a brief summary of the meeting and links to its outcomes will be posted in the team slack channel by the meeting scribe. Any changes to the meeting format, location, or time will be posted to the team slack channel by the meeting chair.
+
 \section{Team Communication Plan}
 
 \section{Team Member Roles}
+
+\paragraph
+
+Mikhail will be the team leader. The team leader is responsible for chairing the meetings, allocating work to the team members, and ensuring that all team members are up-to-date about the project status and deadlines. The other team members will alternate fulfilling the role of meeting scribe. Outside of meetings, various team members will fill the role of experts in the project technology. Mikhail will git LaTeX expert, Ori testing/Git expert, and Ian C++/libtcod expert. Expert roles don't constitute work allocations, but rather an indication of who should make sure to be up-to-date on portions of the project and who questions should be directed to.
 
 \section{Git Workflow Plan}
 
 \section{Proof of Concept Demonstration Plan}
 
+\paragraph
+
+To demonstrate the feasibity of the project, a proof of concept will be developed. The PoC will demonstrate the following features:
+
+\begin{itemize}
+	\item Basic dungeon generation, including rooms, corridors, and placement of gold, items, monsters, and traps
+	\item Line of sight and pathfinding implementation
+	\item Non-functional items and traps implemented
+	\item Minimum viable monster AI
+	\item Basic movement and very simple environmental interaction (picking up items, basic combat)
+\end{itemize}
+
+\paragraph
+
+If there are no issues implementing the above features, it is assumed there are no fundamental flaws with the requirements or architectural design of the project. There are major features of the project that are touched by the above (advanced item manipulation, traps, hidden passageways, and complex monsters) but these have been left out of the PoC as too ambitious. So long as the underlying code is well architectured, these more complex features should flow out of the PoC foundation.
+
+\paragraph
+
+It is unlikely that a straight-forward implementation of the PoC features will prove unusually difficult. It may however be somewhat difficult to implement these features in sufficiently extensible manner that they can be reused without readjustment. The reverse-engineering of the algorithms for various features from the original source is likely to prove difficult. In addition integrating tests into the implementation may prove difficult as no team member has much experience with testing or testing frameworks. At this time the project is planned to only be developed for Linux systems, so portability is not expected to be an issue. The required dependencies have already been installed, with a test application running, so that should remain a non-issue going forward. 
+
 \section{Technology}
 
 \section{Coding Style}
-
 \section{Project Schedule}
 
 Provide a pointer to your Gantt Chart.
