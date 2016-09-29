@@ -3,6 +3,7 @@
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{indentfirst}
+\usepackage{hyperref}
 
 \title{SE 3XA3: Development Plan\\Rogue Reborn}
 
@@ -84,10 +85,19 @@ With respect to the environment of the technology, the Rogue++ team agreed to us
 
 \section{Coding Style}
 
+In any large-scale project, it is important that all members are on the same page. This is especially true for a software project, where every team member must be able to read and understand the code that another wrote. The Rogue++ project will be utilizing a modified version of \href{https://google.github.io/styleguide/cppguide.html}{Google's C++ Style Guide} to format and organize the code. Google's style guides are a professional standard, utilized in every corner of the software industry. The team has decided to implement some changes to it, however, primarily due to the nature of the project and past proramming experience. As with any style guide, what is most important is that the code is persistent, not that it conforms to one system or another. Having said that, the team shall differ on two matters from Google's style guide:
+
+\begin{itemize}
+	\item Opening and closing curly braces (\{\}) shall be on the same column. The reason for this is simple: curly braces are used to separate code blocks and to designate to whom or what a piece of code belongs. In a trivial case it makes no difference, but with multiple layers of nested for-loops, if-statements, and function definitions, opening and closing curly braces on new lines will yield code that is easier to read and easier to debug.
+	\item Google's C++ Style Guide calls for inline comments describing classes, functions, methods, and file contents. While this is a noble goal, and is most definietly necessary, this job has been delegated elsewhere. As mentioned before, the team will be using the Doxygen tool for documenting code structure. Doxygen will encapsulate the design-documentation sphere, stepping into a fair portion of Google's style guide. The team will still, of course, leave in-line comments explaining the functional aspects of the code.
+
+\end{itemize}
+
+
 \section{Project Schedule}
 
 Provide a pointer to your Gantt Chart.
 
 \section{Project Review}
 
-\end{document}D
+\end{document}
