@@ -5,7 +5,7 @@
 
 class GoldPile {
 	public:
-		Gold(Coord, int);
+		GoldPile(Coord, int);
 		Coord getPosition();
 		int getAmount();
 	private:
