@@ -14,6 +14,8 @@ class PlayerChar : Mob {
 		int getHP();
 		int getMaxHP();
 		int getLevel();
+		bool foundAmulet();
+		int maxDelved(); 
 	private:
 		int HP;
 		int maxHP;
@@ -22,6 +24,8 @@ class PlayerChar : Mob {
 		int gold;
 		ItemZone backpack;
 		int level;
+		bool hasFoundAmulet;
+		int maxDepth;
 };
 
 #endif

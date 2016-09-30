@@ -27,3 +27,11 @@ int PlayerChar::getGold() {
 int PlayerChar::getLevel() {
 	return level;
 }
+
+bool PlayerChar::foundAmulet() {
+	return hasFoundAmulet;
+}
+
+int PlayerChar::maxDelved() {
+	return maxDepth;
+}
