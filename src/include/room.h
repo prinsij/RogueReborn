@@ -4,6 +4,7 @@
 class Room {
 	public:
 		Room(Coord, Coord);
+		Coord operator[](int);
 		Coord getPosition1();
 		Coord getPosition2();
 		void dig(Level);
