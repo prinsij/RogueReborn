@@ -5,6 +5,7 @@
 class Coord {
 	public:
 		Coord(int, int);
+		Coord():
 		int& operator[](int);
 		Coord operator+(const Coord&);
 		Coord operator-(const Coord&);

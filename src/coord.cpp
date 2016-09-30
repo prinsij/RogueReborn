@@ -6,6 +6,11 @@ Coord::Coord(int x, int y)
 	, y(y)
 	{}
 
+Coord::Coord()
+	: x(0)
+	, y(0)
+	{}
+
 int& Coord::operator[](int dimension) {
 	switch (dimension) {
 		case 0:
