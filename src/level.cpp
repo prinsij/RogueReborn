@@ -15,16 +15,16 @@ Level::Level(Coord size, int depth)
 	for (auto x=0; x < size[0]; x++) {
 		tiles.push_back(std::vector<Terrain>());
 		for (auto y=0; y < size[1]; y++) {
-			tiles[x].push_back(Floor());
+			tiles[x].push_back(Wall());
 		}
 	}
 }
 
-Terrain Level::operator[](Coord coord) {
+Terrain& Level::operator[](Coord coord) {
 	return tileAt(coord);
 }
 
-Terrain Level::tileAt(Coord coord) {
+Terrain& Level::tileAt(Coord coord) {
 	return tiles[coord[0]][coord[1]];
 }
 
@@ -45,10 +45,12 @@ void Level::generate(PlayerChar player) {
 			roomPosition = boxTopLeft + positionRand;
 		} while (roomPosition[1] == 0);
 		Room curRoom = Room(roomPosition, roomPosition + roomSize);
+		curRoom.dig(*this);
 		//put gold in current room
 		if (gen() < GOLD_CHANCE && (!player.foundAmulet() || depth >= player.maxDelved())) {
 			Coord goldPos = gen.randPosition(curRoom[0], curRoom[1]);
 			int goldAmount = genGoldAmount(gen);
+			golds.push_back(GoldPile(goldPos, goldAmount));
 		}
 		//put monsters in current room
 	}
