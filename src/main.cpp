@@ -49,7 +49,7 @@ int main(int argv, char** args) {
         } else if (key.vk == TCODK_RIGHT) {
             newPos += Coord(1, 0);
         }
-		if (level.contains(newPos) and level[newPos].isPassable()) {
+		if (newPos != player.getCoord() && level.contains(newPos) and level[newPos].isPassable()) {
 			player.setCoord(newPos);
 		}
 
