@@ -11,6 +11,10 @@ Coord::Coord()
 	, y(0)
 	{}
 
+Coord Coord::copy() {
+	return Coord(x, y);
+}
+
 int& Coord::operator[](int dimension) {
 	switch (dimension) {
 		case 0:
@@ -28,4 +32,12 @@ Coord Coord::operator+(const Coord& other) {
 
 Coord Coord::operator-(const Coord& other) {
 	return Coord(this->x - other.x, this->y - other.y);
+}
+
+Coord Coord::operator+=(const Coord& other) {
+	return *this + other;
+}
+
+Coord Coord::operator-=(const Coord& other) {
+	return *this - other;
 }
