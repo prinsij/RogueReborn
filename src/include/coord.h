@@ -9,8 +9,8 @@ class Coord {
 		int& operator[](int);
 		Coord operator+(const Coord&);
 		Coord operator-(const Coord&);
-		Coord operator+=(const Coord&);
-		Coord operator-=(const Coord&);
+		Coord& operator+=(const Coord&);
+		Coord& operator-=(const Coord&);
 		bool operator==(const Coord&);
 		bool operator!=(const Coord&);
 		Coord copy();

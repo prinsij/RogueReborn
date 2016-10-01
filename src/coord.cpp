@@ -34,12 +34,14 @@ Coord Coord::operator-(const Coord& other) {
 	return Coord(this->x - other.x, this->y - other.y);
 }
 
-Coord Coord::operator+=(const Coord& other) {
-	return *this + other;
+Coord& Coord::operator+=(const Coord& other) {
+	*this = *this + other;
+	return *this;
 }
 
-Coord Coord::operator-=(const Coord& other) {
-	return *this - other;
+Coord& Coord::operator-=(const Coord& other) {
+	*this = *this - other;
+	return *this;
 }
 
 bool Coord::operator==(const Coord& other) {
