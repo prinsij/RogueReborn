@@ -41,3 +41,11 @@ Coord Coord::operator+=(const Coord& other) {
 Coord Coord::operator-=(const Coord& other) {
 	return *this - other;
 }
+
+bool Coord::operator==(const Coord& other) {
+	return x == other.x && y == other.y;
+}
+
+bool Coord::operator!=(const Coord& other) {
+	return not (*this == other);
+}
