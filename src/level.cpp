@@ -8,8 +8,8 @@
 #include "include/random.h"
 #include "include/playerchar.h"
 
-Level::Level(Coord size, int depth) 
-	: size(size)
+Level::Level(int depth) 
+	: size(SIZE)
 	, depth(depth) 
 {
 	for (auto x=0; x < size[0]; x++) {
@@ -26,6 +26,14 @@ Terrain& Level::operator[](Coord coord) {
 
 Terrain& Level::tileAt(Coord coord) {
 	return tiles[coord[0]][coord[1]];
+}
+
+Coord Level::getSize() {
+	return size;
+}
+
+bool Level::contains(Coord pos) {
+	return pos[0] >= 0 && pos[1] >= 0 && pos[0] < size[0] && pos[1] < size[1]; 
 }
 
 int Level::genGoldAmount(Generator gen) {
