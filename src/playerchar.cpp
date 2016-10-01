@@ -3,6 +3,19 @@
 #include "include/playerchar.h"
 #include "include/coord.h"
 
+PlayerChar::PlayerChar(Coord pos)
+	: Mob("@Rogue", pos)
+	, HP(START_HP)
+	, maxHP(START_HP)
+	, armor(START_ARMOR)
+	, strength(START_STR)
+	, gold(START_GOLD)
+	, level(START_LEVEL)
+	, backpack(ItemZone())
+	, hasFoundAmulet(false)
+	, maxDepth(1)
+	{}
+	
 
 int PlayerChar::getHP() {
 	return HP;

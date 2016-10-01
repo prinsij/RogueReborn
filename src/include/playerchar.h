@@ -6,8 +6,9 @@
 #ifndef PLAYERCHAR_H
 #define PLAYERCHAR_H
 
-class PlayerChar : Mob {
+class PlayerChar : public Mob {
 	public:
+		PlayerChar(Coord);
 		int getStrength();
 		int getArmor();
 		int getGold();
@@ -17,13 +18,9 @@ class PlayerChar : Mob {
 		bool foundAmulet();
 		int maxDelved(); 
 	private:
-		int HP;
-		int maxHP;
-		int armor;
-		int strength;
-		int gold;
+		const int START_HP=10, START_ARMOR=0, START_STR=1, START_GOLD=0, START_LEVEL=1;
+		int HP, maxHP, armor, strength, gold, level;		
 		ItemZone backpack;
-		int level;
 		bool hasFoundAmulet;
 		int maxDepth;
 };
