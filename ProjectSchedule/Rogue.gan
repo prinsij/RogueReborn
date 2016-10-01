@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Rogue" company="Team Rogue++" webLink="" view-date="2016-10-02" view-index="0" gantt-divider-location="442" resource-divider-location="487" version="2.8.1" locale="en_US">
+<?xml version="1.0" encoding="UTF-8"?><project name="Rogue" company="Team Rogue++" webLink="" view-date="2016-10-18" view-index="0" gantt-divider-location="442" resource-divider-location="297" version="2.8.1" locale="en_US">
     <description><![CDATA[3XA3 Cornerstone]]></description>
-    <view zooming-state="default:5" id="gantt-chart">
-        <field id="tpd3" name="Name" width="286" order="0"/>
-        <field id="tpd4" name="Begin date" width="83" order="1"/>
+    <view zooming-state="default:2" id="gantt-chart">
+        <field id="tpd3" name="Name" width="325" order="0"/>
+        <field id="tpd4" name="Begin date" width="44" order="1"/>
         <field id="tpd5" name="End date" width="69" order="2"/>
         <option id="color.recent"><![CDATA[#ff00ff #cc3300 #cccc00 #00cc00 #99ffff #ff3399 #33ff33]]></option>
     </view>
     <view id="resource-table">
-        <field id="0" name="Name" width="312" order="0"/>
-        <field id="tpc0" name="Role" width="171" order="1"/>
+        <field id="0" name="Name" width="104" order="0"/>
+        <field id="tpc0" name="Role" width="189" order="1"/>
     </view>
     <!-- -->
     <calendars>
@@ -43,23 +43,43 @@
         </task>
         <task id="51" name="Development" color="#cc3300" meeting="false" start="2016-10-10" duration="37" complete="0" expand="true">
             <task id="53" name="Early Development" color="#cc3300" meeting="false" start="2016-10-10" duration="5" complete="0" expand="true">
+                <notes><![CDATA[See requirements in PoC Final Changes task]]></notes>
                 <depend id="55" type="2" difference="0" hardness="Strong"/>
             </task>
             <task id="55" name="PoC Branch Development" color="#cc3300" meeting="false" start="2016-10-17" duration="1" complete="0" expand="true">
+                <notes><![CDATA[See requirements in PoC Final Changes task]]></notes>
                 <depend id="64" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="64" name="PoC Final Changes" color="#cc3300" meeting="false" start="2016-10-18" duration="1" complete="0" expand="true"/>
-            <task id="67" name="Due: Proof of Concept Demo (Dev M0)" color="#cc3300" meeting="true" start="2016-10-19" duration="0" complete="0" expand="true"/>
+            <task id="64" name="PoC Final Changes" color="#cc3300" meeting="false" start="2016-10-18" duration="1" complete="0" expand="true">
+                <notes><![CDATA[Everything we need for the Proof of Concept demo:
+
+- Basic dungeon generation, including rooms, corridors, and placement of gold, items, monsters, and traps.
+
+- Line of sight and pathfinding implementation.
+
+- Non-functional items and traps.
+
+- Minimum viable monster AI.
+
+- Basic movement and very simple environmental interaction (Acquiring items, basic combat).]]></notes>
+            </task>
+            <task id="67" name="Due: Proof of Concept Demo (Dev Milestone 0)" color="#cc3300" meeting="true" start="2016-10-19" duration="0" complete="0" expand="true"/>
             <task id="136" name="Primary Development - Stage 1" color="#cc3300" meeting="false" start="2016-10-19" duration="8" complete="0" expand="true">
+                <notes><![CDATA[Ability to beat the game]]></notes>
                 <depend id="235" type="2" difference="0" hardness="Strong"/>
             </task>
             <task id="235" name="Primary Development - Stage 2" color="#cc3300" meeting="false" start="2016-10-31" duration="9" complete="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
+                <notes><![CDATA[Using items, activating traps, and monster AI]]></notes>
                 <depend id="252" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="252" name="Primary Development - Stage 3" color="#cc3300" meeting="false" start="2016-11-11" duration="2" complete="0" expand="true" cost-manual-value="0.0" cost-calculated="true"/>
-            <task id="137" name="Due: Demonstration (Dev M1)" color="#cc3300" meeting="true" start="2016-11-15" duration="0" complete="0" expand="true"/>
-            <task id="160" name="Final Development" color="#cc3300" meeting="false" start="2016-11-15" duration="11" complete="0" expand="true"/>
-            <task id="146" name="Due: Final Demo (Dev M2)" color="#cc3300" meeting="true" start="2016-11-30" duration="0" complete="0" expand="true"/>
+            <task id="252" name="Primary Development - Stage 3" color="#cc3300" meeting="false" start="2016-11-11" duration="2" complete="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
+                <notes><![CDATA[Integration development, saving/loading, menu interface, splash screen]]></notes>
+            </task>
+            <task id="137" name="Due: Demonstration (Dev Milestone 1)" color="#cc3300" meeting="true" start="2016-11-15" duration="0" complete="0" expand="true"/>
+            <task id="160" name="Final Development" color="#cc3300" meeting="false" start="2016-11-15" duration="11" complete="0" expand="true">
+                <notes><![CDATA[To be determined]]></notes>
+            </task>
+            <task id="146" name="Due: Final Demo (Dev Milestone 2)" color="#cc3300" meeting="true" start="2016-11-30" duration="0" complete="0" expand="true"/>
         </task>
         <task id="66" name="Test Plan" color="#00cc00" meeting="false" start="2016-10-17" duration="9" complete="0" expand="true">
             <task id="70" name="Technology Familiarization" color="#00cc00" meeting="false" start="2016-10-17" duration="5" complete="0" expand="true"/>
