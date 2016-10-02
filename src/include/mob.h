@@ -7,7 +7,9 @@
 class Mob {
 	public:
 		Mob(std::string, Coord);
-		Coord getCoord();
+		Coord& getCoord();
+		void setCoord(Coord);
+		int& operator[](int);
 		std::string getName();
 	private:
 		std::string name;

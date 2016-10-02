@@ -1,5 +1,7 @@
 #include <iostream>
 #include "libtcod/include/libtcod.hpp"
+#include "include/level.h"
+#include "include/playerchar.h"
 #include "include/random.h"
 #include <vector>
 #include <string>
@@ -20,27 +22,14 @@ int main(int argv, char** args) {
 
     TCODConsole::setCustomFont("assets/terminal-large.png");
 
-
-    // Map dimensions (from original Rogue) 
-    uint mapx = 80, mapy = 25;
-
-    std::vector<std::vector<int> > map;
-
 	Generator rand;
 
-    for (uint x = 0; x < mapx; x++) {
-        map.push_back(std::vector<int>());
-        for (uint y = 0; y < mapy; y++) {
-			int block = rand() < .25 ? 1 : 0;
-            map[x].push_back(block);
-        }
-    }
+	PlayerChar player(Coord(10, 10));
+	auto level = Level(0);
+	level.generate(player);
 
     //Init console
-    TCODConsole::initRoot(mapx, mapy + 5, "Rogue Reborn", false);
-
-    //Player X and Y
-    uint px = 5, py = 5;
+    TCODConsole::initRoot(level.getSize()[0], level.getSize()[1] + 5, "Rogue Reborn", false);
 
     //Game loop
     while (!TCODConsole::isWindowClosed()) {
@@ -50,24 +39,21 @@ int main(int argv, char** args) {
         TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS, &key, NULL);
 
         //Arrow controls
+		auto newPos = player.getCoord().copy();
         if (key.vk == TCODK_UP) {
-            if (py > 0 and map[px][py-1] == 0) {
-                py -= 1;
-            }
+			newPos -= Coord(0, 1);
         } else if (key.vk == TCODK_DOWN) {
-            if (py < mapy-1 and map[px][py+1] == 0) {
-                py += 1;
-            }
+			newPos += Coord(0, 1);
         } else if (key.vk == TCODK_LEFT) {
-            if (px > 0 and map[px-1][py] == 0) {
-                px -= 1;
-            }
+			newPos -= Coord(1, 0);
         } else if (key.vk == TCODK_RIGHT) {
-            if (px < mapx-1 and map[px+1][py] == 0) {
-                px += 1;
-            }
+            newPos += Coord(1, 0);
         }
+		if (newPos != player.getCoord() && level.contains(newPos) and level[newPos].isPassable()) {
+			player.setCoord(newPos);
+		}
 
+		/*
         //Keypad controls
         switch (key.vk){
 
@@ -126,26 +112,21 @@ int main(int argv, char** args) {
 
 			default:
 				break;
-        }
+        }*/
 
 
         //Redraw
         TCODConsole::root->clear();
-        for (uint x=0; x < mapx; x++) {
-            for (uint y=0; y < mapy; y++) {
-                if (map[x][y] == 0) {
-                    TCODConsole::root->putChar(x, y, ' ');
-                } else {
-                    TCODConsole::root->putChar(x, y, '#');
-                }
+        for (auto x=0; x < level.getSize()[0]; x++) {
+            for (auto y=0; y < level.getSize()[1]; y++) {
+					TCODConsole::root->putChar(x, y, level[Coord(x, y)].getChar());
             }
         }
-
 
         putString(0, 26, "test");
 
         //Place player
-        TCODConsole::root->putChar(px, py,'@');
+        TCODConsole::root->putChar(player[0], player[1],'@');
 
         //Push changes to screen
         TCODConsole::flush();

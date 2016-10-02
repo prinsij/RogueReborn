@@ -6,6 +6,15 @@ Coord::Coord(int x, int y)
 	, y(y)
 	{}
 
+Coord::Coord()
+	: x(0)
+	, y(0)
+	{}
+
+Coord Coord::copy() {
+	return Coord(x, y);
+}
+
 int& Coord::operator[](int dimension) {
 	switch (dimension) {
 		case 0:
@@ -23,4 +32,22 @@ Coord Coord::operator+(const Coord& other) {
 
 Coord Coord::operator-(const Coord& other) {
 	return Coord(this->x - other.x, this->y - other.y);
+}
+
+Coord& Coord::operator+=(const Coord& other) {
+	*this = *this + other;
+	return *this;
+}
+
+Coord& Coord::operator-=(const Coord& other) {
+	*this = *this - other;
+	return *this;
+}
+
+bool Coord::operator==(const Coord& other) {
+	return x == other.x && y == other.y;
+}
+
+bool Coord::operator!=(const Coord& other) {
+	return not (*this == other);
 }
