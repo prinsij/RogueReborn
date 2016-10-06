@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Rogue" company="Team Rogue++" webLink="" view-date="2016-10-18" view-index="0" gantt-divider-location="442" resource-divider-location="297" version="2.8.1" locale="en_US">
+<?xml version="1.0" encoding="UTF-8"?><project name="Rogue" company="Team Rogue++" webLink="" view-date="2016-09-20" view-index="0" gantt-divider-location="442" resource-divider-location="297" version="2.8.1" locale="en_US">
     <description><![CDATA[3XA3 Cornerstone]]></description>
     <view zooming-state="default:2" id="gantt-chart">
         <field id="tpd3" name="Name" width="325" order="0"/>
@@ -35,10 +35,10 @@
             <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
         </taskproperties>
         <task id="23" name="Requirements Document" color="#cccc00" meeting="false" start="2016-09-30" duration="5" complete="0" expand="true">
-            <task id="26" name="Draft" color="#cccc00" meeting="false" start="2016-09-30" duration="3" complete="0" expand="true">
+            <task id="26" name="Draft" color="#cccc00" meeting="false" start="2016-09-30" duration="4" complete="0" expand="true">
                 <depend id="38" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="38" name="Edit + Polish" color="#cccc00" meeting="false" start="2016-10-05" duration="2" complete="0" expand="true"/>
+            <task id="38" name="Edit + Polish" color="#cccc00" meeting="false" start="2016-10-06" duration="1" complete="0" expand="true"/>
             <task id="68" name="Due: Requirements Document" color="#cccc00" meeting="true" start="2016-10-07" duration="0" complete="0" expand="true"/>
         </task>
         <task id="51" name="Development" color="#cc3300" meeting="false" start="2016-10-10" duration="37" complete="0" expand="true">
