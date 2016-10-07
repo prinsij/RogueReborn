@@ -60,13 +60,13 @@ to the template, you should explicity state what modifications were made.
 
 	\subsection{The Purpose of the Project}
 
-	The goal of the project is to produce a reimplementation of the orignal Rogue computer game, originally developed by Michael Toy, Glenn Wichman, and Ken Arnold in 1980. The gameplay of the reimplementation should mimic that of the original whenever possible. The objective of the rewrite is to produce a copy in a modern language, using modern design principles, with superior documentation and a full test suite. The original Rogue is of historical interest as it forms the foundation and is the namesake of the roguelike genre of games, typified by their randomized environments, difficulty, and permadeath features. The motivation for this project is the poor condition of the original source code. The original source was not written with readability in mind, and designed for extremely low-performance systems who required some unusual design patterns. The version of C in which it was written is very old, which hinders compilation or feature extension. The intended audience for this document is the stakeholders of this project, especially Dr Smith and the 3XA3 TAs.
+	The goal of the project is to produce a reimplementation of the original Rogue computer game, originally developed by Michael Toy, Glenn Wichman, and Ken Arnold in 1980. The gameplay of the reimplementation should mimic that of the original whenever possible. The objective of the rewrite is to produce a copy in a modern language, using modern design principles, with superior documentation and a full test suite. The original Rogue is of historical interest as it forms the foundation and is the namesake of the roguelike genre of games, typified by their randomized environments, difficulty, and permadeath features. The motivation for this project is the poor condition of the original source code. The original source was not written with readability in mind, and designed for extremely low-performance systems who required some unusual design patterns. The version of C in which it was written is very old, which hinders compilation or feature extension. The intended audience for this document is the stakeholders of this project, especially Dr Smith and the 3XA3 TAs.
 
 	\subsection{The Stakeholders}
 
 		\subsubsection{The Client}
 
-		The client of the project is Dr Spencer Smith. Dr Smith commissioned the project and will be overseeing its production. Dr Smith provides the specifications for this document, as well as other aspects of the project, including the test suite, and all documenation. In addition he will be evaluating the final product.
+		The client of the project is Dr Spencer Smith. Dr Smith commissioned the project and will be overseeing its production. Dr Smith provides the specifications for this document, as well as other aspects of the project, including the test suite, and all documentation. In addition he will be evaluating the final product.
 
 		\subsubsection{The Customers}
 
@@ -86,6 +86,8 @@ to the template, you should explicity state what modifications were made.
 
 	\subsection{The Scope of the Work and the Product}
 
+		Not sure about this section
+
 		\subsubsection{The Context of the Work}
 
 		\subsubsection{Work Partitioning}
@@ -93,6 +95,56 @@ to the template, you should explicity state what modifications were made.
 		\subsubsection{Individual Product Use Cases}
 
 	\subsection{Functional Requirements}
+
+	This section will specify the functional requirements of the Rogue++ project. They are numerous, scattered, and interdependent, therefore an attempt shall be made to organize them into cascading, logical segments.
+
+		\subsubsection{Basic mechanics}
+
+		\begin{itemize}
+			\item The player should be able to start a new game
+			\item The player should be able to save the current game by name
+			\item The player should be able to load previous games by name
+			\item The player should be able to quit the game
+			\item The player must always begin with the default level 1 hero
+			\item The player must always see their hero's statistics
+			\item The game must wait until the user takes an action to manipulate the environment
+		\end{itemize}
+
+		\subsubsection{Interaction}
+		\begin{itemize}
+			\item The player should be able to view detailed information about:
+			\begin{itemize}
+				\item The hero
+				\item The surrounding environment
+			\end{itemize}
+			\item The player should be able to pass the turn
+			\item The player should be able to walk around
+			\item The player should be able to open and close doors
+		\end{itemize}
+
+		\subsubsection{The Dungeon}
+			\begin{itemize}
+				\item The player must begin at the dungeon's first level
+				\item The game must generate each dungeon level one at a time
+				\item Each level must have a downwards staircase
+				\item Every level must generate rooms, corridors, monsters, treasure, and traps
+			\end{itemize}
+
+		\subsubsection{Equipment}
+			\begin{itemize}
+				\item The game should maintain an inventory of player items
+				\item The player should be able to view the inventory
+				\item The game should limit the player's inventory based on the weight of its contents
+				\item The player should be able to add, hold, use, and remove objects from the inventory
+			\end{itemize}
+
+		\subsubsection{Combat}
+		\begin{itemize}
+			\item Each monster must have its own statistics
+			\item Each monster must calculate a plan of action
+			\item Monsters must only attack the player, not other monsters
+
+		\end{itemize}
 
 \section{Non-functional Requirements}
 
