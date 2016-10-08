@@ -1,15 +1,11 @@
 #include "include/item.h"
 
-Item::Item(Location loc, Identified id, Coord coord, std::string name)
-	: location(loc)
+Item::Item(char symbol, Location loc, Identified id, Coord coord, std::string name)
+	: Feature(symbol, coord)
+	, location(loc)
 	, knowledge(id)
-	, coord(coord)
 	, name(name)
 {}
-
-Coord Item::getCoord() {
-	return coord;
-}
 
 std::string Item::getName() {
 	return name;
