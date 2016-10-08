@@ -49,10 +49,13 @@ void Level::generate(PlayerChar player) {
 		Coord roomPosition, roomSize;
 		do {
 			roomSize = Coord(4+gen.intFromRange(0, maxRoomSize[0]-4), 4+gen.intFromRange(0, maxRoomSize[1]-4));
-			Coord positionRand = Coord(gen.intFromRange(0, maxRoomSize[0] - roomSize[0]), gen.intFromRange(0, maxRoomSize[1] - roomSize[1]));
+			Coord positionRand = Coord(gen.intFromRange(0, maxRoomSize[0] - roomSize[0]), 
+									   gen.intFromRange(0, maxRoomSize[1] - roomSize[1]));
 			roomPosition = boxTopLeft + positionRand;
 		} while (roomPosition[1] == 0);
-		Room curRoom = Room(roomPosition, roomPosition + roomSize);
+		Room::Darkness isDark = gen.intFromRange(0, 10) < depth - 1 ? Room::DARK : Room::LIT;
+		Room curRoom = Room(roomPosition, roomPosition + roomSize,
+							isDark, Room::WORTHLESS, Room::VISIBLE);
 		curRoom.dig(*this);
 		//put gold in current room
 		if (gen() < GOLD_CHANCE && (!player.foundAmulet() || depth >= player.maxDelved())) {
@@ -61,5 +64,7 @@ void Level::generate(PlayerChar player) {
 			golds.push_back(GoldPile(goldPos, goldAmount));
 		}
 		//put monsters in current room
+		rooms.push_back(curRoom);
 	}
+	
 }

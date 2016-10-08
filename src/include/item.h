@@ -1,16 +1,16 @@
 #include "coord.h"
+#include "feature.h"
 #include <string>
 
 #ifndef ITEM_H
 #define ITEM_H
 
 
-class Item {
+class Item : public Feature {
 	public:
 		enum Location {OnGround, InPack};
 		enum Identified {Known, Unknown};
-		Item(Location, Identified, Coord, std::string);
-		Coord getCoord();
+		Item(char, Location, Identified, Coord, std::string);
 		std::string getName();	
 		Location getLocation();
 		Identified isIdentified();

@@ -1,12 +1,14 @@
+#pragma once
+
 #include <vector>
 #include "coord.h"
 #include "terrain.h"
 #include "random.h"
 #include "playerchar.h"
 #include "goldpile.h"
+#include "room.h"
 
-#ifndef LEVEL_H
-#define LEVEL_H
+class Room;
 
 class Level {
 	public:
@@ -21,11 +23,10 @@ class Level {
 		const double GOLD_CHANCE = .333;
 		const Coord SIZE = Coord(80, 25);
 		std::vector<std::vector<Terrain> > tiles;
+		std::vector<Room> rooms;
 		std::vector<Mob> mobs;
 		std::vector<GoldPile> golds;
 		int genGoldAmount(Generator);
 		Coord size;
 		int depth;
 };
-
-#endif

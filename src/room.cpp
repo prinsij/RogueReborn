@@ -5,9 +5,16 @@
 #include <string>
 
 Room::Room(Coord topLeft, Coord bottomRight)
+	: Room(topLeft, bottomRight, LIT, WORTHLESS, VISIBLE)
+	{}
+
+Room::Room(Coord topLeft, Coord bottomRight, Darkness dark, Treasure treas, Hidden hid)
 	: topLeft(topLeft)
 	, bottomRight(bottomRight)
-	{}
+	, isDark(dark)
+	, isTreasure(treas)
+	, isHidden(hid)
+{}
 
 Coord Room::operator[](int corner) {
 	if (corner == 0) {
