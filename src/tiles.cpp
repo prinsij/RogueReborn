@@ -8,3 +8,7 @@ Floor::Floor()
 Wall::Wall()
 	: Terrain('#', Terrain::Opaque, Terrain::Blocked)
 {}
+
+Corridor::Corridor()
+	: Terrain('+', Terrain::Corridor, Terrain::Passable)
+{}

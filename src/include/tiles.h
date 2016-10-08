@@ -13,4 +13,9 @@ class Wall : public Terrain {
 		Wall();
 };
 
+class Corridor : public Terrain {
+	public:
+		Corridor();
+};
+
 #endif
