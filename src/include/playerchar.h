@@ -13,14 +13,12 @@ class PlayerChar : public Mob {
 		int getMaxStrength();
 		int getArmor();
 		int getGold();
-		int getHP();
-		int getMaxHP();
 		int getLevel();
 		bool foundAmulet();
 		int maxDelved(); 
 	private:
-		const int START_HP=10, START_ARMOR=0, START_STR=1, START_GOLD=0, START_LEVEL=1;
-		int HP, maxHP, armor, strength, maxStrength, gold, level;		
+		const int START_HP=10, START_ARMOR=0, START_STR=15, START_GOLD=0, START_LEVEL=1;
+		int armor, strength, maxStrength, gold, level;		
 		ItemZone backpack;
 		bool hasFoundAmulet;
 		int maxDepth;

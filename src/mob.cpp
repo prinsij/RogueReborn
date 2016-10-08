@@ -2,10 +2,20 @@
 #include "include/coord.h"
 #include <string>
 
-Mob::Mob(std::string name, Coord coord)
+Mob::Mob(std::string name, Coord coord, int hp)
 	: name(name)
 	, coord(coord)
+	, HP(hp)
+	, maxHP(hp)
 {}
+
+int Mob::getHP() {
+	return HP;
+}
+
+int Mob::getMaxHP() {
+	return maxHP;
+}
 
 Coord& Mob::getCoord() {
 	return coord;

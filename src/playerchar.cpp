@@ -4,9 +4,7 @@
 #include "include/coord.h"
 
 PlayerChar::PlayerChar(Coord pos)
-	: Mob("@Rogue", pos)
-	, HP(START_HP)
-	, maxHP(START_HP)
+	: Mob("@Rogue", pos, START_HP)
 	, armor(START_ARMOR)
 	, strength(START_STR)
 	, maxStrength(START_STR)
@@ -16,15 +14,6 @@ PlayerChar::PlayerChar(Coord pos)
 	, hasFoundAmulet(false)
 	, maxDepth(1)
 	{}
-	
-
-int PlayerChar::getHP() {
-	return HP;
-}
-
-int PlayerChar::getMaxHP() {
-	return maxHP;
-}
 
 int PlayerChar::getArmor() {
 	return armor;

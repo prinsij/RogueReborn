@@ -6,7 +6,10 @@
 
 class Mob {
 	public:
-		Mob(std::string, Coord);
+		Mob(std::string, Coord, int);
+		int getHP();
+		void setHP();
+		int getMaxHP();
 		Coord& getCoord();
 		void setCoord(Coord);
 		int& operator[](int);
@@ -14,6 +17,7 @@ class Mob {
 	private:
 		std::string name;
 		Coord coord;
+		int HP, maxHP;
 };
 
 #endif
