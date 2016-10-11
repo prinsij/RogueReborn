@@ -1,8 +1,15 @@
 \documentclass[12pt, titlepage]{article}
 
+% Packages
+
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{hyperref}
+\usepackage{indentfirst}
+\usepackage[round]{natbib}
+
+% Colour Scheme
+
 \hypersetup{
     colorlinks,
     citecolor=black,
@@ -10,7 +17,31 @@
     linkcolor=red,
     urlcolor=blue
 }
-\usepackage[round]{natbib}
+
+% Custom Commands
+
+\newcounter{NFRCounter}
+
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0em}}p{#1}}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0em}}p{#1}}
+
+\newcommand{\spec}[3]{
+	\stepcounter{NFRCounter}
+	\begin{center}
+		\def\arraystretch{1.6}
+		\begin{tabular}{| R{7em} L{20em} |}
+			\bottomrule
+			\multicolumn{2}{| c |}{\textbf{Non-Functional Requirement} \# \theNFRCounter}  \\
+			\hline
+			\textit{Description:} & #1 \\
+			\textit{Rationale:} & #2 \\
+			\textit{Fit Criterion:} & #3 \\
+			\toprule
+		\end{tabular}
+	\end{center}
+}
+
+% Document Details
 
 \title{SE 3XA3: Requirements Specification\\Rogue Reborn}
 
@@ -22,7 +53,7 @@
 	\end{tabular}
 }
 
-\date{Due Friday, October 7\textsuperscript{th}, 2016}
+\date{Due Tuesday, October 11\textsuperscript{th}, 2016}
 
 \input{../Comments}
 
@@ -41,9 +72,12 @@
 	\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 		\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 		\midrule
-			09/28/16 & 1.0 & initial setup\\
-			10/02/16 & 1.0 & Continued setup\\
-			10/07/16 & 1.1 & Functional reqs + risks\\
+			09/28/16 & 1.0 & Initial Setup\\
+			10/02/16 & 1.0 & Continued Setup\\
+			10/07/16 & 1.1 & Added Project Drivers\\
+			10/07/16 & 1.1 & Added Functional Requirements and Risks\\
+			10/09/16 & 1.2 & Added Non-Functional Requirements\\
+			10/10/16 & 1.3 & Added 4.1-4.5 \\
 		\bottomrule
 	\end{tabularx}
 \end{table}
@@ -52,10 +86,7 @@
 
 \pagenumbering{arabic}
 
-This document describes the requirements for ....  The template for the Software
-Requirements Specification (SRS) is a subset of the Volere
-template~\citep{RobertsonAndRobertson2012}.  If you make further modifications
-to the template, you should explicity state what modifications were made.
+This document describes the requirements for the Rogue Reborn project.  The template for the Software Requirements Specification (SRS) is a subset of the Volere template~\citep{RobertsonAndRobertson2012}.  For the convenience of the readers, the sections pertaining to the non-functional requirements have been expanded into their respective subsections with respect to the Volere template.
 
 \section{Project Drivers}
 
@@ -75,13 +106,34 @@ to the template, you should explicity state what modifications were made.
 
 		\subsubsection{Other Stakeholders}
 
+Other stakeholders include playtesters of the game, as well as the 3XA3 TAs. Playtesters of the game will be recruited to play the game, and therefore have stake in the success of the project. The 3XA3 TAs will be evaluating the success of the project, as well as providing feedback and guiding the project while it is still in development.
+
 	\subsection{Mandated Constraints}
+
+As a constraint imposed by the project client, there are a number of deadlines for the project throughout its development. In particular, the final demonstration of functionality will be on november the 30th, and the final draft of the project documentation must be produced by the 8th of december. The goal of replicating the gameplay of the original without significant change restricts the platforms for which the project can be developed. In particular, the interface for the original is extremely ill-suited to touch-input environments such as phones and tablets. 
 
 	\subsection{Naming Conventions and Terminology}
 
+	Listed below are a number of video game and/or roguelike specific terms used in this document. 
+	\begin{itemize}
+	\item libtcod: a.k.a. "The Doryen Library", libtcod is a popular and feature-rich library for roguelike development, with bindings for C, C++, Python, Lua, and C\#. 
+	\item Rogue: Both the name of the 1980 computer game, and the a reference to the player character (we will always use the term player character).
+	\item Roguelike: A genre of games similar to Rogue. Membership in the roguelike genre is largely determined by the presence or absence of permadeath, but many games feature many more similarities.
+	\item Permadeath: A feature of roguelikes where the game is restarted from the beginning upon character death.
+	\item Hitpoints: A positive integer value that measures the health of a character (more is healthier).
+	\item Strength: A key statistic of the player character, strength determines how likely they are to successfully land a hit with a melee weapon and how much damage it is likely to do.
+	\item Item Identification: A common feature of roguelikes where items are scrabbled at the beginning of a game, with the player not knowing which corresponding to which effect. Certain effects or simply using these items can identify items. For example, a blue potions may be potions of healing in one game, but in the next they could be sleeping gas. Item identification also refers to determining whether a given item is cursed.
+	\item Cursed equipment: Equipment that once used reveal itself to be harmful to their user and difficult to remove.
+	\item Dungeon: Consisting of a stack of 30 floors, the dungeon forms the game world in Rogue.
+	\item Gold: Gold coins can be found throughout the dungeon, the number of gold coins collected is the primary basis for the player's score.
+	\item Level: Can refer to a floor of the dungeon, or to the player character's experience level, which determines their hitpoints.
+	\item Experience: Experience is gained by defeating monsters, and sufficient quantities will cause the player character to level up.
+	\item Searching: Certain features of the dungeon, such as traps and hidden doors are not immediately visible to the player. The player character can explicitly search their immediate surroundings for such features.
+	\end{itemize}
+
 	\subsection{Relevant Facts and Assumptions}
 
-	User characteristics should go under assumptions.
+It is assumed users will be utilizing the product in a 64 bit Linux environment, with a keyboard and monitor of at least 1280x400 pixels. Users are assumed to be at least moderately familiar with the original or similar games, as no extra material describing how to play the game is planned to be produced.
 
 \section{Functional Requirements}
 
@@ -155,40 +207,137 @@ to the template, you should explicity state what modifications were made.
 
 		\end{itemize}
 
+\newpage
+
 \section{Non-functional Requirements}
 
 	\subsection{Look and Feel Requirements}
+		\subsubsection{Appearance Requirements}
+			\spec{The Rogue Reborn UI shall closely resemble the original \textit{Rogue} UI.}{The new game should be visually similar to the old game.}{The new UI must have similar locations for all GUI elements and must use ASCII symbols for all graphical components.}
+
+		\subsubsection{Style Requirements}
+			There are no significant requirements that are applicable to this category.
+
 
 	\subsection{Usability and Humanity Requirements}
+		\subsubsection{Ease of Use Requirements}
+			\spec{Rogue Reborn shall be fun and entertaining.}{Games are developed for enjoyment purposes.}{The game must be able to hold the interest of a new user for at least 20 minutes.}
+
+		\subsubsection{Personalization and Internationalization Requirements}
+			\spec{Rogue Reborn shall target an anglophone audience.}{The game will be developed and tested by an anglophone population.}{All game text must be written in English, free of any grammar or spelling mistakes.}
+
+		\subsubsection{Learning Requirements}
+			\spec{The Rogue Reborn game shall be easy to learn and play.}{Users may prematurely lose interest in the game if the controls are difficult or frustrating.}{The game must use an intuitive keyboard layout and possess an in-game mechanism to view all key bindings.}
+			
+		\subsubsection {Understandability and Politeness Requirements}
+			There are no significant requirements that are applicable to this category.
+
+		\subsubsection {Accessibility Requirements}
+			There are no significant requirements that are applicable to this category.
+		
 
 	\subsection{Performance Requirements}
+		\subsubsection{Speed and Latency Requirements}
+			\spec{Rogue Reborn shall appear responsive to user input.}{Slow update times may induce frustration.}{On average, the game UI must be updated within at least 33ms of a visible user action.}
+			
+		\subsubsection{Safety-Critical Requirements}
+			There are no significant requirements that are applicable to this category.
+
+		\subsubsection{Precision or Accuracy Requirements}
+			\spec{Rogue Reborn shall use integer types with an appropriate level of precision.}{Integer overflow may cause unexpected behaviour.}{All integer values in the game with an unknown upper bound must be at least 32 bits in size.}
+
+		\subsubsection{Reliability and Availability Requirements}
+			\spec{Rogue Reborn shall not crash under normal operating circumstances.}{Frequent crashes may frustrate users and diminish their experience.}{Every reproducible event that causes the game to crash must be documented, root-caused, and resolved.}
+
+		\subsubsection{Robustness or Fault-Tolerance Requirements}
+			There are no significant requirements that are applicable to this category.
+
+		\subsubsection{Capacity Requirements}
+			\spec{Rogue Reborn shall be able to record the high scores of up to 15 users.}{Allows for a variety of users to directly compete against one another.}{The game must be able to load and display the high scores of 15 previous performances.}
+
+		\subsubsection{Scalability or Extensibility Requirements}
+			There are no significant requirements that are applicable to this category.
+
+		\subsubsection{Longevity Requirements}
+			There are no significant requirements that are applicable to this category.
 
 	\subsection{Operational and Environmental Requirements}
 
+		\subsubsection{Expected Physical Environment}
+			\spec{Rogue Reborn shall successfully run on any modern laptop or desktop computer with an Intel x64 processor.}{Most potential users will have access to this hardware environment.}{The game must display stable behaviour on a computer with an Intel x64 processor (equipped with a keyboard, mouse, and monitor).}
+
+		\subsubsection{Requirements for Interfacing with Adjacent Systems}
+			There are no significant requirements that are applicable to this category.
+
+		\subsubsection{Productization Requirements}
+			\spec{Rogue Reborn shall be distributed as a compressed folder containing a single executable file along with any necessary licenses.}{This is a simple approach to the distribution process.}{The game must be distributed as a folder containing a collection of applicable licenses in addition to a single executable file that is able to run on a fresh system without any external dependencies.}
+
+		\subsubsection{Release Requirements}
+			There are no significant requirements that are applicable to this category.
+
 	\subsection{Maintainability and Support Requirements}
 
+		\subsubsection{Maintenance Requirements}
+			\spec{All reported bugs shall be resolved within a month of their submission.}{Immediately concentrating effort on subcritical bugs may distract developers.}{Every incident featured in the GitLab ITS must be closed within a month of its creation.}
+
+		\subsubsection{Supportability Requirements}
+			There are no significant requirements that are applicable to this category.
+
+		\subsubsection{Adaptability Requirements}
+			\spec{Rogue Reborn shall successfully run on a modern Linux x64 operating system.}{It is assumed that the product testers and consumers will have access to a Linux x64 operating system.}{The game must display stable behaviour on an Ubuntu x64 distribution.}
+
+
 	\subsection{Security Requirements}
+		\subsubsection{Access Requirements}
+			There are no significant requirements that are applicable to this category.
+
+		\subsubsection{Integrity Requirements}
+			\spec{Rogue Reborn shall verify the validity of the saved high score file before displaying its contents.}{Malicious users may attempt to inject false records into this file.}{The game must display no previous high scores if it detects a flaw in the records file.}
+
+		\subsubsection{Privacy Requirements}
+			There are no significant requirements that are applicable to this category.
+
+		\subsubsection{Audit Requirements}
+			There are no significant requirements that are applicable to this category.
+
+		\subsubsection{Immunity Requirements}
+			There are no significant requirements that are applicable to this category.
 
 	\subsection{Cultural Requirements}
+		There are no significant requirements that are applicable to this category, since Rogue Reborn does not modify any cultural aspects from the original \textit{Rogue}.
 
 	\subsection{Legal Requirements}
+		\subsubsection{Compliance Requirements}
+			\spec{Rogue Reborn shall be distributed with an accompanying \href{../../LICENSE.txt}{LICENSE.txt} file.}{This license must be distributed with projects that are a modification of the original \textit{Rogue} source code.}{The corresponding \href{../../LICENSE.txt}{LICENSE.txt} file is included in the distribution package.}
+
+		\subsubsection{Standards Requirements}
+			There are no significant requirements that are applicable to this category.
+
 
 	\subsection{Health and Safety Requirements}
-
-	This section is not in the original Volere template, but health and safety are
-	issues that should be considered for every engineering project.
+		\spec{Rogue Reborn shall not contain visual sequences that are likely to trigger seizures.}{Individuals with photosensitive epilepsy may feel disoriented, uncomfortable, or unwell ~\citep{PhotosensitiveEpilepsy}.}{The average luminosity of the game UI cannot change by more than 0.5 between two successive frames.}
 
 \section{Project Issues}
 
 	\subsection{Open Issues}
 
+		The most pressing issue is whether the project will include a Windows version of the product. Issues linking with the libtcod library on Windows have put this item into doubt. Whether save compatability will be maintained with the original is also an open issue, this is likely to be an expensive feature in relation to the value it adds to the project. 
+
 	\subsection{Off-the-Shelf Solutions}
+
+		We have chosen to use the libtcod library for this project as an off-the-shelf solution to some problems in the product. Libtcod providers a high-level, cross-platform abstraction over rendering and user input, as well as a number of utilities such as line-drawing and pathfinding. There are a number of ports of Rogue to various platforms, including one that upgrades to graphics of the game to graphical tiles, but as of writing we are not aware of any code-cleanup focused rewrite.
 
 	\subsection{New Problems}
 
+		So long as the project requirements are met, especially the health and safety requirements, the product should not adversely affect the user. There may be issues with building and deploying the project, as of writing the product has not been tested without building from source. This could potentially require a partial rewrite of the project. It is also unlikely but possible that the product may corrupt the user's files in some way when attempting to save or load a game.
+
 	\subsection{Tasks}
 
+		As outlined by the project client, the project is split into a number of development phases. An early proof of concept will be produced first, followed by a test plan for the product, then final development and documentation. This proof of concept phase will consist largely on laying the foundation for the various systems in the product. For example, basic combat will be in the proof of concept, but more advanced combat such as thrown/ranged weapons and monster abilities will be left for later. The full development should consist largely of fleshing in these systems, developing tests, and more advanced features. Development tasks within a phase will be partitioned among team members as the team leader sees fit. For more detail on the proof of concept and other aspects of the development see the Development Plan.
+
 	\subsection{Migration to the New Product}
+
+		Migration to the new product should not be an issue for users of the original Rogue. While it is an open issue whether save files will be compatible across versions, since games of Rogue rarely last longer than a few hours this is unlikely to be a major issue for users. It is a goal of the project that the user interface of the product should be unchanged from the original, so migrating users should have minimal issues learning to use the product. Users not familiar with the original may find the product (particularly the user interface), somewhat confusing, but since Rogue was released over 30 years ago, there are a number of resources available online which explain the interface and the basic gameplay. It is the intention of this project for the product to be available in a format that can be simply compiled by any 64-bit Linux system with a C++ compiler, so the installation process should not be a burden.
 
 	\subsection{Risks}
 
