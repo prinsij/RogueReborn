@@ -77,6 +77,7 @@
 			10/07/16 & 1.1 & Added Project Drivers\\
 			10/07/16 & 1.1 & Added Functional Requirements and Risks\\
 			10/09/16 & 1.2 & Added Non-Functional Requirements\\
+			10/10/16 & 1.3 & Added 4.1-4.5 \\
 		\bottomrule
 	\end{tabularx}
 \end{table}
@@ -115,6 +116,7 @@ As a constraint imposed by the project client, there are a number of deadlines f
 
 	Listed below are a number of video game and/or roguelike specific terms used in this document. 
 	\begin{itemize}
+	\item libtcod: a.k.a. "The Doryen Library", libtcod is a popular and feature-rich library for roguelike development, with bindings for C, C++, Python, Lua, and C\#. 
 	\item Rogue: Both the name of the 1980 computer game, and the a reference to the player character (we will always use the term player character).
 	\item Roguelike: A genre of games similar to Rogue. Membership in the roguelike genre is largely determined by the presence or absence of permadeath, but many games feature many more similarities.
 	\item Permadeath: A feature of roguelikes where the game is restarted from the beginning upon character death.
@@ -319,13 +321,23 @@ It is assumed users will be utilizing the product in a 64 bit Linux environment,
 
 	\subsection{Open Issues}
 
+		The most pressing issue is whether the project will include a Windows version of the product. Issues linking with the libtcod library on Windows have put this item into doubt. Whether save compatability will be maintained with the original is also an open issue, this is likely to be an expensive feature in relation to the value it adds to the project. 
+
 	\subsection{Off-the-Shelf Solutions}
+
+		We have chosen to use the libtcod library for this project as an off-the-shelf solution to some problems in the product. Libtcod providers a high-level, cross-platform abstraction over rendering and user input, as well as a number of utilities such as line-drawing and pathfinding. There are a number of ports of Rogue to various platforms, including one that upgrades to graphics of the game to graphical tiles, but as of writing we are not aware of any code-cleanup focused rewrite.
 
 	\subsection{New Problems}
 
+		So long as the project requirements are met, especially the health and safety requirements, the product should not adversely affect the user. There may be issues with building and deploying the project, as of writing the product has not been tested without building from source. This could potentially require a partial rewrite of the project. It is also unlikely but possible that the product may corrupt the user's files in some way when attempting to save or load a game.
+
 	\subsection{Tasks}
 
+		As outlined by the project client, the project is split into a number of development phases. An early proof of concept will be produced first, followed by a test plan for the product, then final development and documentation. This proof of concept phase will consist largely on laying the foundation for the various systems in the product. For example, basic combat will be in the proof of concept, but more advanced combat such as thrown/ranged weapons and monster abilities will be left for later. The full development should consist largely of fleshing in these systems, developing tests, and more advanced features. Development tasks within a phase will be partitioned among team members as the team leader sees fit. For more detail on the proof of concept and other aspects of the development see the Development Plan.
+
 	\subsection{Migration to the New Product}
+
+		Migration to the new product should not be an issue for users of the original Rogue. While it is an open issue whether save files will be compatible across versions, since games of Rogue rarely last longer than a few hours this is unlikely to be a major issue for users. It is a goal of the project that the user interface of the product should be unchanged from the original, so migrating users should have minimal issues learning to use the product. Users not familiar with the original may find the product (particularly the user interface), somewhat confusing, but since Rogue was released over 30 years ago, there are a number of resources available online which explain the interface and the basic gameplay. It is the intention of this project for the product to be available in a format that can be simply compiled by any 64-bit Linux system with a C++ compiler, so the installation process should not be a burden.
 
 	\subsection{Risks}
 
