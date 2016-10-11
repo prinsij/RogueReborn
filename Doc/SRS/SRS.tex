@@ -147,12 +147,22 @@ It is assumed users will be utilizing the product in a 64 bit Linux environment,
 
 		\subsubsection{The Context of the Work}
 
+		The context of the work has vastly changed since the original Rogue came out in 1980. Firstly, the times are very different now. Whereas in the 1980's computers were far and few to find, today they play an irreplaceable part of our society. People are on average a lot more familiar with computers than they were back then, therefore the possible market of users is significantly larger.\\
 
+		On the topic of markets, the video game industry has grown tremendously into a international multi-billion dollar industry. The humble Rogue is faced with giants in the field, and while none capture the same magic as the original dungeon crawler, there are certainly other large players on the field.\\
+
+		The final contextual aspect to consider is the thematic inspirations of Rogue. Rogue takes place in a realm of fantasy, drawn up primarily from some high-fantasy setting of Dungeons and Dragons, which itself has drawn much from various works, such as Tolkien's \textit{The Lord of the Rings}, \textit{The Hobbit}, and \textit{The Silmarillion}. Since the release of Rogue in 1980, many more modern pieces in the genera have been released, such as George R. R. Martin's \textit{A Song of Ice and Fire}, and the collective works of R.A. Salvatore. The influence of these new works can be found in extensions over the original Rogue, such as \textit{Moria} (1983).
 
 		\subsubsection{Work Partitioning}
 
+		The work required to complete this project has been divided up between the three group members Ian, Mikhail, and Or. Each has been assigned a highly-cohesive, loosely coupled segment of the code that is to be written. It was unanimously agreed that each team member is to present his API to the rest of the team as soon as time permits. This "API" materializes as a C++ header file, with which other modules in the code can interact.\\
 
-
+		\begin{itemize}
+			\item Or will be in charge of dungeon generations. This includes generating rooms, corridors, walls, doors, handling vision, and the placement of treasure and traps.
+			\item Mikhail will be in charge of most player-tangibles. This includes eating, quaffing potions, handling weaponry, using armor, rings, wands, and scrolls. Much of this realm also crosses over to monster actions, which Mikhail will be in charge of as well.\\
+			\item Ian will be in charge of the game's state control. The flow of the game, the timing of events, and highscores will all fall under his domain.\\
+		\end{itemize}
+		
 		\subsubsection{Individual Product Use Cases}
 
 		The product will have one primary use: playing the game. This is the most direct path to completion of the objective, which is to supply entertainment to the user. Most users, as may be anticipated, will do nothing with the project besides this. However, as experience always shows, alternative uses exist for everything. During the 1980's, a group of college students built a piece of software that had one goal: beat the original Rogue game. With the ever-growing advancements in artificial intelligence of today's modern world, it would not be completely foolish to suggest that an AI could potentially be built for this edition. In fact, one could argue that if a new AI system were to be designed to beat Rogue, its designers would seek out this new version, as it would supply a well-documented API with which the system could interact.
@@ -372,6 +382,8 @@ It is assumed users will be utilizing the product in a 64 bit Linux environment,
 	\subsection{Ideas for Solutions}
 
 \newpage
+
+\
 
 \bibliographystyle{plainnat}
 
