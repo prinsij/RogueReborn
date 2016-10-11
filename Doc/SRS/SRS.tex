@@ -1,4 +1,4 @@
-\documentclass[12pt, titlepage]{article}
+	\documentclass[12pt, titlepage]{article}
 
 % Packages
 
@@ -380,15 +380,21 @@ It is assumed users will be utilizing the product in a 64 bit Linux environment,
 
 		The waiting room prescribes objectives, requirements, and features that could be implemented in future iterations. The following is a list of such features, for which consideration was given but time could not allow for:
 		\begin{itemize}
-			\item \textbf{Language Translations} - The project is presently written in English, but support for more languages is a reasonable feature to have. Having more language support would open up accessibility to more users and encourage engagement.
-			\item \textbf{Tutorial Mode} - There is no denying it: Rogue is a difficult game. It is frustrating and hard to understand, yet rewarding at the end of it all. Overcoming the initial barrier to play is critical. Introducing a tutorial mode would be supremely beneficial to new players learning the ropes.
+			\item \textbf{More Monsters} - The original Rogue has 1 monster per letter of the alphabet, for a total of 26. This is very small number, especially when compared to modern video games. By using different colours, or a tile-set as mentioned above, it is possible to achieve a far greater number of enemies to challenge the player. This 
+			\item \textbf{Infinite Descent} -  The concept of a never-ending game is not new. And when dungeon levels are generated on the fly, would not be hard to implement at all. An infinite dungeon would turn the mastery of the game around. Currently, the ''best'' run-through is the one that accomplishes the end goal in the fewest moves. With infinite descent possible, the best run would turn into the one that reached the deepest levels, which of course get progressively more difficult.
+			\item \textbf{Seed Sharing} -  A seed is a sequence of bits that dictate which numbers the ''random'' number generator will create. If two separate pseudo-random number generators use the same seed for instantiation, the two will generate the same ''random'' numbers. A direct consequence of this is the ability to generate the same dungeon repeatedly, all one needs is the seed. This would be useful for determining who really is the better Rogue player, as some dungeons may require more steps to complete the end goal.\\
+
+			As a side note, for this to work, dungeon generation must not rely on the state of the player, for surely different players will take on the dungeon in different ways.
 		\end{itemize}
 
 	\subsection{Ideas for Solutions}
 
 		\begin{itemize}
-			\item \textbf{Graphics} - Many modern remakes of the original Rogue feature modern graphics, using 16x16, 32x32, or even 64x64 tilesets. These vastly improve the experience, at the cost of no longer being able to run in the terminal.
-			\item \textbf{More Monsters} - The original Rogue has 1 monster per letter of the alphabet, for a total of 26. This is a pretty small number of enemies, and is definitely something that could be expanded.
+			\item \textbf{Graphics} - Modern video games have engaging animations, special effects, life-like detail, and an overall immersive user experience. Rogue's peak graphical experience is an ASCII symbol surrounded by some capital letters. It is no question that graphics are a primary bottleneck for attracting users. For this reason, it would be wise to inquire about using a tile-set for graphics. This is something libtcod is capable of doing. Using a 16x16, 32x32, or even 64x64 tileset will vastly improve the graphical user experience.
+
+			\item \textbf{Language Translations} - The project is presently written in English, but support for more languages is a reasonable feature to have. Having more language support would open up accessibility to more users and encourage engagement.
+
+			\item \textbf{Tutorial Mode} - There is no denying it: Rogue is a difficult game. It is frustrating and hard to understand, yet rewarding at the end of it all. Overcoming the initial barrier to play is critical. Introducing a tutorial mode would be supremely beneficial to new players learning the ropes.
 		\end{itemize}
 
 \newpage
