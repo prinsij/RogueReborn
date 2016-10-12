@@ -8,14 +8,15 @@
 \usepackage{hyperref}
 \usepackage{indentfirst}
 \usepackage[round]{natbib}
+\usepackage[usenames, dvipsnames]{color}
 
 % Colour Scheme
 
 \hypersetup{
     colorlinks,
     citecolor=blue,
-    filecolor=green,
-    linkcolor=red,
+    filecolor=ForestGreen,
+    linkcolor=MidnightBlue,
     urlcolor=blue
 }
 
@@ -47,6 +48,7 @@
 			\toprule
 		\end{tabular}
 	\end{center}
+	\smallskip
 }
 
 % Document Details
@@ -127,6 +129,8 @@ This document describes the requirements for the Rogue Reborn project.  The temp
 	Listed below is a glossary of uncommon terms that are used throughout the document. 
 
 	\begin{itemize}
+		\item \textbf{Amulet of Yendor}: Item that is generated on the \hyperref[symbolicParameters]{FINAL\_LEVEL} level of the game.  Acquires this item allows the player character to ascend back through the levels to reach the surface and finish the game.
+
 		\item \textbf{Cursed Equipment}: Equipment that, once used, reveals itself to be harmful to the player character.  This type of equipment is typically difficult to remove.
 
 		\item \textbf{Dungeon}: A stack of \hyperref[symbolicParameters]{FINAL\_LEVEL} floors (levels); it forms the game world in \textit{Rogue}.
@@ -141,7 +145,7 @@ This document describes the requirements for the Rogue Reborn project.  The temp
 
 		\item \textbf{Level}: A positive integer denoting either the floor of the dungeon or to the player character's experience level (which determines their maximum hitpoints).
 
-		\item \textbf{\textit{libtcod}}: A.K.A. ``The Doryen Library'', \textit{libtcod} is a popular graphics library designed for the development of roguelike games.  It includes bindings for C, C\#, C++, Lua, and Python ~\citep{LibtcodHome}.
+		\item \textbf{Libtcod}: A.K.A. ``The Doryen Library'', \textit{libtcod} is a popular graphics library designed for the development of roguelike games.  It includes bindings for C, C\#, C++, Lua, and Python ~\citep{LibtcodHome}.
 
 		\item \textbf{Permadeath}: A feature of roguelikes where the game must be restarted from the beginning upon character death.
 
@@ -226,7 +230,7 @@ This document describes the requirements for the Rogue Reborn project.  The temp
 				\freq{The user must be able to see the \textit{outline} of dungeon areas that were previously explored.}\\
 				\freq{The player character shall be able to search for hidden doors and traps/}\\
 				\freq{The player character shall not be able to see hidden doors without explicitly searching for them.}\\
-				\freq{The \textit{Amulet of Yendor} shall be generated in level FINAL\_LEVEL.}\\
+				\freq{The \textit{Amulet of Yendor} shall be generated in level \hyperref[symbolicParameters]{FINAL\_LEVEL}.}\\
 			\end{tabular}
 
 		\subsubsection{Equipment}
@@ -356,6 +360,8 @@ This document describes the requirements for the Rogue Reborn project.  The temp
 
 	\subsection{Health and Safety Requirements}
 		\spec{The Rogue Reborn game shall not contain visual sequences that are likely to trigger seizures.}{Individuals with photosensitive epilepsy may feel disoriented, uncomfortable, or unwell ~\citep{PhotosensitiveEpilepsy}.}{The average luminosity of the game UI cannot change by more than \hyperref[symbolicParameters]{LUMINOSITY\_DELTA} between two successive frames.}
+
+\newpage
 
 \section{Project Issues}
 
