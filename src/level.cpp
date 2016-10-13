@@ -36,6 +36,14 @@ int Level::genGoldAmount(Generator gen) {
 	return 2 + gen.intFromRange(0, 50 + 10 * depth);
 }
 
+void Level::registerMob(Mob* mob) {
+	mobs.push_back(mob);
+}
+
+std::vector<Mob*> Level::getMobs() {
+	return mobs;
+}
+
 void Level::generate(PlayerChar player) {
 	Generator gen = Generator();
 	Coord maxRoomSize = Coord(size[0]/3, size[1]/3);

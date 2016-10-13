@@ -18,13 +18,15 @@ class Level {
 		void generate(PlayerChar);
 		bool contains(Coord);
 		static Coord getSize() { return Coord(X_SIZE, Y_SIZE); };
+		void registerMob(Mob*);
+		std::vector<Mob*> getMobs();
 	private:
 		const int MAX_ROOMS = 9;
 		const double GOLD_CHANCE = .333;
 		static const int X_SIZE = 80, Y_SIZE = 25;
 		std::vector<std::vector<Terrain> > tiles;
 		std::vector<Room> rooms;
-		std::vector<Mob> mobs;
+		std::vector<Mob*> mobs;
 		std::vector<GoldPile> golds;
 		int genGoldAmount(Generator);
 		Coord size;
