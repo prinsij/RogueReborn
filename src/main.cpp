@@ -1,5 +1,6 @@
 #include <iostream>
 #include "libtcod/include/libtcod.hpp"
+#include "include/mastercontroller.h"
 #include "include/level.h"
 #include "include/playerchar.h"
 #include <vector>
@@ -17,7 +18,10 @@ void putString(int x, int y, std::string text) {
   * Execution starts here
   */
 int main(int argv, char** args) {
-    std::cout << "Welcome to Rogue Reborn!" << std::endl;
+	MasterController controller;
+	controller.run();
+   /*
+	std::cout << "Welcome to Rogue Reborn!" << std::endl;
 
     TCODConsole::setCustomFont("assets/terminal-large.png");
 
@@ -51,7 +55,7 @@ int main(int argv, char** args) {
 			player.setCoord(newPos);
 		}
 
-		/*
+		
         //Keypad controls
         switch (key.vk){
 
@@ -110,7 +114,7 @@ int main(int argv, char** args) {
 
 			default:
 				break;
-        }*/
+        }
 
 
         //Redraw
@@ -129,5 +133,5 @@ int main(int argv, char** args) {
         //Push changes to screen
         TCODConsole::flush();
     }
-    return 0;
+    return 0;*/
 }
