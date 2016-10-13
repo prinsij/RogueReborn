@@ -9,7 +9,7 @@
 #include "include/playerchar.h"
 
 Level::Level(int depth) 
-	: size(SIZE)
+	: size(getSize())
 	, depth(depth) 
 {
 	for (auto x=0; x < size[0]; x++) {
@@ -26,10 +26,6 @@ Terrain& Level::operator[](Coord coord) {
 
 Terrain& Level::tileAt(Coord coord) {
 	return tiles[coord[0]][coord[1]];
-}
-
-Coord Level::getSize() {
-	return size;
 }
 
 bool Level::contains(Coord pos) {

@@ -3,8 +3,8 @@
 #include "include/playerchar.h"
 #include "include/coord.h"
 
-PlayerChar::PlayerChar(Coord pos)
-	: Mob("@Rogue", pos, START_HP)
+PlayerChar::PlayerChar(std::string str, Coord pos)
+	: Mob(str, '@', pos, START_HP)
 	, armor(START_ARMOR)
 	, strength(START_STR)
 	, maxStrength(START_STR)

@@ -6,7 +6,8 @@
 
 class Mob {
 	public:
-		Mob(std::string, Coord, int);
+		Mob(std::string, char, Coord, int);
+		char getChar();
 		int getHP();
 		void setHP();
 		int getMaxHP();
@@ -16,6 +17,7 @@ class Mob {
 		std::string getName();
 	private:
 		std::string name;
+		char symbol;
 		Coord coord;
 		int HP, maxHP;
 };

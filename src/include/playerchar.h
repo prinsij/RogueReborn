@@ -1,14 +1,13 @@
+#pragma once
+
 #include <string>
 #include "coord.h"
 #include "itemzone.h"
 #include "mob.h"
 
-#ifndef PLAYERCHAR_H
-#define PLAYERCHAR_H
-
 class PlayerChar : public Mob {
 	public:
-		PlayerChar(Coord);
+		PlayerChar(std::string, Coord);
 		int getStrength();
 		int getMaxStrength();
 		int getArmor();
@@ -23,5 +22,3 @@ class PlayerChar : public Mob {
 		bool hasFoundAmulet;
 		int maxDepth;
 };
-
-#endif

@@ -2,8 +2,9 @@
 #include "include/coord.h"
 #include <string>
 
-Mob::Mob(std::string name, Coord coord, int hp)
+Mob::Mob(std::string name, char chr, Coord coord, int hp)
 	: name(name)
+	, symbol(chr)
 	, coord(coord)
 	, HP(hp)
 	, maxHP(hp)
@@ -31,4 +32,8 @@ int& Mob::operator[](int dimension) {
 
 std::string Mob::getName() {
 	return name;
+}
+
+char Mob::getChar() {
+	return symbol;
 }

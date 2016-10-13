@@ -5,7 +5,6 @@
 #include <iostream>
 #include <string>
 #include "include/level.h"
-#include "include/playerchar.h"
 
 MasterController::MasterController()
 	: currState(new MainMenu())
@@ -15,11 +14,8 @@ void MasterController::run() {
 	const int spacer = 5;
     std::cout << "Welcome to Rogue Reborn!" << std::endl;
     TCODConsole::setCustomFont("assets/terminal-large.png");
-	PlayerChar player(Coord(10, 10));
-	Level level(0);
-	level.generate(player);
     //Init console
-	Coord lSize = level.getSize();
+	Coord lSize = Level::getSize();
     TCODConsole::initRoot(lSize[0], lSize[1] + spacer, "Rogue Reborn", false);
     TCODConsole* floatCon = new TCODConsole(lSize[0], lSize[1] + spacer);
 	TCODSystem::setFps(FPS_LIMIT);
