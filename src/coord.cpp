@@ -15,7 +15,7 @@ Coord Coord::copy() {
 	return Coord(x, y);
 }
 
-Coord Coord::asMap() {
+Coord Coord::asScreen() {
 	return Coord(x + MAPX, y + MAPY);
 }
 

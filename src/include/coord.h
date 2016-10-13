@@ -13,7 +13,7 @@ class Coord {
 		Coord& operator-=(const Coord&);
 		bool operator==(const Coord&);
 		bool operator!=(const Coord&);
-		Coord asMap();
+		Coord asScreen();
 		Coord copy();
 	private:
 		int x, y;
