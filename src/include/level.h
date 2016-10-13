@@ -7,8 +7,11 @@
 #include "playerchar.h"
 #include "goldpile.h"
 #include "room.h"
+#include "tunnel.h"
 
 class Room;
+
+class Tunnel;
 
 class Level {
 	public:
@@ -23,12 +26,17 @@ class Level {
 	private:
 		const int MAX_ROOMS = 9;
 		const double GOLD_CHANCE = .333;
-		static const int X_SIZE = 80, Y_SIZE = 25;
+		const double ROOM_MISS_CHANCE = 0.1;
+		static const int ROOM_PADDING = 1;
+		static const int MIN_ROOM_DIM = 3;
+		static const int X_SIZE = 80, Y_SIZE = 35;//80,25
 		std::vector<std::vector<Terrain> > tiles;
 		std::vector<Room> rooms;
 		std::vector<Mob*> mobs;
 		std::vector<GoldPile> golds;
+		std::vector<Tunnel> tunnels;
 		int genGoldAmount(Generator);
+		void addTunnel(int, int, bool*, bool*);
 		Coord size;
 		int depth;
 };
