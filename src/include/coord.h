@@ -13,10 +13,11 @@ class Coord {
 		Coord& operator-=(const Coord&);
 		bool operator==(const Coord&);
 		bool operator!=(const Coord&);
+		Coord asMap();
 		Coord copy();
 	private:
-		int x;
-		int y;
+		int x, y;
+		static const int MAPX = 0, MAPY = 0;
 };
 
 #endif
