@@ -58,8 +58,9 @@ void Level::generate(PlayerChar player) {
 
 			Coord padding = Coord(ROOM_PADDING, ROOM_PADDING);
 
+			//These two are INCLUSIVE legal constraints (<= and >=)
 			Coord legalTopLeft = totalTopLeft + padding;
-			Coord legalBottomRight = totalTopLeft + maxRoomSize - padding;
+			Coord legalBottomRight = totalTopLeft + maxRoomSize - padding - Coord(1,1);
 
 			Coord roomSize = Coord(	gen.intFromRange(MIN_ROOM_DIM, legalBottomRight[0] - legalTopLeft[0] + 1),
 									gen.intFromRange(MIN_ROOM_DIM, legalBottomRight[1] - legalTopLeft[1] + 1));
@@ -67,11 +68,13 @@ void Level::generate(PlayerChar player) {
 			Coord roomPosition = Coord( gen.intFromRange(legalTopLeft[0], legalBottomRight[0] - roomSize[0] + 1),
 										gen.intFromRange(legalTopLeft[1], legalBottomRight[1] - roomSize[1] + 1));
 
+
 			//Really not sure what the purpose of this line is. Why is this being decided randomly?
 			Room::Darkness isDark = gen.intFromRange(0, 10) < depth - 1 ? Room::DARK : Room::LIT;
 
 
-			Room curRoom = Room(roomPosition, roomPosition + roomSize, isDark, Room::WORTHLESS, Room::VISIBLE, Room::EXISTS);
+			Room curRoom = Room(roomPosition, roomPosition + roomSize - Coord(1,1), isDark, Room::WORTHLESS, Room::VISIBLE, Room::EXISTS);
+			//Room curRoom = Room(legalTopLeft, legalBottomRight, isDark, Room::WORTHLESS, Room::VISIBLE, Room::EXISTS);//All rooms are max size
 
 			curRoom.dig(*this);
 
@@ -84,6 +87,9 @@ void Level::generate(PlayerChar player) {
 
 			//put monsters in current room
 			rooms.push_back(curRoom);
+
+			curRoom.printInfo(i);
+
 		} else {
 
 			//Empty room

@@ -26,8 +26,8 @@ class Level {
 	private:
 		const int MAX_ROOMS = 9;
 		const double GOLD_CHANCE = .333;
-		const double ROOM_MISS_CHANCE = 0.1;
-		static const int ROOM_PADDING = 1;
+		const double ROOM_MISS_CHANCE = 0.04;
+		static const int ROOM_PADDING = 2;
 		static const int MIN_ROOM_DIM = 3;
 		static const int X_SIZE = 80, Y_SIZE = 35;//80,25
 		std::vector<std::vector<Terrain> > tiles;
