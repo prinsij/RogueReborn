@@ -15,6 +15,10 @@ Coord Coord::copy() {
 	return Coord(x, y);
 }
 
+Coord Coord::asScreen() {
+	return Coord(x + MAPX, y + MAPY);
+}
+
 int& Coord::operator[](int dimension) {
 	switch (dimension) {
 		case 0:
