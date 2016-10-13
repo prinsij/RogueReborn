@@ -5,15 +5,16 @@
 #include <string>
 
 Room::Room(Coord topLeft, Coord bottomRight)
-	: Room(topLeft, bottomRight, LIT, WORTHLESS, VISIBLE)
+	: Room(topLeft, bottomRight, LIT, WORTHLESS, VISIBLE, EXISTS)
 	{}
 
-Room::Room(Coord topLeft, Coord bottomRight, Darkness dark, Treasure treas, Hidden hid)
+Room::Room(Coord topLeft, Coord bottomRight, Darkness dark, Treasure treas, Hidden hid, Existence ext)
 	: topLeft(topLeft)
 	, bottomRight(bottomRight)
 	, isDark(dark)
 	, isTreasure(treas)
 	, isHidden(hid)
+	, isExisting(ext)
 {}
 
 Coord Room::operator[](int corner) {
@@ -32,4 +33,8 @@ void Room::dig(Level& level) {
 			level[Coord(x, y)] = Floor();
 		}
 	}
+}
+
+bool Room::exists(){
+	return isExisting == Room::EXISTS;
 }

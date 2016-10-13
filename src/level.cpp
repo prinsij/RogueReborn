@@ -53,18 +53,17 @@ void Level::generate(PlayerChar player) {
 			Coord legalTopLeft = totalTopLeft + padding;
 			Coord legalBottomRight = totalTopLeft + maxRoomSize - padding;
 
-			Coord roomSize = Coord(	gen.intFromRange(MIN_ROOM_DIM, legalBottomRight[0] - legalTopLeft[0]),
-									gen.intFromRange(MIN_ROOM_DIM, legalBottomRight[1] - legalTopLeft[1]));
+			Coord roomSize = Coord(	gen.intFromRange(MIN_ROOM_DIM, legalBottomRight[0] - legalTopLeft[0] + 1),
+									gen.intFromRange(MIN_ROOM_DIM, legalBottomRight[1] - legalTopLeft[1] + 1));
 
-			Coord roomPosition = Coord( gen.intFromRange(legalTopLeft[0], legalBottomRight[0] - roomSize[0]),
-										gen.intFromRange(legalTopLeft[1], legalBottomRight[1] - roomSize[1]));
+			Coord roomPosition = Coord( gen.intFromRange(legalTopLeft[0], legalBottomRight[0] - roomSize[0] + 1),
+										gen.intFromRange(legalTopLeft[1], legalBottomRight[1] - roomSize[1] + 1));
 
 			//Really not sure what the purpose of this line is. Why is this being decided randomly?
 			Room::Darkness isDark = gen.intFromRange(0, 10) < depth - 1 ? Room::DARK : Room::LIT;
 
 
-			Room curRoom = Room(roomPosition, roomPosition + roomSize,
-								isDark, Room::WORTHLESS, Room::VISIBLE);
+			Room curRoom = Room(roomPosition, roomPosition + roomSize, isDark, Room::WORTHLESS, Room::VISIBLE, Room::EXISTS);
 
 			curRoom.dig(*this);
 
@@ -77,14 +76,14 @@ void Level::generate(PlayerChar player) {
 
 			//put monsters in current room
 			rooms.push_back(curRoom);
+		} else {
+
+			//Empty room
+			rooms.push_back(Room(Coord(0,0), Coord(0,0), Room::DARK, Room::WORTHLESS, Room::VISIBLE, Room::DNE));
 		}
 	}
 
-	//Tunnel digging strat:
-		//Create symmetric matrix to say (P -> Q) -> (Q -> P)
-		//Establish tunnel connections
-		//dig tunnels
-
+	//Used to say: If A -> B, then B -> A
 	bool symmetric [MAX_ROOMS][MAX_ROOMS];//Take care of non-existent rooms
 
 	for (auto i=0; i < MAX_ROOMS; i++){
@@ -94,33 +93,37 @@ void Level::generate(PlayerChar player) {
 		//Down
 		j = i + 3;
 		if (j <= 8){
-			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i]);
+			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i], rooms[j].exists() && rooms[i].exists());
 		}
 
 		//Up
 		j = i - 3;
 		if (j >= 0){
-			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i]);
+			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i], rooms[j].exists() && rooms[i].exists());
 		}
 
 		//Left
 		j = i - 1;
 		if (j >= 0 && i / 3 == j / 3){
-			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i]);
+			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i], rooms[j].exists() && rooms[i].exists());
 		}
 
 		//Right
 		j = i + 1;
 		if (j >= 0 && i / 3 == j / 3){
-			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i]);
+			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i], rooms[j].exists() && rooms[i].exists());
 		}
 	}
+
+	std::cout << tunnels.size() << std::endl;
 }
 
-void Level::addTunnel(int i, int j, bool* a, bool* b){
-	if (!(*a)){
-		*a = true;
-		*b = true;
-		tunnels.push_back(Tunnel(&rooms[i], &rooms[j]));
+void Level::addTunnel(int i, int j, bool* a, bool* b, bool jExists){
+	if (jExists){
+		if (!(*a)){
+			*a = true;
+			*b = true;
+			tunnels.push_back(Tunnel(&rooms[i], &rooms[j]));
+		}
 	}
 }

@@ -10,16 +10,19 @@ class Room {
 		enum Darkness {DARK, LIT};
 		enum Treasure {TREASURE, WORTHLESS};
 		enum Hidden {HIDDEN, VISIBLE};
-		Room(Coord, Coord, Darkness, Treasure, Hidden);
+		enum Existence {EXISTS, DNE};
+		Room(Coord, Coord, Darkness, Treasure, Hidden, Existence);
 		Room(Coord, Coord);
 		Coord operator[](int);
 		void dig(Level&);
 		Coord getPosition1();
 		Coord getPosition2();
+		bool exists();
 	private:
 		Coord topLeft;
 		Coord bottomRight;
 		Darkness isDark;
 		Treasure isTreasure;
 		Hidden isHidden;
+		Existence isExisting;
 };
