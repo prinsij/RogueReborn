@@ -1,6 +1,7 @@
 #include "include/terrain.h"
 #include "include/mob.h"
 #include <vector>
+#include <iostream>
 #include "include/tiles.h"
 #include "include/level.h"
 #include "include/coord.h"
@@ -42,7 +43,7 @@ void Level::generate(PlayerChar player) {
 	Coord maxRoomSize = Coord(size[0]/3, size[1]/3);
 	for (auto i=0; i < MAX_ROOMS; i++) {
 
-		//if (gen() > ROOM_MISS_CHANCE){
+		if (gen() > ROOM_MISS_CHANCE){
 
 			//Define upper left corner 
 			Coord totalTopLeft = Coord((i%3)*maxRoomSize[0], i/3*maxRoomSize[1]);
@@ -76,7 +77,7 @@ void Level::generate(PlayerChar player) {
 
 			//put monsters in current room
 			rooms.push_back(curRoom);
-		//}
+		}
 	}
 
 	//Tunnel digging strat:
@@ -93,6 +94,24 @@ void Level::generate(PlayerChar player) {
 		//Down
 		j = i + 3;
 		if (j <= 8){
+			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i]);
+		}
+
+		//Up
+		j = i - 3;
+		if (j >= 0){
+			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i]);
+		}
+
+		//Left
+		j = i - 1;
+		if (j >= 0 && i / 3 == j / 3){
+			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i]);
+		}
+
+		//Right
+		j = i + 1;
+		if (j >= 0 && i / 3 == j / 3){
 			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i]);
 		}
 	}
