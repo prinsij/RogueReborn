@@ -7,8 +7,11 @@
 #include "playerchar.h"
 #include "goldpile.h"
 #include "room.h"
+#include "tunnel.h"
 
 class Room;
+
+class Tunnel;
 
 class Level {
 	public:
@@ -29,8 +32,9 @@ class Level {
 		std::vector<Room> rooms;
 		std::vector<Mob> mobs;
 		std::vector<GoldPile> golds;
+		std::vector<Tunnel> tunnels;
 		int genGoldAmount(Generator);
+		void addTunnel(int, int, bool*, bool*);
 		Coord size;
 		int depth;
-		bool connected();
 };

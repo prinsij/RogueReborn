@@ -7,6 +7,7 @@
 #include "include/room.h"
 #include "include/random.h"
 #include "include/playerchar.h"
+#include "include/tunnel.h"
 
 Level::Level(int depth) 
 	: size(getSize())
@@ -41,7 +42,7 @@ void Level::generate(PlayerChar player) {
 	Coord maxRoomSize = Coord(size[0]/3, size[1]/3);
 	for (auto i=0; i < MAX_ROOMS; i++) {
 
-		if (gen() > ROOM_MISS_CHANCE){
+		//if (gen() > ROOM_MISS_CHANCE){
 
 			//Define upper left corner 
 			Coord totalTopLeft = Coord((i%3)*maxRoomSize[0], i/3*maxRoomSize[1]);
@@ -75,11 +76,32 @@ void Level::generate(PlayerChar player) {
 
 			//put monsters in current room
 			rooms.push_back(curRoom);
+		//}
+	}
+
+	//Tunnel digging strat:
+		//Create symmetric matrix to say (P -> Q) -> (Q -> P)
+		//Establish tunnel connections
+		//dig tunnels
+
+	bool symmetric [MAX_ROOMS][MAX_ROOMS];//Take care of non-existent rooms
+
+	for (auto i=0; i < MAX_ROOMS; i++){
+
+		int j;
+
+		//Down
+		j = i + 3;
+		if (j <= 8){
+			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i]);
 		}
 	}
 }
 
-bool Level::connected(){
-	//implement graph connected-ness with Room objects in rooms
-	return true;
+void Level::addTunnel(int i, int j, bool* a, bool* b){
+	if (!(*a)){
+		*a = true;
+		*b = true;
+		tunnels.push_back(Tunnel(&rooms[i], &rooms[j]));
+	}
 }
