@@ -40,27 +40,46 @@ void Level::generate(PlayerChar player) {
 	Generator gen = Generator();
 	Coord maxRoomSize = Coord(size[0]/3, size[1]/3);
 	for (auto i=0; i < MAX_ROOMS; i++) {
-		// upper left corner of the box this room goes in
-		Coord boxTopLeft = Coord((i%3)*maxRoomSize[0]+1, i/3*maxRoomSize[1]);
-		Coord roomPosition, roomSize;
-		do {
-			roomSize = Coord(4+gen.intFromRange(0, maxRoomSize[0]-4), 4+gen.intFromRange(0, maxRoomSize[1]-4));
-			Coord positionRand = Coord(gen.intFromRange(0, maxRoomSize[0] - roomSize[0]), 
-									   gen.intFromRange(0, maxRoomSize[1] - roomSize[1]));
-			roomPosition = boxTopLeft + positionRand;
-		} while (roomPosition[1] == 0);
-		Room::Darkness isDark = gen.intFromRange(0, 10) < depth - 1 ? Room::DARK : Room::LIT;
-		Room curRoom = Room(roomPosition, roomPosition + roomSize,
-							isDark, Room::WORTHLESS, Room::VISIBLE);
-		curRoom.dig(*this);
-		//put gold in current room
-		if (gen() < GOLD_CHANCE && (!player.foundAmulet() || depth >= player.maxDelved())) {
-			Coord goldPos = gen.randPosition(curRoom[0], curRoom[1]);
-			int goldAmount = genGoldAmount(gen);
-			golds.push_back(GoldPile(goldPos, goldAmount));
+
+		if (gen() > ROOM_MISS_CHANCE){
+
+			//Define upper left corner 
+			Coord totalTopLeft = Coord((i%3)*maxRoomSize[0], i/3*maxRoomSize[1]);
+
+			Coord padding = Coord(ROOM_PADDING, ROOM_PADDING);
+
+			Coord legalTopLeft = totalTopLeft + padding;
+			Coord legalBottomRight = totalTopLeft + maxRoomSize - padding;
+
+			Coord roomSize = Coord(	gen.intFromRange(MIN_ROOM_DIM, legalBottomRight[0] - legalTopLeft[0]),
+									gen.intFromRange(MIN_ROOM_DIM, legalBottomRight[1] - legalTopLeft[1]));
+
+			Coord roomPosition = Coord( gen.intFromRange(legalTopLeft[0], legalBottomRight[0] - roomSize[0]),
+										gen.intFromRange(legalTopLeft[1], legalBottomRight[1] - roomSize[1]));
+
+			//Really not sure what the purpose of this line is. Why is this being decided randomly?
+			Room::Darkness isDark = gen.intFromRange(0, 10) < depth - 1 ? Room::DARK : Room::LIT;
+
+
+			Room curRoom = Room(roomPosition, roomPosition + roomSize,
+								isDark, Room::WORTHLESS, Room::VISIBLE);
+
+			curRoom.dig(*this);
+
+			//put gold in current room
+			if (gen() < GOLD_CHANCE && (!player.foundAmulet() || depth >= player.maxDelved())) {
+				Coord goldPos = gen.randPosition(curRoom[0], curRoom[1]);
+				int goldAmount = genGoldAmount(gen);
+				golds.push_back(GoldPile(goldPos, goldAmount));
+			}
+
+			//put monsters in current room
+			rooms.push_back(curRoom);
 		}
-		//put monsters in current room
-		rooms.push_back(curRoom);
 	}
-	
+}
+
+bool Level::connected(){
+	//implement graph connected-ness with Room objects in rooms
+	return true;
 }

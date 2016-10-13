@@ -16,6 +16,7 @@ class Room {
 		void dig(Level&);
 		Coord getPosition1();
 		Coord getPosition2();
+		std::vector<Room> connections;
 	private:
 		Coord topLeft;
 		Coord bottomRight;
