@@ -2,7 +2,6 @@
 #include "libtcod/include/libtcod.hpp"
 #include "include/level.h"
 #include "include/playerchar.h"
-#include "include/random.h"
 #include <vector>
 #include <string>
 
@@ -22,7 +21,6 @@ int main(int argv, char** args) {
 
     TCODConsole::setCustomFont("assets/terminal-large.png");
 
-	Generator rand;
 
 	PlayerChar player(Coord(10, 10));
 	auto level = Level(0);
