@@ -24,6 +24,7 @@ UIState* MainMenu::handleInput(TCOD_key_t key) {
 	} else if (key.vk == TCODK_ENTER) {
 		Level* level = new Level(0);
 		PlayerChar* player = new PlayerChar(nameBuffer, Coord(10, 10));
+		level->registerMob(player);
 		level->generate(*player);
 		return new PlayState(player, level);
 	} else if (key.c) {
