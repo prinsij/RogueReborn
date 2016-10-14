@@ -7,7 +7,10 @@
 class Mob {
 	public:
 		Mob(std::string, char, Coord, int, int, int, int);
-		virtual void attack(Mob &) = 0;
+		
+		static int diceSum(int, int);
+
+		virtual void attack(Mob*) = 0;
 		void changeArmor(int);
 		int getArmor();
 		int getExperience();
@@ -20,7 +23,7 @@ class Mob {
 		void setCurrentHP(int);
 		void setLocation(Coord);
 		void setMaxHP(int);
-	
+
 	private:
 		int armor;
 		int currentHP;

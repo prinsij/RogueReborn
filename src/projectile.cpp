@@ -3,7 +3,7 @@
 #include "include/projectile.h"
 
 Projectile::Projectile(Coord location, Item::Context context, std::string name, unsigned char type, std::pair<int, int> enchantment)
-	: Item('*', location, context, name, name, type, true, true),
+	: Item('*', location, context, "Projectile", name, name, type, true, true),
 	  enchantment(enchantment) {}
 
 int Projectile::getChance() {

@@ -1,14 +1,17 @@
 #include <algorithm>
+#include <map>
 #include <string>
 
 #include "include/item.h"
 
-Item::Item(char symbol, Coord location, Item::Context context, std::string name, std::string pseudoName, unsigned char type, bool canStack, bool canThrow)
+std::map<std::string, std::map<unsigned char, bool>> Item::identified;
+
+Item::Item(char symbol, Coord location, Item::Context context, std::string className, std::string name, std::string pseudoName, unsigned char type, bool canStack, bool canThrow)
 	: Feature(symbol, location),
 	  canStack(canStack),
 	  canThrow(canThrow),
+	  className(className),
 	  context(context),
-	  identified(false),
 	  name(name),
 	  pseudoName(pseudoName),
 	  type(type) {}
@@ -26,11 +29,7 @@ Item::Context Item::getContext() {
 }
 
 std::string Item::getDisplayName() {
-	return this->identified ? this->name : this->pseudoName;
-}
-
-bool Item::getIdentified() {
-	return this->identified;
+	return identified[this->className][this->type] ? this->name : this->pseudoName;
 }
 
 std::string Item::getName() {
@@ -41,6 +40,10 @@ unsigned char Item::getType() {
 	return this->type;
 }
 
+bool Item::isIdentified() {
+	return identified[this->className][this->type];
+}
+
 bool Item::isStackable() {
 	return this->canStack;
 }
@@ -49,6 +52,6 @@ bool Item::isThrowable() {
 	return this->canThrow;
 }
 
-void Item::setIdentified(bool identified) {
-	this->identified = identified;
+void Item::setIdentified(bool newValue) {
+	identified[this->className][this->type] = newValue;
 }

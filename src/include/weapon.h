@@ -5,17 +5,17 @@
 #include "coord.h"
 #include "item.h"
 
+class Level;
+
 class Weapon : public Item {
 	public:
 		Weapon(Coord, Item::Context, std::string, std::string, unsigned char, std::pair<int, int>, bool, bool);
-		void addIdentified(unsigned char);
+		bool activate(Level*);
 		int getChance();
 		int getDamage();
-		bool isIdentified(unsigned char);
 		bool isMelee();
 
 	private:
-		static std::vector<bool> identified;
 		std::pair<int,int> enchantment;
 		bool melee;
 };

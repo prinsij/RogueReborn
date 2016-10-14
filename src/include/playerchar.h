@@ -4,32 +4,44 @@
 
 #include "armor.h"
 #include "coord.h"
+#include "food.h"
+#include "goldpile.h"
 #include "item.h"
 #include "itemzone.h"
 #include "mob.h"
+#include "potion.h"
 #include "ring.h"
+#include "scroll.h"
 #include "weapon.h"
+#include "wand.h"
+
+class Level;
 
 class PlayerChar : public Mob {
 	public:
 		PlayerChar(std::string, Coord);
-		void addGold(int);
-		void attack(Mob &);
-		void dropItem(Item &);
-		void equipArmor(Armor &);
-		void equipRingLeft(Ring &);
-		void equipRingRight(Ring &);
-		void equipWeapon(Weapon &);
+		void activateItem(Item*);
+		void attack(Mob*);
+		void collectGold(GoldPile*);
+		bool dropItem(Item*);
+		void eat(Food*);
+		void equipArmor(Armor*);
+		void equipRingLeft(Ring*);
+		void equipRingRight(Ring*);
+		void equipWeapon(Weapon*);
 		int getGold();
 		int getStrength();
 		bool hasAmulet();
 		int maxDelved();
-		void pickupItem(Item &);
-		void removeArmor();
-		void removeRingLeft();
-		void removeRingRight();
-		void removeWeapon();
-		void throwItem(Item &);
+		void pickupItem(Item*);
+		void quaff(Potion*, Mob*);
+		void read(Scroll*, Level*);
+		bool removeArmor();
+		bool removeRingLeft();
+		bool removeRingRight();
+		bool removeWeapon();
+		bool throwItem(Item*);
+		bool zap(Wand*, Level*);
 
 	private:
 		int currentStr;
@@ -47,4 +59,6 @@ class PlayerChar : public Mob {
 		const int START_HP = 12;
 		const int START_LEVEL = 1;
 		const int START_STR = 16;		
+
+		bool removeItem(Item*);
 };

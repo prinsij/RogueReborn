@@ -17,6 +17,15 @@ void Mob::changeArmor(int armorChange) {
 	armor += armorChange;
 }
 
+int Mob::diceSum(int rolls, int faces) {
+	int sum = 0;
+
+	for (int roll = 0 ; roll < rolls ; roll++)
+		sum += 1 + (rand() % faces);
+
+	return sum;
+}
+
 int Mob::getArmor() {
 	return armor;
 }

@@ -11,7 +11,7 @@ class ItemZone {
 		void add(Item&);
 		bool contains(Item&);
 		bool contains(const std::string&);
-		std::vector<Item> getContents(); 
+		std::vector<Item> getContents();
 		bool remove(Item&);
 
 	private:

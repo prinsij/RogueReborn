@@ -1,3 +1,4 @@
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -16,8 +17,11 @@ Monster::Monster(char symbol, Coord location, MonsterDB::MonsterData monsterData
 	Mob::setMaxHP(hp);
 }
 
-void Monster::attack(Mob & mob) {
+void Monster::attack(Mob* mob) {
+	std::cout << "Monster " << this->getName() << " Attack\n";
+
 	// TODO
+
 }
 
 int Monster::calculateDamage() {
@@ -30,11 +34,10 @@ int Monster::getCarryChance() {
 	return this->carryChance;
 }
 
-int Monster::diceSum(int rolls, int faces) {
-	int sum = 0;
+int Monster::turn(Level* level) {
+	std::cout << "Monster " << this->getName() << "'s Turn\n";
 
-	for (int roll = 0 ; roll < rolls ; roll++)
-		sum += 1 + (rand() % faces);
+	// TODO
 
-	return sum;
+	return 1;
 }

@@ -1,3 +1,4 @@
+#include <iostream>
 #include <string>
 
 #include "include/armor.h"
@@ -19,33 +20,60 @@ PlayerChar::PlayerChar(std::string name, Coord location)
 	  itemWeapon(NULL),
 	  maxStr(START_STR) {}
 
-void PlayerChar::addGold(int quantity) {
-	this->gold += quantity;
-}
+void PlayerChar::attack(Mob* mob) {
+	std::cout << "PlayerChar Attack\n";
 
-void PlayerChar::attack(Mob & mob) {
 	// TODO
 }
 
-void PlayerChar::dropItem(Item & item) {
-	this->inventory.remove(item);
+void PlayerChar::collectGold(GoldPile* goldpile) {
+	std::cout << "PlayerChar Collected " << goldpile->getQuantity() << " Gold\n";
+	this->gold += goldpile->getQuantity();
 }
 
-void PlayerChar::equipArmor(Armor & armor) {
-	this->itemArmor = &armor;
-	this->changeArmor(armor.getRating());
+bool PlayerChar::dropItem(Item* item) {
+	if (this->itemArmor == item || 
+		this->itemRingLeft == item ||
+		this->itemRingRight == item ||
+		this->itemWeapon == item)
+		return false;
+
+	std::cout << "PlayerChar Dropped Item " << item->getName() << "\n";
+
+	this->inventory.remove(*item);
+	return true;
 }
 
-void PlayerChar::equipRingLeft(Ring & ring) {
-	this->itemRingLeft = &ring;
+void PlayerChar::eat(Food* food) {
+	std::cout << "PlayerChar Ate " << food->getName() << "\n";
+
+	food->activate(this);
+	this->inventory.remove(*food);
 }
 
-void PlayerChar::equipRingRight(Ring & ring) {
-	this->itemRingRight = &ring;
+void PlayerChar::equipArmor(Armor* armor) {
+	std::cout << "PlayerChar Equipped Armor " << armor->getName() << "\n";
+
+	this->itemArmor = armor;
+	this->changeArmor(armor->getRating());
 }
 
-void PlayerChar::equipWeapon(Weapon & weapon) {
-	this->itemWeapon = &weapon;
+void PlayerChar::equipRingLeft(Ring* ring) {
+	std::cout << "PlayerChar Equipped Left Ring " << ring->getName() << "\n";
+
+	this->itemRingLeft = ring;
+}
+
+void PlayerChar::equipRingRight(Ring* ring) {
+	std::cout << "PlayerChar Equipped Right Ring " << ring->getName() << "\n";
+
+	this->itemRingRight = ring;
+}
+
+void PlayerChar::equipWeapon(Weapon* weapon) {
+	std::cout << "PlayerChar Equipped Weapon " << weapon->getName() << "\n";
+
+	this->itemWeapon = weapon;
 }
 
 int PlayerChar::getGold() {
@@ -64,29 +92,80 @@ int PlayerChar::maxDelved() {
 	return -1;
 }
 
-void PlayerChar::pickupItem(Item & item) {
-	this->inventory.add(item);
+void PlayerChar::pickupItem(Item* item) {
+	this->inventory.add(*item);
 }
 
-void PlayerChar::removeArmor() {
+void PlayerChar::quaff(Potion* potion, Mob* mob) {
+	std::cout << "PlayerChar Quaffed " << potion->getName() << "\n";
+
+	potion->activate(mob);
+	this->inventory.remove(*potion);
+}
+
+void PlayerChar::read(Scroll* scroll, Level* level) {
+	std::cout << "PlayerChar Read Scroll " << scroll->getName() << "\n";
+
+	scroll->activate(level);
+	this->inventory.remove(*scroll);	
+}
+
+bool PlayerChar::removeArmor() {
+	if (this->itemArmor == NULL) return false; 
+
+	std::cout << "PlayerChar Removed Armor " << this->itemArmor->getName() << "\n";
+
 	this->changeArmor(-this->itemArmor->getRating());
 	this->itemArmor = NULL;
+
+	return true;
 }
 
-void PlayerChar::removeRingLeft() {
+bool PlayerChar::removeRingLeft() {
+	if (this->itemRingLeft == NULL) return false; 
+
+	std::cout << "PlayerChar Removed Left Ring " << this->itemRingLeft->getName() << "\n";
+
 	this->itemRingLeft = NULL;
+
+	return true;
 }
 
-void PlayerChar::removeRingRight() {
+bool PlayerChar::removeRingRight() {
+	if (this->itemRingRight == NULL) return false; 
+
+	std::cout << "PlayerChar Removed Right Ring " << this->itemRingRight->getName() << "\n";
+
 	this->itemRingRight = NULL;
+
+	return true;
 }
 
-void PlayerChar::removeWeapon() {
+bool PlayerChar::removeWeapon() {
+	if (this->itemWeapon == NULL) return false; 
+
+	std::cout << "PlayerChar Removed Weapon " << this->itemWeapon->getName() << "\n";
+
 	this->itemWeapon = NULL;
+
+	return true;
 }
 
-void PlayerChar::throwItem(Item & item) {
-	if (!item.isThrowable()) return;
+bool PlayerChar::throwItem(Item* item) {
+	if (!item->isThrowable()) return false;
+
+	std::cout << "PlayerChar Threw " << item->getName() << "\n";
+	// TODO
+	return true;
+}
+
+bool PlayerChar::zap(Wand* wand, Level* level) {
+	if (wand->getCharges() == 0) return false;
+
+	std::cout << "PlayerChar Zapped with Wand " << wand->getName() << "\n";
+
+	wand->activate(level);
 
 	// TODO
+	return true;
 }
