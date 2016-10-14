@@ -17,6 +17,8 @@ class Tunnel {
 	private:
 		Tunnel::Direction flip(Tunnel::Direction);
 		Coord getDoorPlacement(Room*, Tunnel::Direction);
+		Coord findNextStep(Coord, std::vector<std::vector<double>>);
+		Coord posPlusDir(Coord, Tunnel::Direction);
 		Room* p;
 		Room* q;
 		Generator gen;

@@ -1,13 +1,15 @@
 
 #include "include/tunnel.h"
 #include "include/terrain.h"
-#include <vector>
-#include <iostream>
 #include "include/tiles.h"
 #include "include/level.h"
 #include "include/coord.h"
 #include "include/room.h"
 #include "include/random.h"
+#include <vector>
+#include <iostream>
+#include <math.h>
+#include <stdio.h>
 
 Tunnel::Tunnel(Room* p, Room* q, Generator gen) 
 	: p(p)
@@ -57,6 +59,67 @@ void Tunnel::dig(Level& level){
 	level[pDoor] = Door();
 	level[qDoor] = Door();
 
+	Coord target = posPlusDir(qDoor, dir);
+	Coord nextPos = posPlusDir(pDoor, flip(dir));
+	Coord current = nextPos.copy();
+	std::vector<Coord> path;
+
+	std::vector<std::vector<double>> map;
+	for (auto x=0; x < level.getSize()[0]; x++) {
+		map.push_back(std::vector<double>());
+		for (auto y=0; y < level.getSize()[1]; y++) {
+			map[x].push_back(sqrt(
+				(target[0] - x)*(target[0] - x)+
+				(target[1] - y)*(target[1] - y)
+				));
+		}
+	}
+
+	int counter = 0;
+
+	do {
+
+		current = nextPos.copy();
+
+		level[current] = Floor();
+
+		Coord delta = findNextStep(current, map);
+		path.push_back(delta);
+		nextPos = nextPos + delta;
+
+		counter++;
+
+	} while (current != target || counter > 5000);
+
+}
+
+Coord Tunnel::findNextStep(Coord currPos, std::vector<std::vector<double>> map){
+
+	double currentScore = map[currPos[0]][currPos[1]];
+	Coord delta = Coord(0,0);
+
+	if (map[currPos[0]+1][currPos[1]] < currentScore){
+		currentScore = map[currPos[0]+1][currPos[1]];
+		delta = Coord(1,0);
+	}
+
+	if (map[currPos[0]-1][currPos[1]] < currentScore){
+		currentScore = map[currPos[0]-1][currPos[1]];
+		delta = Coord(-1,0);
+	}
+
+	if (map[currPos[0]][currPos[1]-1] < currentScore){
+		currentScore = map[currPos[0]][currPos[1]-1];
+		delta = Coord(0,-1);
+	}
+
+	if (map[currPos[0]][currPos[1]+1] < currentScore){
+		currentScore = map[currPos[0]][currPos[1]+1];
+		delta = Coord(0,+1);
+	}
+
+	return delta;
+
 }
 
 Tunnel::Direction Tunnel::flip(Tunnel::Direction dir){
@@ -67,6 +130,17 @@ Tunnel::Direction Tunnel::flip(Tunnel::Direction dir){
 		case Up: return Down;
 		case Down: return Up;
 		default: return None;
+	}
+}
+
+Coord Tunnel::posPlusDir(Coord c, Tunnel::Direction dir){
+
+	switch(dir){
+		case Left: return c + Coord(-1, 0);
+		case Right: return c + Coord(1, 0);
+		case Up: return c + Coord(0, -1);
+		case Down: return c + Coord(0, 1);
+		default: return c;
 	}
 }
 
