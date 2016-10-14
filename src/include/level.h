@@ -45,7 +45,7 @@ class Level {
 		std::vector<GoldPile> golds;
 		std::vector<Tunnel> tunnels;
 		int genGoldAmount(Generator);
-		void addTunnel(int, int, bool*, bool*);
+		void addTunnel(int, int, bool*, bool*, Generator);
 		Coord size;
 		int depth;
 };

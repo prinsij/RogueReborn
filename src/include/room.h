@@ -16,8 +16,9 @@ class Room {
 		void dig(Level&);
 		Coord getPosition1();
 		Coord getPosition2();
-		bool exists();
+		Coord getRoomSize();
 		Coord getRoomIndex();
+		bool exists();
 		void printInfo(int);
 	private:
 		Coord topLeft;

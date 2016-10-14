@@ -145,25 +145,25 @@ void Level::generate(PlayerChar player) {
 		//Down
 		j = i + 3;
 		if (j <= 8){
-			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i]);
+			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i], gen);
 		}
 
 		//Up
 		j = i - 3;
 		if (j >= 0){
-			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i]);
+			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i], gen);
 		}
 
 		//Left
 		j = i - 1;
 		if (j >= 0 && i / 3 == j / 3){
-			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i]);
+			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i], gen);
 		}
 
 		//Right
 		j = i + 1;
 		if (j >= 0 && i / 3 == j / 3){
-			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i]);
+			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i], gen);
 		}
 	}
 
@@ -174,10 +174,10 @@ void Level::generate(PlayerChar player) {
 	}
 }
 
-void Level::addTunnel(int i, int j, bool* a, bool* b){
+void Level::addTunnel(int i, int j, bool* a, bool* b, Generator gen){
 	if (!(*a)){
 		*a = true;
 		*b = true;
-		tunnels.push_back(Tunnel(&rooms[i], &rooms[j]));
+		tunnels.push_back(Tunnel(&rooms[i], &rooms[j], gen));
 	}
 }

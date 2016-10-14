@@ -1,6 +1,10 @@
 
+
 #ifndef COORD_H
 #define COORD_H
+
+
+#include <string>
 
 class Coord {
 	public:
@@ -15,6 +19,7 @@ class Coord {
 		bool operator!=(const Coord&);
 		Coord asScreen();
 		Coord copy();
+		std::string toString();
 	private:
 		int x, y;
 		static const int MAPX = 0, MAPY = 0;

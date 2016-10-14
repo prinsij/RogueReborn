@@ -35,6 +35,10 @@ Coord Room::getPosition2(){
 	return bottomRight;
 }
 
+Coord Room::getRoomSize(){
+	return bottomRight - topLeft + Coord(1,1);
+}
+
 Coord Room::getRoomIndex(){
 	return roomIndex;
 }

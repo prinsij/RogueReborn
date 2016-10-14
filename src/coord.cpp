@@ -55,3 +55,7 @@ bool Coord::operator==(const Coord& other) {
 bool Coord::operator!=(const Coord& other) {
 	return not (*this == other);
 }
+
+std::string Coord::toString(){
+	return x + ", " + y;
+}
