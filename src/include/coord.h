@@ -24,7 +24,7 @@ class Coord {
 		std::string toString();
 	private:
 		int x, y;
-		static const int MAPX = 0, MAPY = 0;
+		static const int MAPX = 0, MAPY = 2;
 };
 
 #endif
