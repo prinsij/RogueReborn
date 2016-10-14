@@ -6,16 +6,16 @@
 #include <iostream>
 
 Room::Room(Coord topLeft, Coord bottomRight)
-	: Room(topLeft, bottomRight, LIT, WORTHLESS, VISIBLE, EXISTS)
+	: Room(topLeft, bottomRight, LIT, WORTHLESS, VISIBLE, Coord(0,0))
 	{}
 
-Room::Room(Coord topLeft, Coord bottomRight, Darkness dark, Treasure treas, Hidden hid, Existence ext)
+Room::Room(Coord topLeft, Coord bottomRight, Darkness dark, Treasure treas, Hidden hid, Coord rIndex)
 	: topLeft(topLeft)
 	, bottomRight(bottomRight)
 	, isDark(dark)
 	, isTreasure(treas)
 	, isHidden(hid)
-	, isExisting(ext)
+	, roomIndex(rIndex)
 {}
 
 Coord Room::operator[](int corner) {
@@ -35,8 +35,16 @@ Coord Room::getPosition2(){
 	return bottomRight;
 }
 
+Coord Room::getRoomSize(){
+	return bottomRight - topLeft + Coord(1,1);
+}
+
+Coord Room::getRoomIndex(){
+	return roomIndex;
+}
+
 void Room::printInfo(int numToDisplay){
-	std::cout << "~~~~~~~~~~~~~~~~~~ ROOM " << numToDisplay << std::endl;
+	std::cout << "ROOM " << numToDisplay  << " (" << roomIndex[0] << ", " << roomIndex[1] << ")" << std::endl;
 	std::cout << "Start: " << getPosition1()[0] << ", " << getPosition1()[1]<< std::endl;
 	std::cout << "End: " << getPosition2()[0] << ", " << getPosition2()[1]<< std::endl;
 	std::cout << "~~~~~~~~~~~~~~~~~~" << std::endl << std::endl;
@@ -48,8 +56,4 @@ void Room::dig(Level& level) {
 			level[Coord(x, y)] = Floor();
 		}
 	}
-}
-
-bool Room::exists(){
-	return isExisting == Room::EXISTS;
 }
