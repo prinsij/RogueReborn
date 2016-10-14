@@ -39,11 +39,51 @@ int Level::genGoldAmount(Generator gen) {
 }
 
 void Level::registerMob(Mob* mob) {
-	mobs.push_back(mob);
+	mobs.push_back(ClockItem(mob, 0));
+}
+
+Mob* Level::popTurnClock() {
+	if (mobs.empty()) {
+		return NULL;
+	}
+	auto difference = mobs.back().delay;
+	if (difference > 0) {
+		for (auto &item : mobs) {
+			 item.delay -= difference;
+		}
+	}
+	return mobs.back().mob;
+}
+
+void Level::pushMob(Mob* which, int delay) {
+	auto newTime = delay;
+	for (auto it=mobs.begin(); it != mobs.end(); ++it) {
+		auto& item = *it;
+		if (item.mob == which) {
+			mobs.erase(it);
+			newTime += item.delay;
+			break;
+		}
+	}
+	if (mobs.empty()) {
+		mobs.push_back(ClockItem(which, newTime));
+		return;
+	}
+	for (auto it=mobs.begin(); it != mobs.end(); ++it) {
+		auto& item = *it;
+		if (item.delay <= newTime) {
+			mobs.insert(it, ClockItem(which, newTime));
+			return;
+		}
+	}
 }
 
 std::vector<Mob*> Level::getMobs() {
-	return mobs;
+	std::vector<Mob*> result;
+	for (auto &item : mobs) {
+		result.push_back(item.mob);
+	}
+	return result;
 }
 
 void Level::generate(PlayerChar player) {
