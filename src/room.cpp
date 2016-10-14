@@ -6,16 +6,17 @@
 #include <iostream>
 
 Room::Room(Coord topLeft, Coord bottomRight)
-	: Room(topLeft, bottomRight, LIT, WORTHLESS, VISIBLE, Coord(0,0))
+	: Room(topLeft, bottomRight, LIT, WORTHLESS, VISIBLE, Coord(0,0), true)
 	{}
 
-Room::Room(Coord topLeft, Coord bottomRight, Darkness dark, Treasure treas, Hidden hid, Coord rIndex)
+Room::Room(Coord topLeft, Coord bottomRight, Darkness dark, Treasure treas, Hidden hid, Coord rIndex, bool exist)
 	: topLeft(topLeft)
 	, bottomRight(bottomRight)
 	, isDark(dark)
 	, isTreasure(treas)
 	, isHidden(hid)
 	, roomIndex(rIndex)
+	, ex(exist)
 {}
 
 Coord Room::operator[](int corner) {
@@ -41,6 +42,24 @@ Coord Room::getRoomSize(){
 
 Coord Room::getRoomIndex(){
 	return roomIndex;
+}
+
+bool Room::exists(){
+	return ex;
+}
+
+bool Room::touches(Coord c){
+
+	Coord a = topLeft + Coord(-1, -1);
+	Coord b = bottomRight + Coord(1, 1);
+
+	if (a[0] <=  c[0] && c[0] <= b[0]){
+		if (a[1] <= c[1] && c[1] <= b[1]){
+			return true;
+		}
+	}
+
+	return false;
 }
 
 void Room::printInfo(int numToDisplay){

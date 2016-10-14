@@ -10,7 +10,7 @@ class Room {
 		enum Darkness {DARK, LIT};
 		enum Treasure {TREASURE, WORTHLESS};
 		enum Hidden {HIDDEN, VISIBLE};
-		Room(Coord, Coord, Darkness, Treasure, Hidden, Coord);
+		Room(Coord, Coord, Darkness, Treasure, Hidden, Coord, bool);
 		Room(Coord, Coord);
 		Coord operator[](int);
 		void dig(Level&);
@@ -19,6 +19,7 @@ class Room {
 		Coord getRoomSize();
 		Coord getRoomIndex();
 		bool exists();
+		bool touches(Coord);
 		void printInfo(int);
 	private:
 		Coord topLeft;
@@ -27,5 +28,5 @@ class Room {
 		Treasure isTreasure;
 		Hidden isHidden;
 		Coord roomIndex;
-
+		bool ex;
 };

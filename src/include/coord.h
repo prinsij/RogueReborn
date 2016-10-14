@@ -13,8 +13,10 @@ class Coord {
 		int& operator[](int);
 		Coord operator+(const Coord&);
 		Coord operator-(const Coord&);
+		Coord operator*(const int&);
 		Coord& operator+=(const Coord&);
 		Coord& operator-=(const Coord&);
+		Coord& operator*=(const int&);
 		bool operator==(const Coord&);
 		bool operator!=(const Coord&);
 		Coord asScreen();

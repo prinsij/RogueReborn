@@ -38,6 +38,10 @@ Coord Coord::operator-(const Coord& other) {
 	return Coord(this->x - other.x, this->y - other.y);
 }
 
+Coord Coord::operator*(const int& scalar) {
+	return Coord(this->x * scalar, this->y * scalar);
+}
+
 Coord& Coord::operator+=(const Coord& other) {
 	*this = *this + other;
 	return *this;
@@ -45,6 +49,11 @@ Coord& Coord::operator+=(const Coord& other) {
 
 Coord& Coord::operator-=(const Coord& other) {
 	*this = *this - other;
+	return *this;
+}
+
+Coord& Coord::operator*=(const int& scalar) {
+	*this = *this * scalar;
 	return *this;
 }
 

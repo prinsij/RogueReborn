@@ -26,7 +26,7 @@ void Tunnel::dig(Level& level){
 	Coord pi = p->getRoomIndex();
 	Coord qi = q->getRoomIndex();
 
-	//Directions relative to P
+	//Directions relative to Q
 	Tunnel::Direction dir = Tunnel::None;
 
 	//Left
@@ -49,20 +49,25 @@ void Tunnel::dig(Level& level){
 		dir = Tunnel::Down;
 	}
 
-
-	//P's door always goes on the DIR side
-	//Q's doors always goes on the opposite side of DIR
-
 	Coord pDoor = getDoorPlacement(p, flip(dir));
 	Coord qDoor = getDoorPlacement(q, dir);
 
-	level[pDoor] = Door();
-	level[qDoor] = Door();
+	if (p->exists())
+		level[pDoor] = Door();
+	else
+		level[pDoor] = Floor();
+
+	if (q->exists())
+		level[qDoor] = Door();
+	else
+		level[qDoor] = Floor();
 
 	Coord target = posPlusDir(qDoor, dir);
-	Coord nextPos = posPlusDir(pDoor, flip(dir));
-	Coord current = nextPos.copy();
+	Coord start = posPlusDir(pDoor, flip(dir));
 	std::vector<Coord> path;
+
+	Coord nextPos = start.copy();
+	Coord current = start.copy();
 
 	std::vector<std::vector<double>> map;
 	for (auto x=0; x < level.getSize()[0]; x++) {
@@ -79,17 +84,33 @@ void Tunnel::dig(Level& level){
 
 	do {
 
-		current = nextPos.copy();
-
-		level[current] = Floor();
-
 		Coord delta = findNextStep(current, map);
-		path.push_back(delta);
-		nextPos = nextPos + delta;
+
+		//By some random chance AND it's not the first step
+		if (gen() < TUNNEL_CONFUSION && counter != 0){
+			delta *= -1;
+		}
+
+		if (!p->touches(current + delta) && !q->touches(current + delta)){
+			path.push_back(delta);
+			current += delta;
+		}
 
 		counter++;
 
 	} while (current != target || counter > 5000);
+
+
+	//Haha! Who knows why this works >:)
+	gen.shuffle(&path);
+
+	Coord step = start.copy();
+
+	level[step] = Floor();
+	for (Coord delta : path){
+		step += delta;
+		level[step] = Floor();
+	}
 
 }
 
