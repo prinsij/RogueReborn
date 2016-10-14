@@ -3,6 +3,7 @@
 #include "include/playerchar.h"
 #include "include/level.h"
 #include "libtcod/include/libtcod.hpp"
+#include <iostream>
 
 PlayState::PlayState(PlayerChar* play, Level* lvl)
 	: player(play)
@@ -24,5 +25,28 @@ void PlayState::draw(TCODConsole* con) {
 }
 
 UIState* PlayState::handleInput(TCOD_key_t key) {
+	while (true) {
+		auto nextUp = level->popTurnClock();
+		if (nextUp == player) {
+			break;
+		}
+		// Do AI turn
+		level->pushMob(nextUp, 50);
+	}
+	//Arrow controls
+	auto newPos = player->getCoord().copy();
+	if (key.vk == TCODK_UP) {
+		newPos -= Coord(0, 1);
+	} else if (key.vk == TCODK_DOWN) {
+		newPos += Coord(0, 1);
+	} else if (key.vk == TCODK_LEFT) {
+		newPos -= Coord(1, 0);
+	} else if (key.vk == TCODK_RIGHT) {
+		newPos += Coord(1, 0);
+	}
+	if (newPos != player->getCoord() && level->contains(newPos) && (*level)[newPos].isPassable()) {
+		player->setCoord(newPos);
+	}
+	level->pushMob(player, 50);
 	return this;
 }
