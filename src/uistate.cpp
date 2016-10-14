@@ -6,7 +6,7 @@ UIState::UIState() {}
 void UIState::draw(TCODConsole* con) {}
 
 UIState* UIState::handleInput(TCOD_key_t key) {
-	return new UIState();
+	return this;
 }
 
 UIState::~UIState() {}
