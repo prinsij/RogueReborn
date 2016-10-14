@@ -6,7 +6,7 @@ Terrain::Terrain(char character, Terrain::Visibility vis, Terrain::Passability p
 	, passable(pass)
 {}
 
-char Terrain::getChar() {
+char Terrain::getSymbol() {
 	return character;
 }
 

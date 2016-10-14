@@ -1,24 +1,12 @@
-#include "include/itemzone.h"
-#include <vector>
 #include <algorithm>
+#include <vector>
 
-using namespace std;
+#include "include/itemzone.h"
 
-ItemZone::ItemZone()
-	: contents() {
-}
+ItemZone::ItemZone() {}
 
 Item ItemZone::operator[](int i) {
 	return contents[i];
-}
-
-bool ItemZone::remove(Item& item) {
-	auto it = find(begin(contents), end(contents), item);
-	if (it != end(contents)) {
-		contents.erase(it);
-		return true;
-	}
-	return false;
 }
 
 void ItemZone::add(Item& item) {
@@ -26,5 +14,28 @@ void ItemZone::add(Item& item) {
 }
 
 bool ItemZone::contains(Item& item) {
-	return find(begin(contents), end(contents), item) != end(contents);
+	return find(contents.begin(), contents.end(), item) != contents.end();
+}
+
+bool ItemZone::contains(const std::string& itemName) {
+	for (auto itemIterator = contents.begin() ; itemIterator != contents.end() ; itemIterator++)	
+		if (itemIterator->getName() == itemName)
+			return true;
+
+	return false;
+}
+
+std::vector<Item> ItemZone::getContents() {
+	return contents;
+} 
+
+bool ItemZone::remove(Item& item) {
+	for (auto itemIterator = contents.begin() ; itemIterator != contents.end() ; itemIterator++) {
+		if (*itemIterator == item) {
+			contents.erase(itemIterator);
+			return true;
+		}
+	}	
+
+	return false;
 }

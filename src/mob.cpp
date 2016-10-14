@@ -1,39 +1,62 @@
-#include "include/mob.h"
-#include "include/coord.h"
 #include <string>
 
-Mob::Mob(std::string name, char chr, Coord coord, int hp)
-	: name(name)
-	, symbol(chr)
-	, coord(coord)
-	, HP(hp)
-	, maxHP(hp)
-{}
+#include "include/coord.h"
+#include "include/mob.h"
+
+Mob::Mob(std::string mobName, char mobSymbol, Coord mobLocation, int mobArmor, int mobExp, int mobHP, int mobLevel)
+	: armor(mobArmor),
+	  currentHP(mobHP),
+	  exp(mobExp),
+	  level(mobLevel),
+	  location(mobLocation),
+	  maxHP(mobHP),
+	  name(mobName),
+	  symbol(mobSymbol) {}
+
+void Mob::changeArmor(int armorChange) {
+	armor += armorChange;
+}
+
+int Mob::getArmor() {
+	return armor;
+}
+
+int Mob::getExperience() {
+	return exp;
+}
 
 int Mob::getHP() {
-	return HP;
+	return currentHP;
 }
 
-int Mob::getMaxHP() {
-	return maxHP;
+int Mob::getLevel() {
+	return level;
 }
 
-Coord& Mob::getCoord() {
-	return coord;
-}
-
-void Mob::setCoord(Coord newPos) {
-	coord = newPos;
-}
-
-int& Mob::operator[](int dimension) {
-	return coord[dimension];
+Coord& Mob::getLocation() {
+	return location;
 }
 
 std::string Mob::getName() {
 	return name;
 }
 
-char Mob::getChar() {
+char Mob::getSymbol() {
 	return symbol;
+}
+
+void Mob::moveLocation(Coord location) {
+	this->location += location;
+}
+
+void Mob::setCurrentHP(int currentHP) {
+	this->currentHP = currentHP;
+}
+
+void Mob::setLocation(Coord location) {
+	this->location = location;
+}
+
+void Mob::setMaxHP(int maxHP) {
+	this->maxHP = maxHP;
 }

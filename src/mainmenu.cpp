@@ -29,7 +29,7 @@ UIState* MainMenu::handleInput(TCOD_key_t key) {
 		for (int x=0; x < level->getSize()[0]; x++) {
 			for (int y=0; y < level->getSize()[1]; y++) {
 				if ((*level)[Coord(x,y)].isPassable() == Terrain::Passable) {
-					player->setCoord(Coord(x,y));
+					player->setLocation(Coord(x,y));
 					goto L_exit;
 				}
 			}

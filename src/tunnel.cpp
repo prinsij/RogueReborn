@@ -66,7 +66,7 @@ void Tunnel::dig(Level& level){
 	Coord start = posPlusDir(pDoor, flip(dir));
 	std::vector<Coord> path;
 
-	Coord nextPos = start.copy();
+	//Coord nextPos = start.copy();
 	Coord current = start.copy();
 
 	std::vector<std::vector<double>> map;

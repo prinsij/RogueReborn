@@ -1,24 +1,50 @@
 #pragma once
 
 #include <string>
+
+#include "armor.h"
 #include "coord.h"
+#include "item.h"
 #include "itemzone.h"
 #include "mob.h"
+#include "ring.h"
+#include "weapon.h"
 
 class PlayerChar : public Mob {
 	public:
 		PlayerChar(std::string, Coord);
-		int getStrength();
-		int getMaxStrength();
-		int getArmor();
+		void addGold(int);
+		void attack(Mob &);
+		void dropItem(Item &);
+		void equipArmor(Armor &);
+		void equipRingLeft(Ring &);
+		void equipRingRight(Ring &);
+		void equipWeapon(Weapon &);
 		int getGold();
-		int getLevel();
-		bool foundAmulet();
-		int maxDelved(); 
+		int getStrength();
+		bool hasAmulet();
+		int maxDelved();
+		void pickupItem(Item &);
+		void removeArmor();
+		void removeRingLeft();
+		void removeRingRight();
+		void removeWeapon();
+		void throwItem(Item &);
+
 	private:
-		const int START_HP=10, START_ARMOR=0, START_STR=15, START_GOLD=0, START_LEVEL=1;
-		int armor, strength, maxStrength, gold, level;		
-		ItemZone backpack;
-		bool hasFoundAmulet;
-		int maxDepth;
+		int currentStr;
+		int gold;
+		ItemZone inventory;
+		Armor* itemArmor;
+		Ring* itemRingLeft;
+		Ring* itemRingRight;
+		Weapon* itemWeapon;
+		int level;
+		int maxStr;
+		const int START_ARMOR = 1;
+		const int START_EXP = 0;
+		const int START_GOLD = 0;
+		const int START_HP = 12;
+		const int START_LEVEL = 1;
+		const int START_STR = 16;		
 };

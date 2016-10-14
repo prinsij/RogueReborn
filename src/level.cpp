@@ -124,7 +124,7 @@ void Level::generate(PlayerChar player) {
 		curRoom.dig(*this);
 
 		//put gold in current room
-		if (!dne && gen() < GOLD_CHANCE && (!player.foundAmulet() || depth >= player.maxDelved())) {
+		if (!dne && gen() < GOLD_CHANCE && (!player.hasAmulet() || depth >= player.maxDelved())) {
 			Coord goldPos = gen.randPosition(curRoom[0], curRoom[1]);
 			int goldAmount = genGoldAmount(gen);
 			golds.push_back(GoldPile(goldPos, goldAmount));

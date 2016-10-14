@@ -4,10 +4,10 @@
 
 class Feature {
 	public:
-		Coord getCoord();
 		Feature(char, Coord);
-		char getChar();
+		char getSymbol();
+		Coord getLocation();
 	private:
+		Coord location;
 		char symbol;
-		Coord coord;
 };
