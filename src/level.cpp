@@ -87,6 +87,7 @@ std::vector<Mob*> Level::getMobs() {
 }
 
 void Level::generate(PlayerChar player) {
+
 	Generator gen = Generator();
 	Coord maxRoomSize = Coord(size[0]/3, size[1]/3);
 	for (auto i=0; i < MAX_ROOMS; i++) {

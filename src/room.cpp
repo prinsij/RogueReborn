@@ -35,6 +35,10 @@ Coord Room::getPosition2(){
 	return bottomRight;
 }
 
+Coord Room::getRoomIndex(){
+	return roomIndex;
+}
+
 void Room::printInfo(int numToDisplay){
 	std::cout << "ROOM " << numToDisplay  << " (" << roomIndex[0] << ", " << roomIndex[1] << ")" << std::endl;
 	std::cout << "Start: " << getPosition1()[0] << ", " << getPosition1()[1]<< std::endl;

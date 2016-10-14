@@ -17,6 +17,7 @@ class Room {
 		Coord getPosition1();
 		Coord getPosition2();
 		bool exists();
+		Coord getRoomIndex();
 		void printInfo(int);
 	private:
 		Coord topLeft;

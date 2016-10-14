@@ -16,4 +16,36 @@ Tunnel::Tunnel(Room* p, Room* q)
 
 void Tunnel::dig(Level& level){
 
+	//1. Place doors
+	//2. Pathfind from A to B
+	//3. Occasionally make random move
+
+	Coord pi = p->getRoomIndex();
+	Coord qi = q->getRoomIndex();
+
+	//Directions relative to P
+
+	//Left
+	if (p[0] < q[0]){
+
+	}
+
+	//Right
+	else if (p[0] > q[0]){
+
+	}
+
+	//Up
+	else if (p[1] < q[1]){
+
+	}
+
+	//Down
+	else if (p[1] > q[1]){
+
+	}
+
+	else {
+		std::cout << "There has been a VERY SERIOUS ERROR" << std::endl;
+	}
 }
