@@ -51,50 +51,47 @@ void Level::generate(PlayerChar player) {
 	Coord maxRoomSize = Coord(size[0]/3, size[1]/3);
 	for (auto i=0; i < MAX_ROOMS; i++) {
 
-		if (gen() > ROOM_MISS_CHANCE){
-
 			//Define upper left corner 
-			Coord totalTopLeft = Coord((i%3)*maxRoomSize[0], i/3*maxRoomSize[1]);
+		Coord totalTopLeft = Coord((i%3)*maxRoomSize[0], i/3*maxRoomSize[1]);
 
-			Coord padding = Coord(ROOM_PADDING, ROOM_PADDING);
+		Coord padding = Coord(ROOM_PADDING, ROOM_PADDING);
 
-			//These two are INCLUSIVE legal constraints (<= and >=)
-			Coord legalTopLeft = totalTopLeft + padding;
-			Coord legalBottomRight = totalTopLeft + maxRoomSize - padding - Coord(1,1);
+		//These two are INCLUSIVE legal constraints (<= and >=)
+		Coord legalTopLeft = totalTopLeft + padding;
+		Coord legalBottomRight = totalTopLeft + maxRoomSize - padding - Coord(1,1);
 
-			Coord roomSize = Coord(	gen.intFromRange(MIN_ROOM_DIM, legalBottomRight[0] - legalTopLeft[0] + 1),
-									gen.intFromRange(MIN_ROOM_DIM, legalBottomRight[1] - legalTopLeft[1] + 1));
+		Coord roomSize = Coord( gen.intFromRange(MIN_ROOM_DIM, legalBottomRight[0] - legalTopLeft[0] + 1),
+								gen.intFromRange(MIN_ROOM_DIM, legalBottomRight[1] - legalTopLeft[1] + 1));
 
-			Coord roomPosition = Coord( gen.intFromRange(legalTopLeft[0], legalBottomRight[0] - roomSize[0] + 1),
-										gen.intFromRange(legalTopLeft[1], legalBottomRight[1] - roomSize[1] + 1));
+		bool dne = false;
 
-
-			//Really not sure what the purpose of this line is. Why is this being decided randomly?
-			Room::Darkness isDark = gen.intFromRange(0, 10) < depth - 1 ? Room::DARK : Room::LIT;
-
-
-			Room curRoom = Room(roomPosition, roomPosition + roomSize - Coord(1,1), isDark, Room::WORTHLESS, Room::VISIBLE, Room::EXISTS);
-			//Room curRoom = Room(legalTopLeft, legalBottomRight, isDark, Room::WORTHLESS, Room::VISIBLE, Room::EXISTS);//All rooms are max size
-
-			curRoom.dig(*this);
-
-			//put gold in current room
-			if (gen() < GOLD_CHANCE && (!player.foundAmulet() || depth >= player.maxDelved())) {
-				Coord goldPos = gen.randPosition(curRoom[0], curRoom[1]);
-				int goldAmount = genGoldAmount(gen);
-				golds.push_back(GoldPile(goldPos, goldAmount));
-			}
-
-			//put monsters in current room
-			rooms.push_back(curRoom);
-
-			curRoom.printInfo(i);
-
-		} else {
-
-			//Empty room
-			rooms.push_back(Room(Coord(0,0), Coord(0,0), Room::DARK, Room::WORTHLESS, Room::VISIBLE, Room::DNE));
+		//If room DNE, set its size to 1x1
+		if (gen() > ROOM_EXIST_CHANCE){
+			roomSize = Coord(1,1);
+			dne = true;
 		}
+
+		Coord roomPosition = Coord( gen.intFromRange(legalTopLeft[0], legalBottomRight[0] - roomSize[0] + 1),
+							  gen.intFromRange(legalTopLeft[1], legalBottomRight[1] - roomSize[1] + 1));
+
+		//Really not sure what the purpose of this line is. Why is this being decided randomly?
+		Room::Darkness isDark = gen.intFromRange(0, 10) < depth - 1 ? Room::DARK : Room::LIT;
+
+
+		Room curRoom = Room(roomPosition, roomPosition + roomSize - Coord(1,1), isDark, Room::WORTHLESS, Room::VISIBLE, Coord(i%3, i/3));
+
+		curRoom.dig(*this);
+
+		//put gold in current room
+		if (!dne && gen() < GOLD_CHANCE && (!player.foundAmulet() || depth >= player.maxDelved())) {
+			Coord goldPos = gen.randPosition(curRoom[0], curRoom[1]);
+			int goldAmount = genGoldAmount(gen);
+			golds.push_back(GoldPile(goldPos, goldAmount));
+		}
+
+		//put monsters in current room
+		rooms.push_back(curRoom);
+		curRoom.printInfo(i);
 	}
 
 	//Used to say: If A -> B, then B -> A
@@ -107,37 +104,39 @@ void Level::generate(PlayerChar player) {
 		//Down
 		j = i + 3;
 		if (j <= 8){
-			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i], rooms[j].exists() && rooms[i].exists());
+			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i]);
 		}
 
 		//Up
 		j = i - 3;
 		if (j >= 0){
-			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i], rooms[j].exists() && rooms[i].exists());
+			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i]);
 		}
 
 		//Left
 		j = i - 1;
 		if (j >= 0 && i / 3 == j / 3){
-			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i], rooms[j].exists() && rooms[i].exists());
+			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i]);
 		}
 
 		//Right
 		j = i + 1;
 		if (j >= 0 && i / 3 == j / 3){
-			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i], rooms[j].exists() && rooms[i].exists());
+			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i]);
 		}
 	}
 
-	std::cout << tunnels.size() << std::endl;
+	std::cout << "I formed " << tunnels.size() << " tunnels" << std::endl;
+
+	for (Tunnel t : tunnels){
+		t.dig(*this);
+	}
 }
 
-void Level::addTunnel(int i, int j, bool* a, bool* b, bool jExists){
-	if (jExists){
-		if (!(*a)){
-			*a = true;
-			*b = true;
-			tunnels.push_back(Tunnel(&rooms[i], &rooms[j]));
-		}
+void Level::addTunnel(int i, int j, bool* a, bool* b){
+	if (!(*a)){
+		*a = true;
+		*b = true;
+		tunnels.push_back(Tunnel(&rooms[i], &rooms[j]));
 	}
 }

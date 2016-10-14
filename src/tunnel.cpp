@@ -15,5 +15,5 @@ Tunnel::Tunnel(Room* p, Room* q)
 {}
 
 void Tunnel::dig(Level& level){
-	std::cout << "I'm being dug" << std::endl;
+
 }

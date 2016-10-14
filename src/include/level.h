@@ -26,7 +26,7 @@ class Level {
 	private:
 		const int MAX_ROOMS = 9;
 		const double GOLD_CHANCE = .333;
-		const double ROOM_MISS_CHANCE = 0.04;
+		const double ROOM_EXIST_CHANCE = 0.9;
 		static const int ROOM_PADDING = 2;
 		static const int MIN_ROOM_DIM = 3;
 		static const int X_SIZE = 80, Y_SIZE = 35;//80,25
@@ -36,7 +36,7 @@ class Level {
 		std::vector<GoldPile> golds;
 		std::vector<Tunnel> tunnels;
 		int genGoldAmount(Generator);
-		void addTunnel(int, int, bool*, bool*, bool);
+		void addTunnel(int, int, bool*, bool*);
 		Coord size;
 		int depth;
 };
