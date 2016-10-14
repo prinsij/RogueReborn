@@ -26,6 +26,15 @@ UIState* MainMenu::handleInput(TCOD_key_t key) {
 		PlayerChar* player = new PlayerChar(nameBuffer, Coord(10, 10));
 		level->registerMob(player);
 		level->generate(*player);
+		for (int x=0; x < level->getSize()[0]; x++) {
+			for (int y=0; y < level->getSize()[1]; y++) {
+				if ((*level)[Coord(x,y)].isPassable() == Terrain::Passable) {
+					player->setCoord(Coord(x,y));
+					goto L_exit;
+				}
+			}
+		}
+		L_exit:
 		return new PlayState(player, level);
 	} else if (key.c) {
 		if (VALID_NAME.find(key.c) != std::string::npos) {
