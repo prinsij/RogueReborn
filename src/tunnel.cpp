@@ -54,8 +54,8 @@ void Tunnel::dig(Level& level){
 	Coord pDoor = getDoorPlacement(p, flip(dir));
 	Coord qDoor = getDoorPlacement(q, dir);
 
-	level[pDoor] = Floor();
-	level[qDoor] = Floor();
+	level[pDoor] = Door();
+	level[qDoor] = Door();
 
 }
 

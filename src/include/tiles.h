@@ -18,4 +18,9 @@ class Corridor : public Terrain {
 		Corridor();
 };
 
+class Door : public Terrain {
+	public:
+		Door();
+};
+
 #endif
