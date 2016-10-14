@@ -13,7 +13,7 @@ MasterController::MasterController()
 void MasterController::run() {
 	const int spacer = 5;
     std::cout << "Welcome to Rogue Reborn!" << std::endl;
-    TCODConsole::setCustomFont("assets/terminal-large.png");
+    TCODConsole::setCustomFont("assets/terminal.png");
     //Init console
 	Coord lSize = Level::getSize();
     TCODConsole::initRoot(lSize[0], lSize[1] + spacer, "Rogue Reborn", false);
