@@ -21,11 +21,15 @@ class Level {
 		void generate(PlayerChar);
 		bool contains(Coord);
 		static Coord getSize() { return Coord(X_SIZE, Y_SIZE); };
+		// Add a mob to the level's collection
 		void registerMob(Mob*);
 		std::vector<Mob*> getMobs();
 		Mob* popTurnClock();
+		// move a mob back in the turn clock equal to the amount specified
 		void pushMob(Mob*, int);
 	private:
+		// Store mobs with a notation for how many
+		// 'ticks' they are from being the current actor
 		struct ClockItem {
 			ClockItem(Mob* mob, int delay) 
 				: mob(mob)

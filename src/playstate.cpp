@@ -7,15 +7,26 @@
 #include <iostream>
 #include <string>
 
+/* The game can prompt the user for response.
+ * This is blocking, but the level view remains.
+ * Acts as a sub-uistate internal to playstate,
+ * so we don't have to duplicate rendering stuff.
+ */
 class Prompt {
-
 	public:
 		Prompt(PlayerChar* player, Level* level)
 			: player(player)
 			, level(level)
 		{}
 		virtual ~Prompt() {};
+		/* Q: Why do prompts need arbitrary rendering capabilities
+		 * instead of just drawing a string?
+		 * A: Sometimes the prompt needs to highlight letters to
+		 * indicate the keyboard shortcuts
+		 */
 		virtual void showText(TCODConsole* con, int x, int y) {};
+		// Transitions indicate where the owning PlayState
+		// should transfer control next (could be prompt or uistate)
 		struct Transition {
 			Transition(Prompt* p, UIState* s)
 				: nextPrompt(p)
@@ -30,6 +41,10 @@ class Prompt {
 		Level* level;
 };
 
+/* Player can press shift+q to enter a game-quit
+ * prompt, which will ask for confirmation, then
+ * transition to RIP/score screen.
+ */
 class QuitPrompt : public Prompt {
 	public:
 		QuitPrompt(PlayerChar* player, Level* level)
@@ -58,6 +73,7 @@ PlayState::PlayState(PlayerChar* play, Level* lvl)
 {}
 
 void PlayState::draw(TCODConsole* con) {
+	// Draw terrain
 	for (auto x=0; x < level->getSize()[0]; x++) {
 		for (auto y=0; y < level->getSize()[1]; y++) {
 			auto mapPos = Coord(x, y);
@@ -65,9 +81,11 @@ void PlayState::draw(TCODConsole* con) {
 			con->putChar(scrPos[0], scrPos[1], (*level)[mapPos].getSymbol());
 		}
 	}
+	// Display the prompt
 	if (prompt != NULL) {
 		prompt->showText(con, 0, 0);
 	}
+	// Display the mobs
 	for (Mob* mob : level->getMobs()) {
 		auto scrPos = mob->getLocation().asScreen();
 		con->putChar(scrPos[0], scrPos[1], mob->getSymbol());
@@ -87,6 +105,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		}
 		return this;
 	}
+	// Perform AI turns until it's the player's go
 	while (true) {
 		auto nextUp = level->popTurnClock();
 		if (nextUp == player) {
