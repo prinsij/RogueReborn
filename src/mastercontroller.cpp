@@ -27,6 +27,9 @@ void MasterController::run() {
 		if (temp != currState) {
 			delete temp;
 		}
+		if (currState == NULL) {
+			break;
+		}
         TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS, &key, NULL);
 		floatCon->clear();
 		currState->draw(floatCon);
