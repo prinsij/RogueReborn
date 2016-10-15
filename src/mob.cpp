@@ -69,3 +69,5 @@ void Mob::setLocation(Coord location) {
 void Mob::setMaxHP(int maxHP) {
 	this->maxHP = maxHP;
 }
+
+Mob::~Mob() {}

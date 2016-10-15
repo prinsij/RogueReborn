@@ -24,6 +24,8 @@ class Mob {
 		void setLocation(Coord);
 		void setMaxHP(int);
 
+		~Mob();
+
 	private:
 		int armor;
 		int currentHP;
