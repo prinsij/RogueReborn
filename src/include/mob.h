@@ -24,7 +24,7 @@ class Mob {
 		void setLocation(Coord);
 		void setMaxHP(int);
 
-		~Mob();
+		virtual ~Mob();
 
 	private:
 		int armor;
