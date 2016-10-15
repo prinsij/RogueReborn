@@ -6,3 +6,4 @@ default: all
 
 clean:
 	@rm RogueReborn.exe *.so
+	@rm scores.txt
