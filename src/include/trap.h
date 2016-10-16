@@ -5,9 +5,12 @@
 #include "coord.h"
 #include "feature.h"
 
+class Mob;
+
 class Trap : public Feature {
 	public:
 		Trap(Coord, unsigned char, bool);
+		void activate(Mob*);
 	private:
 		/* 0 = Door Trap
 		   1 = Arrow Trap

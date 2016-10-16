@@ -6,7 +6,8 @@
 
 class Mob {
 	public:
-		Mob(std::string, char, Coord, int, int, int, int);
+		Mob(char, Coord);
+		Mob(char, Coord, std::string, int, int, int, int);
 		
 		static int diceSum(int, int);
 
@@ -26,13 +27,15 @@ class Mob {
 
 		virtual ~Mob();
 
-	private:
+	protected:
 		int armor;
 		int currentHP;
 		int exp;
 		int level;
-		Coord location;
 		int maxHP;
 		std::string name;
+
+	private:
+		Coord location;
 		char symbol;
 };

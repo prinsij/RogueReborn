@@ -3,19 +3,19 @@
 #include "include/coord.h"
 #include "include/mob.h"
 
-Mob::Mob(std::string mobName, char mobSymbol, Coord mobLocation, int mobArmor, int mobExp, int mobHP, int mobLevel)
-	: armor(mobArmor),
-	  currentHP(mobHP),
-	  exp(mobExp),
-	  level(mobLevel),
-	  location(mobLocation),
-	  maxHP(mobHP),
-	  name(mobName),
-	  symbol(mobSymbol) {}
+Mob::Mob(char symbol, Coord location)
+	: location(location),
+	  symbol(symbol) {}
 
-void Mob::changeArmor(int armorChange) {
-	armor += armorChange;
-}
+Mob::Mob(char symbol, Coord location, std::string name, int armor, int exp, int mobHP, int level)
+	: armor(armor),
+	  currentHP(mobHP),
+	  exp(exp),
+	  level(level),
+	  maxHP(mobHP),
+	  name(name),
+	  location(location),
+	  symbol(symbol) {}
 
 int Mob::diceSum(int rolls, int faces) {
 	int sum = 0;

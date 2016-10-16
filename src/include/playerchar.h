@@ -19,7 +19,7 @@ class Level;
 
 class PlayerChar : public Mob {
 	public:
-		PlayerChar(std::string, Coord);
+		PlayerChar(Coord, std::string);
 		void activateItem(Item*);
 		void attack(Mob*);
 		void collectGold(GoldPile*);
@@ -51,7 +51,6 @@ class PlayerChar : public Mob {
 		Ring* itemRingLeft;
 		Ring* itemRingRight;
 		Weapon* itemWeapon;
-		int level;
 		int maxStr;
 		const int START_ARMOR = 1;
 		const int START_EXP = 0;

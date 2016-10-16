@@ -9,8 +9,8 @@
 #include "include/ring.h"
 #include "include/weapon.h"
 
-PlayerChar::PlayerChar(std::string name, Coord location)
-	: Mob(name, '@', location, START_ARMOR, START_EXP, START_LEVEL, START_HP),
+PlayerChar::PlayerChar(Coord location, std::string name)
+	: Mob('@', location, name, START_ARMOR, START_EXP, START_LEVEL, START_HP),
 	  currentStr(START_STR),
 	  gold(START_GOLD),
 	  inventory(ItemZone()),
@@ -55,7 +55,7 @@ void PlayerChar::equipArmor(Armor* armor) {
 	std::cout << "PlayerChar Equipped Armor " << armor->getName() << "\n";
 
 	this->itemArmor = armor;
-	this->changeArmor(armor->getRating());
+	this->armor += armor->getRating();
 }
 
 void PlayerChar::equipRingLeft(Ring* ring) {
@@ -115,7 +115,7 @@ bool PlayerChar::removeArmor() {
 
 	std::cout << "PlayerChar Removed Armor " << this->itemArmor->getName() << "\n";
 
-	this->changeArmor(-this->itemArmor->getRating());
+	this->armor -= this->itemArmor->getRating();
 	this->itemArmor = NULL;
 
 	return true;

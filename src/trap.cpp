@@ -6,3 +6,7 @@ Trap::Trap(Coord location, unsigned char type, bool visible)
 	: Feature('.', location),
 	  type(type),
 	  visible(visible) {}
+
+void Trap::activate(Mob* mob) {
+	// TODO
+}
