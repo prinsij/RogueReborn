@@ -1,5 +1,8 @@
+#include <algorithm>
 #include <iostream>
+#include <map>
 #include <string>
+#include <vector>
 
 #include "include/armor.h"
 #include "include/coord.h"
@@ -40,7 +43,7 @@ bool PlayerChar::dropItem(Item* item) {
 
 	std::cout << "PlayerChar Dropped Item " << item->getName() << "\n";
 
-	this->inventory.remove(*item);
+	this->inventory.remove(item);
 	return true;
 }
 
@@ -48,7 +51,7 @@ void PlayerChar::eat(Food* food) {
 	std::cout << "PlayerChar Ate " << food->getName() << "\n";
 
 	food->activate(this);
-	this->inventory.remove(*food);
+	this->inventory.remove(food);
 }
 
 void PlayerChar::equipArmor(Armor* armor) {
@@ -80,6 +83,30 @@ int PlayerChar::getGold() {
 	return this->gold;
 }
 
+std::vector<std::pair<Item*, int>> PlayerChar::getInventory() {
+	std::map<std::string, std::pair<Item*, int>> itemMap;
+	std::vector<Item*> contents = this->inventory.getContents();
+	std::vector<std::pair<Item*, int>> displayContents;
+
+	for (auto itemIt = contents.begin() ; itemIt != contents.end() ; itemIt++) {
+		std::string itemName = (*itemIt)->getName();
+
+		auto mapIt = itemMap.find(itemName);
+
+		if (mapIt != itemMap.end()) {
+			mapIt->second.second++;
+		} else {
+			itemMap[itemName] = std::make_pair(*itemIt, 1);
+		}
+	}
+
+	for (auto mapIt = itemMap.begin() ; mapIt != itemMap.end() ; mapIt++) {
+		displayContents.push_back(mapIt->second);
+	}
+
+	return displayContents;	
+}
+
 int PlayerChar::getStrength() {
 	return this->currentStr;
 }
@@ -100,14 +127,14 @@ void PlayerChar::quaff(Potion* potion, Mob* mob) {
 	std::cout << "PlayerChar Quaffed " << potion->getName() << "\n";
 
 	potion->activate(mob);
-	this->inventory.remove(*potion);
+	this->inventory.remove(potion);
 }
 
 void PlayerChar::read(Scroll* scroll, Level* level) {
 	std::cout << "PlayerChar Read Scroll " << scroll->getName() << "\n";
 
 	scroll->activate(level);
-	this->inventory.remove(*scroll);	
+	this->inventory.remove(scroll);	
 }
 
 bool PlayerChar::removeArmor() {
@@ -155,7 +182,9 @@ bool PlayerChar::throwItem(Item* item) {
 	if (!item->isThrowable()) return false;
 
 	std::cout << "PlayerChar Threw " << item->getName() << "\n";
+
 	// TODO
+
 	return true;
 }
 
@@ -167,5 +196,6 @@ bool PlayerChar::zap(Wand* wand, Level* level) {
 	wand->activate(level);
 
 	// TODO
+
 	return true;
 }

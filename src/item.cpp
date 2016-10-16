@@ -17,7 +17,7 @@ Item::Item(char symbol, Coord location, Item::Context context, std::string class
 	  type(type) {}
 
 bool Item::operator==(const Item& other) const {
-	return this == &other;
+	return this->name.compare(other.name) == 0;
 }
 
 bool Item::operator<(const Item& other) const {

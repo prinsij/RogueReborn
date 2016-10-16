@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 #include "armor.h"
 #include "coord.h"
@@ -30,6 +31,7 @@ class PlayerChar : public Mob {
 		void equipRingRight(Ring*);
 		void equipWeapon(Weapon*);
 		int getGold();
+		std::vector<std::pair<Item*, int>> getInventory();
 		int getStrength();
 		bool hasAmulet();
 		int maxDelved();

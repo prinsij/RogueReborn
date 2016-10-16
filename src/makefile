@@ -5,5 +5,5 @@ all: *.cpp
 default: all
 
 clean:
-	@rm RogueReborn.exe *.so
-	@rm scores.txt
+	@rm -f RogueReborn.exe *.so
+	@rm -f scores.txt

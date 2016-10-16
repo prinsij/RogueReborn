@@ -9,10 +9,10 @@ class ItemZone {
 		ItemZone();
 		Item operator[](int);
 		void add(Item&);
-		bool contains(Item&);
+		bool contains(Item*);
 		bool contains(const std::string&);
-		std::vector<Item> getContents();
-		bool remove(Item&);
+		std::vector<Item*> getContents();
+		bool remove(Item*);
 
 	private:
 		std::vector<Item> contents;
