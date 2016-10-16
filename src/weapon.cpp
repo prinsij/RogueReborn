@@ -7,10 +7,6 @@ Weapon::Weapon(Coord location, Item::Context context, std::string name, std::str
 	  enchantment(enchantment),
 	  melee(melee) {}
 
-bool Weapon::activate(Level* level) {
-	return false;
-}
-
 int Weapon::getChance() {
 	return this->enchantment.first;
 }
