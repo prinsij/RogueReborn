@@ -72,6 +72,15 @@ PlayState::PlayState(PlayerChar* play, Level* lvl)
 	, prompt(NULL)
 {
 	play->appendLog("Hello " + play->getName() + ". Welcome to the Dungeons of Doom. Type [?] for help.");
+	updateMap();
+}
+
+void PlayState::updateMap() {
+	for (auto x=-1; x < 2; x++) {
+		for (auto y=-1; y < 2; y++) {
+			(*level)[player->getLocation()+Coord(x,y)].setIsSeen(Terrain::Seen);
+		}
+	}
 }
 
 void PlayState::draw(TCODConsole* con) {
@@ -79,8 +88,11 @@ void PlayState::draw(TCODConsole* con) {
 	for (auto x=0; x < level->getSize()[0]; x++) {
 		for (auto y=0; y < level->getSize()[1]; y++) {
 			auto mapPos = Coord(x, y);
-			auto scrPos = mapPos.asScreen();
-			con->putChar(scrPos[0], scrPos[1], (*level)[mapPos].getSymbol());
+			Terrain ter = (*level)[mapPos];
+			if (ter.isSeen() == Terrain::Seen) {
+				auto scrPos = mapPos.asScreen();
+				con->putChar(scrPos[0], scrPos[1], (*level)[mapPos].getSymbol());
+			}
 		}
 	}
 	
@@ -145,6 +157,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	}
 	if (newPos != player->getLocation() && level->contains(newPos) && (*level)[newPos].isPassable()) {
 		player->setLocation(newPos);
+		updateMap();
 	}
 	level->pushMob(player, 50);
 	return this;

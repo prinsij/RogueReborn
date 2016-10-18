@@ -16,4 +16,5 @@ class PlayState : public UIState {
 		PlayerChar* player;
 		Level* level;
 		Prompt* prompt;
+		void updateMap();
 };
