@@ -111,6 +111,10 @@ int PlayerChar::getStrength() {
 	return this->currentStr;
 }
 
+int PlayerChar::getMaxStrength() {
+	return this->maxStr;
+}
+
 bool PlayerChar::hasAmulet() {
 	return this->inventory.contains("The Amulet of Yendor");
 }

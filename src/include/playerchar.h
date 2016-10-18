@@ -33,6 +33,7 @@ class PlayerChar : public Mob {
 		int getGold();
 		std::vector<std::pair<Item*, int>> getInventory();
 		int getStrength();
+		int getMaxStrength();
 		bool hasAmulet();
 		int maxDelved();
 		void pickupItem(Item*);

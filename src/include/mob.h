@@ -16,6 +16,7 @@ class Mob {
 		int getArmor();
 		int getExperience();
 		int getHP();
+		int getMaxHP();
 		int getLevel();
 		Coord& getLocation();
 		std::string getName();

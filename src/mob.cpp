@@ -38,6 +38,10 @@ int Mob::getHP() {
 	return currentHP;
 }
 
+int Mob::getMaxHP() {
+	return maxHP;
+}
+
 int Mob::getLevel() {
 	return level;
 }
