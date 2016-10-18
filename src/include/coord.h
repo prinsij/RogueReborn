@@ -24,7 +24,7 @@ class Coord {
 		bool operator!=(const Coord&);
 		Coord asScreen();
 		Coord copy();
-		std::string toString();
+		std::string toString() const;
 	private:
 		int x, y;
 		static const int MAPX = 0, MAPY = 2;

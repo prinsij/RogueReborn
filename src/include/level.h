@@ -33,18 +33,19 @@ class Level {
 		// move a mob back in the turn clock equal to the amount specified
 		void pushMob(Mob*, int);
 
-		//Performs BFS with diagonals
+		//Performs BFS with diagonals, returns deltas
 		std::vector<Coord> bfsDiag(Coord, Coord);
 
-		//Performs BFS without diagonals
+		//Performs BFS without diagonals, returns deltas
 		std::vector<Coord> bfsPerp(Coord, Coord);
 
-		//Gets a path given a delta vector and starting position
-		std::vector<Coord> getPath(std::vector<Coord>, Coord);
+		//Gets a delta vector based on a path and a start coord
+		std::vector<Coord> getDeltas(std::vector<Coord>, Coord);
 
-
+		//Given a coord, returns coords to which you can move to nearby (3x3 box)
 		std::vector<Coord> getAdjPassable(Coord);
 
+		//Given a start and a delta direction, returns a coord of where something thrown would land
 		Coord throwLocation(Coord, Coord);
 
 	private:
@@ -81,6 +82,9 @@ class Level {
 		//Add diagonal coords
 		void addDiags(Coord, std::queue<Coord>&, std::map<Coord, Coord>&);
 
-		//Add diagonal coords
+		//Try to add a coord to the q
+		void tryAddPassable(Coord, std::queue<Coord>&, std::map<Coord, Coord>&, Coord);
+
+		//Try to add a coord to the q
 		void tryAdd(Coord, std::queue<Coord>&, std::map<Coord, Coord>&, Coord);
 };

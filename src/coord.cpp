@@ -70,6 +70,6 @@ bool Coord::operator!=(const Coord& other) {
 	return not (*this == other);
 }
 
-std::string Coord::toString(){
-	return x + ", " + y;
+std::string Coord::toString() const{
+	return std::to_string(x) + ", " + std::to_string(y);
 }

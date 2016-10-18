@@ -64,7 +64,12 @@ void Tunnel::dig(Level& level){
 
 	Coord target = posPlusDir(qDoor, dir);
 	Coord start = posPlusDir(pDoor, flip(dir));
-	std::vector<Coord> path;
+
+	//std::vector<Coord> path;
+	
+	std::vector<Coord> path = level.bfsPerp(start, target);
+
+	/*
 
 	//Coord nextPos = start.copy();
 	Coord current = start.copy();
@@ -101,18 +106,15 @@ void Tunnel::dig(Level& level){
 
 	} while (current != target || counter > 5000);
 
+	*/
+
 
 	//Haha! Who knows why this works >:)
-	gen.shuffle(&path);
+	//gen.shuffle(&path);
 
-	Coord step = start.copy();
-
-	level[step] = Floor();
-	for (Coord delta : path){
-		step += delta;
-		level[step] = Floor();
+	for (Coord piece : path){
+		level[piece] = Floor();
 	}
-
 }
 
 Coord Tunnel::findNextStep(Coord currPos, std::vector<std::vector<double>> map){
