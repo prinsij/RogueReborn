@@ -13,7 +13,7 @@
 #include "include/weapon.h"
 
 PlayerChar::PlayerChar(Coord location, std::string name)
-	: Mob('@', location, name, START_ARMOR, START_EXP, START_LEVEL, START_HP),
+	: Mob('@', location, name, START_ARMOR, START_EXP, START_HP, START_LEVEL),
 	  currentStr(START_STR),
 	  gold(START_GOLD),
 	  inventory(ItemZone()),
