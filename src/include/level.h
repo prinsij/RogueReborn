@@ -1,6 +1,8 @@
 #pragma once
 
 #include <vector>
+#include <map>
+#include <queue>
 #include "coord.h"
 #include "terrain.h"
 #include "random.h"
@@ -21,13 +23,32 @@ class Level {
 		void generate(PlayerChar);
 		bool contains(Coord);
 		static Coord getSize() { return Coord(X_SIZE, Y_SIZE); };
+
 		// Add a mob to the level's collection
 		void registerMob(Mob*);
+
 		std::vector<Mob*> getMobs();
 		Mob* popTurnClock();
+
 		// move a mob back in the turn clock equal to the amount specified
 		void pushMob(Mob*, int);
+
+		//Performs BFS with diagonals
+		std::vector<Coord> bfsDiag(Coord, Coord);
+
+		//Performs BFS without diagonals
+		std::vector<Coord> bfsPerp(Coord, Coord);
+
+		//Gets a path given a delta vector and starting position
+		std::vector<Coord> getPath(std::vector<Coord>, Coord);
+
+
+		std::vector<Coord> getAdjPassable(Coord);
+
+		Coord throwLocation(Coord, Coord);
+
 	private:
+
 		// Store mobs with a notation for how many
 		// 'ticks' they are from being the current actor
 		struct ClockItem {
@@ -37,6 +58,7 @@ class Level {
 			Mob* mob;
 			int delay;
 		};
+
 		const int MAX_ROOMS = 9;
 		const double GOLD_CHANCE = .333;
 		const double ROOM_EXIST_CHANCE = 0.9;
@@ -52,4 +74,13 @@ class Level {
 		void addTunnel(int, int, bool*, bool*, Generator);
 		Coord size;
 		int depth;
+
+		//Add perpendicular coords
+		void addPerps(Coord, std::queue<Coord>&, std::map<Coord, Coord>&);
+
+		//Add diagonal coords
+		void addDiags(Coord, std::queue<Coord>&, std::map<Coord, Coord>&);
+
+		//Add diagonal coords
+		void tryAdd(Coord, std::queue<Coord>&, std::map<Coord, Coord>&, Coord);
 };

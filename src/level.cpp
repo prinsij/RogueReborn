@@ -1,6 +1,11 @@
+
+
 #include "include/terrain.h"
 #include "include/mob.h"
 #include <vector>
+#include <queue>
+#include <map>
+#include <math.h>
 #include <iostream>
 #include "include/tiles.h"
 #include "include/level.h"
@@ -180,4 +185,76 @@ void Level::addTunnel(int i, int j, bool* a, bool* b, Generator gen){
 		*b = true;
 		tunnels.push_back(Tunnel(&rooms[i], &rooms[j], gen));
 	}
+}
+
+void Level::addPerps(Coord current, std::queue<Coord>& deltas, std::map<Coord, Coord>& parents){
+	
+	Coord target;
+
+	target = current + Coord(1, 0);
+	tryAdd(current, deltas, parents, target);
+
+	target = current + Coord(-1, 0);
+	tryAdd(current, deltas, parents, target);
+
+	target = current + Coord(0, 1);
+	tryAdd(current, deltas, parents, target);
+
+	target = current + Coord(0, -1);
+	tryAdd(current, deltas, parents, target);
+}
+
+void Level::addDiags(Coord current, std::queue<Coord>& deltas, std::map<Coord, Coord>& parents){
+	
+	Coord target;
+
+	target = current + Coord(1, 1);
+	tryAdd(current, deltas, parents, target);
+
+	target = current + Coord(-1, 1);
+	tryAdd(current, deltas, parents, target);
+
+	target = current + Coord(-1, -1);
+	tryAdd(current, deltas, parents, target);
+
+	target = current + Coord(1, -1);
+	tryAdd(current, deltas, parents, target);
+}
+
+void Level::tryAdd(Coord current, std::queue<Coord>& deltas, std::map<Coord, Coord>& parents, Coord target){
+
+	if(tiles[target[0]][target[1]].isPassable() == Terrain::Passable && !tiles[target[0]][target[1]].checked){
+		deltas.push(target.copy());
+		tiles[target[0]][target[1]].checked = true;
+		parents[target.copy()] = current.copy();
+	}
+}
+
+std::vector<Coord> Level::bfsDiag(Coord start, Coord end){
+
+	std::map<Coord, Coord> parents;
+	std::queue<Coord> delta;
+	delta.push(start.copy());
+
+	while(!delta.empty()){
+
+		Coord current = delta.front();
+		delta.pop();
+
+		if (current == end){
+			break;
+		}
+
+		addPerps(current, delta, parents);
+		addDiags(current, delta, parents);
+
+	}
+}
+
+std::vector<Coord> Level::bfsPerp(Coord start, Coord end){
+
+}
+
+std::vector<Coord> Level::getPath(std::vector<Coord> delta, Coord start){
+
 }

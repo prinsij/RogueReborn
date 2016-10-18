@@ -1,5 +1,6 @@
 #include "include/coord.h"
 #include <string>
+#include <cmath>
 
 Coord::Coord(int x, int y)
 	: x(x)
@@ -50,6 +51,10 @@ Coord& Coord::operator+=(const Coord& other) {
 Coord& Coord::operator-=(const Coord& other) {
 	*this = *this - other;
 	return *this;
+}
+
+bool Coord::operator<(const Coord& other) const {
+	return std::sqrt(x * x + y * y) < std::sqrt(other.x * other.x + other.y * other.y);
 }
 
 Coord& Coord::operator*=(const int& scalar) {
