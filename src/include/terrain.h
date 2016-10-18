@@ -11,6 +11,7 @@ class Terrain {
 		char getSymbol();
 		Passability isPassable();
 		Visibility getVisibility();
+		bool checked = false;
 	private:
 		char character;
 		Visibility visible;

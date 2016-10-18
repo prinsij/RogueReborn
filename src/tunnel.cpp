@@ -91,6 +91,7 @@ void Tunnel::dig(Level& level){
 			delta *= -1;
 		}
 
+		//TODO: This is fine, but after the shuffle it might still break!
 		if (!p->touches(current + delta) && !q->touches(current + delta)){
 			path.push_back(delta);
 			current += delta;
