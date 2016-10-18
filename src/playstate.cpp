@@ -70,7 +70,9 @@ PlayState::PlayState(PlayerChar* play, Level* lvl)
 	: player(play)
 	, level(lvl)
 	, prompt(NULL)
-{}
+{
+	play->appendLog("Hello " + play->getName() + ". Welcome to the Dungeons of Doom. Type [?] for help.");
+}
 
 void PlayState::draw(TCODConsole* con) {
 	// Draw terrain
@@ -81,9 +83,12 @@ void PlayState::draw(TCODConsole* con) {
 			con->putChar(scrPos[0], scrPos[1], (*level)[mapPos].getSymbol());
 		}
 	}
+	
 	// Display the prompt
 	if (prompt != NULL) {
-		prompt->showText(con, 0, 0);
+		prompt->showText(con, 0, 1);
+	} else if (player->getLog().size() > 0) {
+		con->print(0, 0, player->getLog().back().c_str());
 	}
 	// Display the mobs
 	for (Mob* mob : level->getMobs()) {

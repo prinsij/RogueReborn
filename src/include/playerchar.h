@@ -45,6 +45,8 @@ class PlayerChar : public Mob {
 		bool removeWeapon();
 		bool throwItem(Item*);
 		bool zap(Wand*, Level*);
+		std::vector<std::string>& getLog();
+		void appendLog(std::string);
 
 	private:
 		int currentStr;
@@ -54,6 +56,8 @@ class PlayerChar : public Mob {
 		Ring* itemRingLeft;
 		Ring* itemRingRight;
 		Weapon* itemWeapon;
+		std::vector<std::string> log;
+		static const int MAX_LOG = 30;
 		int maxStr;
 		static const int START_ARMOR = 1, 
 		START_EXP = 0, START_GOLD = 0, START_HP = 12,
