@@ -33,6 +33,7 @@ class PlayerChar : public Mob {
 		int getGold();
 		std::vector<std::pair<Item*, int>> getInventory();
 		int getStrength();
+		int getMaxStrength();
 		bool hasAmulet();
 		int maxDelved();
 		void pickupItem(Item*);
@@ -44,6 +45,8 @@ class PlayerChar : public Mob {
 		bool removeWeapon();
 		bool throwItem(Item*);
 		bool zap(Wand*, Level*);
+		std::vector<std::string>& getLog();
+		void appendLog(std::string);
 
 	private:
 		int currentStr;
@@ -53,13 +56,12 @@ class PlayerChar : public Mob {
 		Ring* itemRingLeft;
 		Ring* itemRingRight;
 		Weapon* itemWeapon;
+		std::vector<std::string> log;
+		static const int MAX_LOG = 30;
 		int maxStr;
-		const int START_ARMOR = 1;
-		const int START_EXP = 0;
-		const int START_GOLD = 0;
-		const int START_HP = 12;
-		const int START_LEVEL = 1;
-		const int START_STR = 16;		
+		static const int START_ARMOR = 1, 
+		START_EXP = 0, START_GOLD = 0, START_HP = 12,
+		START_LEVEL = 1, START_STR = 16;		
 
 		bool removeItem(Item*);
 };

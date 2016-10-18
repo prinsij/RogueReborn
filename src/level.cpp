@@ -45,6 +45,10 @@ int Level::genGoldAmount(Generator gen) {
 	return 2 + gen.intFromRange(0, 50 + 10 * depth);
 }
 
+std::vector<Room>& Level::getRooms() {
+	return rooms;
+}
+
 void Level::registerMob(Mob* mob) {
 	mobs.push_back(ClockItem(mob, 0));
 }

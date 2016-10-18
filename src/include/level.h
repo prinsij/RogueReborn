@@ -48,6 +48,8 @@ class Level {
 		//Given a start and a delta direction, returns a coord of where something thrown would land
 		Coord throwLocation(Coord, Coord);
 
+		std::vector<Room>& getRooms();
+		
 	private:
 
 		// Store mobs with a notation for how many

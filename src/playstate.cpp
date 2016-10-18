@@ -70,26 +70,62 @@ PlayState::PlayState(PlayerChar* play, Level* lvl)
 	: player(play)
 	, level(lvl)
 	, prompt(NULL)
-{}
+{
+	play->appendLog("Hello " + play->getName() + ". Welcome to the Dungeons of Doom. Type [?] for help.");
+	updateMap();
+}
+
+void PlayState::updateMap() {
+	for (auto x=-1; x < 2; x++) {
+		for (auto y=-1; y < 2; y++) {
+			(*level)[player->getLocation()+Coord(x,y)].setIsSeen(Terrain::Seen);
+		}
+	}
+	for (auto room : level->getRooms()) {
+		if (room.contains(player->getLocation())) {
+			for (auto x=room.getPosition1()[0]-1; x < room.getPosition2()[0]+2; x++) {
+				for (auto y=room.getPosition1()[1]-1; y < room.getPosition2()[1]+2; y++) {
+					(*level)[Coord(x,y)].setIsSeen(Terrain::Seen);
+				}
+			}
+			// rooms can't overlap
+			break;
+		}
+	}
+}
 
 void PlayState::draw(TCODConsole* con) {
 	// Draw terrain
 	for (auto x=0; x < level->getSize()[0]; x++) {
 		for (auto y=0; y < level->getSize()[1]; y++) {
 			auto mapPos = Coord(x, y);
-			auto scrPos = mapPos.asScreen();
-			con->putChar(scrPos[0], scrPos[1], (*level)[mapPos].getSymbol());
+			Terrain ter = (*level)[mapPos];
+			if (ter.isSeen() == Terrain::Seen) {
+				auto scrPos = mapPos.asScreen();
+				con->putChar(scrPos[0], scrPos[1], (*level)[mapPos].getSymbol());
+			}
 		}
 	}
+	
 	// Display the prompt
 	if (prompt != NULL) {
-		prompt->showText(con, 0, 0);
+		prompt->showText(con, 0, 1);
+	} else if (player->getLog().size() > 0) {
+		con->print(0, 0, player->getLog().back().c_str());
 	}
 	// Display the mobs
 	for (Mob* mob : level->getMobs()) {
 		auto scrPos = mob->getLocation().asScreen();
 		con->putChar(scrPos[0], scrPos[1], mob->getSymbol());
 	}
+	// Display the info bar
+	const int y = Coord(0, level->getSize()[1]).asScreen()[1]+1;
+	con->print(0, y, (
+	"Level:"+std::to_string(player->getLevel())+
+	"  Hits:"+std::to_string(player->getHP())+"("+std::to_string(player->getMaxHP())+")"+
+	"  Str:"+std::to_string(player->getStrength())+"("+std::to_string(player->getMaxStrength())+")"+
+	"  Gold:"+std::to_string(player->getGold())+
+	"  Armor:"+std::to_string(player->getArmor())).c_str());
 }
 
 UIState* PlayState::handleInput(TCOD_key_t key) {
@@ -132,6 +168,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	}
 	if (newPos != player->getLocation() && level->contains(newPos) && (*level)[newPos].isPassable()) {
 		player->setLocation(newPos);
+		updateMap();
 	}
 	level->pushMob(player, 50);
 	return this;

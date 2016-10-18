@@ -76,3 +76,8 @@ void Room::dig(Level& level) {
 		}
 	}
 }
+
+bool Room::contains(Coord& coord) {
+	return (topLeft[0] <= coord[0]) && (coord[0] <= bottomRight[0])
+		&& (topLeft[1] <= coord[1]) && (coord[1] <= bottomRight[1]);
+}

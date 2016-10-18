@@ -13,7 +13,7 @@
 #include "include/weapon.h"
 
 PlayerChar::PlayerChar(Coord location, std::string name)
-	: Mob('@', location, name, START_ARMOR, START_EXP, START_LEVEL, START_HP),
+	: Mob('@', location, name, START_ARMOR, START_EXP, START_HP, START_LEVEL),
 	  currentStr(START_STR),
 	  gold(START_GOLD),
 	  inventory(ItemZone()),
@@ -111,6 +111,10 @@ int PlayerChar::getStrength() {
 	return this->currentStr;
 }
 
+int PlayerChar::getMaxStrength() {
+	return this->maxStr;
+}
+
 bool PlayerChar::hasAmulet() {
 	return this->inventory.contains("The Amulet of Yendor");
 }
@@ -198,4 +202,15 @@ bool PlayerChar::zap(Wand* wand, Level* level) {
 	// TODO
 
 	return true;
+}
+
+std::vector<std::string>& PlayerChar::getLog() {
+	return this->log;
+}
+
+void PlayerChar::appendLog(std::string item) {
+	this->log.push_back(item);
+	if (this->log.size() > MAX_LOG) {
+		this->log.erase(this->log.begin());
+	}
 }

@@ -4,8 +4,8 @@
 #include "include/mob.h"
 
 Mob::Mob(char symbol, Coord location)
-	: location(location),
-	  symbol(symbol) {}
+	: Mob(symbol, location, name, 5, 0, 10, 1)
+	  {}
 
 Mob::Mob(char symbol, Coord location, std::string name, int armor, int exp, int mobHP, int level)
 	: armor(armor),
@@ -36,6 +36,10 @@ int Mob::getExperience() {
 
 int Mob::getHP() {
 	return currentHP;
+}
+
+int Mob::getMaxHP() {
+	return maxHP;
 }
 
 int Mob::getLevel() {
