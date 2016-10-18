@@ -66,7 +66,7 @@ class Level {
 		static const int ROOM_PADDING = 2;
 		static const int MIN_ROOM_DIM = 3;
 		static const int X_SIZE = 80, Y_SIZE = 35;//80,25
-		std::vector<std::vector<Terrain> > tiles;
+		std::vector<std::vector<Terrain>> tiles;
 		std::vector<Room> rooms;
 		std::vector<ClockItem> mobs;
 		std::vector<GoldPile> golds;
@@ -77,14 +77,14 @@ class Level {
 		int depth;
 
 		//Add perpendicular coords
-		void addPerps(Coord, std::queue<Coord>&, std::map<Coord, Coord>&);
+		void addPerps(Coord, std::queue<Coord>&);
 
 		//Add diagonal coords
-		void addDiags(Coord, std::queue<Coord>&, std::map<Coord, Coord>&);
+		void addDiags(Coord, std::queue<Coord>&);
 
 		//Try to add a coord to the q
-		void tryAddPassable(Coord, std::queue<Coord>&, std::map<Coord, Coord>&, Coord);
+		void tryAddPassable(Coord, std::queue<Coord>&, Coord);
 
 		//Try to add a coord to the q
-		void tryAdd(Coord, std::queue<Coord>&, std::map<Coord, Coord>&, Coord);
+		void tryAdd(Coord, std::queue<Coord>&, Coord);
 };

@@ -1,7 +1,10 @@
 
+#include "coord.h"
 
 #ifndef TERRAIN_H
 #define TERRAIN_H
+
+class Coord;
 
 class Terrain {
 	public:
@@ -12,6 +15,7 @@ class Terrain {
 		Passability isPassable();
 		Visibility getVisibility();
 		bool checked = false;
+		Coord parent;
 	private:
 		char character;
 		Visibility visible;

@@ -188,75 +188,78 @@ void Level::addTunnel(int i, int j, bool* a, bool* b, Generator gen){
 	}
 }
 
-void Level::addPerps(Coord current, std::queue<Coord>& deltas, std::map<Coord, Coord>& parents){
+void Level::addPerps(Coord current, std::queue<Coord>& deltas){
 	
 	Coord target;
 
 	target = current + Coord(1, 0);
-	tryAdd(current, deltas, parents, target);
+	tryAdd(current, deltas, target);
 
 	target = current + Coord(-1, 0);
-	tryAdd(current, deltas, parents, target);
+	tryAdd(current, deltas, target);
 
 	target = current + Coord(0, 1);
-	tryAdd(current, deltas, parents, target);
+	tryAdd(current, deltas, target);
 
 	target = current + Coord(0, -1);
-	tryAdd(current, deltas, parents, target);
+	tryAdd(current, deltas, target);
 }
 
-void Level::addDiags(Coord current, std::queue<Coord>& deltas, std::map<Coord, Coord>& parents){
+void Level::addDiags(Coord current, std::queue<Coord>& deltas){
 	
 	Coord target;
 
 	target = current + Coord(1, 1);
-	tryAdd(current, deltas, parents, target);
+	tryAdd(current, deltas, target);
 
 	target = current + Coord(-1, 1);
-	tryAdd(current, deltas, parents, target);
+	tryAdd(current, deltas, target);
 
 	target = current + Coord(-1, -1);
-	tryAdd(current, deltas, parents, target);
+	tryAdd(current, deltas, target);
 
 	target = current + Coord(1, -1);
-	tryAdd(current, deltas, parents, target);
+	tryAdd(current, deltas, target);
 }
 
-void Level::tryAddPassable(Coord current, std::queue<Coord>& deltas, std::map<Coord, Coord>& parents, Coord target){
+void Level::tryAddPassable(Coord current, std::queue<Coord>& q, Coord target){
 
 	if (target[0] > 0 && target[0] < size[0] && target[1] > 0 && target[1] < size[1]){
 
 		if(tiles[target[0]][target[1]].isPassable() == Terrain::Passable && !tiles[target[0]][target[1]].checked){
-			deltas.push(target.copy());
+			q.push(target.copy());
 			tiles[target[0]][target[1]].checked = true;
 			Coord t_ = target.copy();
 			Coord c_ = current.copy();
 
-			parents.insert(std::make_pair(t_, c_));
+			//parents.insert(std::make_pair(t_, c_));
 		}
 	}
 }
 
-void Level::tryAdd(Coord current, std::queue<Coord>& deltas, std::map<Coord, Coord>& parents, Coord target){
+void Level::tryAdd(Coord current, std::queue<Coord>& deltas, Coord target){
 
 	if (target[0] > 0 && target[0] < size[0] && target[1] > 0 && target[1] < size[1]){
 
-		if(!tiles[target[0]][target[1]].checked){
+		if(!(tiles[target[0]][target[1]].checked)){
 
 			Coord t_ = target.copy();
 			Coord c_ = current.copy();
 			Coord p_ = target.copy();
 
+			Coord f_ = target.copy();
+
 			deltas.push(p_);
 
-			tiles[target[0]][target[1]].checked = true;
-
-			parents.insert(std::make_pair(t_, c_));
+			tiles[f_[0]][f_[1]].checked = true;
+			tiles[f_[0]][f_[1]].parent = c_;
 		}
 	}
 }
 
 std::vector<Coord> Level::bfsDiag(Coord start, Coord end){
+
+	/*
 
 	for (auto x=0; x < size[0]; x++) {
 		for (auto y=0; y < size[1]; y++) {
@@ -264,7 +267,6 @@ std::vector<Coord> Level::bfsDiag(Coord start, Coord end){
 		}
 	}
 
-	std::map<Coord, Coord> parents;
 	std::queue<Coord> delta;
 	delta.push(start.copy());
 
@@ -277,8 +279,8 @@ std::vector<Coord> Level::bfsDiag(Coord start, Coord end){
 			break;
 		}
 
-		addPerps(current, delta, parents);
-		addDiags(current, delta, parents);
+		//addPerps(current, delta, parents);
+		//addDiags(current, delta, parents);
 	}
 
 	//TODO: Put this into its own function
@@ -287,29 +289,33 @@ std::vector<Coord> Level::bfsDiag(Coord start, Coord end){
 	while(current != start){
 
 		path.push_back(current);
-		current = parents[current].copy();
+		current = parent[current[0]][current[1]].copy();
 	}
 	path.push_back(start.copy());
 
 	return path;
+
+	*/
 }
 
 std::vector<Coord> Level::bfsPerp(Coord start, Coord end){
 
+	std::cout << "AAA" << std::endl;
+
 	for (auto x=0; x < size[0]; x++) {
 		for (auto y=0; y < size[1]; y++) {
 			tiles[x][y].checked = false;
+			tiles[x][y].parent = Coord(0,0);
 		}
 	}
 
-	std::map<Coord, Coord> parents;
-	std::queue<Coord> delta;
-	delta.push(start.copy());
+	std::queue<Coord> q;
+	q.push(start.copy());
 
-	while(!delta.empty()){
+	while(!q.empty()){
 
-		Coord current = delta.front();
-		delta.pop();
+		Coord current = q.front().copy();
+		q.pop();
 
 		if (current == end){
 			break;
@@ -318,49 +324,38 @@ std::vector<Coord> Level::bfsPerp(Coord start, Coord end){
 		Coord target;
 
 		target = current + Coord(1, 0);
-		tryAdd(current, delta, parents, target);
+		tryAdd(current, q, target);
 
 		target = current + Coord(-1, 0);
-		tryAdd(current, delta, parents, target);
+		tryAdd(current, q, target);
 
 		target = current + Coord(0, 1);
-		tryAdd(current, delta, parents, target);
+		tryAdd(current, q, target);
 
 		target = current + Coord(0, -1);
-		tryAdd(current, delta, parents, target);
+		tryAdd(current, q, target);
 	}
 
-	//TODO: Put this into its own function
-	std::vector<Coord> path;
-	Coord current = end.copy();
-	
-	/*
+	std::cout << "FEF" << std::endl;
 
-	std::cout << "Parents:" << std::endl;
-	std::map<Coord, Coord>::iterator it = parents.begin();
-	while(it != parents.end())
-    {
-        std::cout << (it->first.toString()) << " ---> " << (it->second.toString()) << "    (" << ((it->second)-(it->first)).toString() << ")" << std::endl;
-        it++;
-    }
+	std::vector<Coord> path;
+	Coord current = end.copy();  
 
 	std::cout << "Going from: " << start[0] << ", " << start[1] << std::endl;
 	std::cout << "Going to: " << end[0] << ", " << end[1] << std::endl;
 
-    */
-
 	int count = 0;
 
 
-	//std::cout << current[0] << ", " << current[1] << std::endl;
+	std::cout << current[0] << ", " << current[1] << std::endl;
 	while(current != start){
 
 		Coord c_ = current.copy();
 
 		path.push_back(c_);
-		current = parents[current].copy();
+		current = tiles[current[0]][current[1]].parent.copy();
 
-		//std::cout << current[0] << ", " << current[1] << std::endl;
+		std::cout << current[0] << ", " << current[1] << std::endl;
 
 		count++;
 
@@ -369,6 +364,9 @@ std::vector<Coord> Level::bfsPerp(Coord start, Coord end){
 			break;
 		}
 	}
+
+	std::cout << "Start: " << start[0] << ", " << start[1] << std::endl;
+	std::cout << "Current: " << current[0] << ", " << current[1] << std::endl;
 
 	path.push_back(start.copy());
 
