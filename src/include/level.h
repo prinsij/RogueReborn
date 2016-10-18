@@ -27,6 +27,7 @@ class Level {
 		Mob* popTurnClock();
 		// move a mob back in the turn clock equal to the amount specified
 		void pushMob(Mob*, int);
+		std::vector<Room>& getRooms(); 
 	private:
 		// Store mobs with a notation for how many
 		// 'ticks' they are from being the current actor
