@@ -55,12 +55,9 @@ class PlayerChar : public Mob {
 		Ring* itemRingRight;
 		Weapon* itemWeapon;
 		int maxStr;
-		const int START_ARMOR = 1;
-		const int START_EXP = 0;
-		const int START_GOLD = 0;
-		const int START_HP = 12;
-		const int START_LEVEL = 1;
-		const int START_STR = 16;		
+		static const int START_ARMOR = 1, 
+		START_EXP = 0, START_GOLD = 0, START_HP = 12,
+		START_LEVEL = 1, START_STR = 16;		
 
 		bool removeItem(Item*);
 };
