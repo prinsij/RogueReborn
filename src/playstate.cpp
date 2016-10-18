@@ -81,6 +81,17 @@ void PlayState::updateMap() {
 			(*level)[player->getLocation()+Coord(x,y)].setIsSeen(Terrain::Seen);
 		}
 	}
+	for (auto room : level->getRooms()) {
+		if (room.contains(player->getLocation())) {
+			for (auto x=room.getPosition1()[0]-1; x < room.getPosition2()[0]+2; x++) {
+				for (auto y=room.getPosition1()[1]-1; y < room.getPosition2()[1]+2; y++) {
+					(*level)[Coord(x,y)].setIsSeen(Terrain::Seen);
+				}
+			}
+			// rooms can't overlap
+			break;
+		}
+	}
 }
 
 void PlayState::draw(TCODConsole* con) {
