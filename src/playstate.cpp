@@ -90,6 +90,14 @@ void PlayState::draw(TCODConsole* con) {
 		auto scrPos = mob->getLocation().asScreen();
 		con->putChar(scrPos[0], scrPos[1], mob->getSymbol());
 	}
+	// Display the info bar
+	const int y = Coord(0, level->getSize()[1]).asScreen()[1]+1;
+	con->print(0, y, (
+	"Level:"+std::to_string(player->getLevel())+
+	"  Hits:"+std::to_string(player->getHP())+"("+std::to_string(player->getMaxHP())+")"+
+	"  Str:"+std::to_string(player->getStrength())+"("+std::to_string(player->getMaxStrength())+")"+
+	"  Gold:"+std::to_string(player->getGold())+
+	"  Armor:"+std::to_string(player->getArmor())).c_str());
 }
 
 UIState* PlayState::handleInput(TCOD_key_t key) {
