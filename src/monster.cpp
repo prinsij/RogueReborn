@@ -64,13 +64,13 @@ void Monster::attack(Mob* mob) {
 
 	// TODO
 
-	/*
+	
 	if (std::abs(this->location[0] - mob->getLocation()[0]) <= 1 && std::abs(this->location[1] - mob->getLocation()[1]) <= 1) {
 		if (rand() % 2 == 0) {
 			mob->hit(1);
 		}
 	}
-	*/
+	
 }
 
 int Monster::calculateDamage() {
