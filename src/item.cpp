@@ -4,6 +4,8 @@
 
 #include "include/item.h"
 
+std::map<std::string, std::map<int, bool> > Item::identified;
+
 Item::Item(char symbol, Coord location, Item::Context context, std::string className, std::string name, std::string pseudoName, int type, bool canStack, bool canThrow)
 	: Feature(symbol, location),
 	  canStack(canStack),

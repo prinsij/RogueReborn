@@ -5,6 +5,16 @@
 #include "include/coord.h"
 #include "include/item.h"
 
+std::vector<ARMOR_TUPLE_TYPE > Armor::typeVector = {
+	ARMOR_TUPLE_TYPE {"Leather Armor", 3},
+	ARMOR_TUPLE_TYPE {"Ring Mail", 3},
+	ARMOR_TUPLE_TYPE {"Scale Mail", 4},
+	ARMOR_TUPLE_TYPE {"Chain Mail", 5},
+	ARMOR_TUPLE_TYPE {"Banded Mail", 6},
+	ARMOR_TUPLE_TYPE {"Splint Mail", 6},
+	ARMOR_TUPLE_TYPE {"Plate Mail", 7}
+};
+
 Armor::Armor(Coord location)
 	: Armor(location, Item::Context::FLOOR, rand() % Armor::typeVector.size()) {}
 

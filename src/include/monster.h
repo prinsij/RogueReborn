@@ -26,7 +26,7 @@ class Monster : public Mob {
 		int turn(Level*);
 
 	private:
-		static std::map<char, MONSTER_TUPLE_TYPE> templateMap;
+		static std::map<char, MONSTER_TUPLE_TYPE > templateMap;
 
 		enum Behaviour {AGGRESSIVE, FLYING, REGENERATIVE, GREEDY, INVISIBLE};
 
@@ -36,7 +36,7 @@ class Monster : public Mob {
 };
 
 // Monster Template Values
-std::map<char, MONSTER_TUPLE_TYPE> Monster::templateMap = {
+std::map<char, MONSTER_TUPLE_TYPE > Monster::templateMap = {
 	{'A', MONSTER_TUPLE_TYPE { 2,  0,{std::make_pair( 0, 0)},  20,  "A", 5,std::make_pair( 5,8),      "Aquator",std::make_pair( 8,17)}},
 	{'B', MONSTER_TUPLE_TYPE { 3,  0,{std::make_pair( 1, 2)},   1,  "F", 1,std::make_pair( 1,8),          "Bat",std::make_pair( 1, 8)}},
 	{'C', MONSTER_TUPLE_TYPE { 4, 15,{std::make_pair( 1, 6),

@@ -39,4 +39,3 @@ class Item : public Feature {
 		int type;
 };
 
-std::map<std::string, std::map<int, bool> > Item::identified;
