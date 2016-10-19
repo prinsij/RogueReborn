@@ -9,7 +9,7 @@
 #include "level.h"
 #include "mob.h"
 
-using MONSTER_TUPLE_TYPE = std::tuple<int, int, std::vector<std::pair<int, int>>, int, const char*, int, std::pair<int, int>, std::string, std::pair<int, int>>;
+using MONSTER_TUPLE_TYPE = std::tuple<int, int, std::vector<std::pair<int, int> >, int, const char*, int, std::pair<int, int>, std::string, std::pair<int, int> >;
 
 //class Level;
 
@@ -31,7 +31,7 @@ class Monster : public Mob {
 		enum Behaviour {AGGRESSIVE, FLYING, REGENERATIVE, GREEDY, INVISIBLE};
 
 		int carryChance;
-		std::vector<std::pair<int,int>> damage;
+		std::vector<std::pair<int,int> > damage;
 		std::vector<Behaviour> flags; 
 };
 

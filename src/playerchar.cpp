@@ -99,10 +99,10 @@ int PlayerChar::getGold() {
 	return this->gold;
 }
 
-std::vector<std::pair<Item*, int>> PlayerChar::getInventory() {
-	std::map<std::string, std::pair<Item*, int>> itemMap;
+std::vector<std::pair<Item*, int> > PlayerChar::getInventory() {
+	std::map<std::string, std::pair<Item*, int> > itemMap;
 	std::vector<Item*> contents = this->inventory.getContents();
-	std::vector<std::pair<Item*, int>> displayContents;
+	std::vector<std::pair<Item*, int> > displayContents;
 
 	for (auto itemIt = contents.begin() ; itemIt != contents.end() ; itemIt++) {
 		std::string itemName = (*itemIt)->getName();

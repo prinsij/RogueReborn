@@ -31,7 +31,7 @@ class PlayerChar : public Mob {
 		void equipRingRight(Ring*);
 		void equipWeapon(Weapon*);
 		int getGold();
-		std::vector<std::pair<Item*, int>> getInventory();
+		std::vector<std::pair<Item*, int> > getInventory();
 		int getStrength();
 		int getMaxStrength();
 		int getSightRadius();

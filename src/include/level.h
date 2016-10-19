@@ -65,7 +65,7 @@ class Level {
 		static const int ROOM_PADDING = 2;
 		static const int MIN_ROOM_DIM = 3;
 		static const int X_SIZE = 80, Y_SIZE = 35;//80,25
-		std::vector<std::vector<Terrain>> tiles;
+		std::vector<std::vector<Terrain> > tiles;
 		std::vector<Room> rooms;
 		std::vector<ClockItem> mobs;
 		std::vector<GoldPile> golds;

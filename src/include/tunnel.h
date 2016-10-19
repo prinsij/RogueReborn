@@ -18,7 +18,7 @@ class Tunnel {
 		const double TUNNEL_CONFUSION = 0.1;
 		Tunnel::Direction flip(Tunnel::Direction);
 		Coord getDoorPlacement(Room*, Tunnel::Direction);
-		Coord findNextStep(Coord, std::vector<std::vector<double>>);
+		Coord findNextStep(Coord, std::vector<std::vector<double> >);
 		Coord posPlusDir(Coord, Tunnel::Direction);
 		Room* p;
 		Room* q;

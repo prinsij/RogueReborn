@@ -27,8 +27,8 @@ class Item : public Feature {
 		bool isThrowable();
 		void setIdentified(bool);
 
-	private:
-		static std::map<std::string, std::map<int, bool>> identified;
+	protected:
+		static std::map<std::string, std::map<int, bool> > identified;
 
 		bool canStack;
 		bool canThrow;
@@ -39,4 +39,4 @@ class Item : public Feature {
 		int type;
 };
 
-std::map<std::string, std::map<int, bool>> Item::identified;
+std::map<std::string, std::map<int, bool> > Item::identified;
