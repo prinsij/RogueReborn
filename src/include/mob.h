@@ -21,6 +21,10 @@ class Mob {
 		Coord& getLocation();
 		std::string getName();
 		char getSymbol();
+<<<<<<< HEAD
+=======
+		void hit(int);
+>>>>>>> LinkTest
 		void moveLocation(Coord);
 		void setCurrentHP(int);
 		void setLocation(Coord);
@@ -33,10 +37,10 @@ class Mob {
 		int currentHP;
 		int exp;
 		int level;
+		Coord location;
 		int maxHP;
 		std::string name;
 
 	private:
-		Coord location;
 		char symbol;
 };

@@ -74,7 +74,7 @@ void Tunnel::dig(Level& level){
 	//Coord nextPos = start.copy();
 	Coord current = start.copy();
 
-	std::vector<std::vector<double>> map;
+	std::vector<std::vector<double> > map;
 	for (auto x=0; x < level.getSize()[0]; x++) {
 		map.push_back(std::vector<double>());
 		for (auto y=0; y < level.getSize()[1]; y++) {
@@ -117,7 +117,11 @@ void Tunnel::dig(Level& level){
 	}
 }
 
+<<<<<<< HEAD
 Coord Tunnel::findNextStep(Coord currPos, std::vector<std::vector<double>> map){
+=======
+Coord Tunnel::findNextStep(Coord currPos, std::vector<std::vector<double> > map){
+>>>>>>> LinkTest
 
 	double currentScore = map[currPos[0]][currPos[1]];
 	Coord delta = Coord(0,0);

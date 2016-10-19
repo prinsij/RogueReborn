@@ -84,6 +84,5 @@ class Level {
 		void resetPF();
 
 		std::vector<Coord> traceBack(Coord, Coord);
-
 		bool monsterAt(Coord);
 };

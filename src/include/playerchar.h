@@ -31,11 +31,11 @@ class PlayerChar : public Mob {
 		void equipRingRight(Ring*);
 		void equipWeapon(Weapon*);
 		int getGold();
-		std::vector<std::pair<Item*, int>> getInventory();
+		std::vector<std::pair<Item*, int> > getInventory();
 		int getStrength();
 		int getMaxStrength();
+		int getSightRadius();
 		bool hasAmulet();
-		int maxDelved();
 		void pickupItem(Item*);
 		void quaff(Potion*, Mob*);
 		void read(Scroll*, Level*);
@@ -48,9 +48,9 @@ class PlayerChar : public Mob {
 		std::vector<std::string>& getLog();
 		void appendLog(std::string);
 		int getSightRadius();
-
 	private:
 		int currentStr;
+		int foodLife;
 		int gold;
 		ItemZone inventory;
 		Armor* itemArmor;
@@ -63,6 +63,5 @@ class PlayerChar : public Mob {
 		static const int START_ARMOR = 1, 
 		START_EXP = 0, START_GOLD = 0, START_HP = 12,
 		START_LEVEL = 1, START_STR = 16, SIGHT_RADIUS=1;		
-
 		bool removeItem(Item*);
 };
