@@ -82,7 +82,7 @@ Room* PlayState::updateMap() {
 		}
 	}
 	for (auto& room : level->getRooms()) {
-		if (room.contains(player->getLocation())) {
+		if (room.contains(player->getLocation(), 1)) {
 			for (auto x=room.getPosition1()[0]-1; x < room.getPosition2()[0]+2; x++) {
 				for (auto y=room.getPosition1()[1]-1; y < room.getPosition2()[1]+2; y++) {
 					(*level)[Coord(x,y)].setIsSeen(Terrain::Seen);
