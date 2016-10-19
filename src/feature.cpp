@@ -1,15 +1,14 @@
 #include "include/coord.h"
 #include "include/feature.h"
 
-Feature::Feature(char symbol, Coord coord)
-	: symbol(symbol)
-	, coord(coord)
-{}
+Feature::Feature(char symbol, Coord location)
+	: location(location),
+	  symbol(symbol) {}
 
-char Feature::getChar() {
-	return symbol;
+char Feature::getSymbol() {
+	return this->symbol;
 }
 
-Coord Feature::getCoord() {
-	return coord;
+Coord Feature::getLocation() {
+	return this->location;
 }

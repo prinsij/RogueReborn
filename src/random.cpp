@@ -1,4 +1,5 @@
 #include <random>
+#include <algorithm>
 #include "include/random.h"
 #include "include/coord.h"
 
@@ -17,4 +18,8 @@ double Generator::operator()() {
 
 Coord Generator::randPosition(Coord a, Coord b) {
 	return Coord(intFromRange(a[0], b[0]), intFromRange(a[1], b[1]));
+}
+
+void Generator::shuffle(std::vector<Coord>* s) {
+	std::random_shuffle(s->begin(), s->end());
 }

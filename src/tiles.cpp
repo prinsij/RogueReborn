@@ -10,5 +10,9 @@ Wall::Wall()
 {}
 
 Corridor::Corridor()
+	: Terrain('~', Terrain::Corridor, Terrain::Passable)
+{}
+
+Door::Door()
 	: Terrain('+', Terrain::Corridor, Terrain::Passable)
 {}

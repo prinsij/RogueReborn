@@ -1,18 +1,19 @@
-#include "item.h"
+#pragma once
+
 #include <vector>
 
-#ifndef ITEMZONE_H
-#define ITEMZONE_H
+#include "item.h"
 
 class ItemZone {
 	public:
 		ItemZone();
 		Item operator[](int);
-		bool remove(Item&);
 		void add(Item&);
-		bool contains(Item&);
+		bool contains(Item*);
+		bool contains(const std::string&);
+		std::vector<Item*> getContents();
+		bool remove(Item*);
+
 	private:
 		std::vector<Item> contents;
 };
-
-#endif

@@ -1,12 +1,11 @@
-#include "include/goldpile.h"
 #include "include/coord.h"
 #include "include/feature.h"
+#include "include/goldpile.h"
 
-GoldPile::GoldPile(Coord pos, int amount)
-	: Feature('*', pos)
-	, amount(amount)
-{}
+GoldPile::GoldPile(Coord location, int quantity)
+	: Feature('*', location),
+	  quantity(quantity) {}
 
-int GoldPile::getAmount() {
-	return amount;
+int GoldPile::getQuantity() {
+	return this->quantity;
 }

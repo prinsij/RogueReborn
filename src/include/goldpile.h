@@ -1,15 +1,12 @@
+#pragma once
+
 #include "coord.h"
 #include "feature.h"
-
-#ifndef GOLDPILE_H
-#define GOLDPILE_H
 
 class GoldPile : public Feature {
 	public:
 		GoldPile(Coord, int);
-		int getAmount();
+		int getQuantity();
 	private:
-		int amount;
+		int quantity;
 };
-
-#endif

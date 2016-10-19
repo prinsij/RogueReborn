@@ -1,24 +1,69 @@
+#include <algorithm>
+#include <map>
+#include <string>
+
 #include "include/item.h"
 
-Item::Item(char symbol, Location loc, Identified id, Coord coord, std::string name)
-	: Feature(symbol, coord)
-	, location(loc)
-	, knowledge(id)
-	, name(name)
-{}
+Item::Item(char symbol, Coord location, Item::Context context, std::string className, std::string name, std::string pseudoName, int type, bool canStack, bool canThrow)
+	: Feature(symbol, location),
+	  canStack(canStack),
+	  canThrow(canThrow),
+	  className(className),
+	  context(context),
+	  name(name),
+	  pseudoName(pseudoName),
+	  type(type) {}
 
-std::string Item::getName() {
-	return name;
-}
-
-Item::Location Item::getLocation() {
-	return location;
-}
-
-Item::Identified Item::isIdentified() {
-	return knowledge;
-}
+Item::Item(char symbol, Coord location, Item::Context context, std::string className, std::string name, int type, bool canStack, bool canThrow)
+	: Feature(symbol, location),
+	  canStack(canStack),
+	  canThrow(canThrow),
+	  className(className),
+	  context(context),
+	  name(name),
+	  pseudoName(name),
+	  type(type) {}
 
 bool Item::operator==(const Item& other) const {
-	return this == &other;
+	return this->name.compare(other.name) == 0;
+}
+
+bool Item::operator<(const Item& other) const {
+	return this->name.compare(other.name) < 0;
+}
+
+Item::Context Item::getContext() {
+	return this->context;
+}
+
+std::string Item::getDisplayName() {
+	if (Item::identified[this->className].find(this->type) == Item::identified[this->className].end()) {
+		return this->pseudoName;	
+	} else {
+		return Item::identified[this->className][this->type] ?  this->name : this->pseudoName ;
+	}
+}
+
+std::string Item::getName() {
+	return this->name;
+}
+
+int Item::getType() {
+	return this->type;
+}
+
+bool Item::isIdentified() {
+	return Item::identified[this->className][this->type];
+}
+
+bool Item::isStackable() {
+	return this->canStack;
+}
+
+bool Item::isThrowable() {
+	return this->canThrow;
+}
+
+void Item::setIdentified(bool newValue) {
+	Item::identified[this->className][this->type] = newValue;
 }

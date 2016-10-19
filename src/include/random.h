@@ -10,6 +10,7 @@ class Generator {
 		int intFromRange(int, int);
 		double operator()();
 		Coord randPosition(Coord, Coord);
+		void shuffle(std::vector<Coord>*);
 	private:
 		std::mt19937 gen;
 };

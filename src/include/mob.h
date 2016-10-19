@@ -1,23 +1,43 @@
-#include "coord.h"
+#pragma once
+
 #include <string>
 
-#ifndef MOB_H
-#define MOB_H
+#include "coord.h"
 
 class Mob {
 	public:
-		Mob(std::string, Coord, int);
-		int getHP();
-		void setHP();
-		int getMaxHP();
-		Coord& getCoord();
-		void setCoord(Coord);
-		int& operator[](int);
-		std::string getName();
-	private:
-		std::string name;
-		Coord coord;
-		int HP, maxHP;
-};
+		Mob(char, Coord);
+		Mob(char, Coord, std::string, int, int, int, int);
+		
+		static int diceSum(int, int);
 
-#endif
+		virtual void attack(Mob*) = 0;
+		void changeArmor(int);
+		int getArmor();
+		int getExperience();
+		int getHP();
+		int getMaxHP();
+		int getLevel();
+		Coord& getLocation();
+		std::string getName();
+		char getSymbol();
+		void hit(int);
+		void moveLocation(Coord);
+		void setCurrentHP(int);
+		void setLocation(Coord);
+		void setMaxHP(int);
+
+		virtual ~Mob();
+
+	protected:
+		int armor;
+		int currentHP;
+		int exp;
+		int level;
+		Coord location;
+		int maxHP;
+		std::string name;
+
+	private:
+		char symbol;
+};

@@ -1,5 +1,7 @@
 #include "include/coord.h"
 #include <string>
+#include <cmath>
+#include <algorithm>
 
 Coord::Coord(int x, int y)
 	: x(x)
@@ -13,6 +15,10 @@ Coord::Coord()
 
 Coord Coord::copy() {
 	return Coord(x, y);
+}
+
+Coord Coord::asScreen() {
+	return Coord(x + MAPX, y + MAPY);
 }
 
 int& Coord::operator[](int dimension) {
@@ -34,6 +40,10 @@ Coord Coord::operator-(const Coord& other) {
 	return Coord(this->x - other.x, this->y - other.y);
 }
 
+Coord Coord::operator*(const int& scalar) {
+	return Coord(this->x * scalar, this->y * scalar);
+}
+
 Coord& Coord::operator+=(const Coord& other) {
 	*this = *this + other;
 	return *this;
@@ -44,10 +54,27 @@ Coord& Coord::operator-=(const Coord& other) {
 	return *this;
 }
 
+bool Coord::operator<(const Coord& other) const {
+	return std::sqrt(x * x + y * y) < std::sqrt(other.x * other.x + other.y * other.y);
+}
+
+Coord& Coord::operator*=(const int& scalar) {
+	*this = *this * scalar;
+	return *this;
+}
+
 bool Coord::operator==(const Coord& other) {
 	return x == other.x && y == other.y;
 }
 
 bool Coord::operator!=(const Coord& other) {
 	return not (*this == other);
+}
+
+std::string Coord::toString() const{
+	return std::to_string(x) + ", " + std::to_string(y);
+}
+
+int Coord::distanceTo(const Coord& other) const {
+	return std::max(std::abs(x - other.x), std::abs(y - other.y));
 }

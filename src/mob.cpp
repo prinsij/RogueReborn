@@ -1,34 +1,81 @@
-#include "include/mob.h"
-#include "include/coord.h"
 #include <string>
 
-Mob::Mob(std::string name, Coord coord, int hp)
-	: name(name)
-	, coord(coord)
-	, HP(hp)
-	, maxHP(hp)
-{}
+#include "include/coord.h"
+#include "include/mob.h"
+
+Mob::Mob(char symbol, Coord location)
+	: Mob(symbol, location, name, 5, 0, 10, 1)
+	  {}
+
+Mob::Mob(char symbol, Coord location, std::string name, int armor, int exp, int mobHP, int level)
+	: armor(armor),
+	  currentHP(mobHP),
+	  exp(exp),
+	  level(level),
+	  location(location),
+	  maxHP(mobHP),
+	  name(name),
+	  symbol(symbol) {}
+
+int Mob::diceSum(int rolls, int faces) {
+	int sum = 0;
+
+	for (int roll = 0 ; roll < rolls ; roll++)
+		sum += 1 + (rand() % faces);
+
+	return sum;
+}
+
+int Mob::getArmor() {
+	return armor;
+}
+
+int Mob::getExperience() {
+	return exp;
+}
 
 int Mob::getHP() {
-	return HP;
+	return currentHP;
 }
 
 int Mob::getMaxHP() {
 	return maxHP;
 }
 
-Coord& Mob::getCoord() {
-	return coord;
+int Mob::getLevel() {
+	return level;
 }
 
-void Mob::setCoord(Coord newPos) {
-	coord = newPos;
-}
-
-int& Mob::operator[](int dimension) {
-	return coord[dimension];
+Coord& Mob::getLocation() {
+	return location;
 }
 
 std::string Mob::getName() {
 	return name;
 }
+
+char Mob::getSymbol() {
+	return symbol;
+}
+
+void Mob::hit(int damage) {
+	this->currentHP -= damage;
+}
+
+void Mob::moveLocation(Coord location) {
+	this->location += location;
+}
+
+void Mob::setCurrentHP(int currentHP) {
+	this->currentHP = currentHP;
+}
+
+void Mob::setLocation(Coord location) {
+	this->location = location;
+}
+
+void Mob::setMaxHP(int maxHP) {
+	this->maxHP = maxHP;
+}
+
+Mob::~Mob() {}
