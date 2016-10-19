@@ -27,6 +27,10 @@ Level::Level(int depth)
 	}
 }
 
+int Level::getDepth() {
+	return depth;
+}
+
 Terrain& Level::operator[](Coord coord) {
 	return tileAt(coord);
 }

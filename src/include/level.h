@@ -22,6 +22,7 @@ class Level {
 		Terrain& operator[](Coord);
 		void generate(PlayerChar);
 		bool contains(Coord);
+		int getDepth();
 		static Coord getSize() { return Coord(X_SIZE, Y_SIZE); };
 
 		// Add a mob to the level's collection
