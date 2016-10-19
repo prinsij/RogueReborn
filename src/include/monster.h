@@ -17,7 +17,7 @@ class Monster : public Mob {
 	public:
 		Monster(char, Coord);
 
-		void attack(Mob*);
+		void attack(Level*);
 		int calculateDamage();
 		int getCarryChance();
 		std::vector<char> getSymbolsForLevel(int);
@@ -27,6 +27,8 @@ class Monster : public Mob {
 
 	private:
 		static std::map<char, MONSTER_TUPLE_TYPE > templateMap;
+
+		void relocate(Level*);
 
 		enum Behaviour {AGGRESSIVE, FLYING, REGENERATIVE, GREEDY, INVISIBLE};
 

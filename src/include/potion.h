@@ -14,8 +14,6 @@ class Level;
 
 class Potion : public Item {
 	public:
-		static void initializeMap();
-		
 		Potion(Coord);
 		Potion(Coord, Item::Context, int);
 		bool activate(Mob*);

@@ -6,9 +6,11 @@
 #include "include/item.h"
 #include "include/ring.h"
 
-bool Ring::activate(Level* level) {
-	return false;
-}
+std::vector<std::string> Ring::nameVector = Item::shuffleNameVector({
+	"Diamond Ring",  "Stibotantalite Ring",  "Lapi-Lazuli Ring",  "Ruby Ring",  "Emerald Ring", 
+	"Sapphire Ring",  "Amethyst Ring",  "Quartz Ring",  "Tiger-Eye  Ring",  "Opal Ring", 
+	"Agate Ring",  "Turquoise Ring",  "Pearl Ring",  "Garnet Ring"
+});
 
 std::vector<RING_TUPLE_TYPE > Ring::typeVector = {
 	RING_TUPLE_TYPE {"Ring of Stealth"},
@@ -24,18 +26,12 @@ std::vector<RING_TUPLE_TYPE > Ring::typeVector = {
 	RING_TUPLE_TYPE {"Ring of Searching"}
 };
 
-std::vector<std::string> Ring::nameVector = {
-	"Diamond Ring",  "Stibotantalite Ring",  "Lapi-Lazuli Ring",  "Ruby Ring",  "Emerald Ring", 
-	"Sapphire Ring",  "Amethyst Ring",  "Quartz Ring",  "Tiger-Eye  Ring",  "Opal Ring", 
-	"Agate Ring",  "Turquoise Ring",  "Pearl Ring",  "Garnet Ring"
-};
-
-void Ring::initializeMap() {
-	std::random_shuffle(Ring::nameVector.begin(), Ring::nameVector.end());
-}
-
 Ring::Ring(Coord location)
 	: Ring(location, Item::Context::FLOOR, rand() % Ring::typeVector.size()) {}
 
 Ring::Ring(Coord location, Item::Context context, int type)
 	: Item('=', location, context, "Ring", std::get<0>(Ring::typeVector[type]), Ring::nameVector[type], type, true, true) {}
+
+bool Ring::activate(Level* level) {
+	return false;
+}

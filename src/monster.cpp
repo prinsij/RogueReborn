@@ -59,16 +59,22 @@ Monster::Monster(char symbol, Coord location)
 	name = std::get<7>(monsterTuple);
 }
 
-void Monster::attack(Mob* mob) {
+void Monster::attack(Level* level) {
 	std::cout << "Monster " << this->getName() << " Attack\n";
 
 	// TODO
-	if (std::abs(this->location[0] - mob->getLocation()[0]) <= 1 && std::abs(this->location[1] - mob->getLocation()[1]) <= 1) {
-		if (rand() % 2 == 0) {
-			mob->hit(1);
+	
+	/*
+	std::vector<Coord> possibleCoords = level->getAdjPassable(this->location);
+
+	for (auto coordIt = possibleCoords.begin() ; coordIt != possibleCoords.end() ; coordIt++) {
+		PlayerChar* playerChar = level->playerCharAt(*coordIt);
+		if (playerChar != NULL) {
+			playerChar->hit(this->calculateDamage());
+			break;
 		}
 	}
-	
+	*/
 }
 
 int Monster::calculateDamage() {
@@ -99,24 +105,20 @@ std::vector<char> Monster::getSymbolsForTreasure(int depth) {
 	return getSymbolsForLevel(depth);
 }
 
+void Monster::relocate(Level* level) {
+	/*
+	if (rand() % 2 == 0) {
+		std::vector<Coord> possibleCoords = level->getAdjPassable(this->location);
+		this->location = possibleCoords[rand() % possibleCoords.size()];
+	}
+	*/
+}
+
 int Monster::turn(Level* level) {
 	std::cout << "Monster " << this->getName() << "'s Turn\n";
 
-	if (level->tileAt(this->location + Coord(1, 0)).isPassable() && rand() % 2 == 0) {
-		this->moveLocation(Coord(1, 0));
-	}
-
-	if (level->tileAt(this->location + Coord(-1, 0)).isPassable() && rand() % 2 == 0) {
-		this->moveLocation(Coord(-1, 0));
-	}
-
-	if (level->tileAt(this->location + Coord(0, 1)).isPassable() && rand() % 2 == 0) {
-		this->moveLocation(Coord(0, 1));
-	}
-
-	if (level->tileAt(this->location + Coord(0, -1)).isPassable() && rand() % 2 == 0) {
-		this->moveLocation(Coord(0, -1));
-	}
+	relocate(level);
+	attack(level);
 
 	return 1;
 }

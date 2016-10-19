@@ -23,8 +23,6 @@ std::vector<SCROLL_TUPLE_TYPE > Scroll::typeVector = {
 	SCROLL_TUPLE_TYPE {"Scroll of Confuse Monster"}
 };
 
-std::vector<std::string> Scroll::nameVector;
-
 std::vector<std::string> Scroll::syllableVector = {
 	"Blech", "Foo", "Barf", "Rech", "Bar",
 	"Quo", "Bloto", "Oh", "Caca", "Blorp",
@@ -36,7 +34,10 @@ std::vector<std::string> Scroll::syllableVector = {
 	"Coph", "Swerr", "Mihln", "Poxi"
 };
 
-void Scroll::initializeMap() {
+std::vector<std::string> Scroll::nameVector = Scroll::initializeScrollNames();
+
+std::vector<std::string> Scroll::initializeScrollNames() {
+	std::vector<std::string> nameVector;
 	for (int type = 0 ; type < static_cast<int>(Scroll::typeVector.size()) ; type++) {
 		std::string scrollName = "Scroll titled '";
 		scrollName += Scroll::syllableVector[rand() % Scroll::syllableVector.size()];
@@ -48,8 +49,10 @@ void Scroll::initializeMap() {
 		}
 
 		scrollName += "'";
-		Scroll::nameVector.push_back(scrollName);
+		nameVector.push_back(scrollName);
 	}
+
+	return nameVector;
 }
 
 Scroll::Scroll(Coord location)

@@ -6,11 +6,11 @@
 #include "include/item.h"
 #include "include/potion.h"
 
-std::vector<std::string> Potion::nameVector = {
+std::vector<std::string> Potion::nameVector = Item::shuffleNameVector({
 	"Blue Potion", "Red Potion", "Green Potion", "Grey Potion", "Brown Potion",
 	"Clear Potion", "Pink Potion", "White Potion", "Purple Potion", "Black Potion",
 	"Yellow Potion", "Plaid Potion", "Burgundy Potion", "Beige Potion"
-};
+});
 
 std::vector<POTION_TUPLE_TYPE > Potion::typeVector = {
 	POTION_TUPLE_TYPE {"Potion of Increase Strength"},
@@ -28,10 +28,6 @@ std::vector<POTION_TUPLE_TYPE > Potion::typeVector = {
 	POTION_TUPLE_TYPE {"Potion of Haste Self"},
 	POTION_TUPLE_TYPE {"Potion of See Invisible"}
 };
-
-void Potion::initializeMap() {
-	std::random_shuffle(Potion::nameVector.begin(), Potion::nameVector.end());
-}
 
 Potion::Potion(Coord location)
 	: Potion(location, Item::Context::FLOOR, rand() % Potion::typeVector.size()) {}

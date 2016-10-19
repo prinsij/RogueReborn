@@ -1,4 +1,7 @@
 #include <random>
+#include <string>
+#include <vector>
+
 #include "coord.h"
 
 #ifndef RANDOM_H

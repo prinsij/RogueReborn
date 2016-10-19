@@ -12,8 +12,6 @@ class Level;
 
 class Ring : public Item {
 	public:
-		static void initializeMap();
-
 		Ring(Coord);
 		Ring(Coord, Item::Context, int);
 		bool activate(Level*);

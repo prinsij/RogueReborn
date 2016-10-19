@@ -24,6 +24,7 @@ class Coord {
 		bool operator!=(const Coord&);
 		Coord asScreen();
 		Coord copy();
+		bool isAdjacentTo(const Coord&) const;
 		std::string toString() const;
 		// maximum distance in either dimension
 		int distanceTo(const Coord&) const;

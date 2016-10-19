@@ -13,7 +13,7 @@ class Level;
 
 class Scroll : public Item {
 	public:
-		static void initializeMap();
+		static std::vector<std::string> initializeScrollNames();
 
 		Scroll(Coord);
 		Scroll(Coord, Item::Context, int);
