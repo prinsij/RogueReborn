@@ -53,7 +53,7 @@ class QuitPrompt : public Prompt {
 
 		virtual Transition handleInput(TCOD_key_t key) {
 			if (key.c == 'y' || key.c == 'Y') {
-				return Transition(NULL, new RIPScreen(player));
+				return Transition(NULL, new RIPScreen(player, level, "retired"));
 			}
 			if (key.c == 'n' || key.c == 'N') {
 				return Transition(NULL, NULL);

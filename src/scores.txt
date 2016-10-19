@@ -1,5 +1,2 @@
-0,-1,quark,unknown,
-0,-1,qwerty,unknown
-0,-1,brucethebold,unknown
-0,-1,arglebargle,unknown
 1350,8,robert the mediocre,was killed by a grue
+0,0,jordy,retired
