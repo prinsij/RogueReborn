@@ -37,12 +37,22 @@ void PlayerChar::attack(Mob* mob) {
 	// TODO
 
 	/*
-	if (std::abs(this->location[0] - mob->getLocation[0]) <= 1 && std::abs(this->location[1] - mob->getLocation[1]) <= 1) {
-		if (rand() % 2 == 0) {
-			mob->hit(2);
+	std::vector<Coord> possibleCoords = level->getAdjPassable(this->location);
+
+	for (auto coordIt = possibleCoords.begin() ; coordIt != possibleCoords.end() ; coordIt++) {
+		Monster* monster = level->monsterAt(*coordIt);
+		if (monster != NULL) {
+			monster->hit(this->calculateDamage());
+			break;
 		}
 	}
 	*/
+}
+
+int PlayerChar::calculateDamage() {
+	// TODO
+
+	return 1;
 }
 
 void PlayerChar::collectGold(GoldPile* goldpile) {

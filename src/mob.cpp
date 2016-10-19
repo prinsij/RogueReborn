@@ -1,3 +1,4 @@
+#include <cmath>
 #include <string>
 
 #include "include/coord.h"
@@ -59,7 +60,10 @@ char Mob::getSymbol() {
 }
 
 void Mob::hit(int damage) {
-	this->currentHP -= damage;
+	// TODO
+	
+	int deltaHP = std::max(1, damage - this->armor);
+	this->currentHP -= deltaHP;
 }
 
 void Mob::moveLocation(Coord location) {

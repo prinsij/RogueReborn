@@ -2,6 +2,7 @@
 
 #include <map>
 #include <string>
+#include <vector>
 
 #include "coord.h"
 #include "feature.h"
@@ -10,6 +11,8 @@ class Level;
 
 class Item : public Feature {
 	public:
+		static std::vector<std::string> shuffleNameVector(std::vector<std::string>);
+		
 		enum Context {FLOOR, INVENTORY};
 		
 		Item(char, Coord, Context, std::string, std::string, int, bool, bool);
