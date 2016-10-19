@@ -21,7 +21,7 @@ class Room {
 		bool exists();
 		bool touches(Coord);
 		void printInfo(int);
-		bool contains(Coord&);
+		bool contains(Coord&, int border=0);
 	private:
 		Coord topLeft;
 		Coord bottomRight;
