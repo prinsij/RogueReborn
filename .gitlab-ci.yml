@@ -2,4 +2,6 @@
 
 mainbuild:
   script:
-    - echo haha
+    - cd src/
+    - make
+    - cd ..
