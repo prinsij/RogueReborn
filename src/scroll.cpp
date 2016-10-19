@@ -1,22 +1,12 @@
-<<<<<<< HEAD
-=======
 #include <algorithm>
 #include <string>
 #include <vector>
 
->>>>>>> LinkTest
 #include "include/coord.h"
 #include "include/item.h"
 #include "include/scroll.h"
 
-<<<<<<< HEAD
-Scroll::Scroll(Coord location, Item::Context context, std::string name, std::string pseudoName, unsigned char type)
-	: Item('?', location, context, "Scroll", name, pseudoName, type, true, false) {}
 
-bool Scroll::activate(Level* level) {
-	return false;
-}
-=======
 std::vector<SCROLL_TUPLE_TYPE > Scroll::typeVector = {
 	SCROLL_TUPLE_TYPE {"Scroll of Protect Armor"},
 	SCROLL_TUPLE_TYPE {"Scroll of Hold Monster"},
@@ -73,4 +63,3 @@ bool Scroll::activate(Level* level) {
 
 	return true;
 }
->>>>>>> LinkTest

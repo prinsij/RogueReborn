@@ -21,10 +21,7 @@ class Mob {
 		Coord& getLocation();
 		std::string getName();
 		char getSymbol();
-<<<<<<< HEAD
-=======
 		void hit(int);
->>>>>>> LinkTest
 		void moveLocation(Coord);
 		void setCurrentHP(int);
 		void setLocation(Coord);

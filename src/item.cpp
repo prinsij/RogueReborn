@@ -69,11 +69,3 @@ bool Item::isThrowable() {
 void Item::setIdentified(bool newValue) {
 	Item::identified[this->className][this->type] = newValue;
 }
-
-bool Item::isThrowable() {
-	return this->canThrow;
-}
-
-void Item::setIdentified(bool newValue) {
-	identified[this->className][this->type] = newValue;
-}

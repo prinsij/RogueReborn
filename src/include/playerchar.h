@@ -22,6 +22,7 @@ class PlayerChar : public Mob {
 	public:
 		PlayerChar(Coord, std::string);
 		void activateItem(Item*);
+		void appendLog(std::string);
 		void attack(Mob*);
 		void collectGold(GoldPile*);
 		bool dropItem(Item*);
@@ -46,8 +47,6 @@ class PlayerChar : public Mob {
 		bool throwItem(Item*);
 		bool zap(Wand*, Level*);
 		std::vector<std::string>& getLog();
-		void appendLog(std::string);
-		int getSightRadius();
 	private:
 		int currentStr;
 		int foodLife;
@@ -62,6 +61,7 @@ class PlayerChar : public Mob {
 		int maxStr;
 		static const int START_ARMOR = 1, 
 		START_EXP = 0, START_GOLD = 0, START_HP = 12,
-		START_LEVEL = 1, START_STR = 16, SIGHT_RADIUS=1;		
+		START_LEVEL = 1, START_STR = 16, SIGHT_RADIUS=1,
+		START_FOOD = 1250;		
 		bool removeItem(Item*);
 };

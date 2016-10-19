@@ -5,18 +5,6 @@
 #include "include/item.h"
 #include "include/weapon.h"
 
-Weapon::Weapon(Coord location, Item::Context context, std::string name, std::string pseudoName, unsigned char type, std::pair<int, int> enchantment, bool melee, bool canThrow)
-	: Item(')', location, context, "Weapon", name, pseudoName, type, false, canThrow),
-	  enchantment(enchantment),
-	  melee(melee) {}
-
-int Weapon::getChance() {
-	return this->enchantment.first;
-}
-
-int Weapon::getDamage() {
-	return this->enchantment.second;
-=======
 std::vector<WEAPON_TUPLE_TYPE > Weapon::typeVector = {
 	WEAPON_TUPLE_TYPE {"Short Bow", std::make_pair(0, 0), false, false},
 	WEAPON_TUPLE_TYPE {"Darts", std::make_pair(1, 1), true, true},
@@ -46,13 +34,8 @@ int Weapon::getChance() {
 
 std::tuple<int, int, int> Weapon::getDamage() {
 	return std::make_tuple(this->damage.first, this->damage.second, this->enchantDamage);
->>>>>>> LinkTest
 }
 
 bool Weapon::isMelee() {
 	return this->melee;
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> LinkTest

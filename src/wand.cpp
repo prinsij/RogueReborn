@@ -6,14 +6,11 @@
 #include "include/item.h"
 #include "include/wand.h"
 
-Wand::Wand(Coord location, Item::Context context, std::string name, std::string pseudoName, unsigned char type)
-	: Item('/', location, context, "Wand", name, pseudoName, type, false, false),
-	  charges(0) {}
-
 bool Wand::activate(Level* level) {
 	this->charges--;
 	return false;
-=======
+}
+
 std::vector<WAND_TUPLE_TYPE > Wand::typeVector = {
 	WAND_TUPLE_TYPE {"Wand of Teleport Away"},
 	WAND_TUPLE_TYPE {"Wand of Slow Monster"},
@@ -48,17 +45,6 @@ Wand::Wand(Coord location, Item::Context context, int type)
 	: Item('/', location, context, "Wand", std::get<0>(Wand::typeVector[type]), Wand::nameVector[type], type, false, false),
 	  charges(3 + (rand() % 5)) {}
 
-bool Wand::activate(Level* level) {
-	// TODO
-
-	return true;
->>>>>>> LinkTest
-}
-
 int Wand::getCharges() {
 	return this->charges;
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> LinkTest

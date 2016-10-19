@@ -6,12 +6,10 @@
 #include "include/item.h"
 #include "include/ring.h"
 
-Ring::Ring(Coord location, Item::Context context, std::string name, std::string pseudoName, unsigned char type)
-	: Item('0', location, context, "Ring", name, pseudoName, type, false, false) {}
-
 bool Ring::activate(Level* level) {
 	return false;
 }
+
 std::vector<RING_TUPLE_TYPE > Ring::typeVector = {
 	RING_TUPLE_TYPE {"Ring of Stealth"},
 	RING_TUPLE_TYPE {"Ring of Teleportation"},
@@ -41,9 +39,3 @@ Ring::Ring(Coord location)
 
 Ring::Ring(Coord location, Item::Context context, int type)
 	: Item('=', location, context, "Ring", std::get<0>(Ring::typeVector[type]), Ring::nameVector[type], type, true, true) {}
-
-bool Ring::activate(Level* level) {
-	// TODO
-
-	return true;
-}

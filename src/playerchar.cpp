@@ -224,18 +224,3 @@ bool PlayerChar::zap(Wand* wand, Level* level) {
 
 	return true;
 }
-
-std::vector<std::string>& PlayerChar::getLog() {
-	return this->log;
-}
-
-void PlayerChar::appendLog(std::string item) {
-	this->log.push_back(item);
-	if (this->log.size() > MAX_LOG) {
-		this->log.erase(this->log.begin());
-	}
-}
-
-int PlayerChar::getSightRadius() {
-	return SIGHT_RADIUS;
-}
