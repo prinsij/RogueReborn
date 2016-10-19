@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Rogue" company="Team Rogue++" webLink="" view-date="2016-10-07" view-index="0" gantt-divider-location="442" resource-divider-location="297" version="2.8.1" locale="en_US">
+<?xml version="1.0" encoding="UTF-8"?><project name="Rogue" company="Team Rogue++" webLink="" view-date="2016-10-08" view-index="0" gantt-divider-location="442" resource-divider-location="297" version="2.8.1" locale="en_US">
     <description><![CDATA[3XA3 Cornerstone]]></description>
     <view zooming-state="default:3" id="gantt-chart">
         <field id="tpd3" name="Name" width="325" order="0"/>
@@ -42,11 +42,7 @@
             <task id="68" name="Due: Requirements Document" color="#cccc00" meeting="true" start="2016-10-11" duration="0" complete="0" expand="true"/>
         </task>
         <task id="51" name="Development" color="#cc3300" meeting="false" start="2016-10-10" duration="37" complete="0" expand="true">
-            <task id="53" name="Early Development" color="#cc3300" meeting="false" start="2016-10-10" duration="5" complete="0" expand="true">
-                <notes><![CDATA[See requirements in PoC Final Changes task]]></notes>
-                <depend id="55" type="2" difference="0" hardness="Strong"/>
-            </task>
-            <task id="55" name="PoC Branch Development" color="#cc3300" meeting="false" start="2016-10-17" duration="1" complete="0" expand="true">
+            <task id="53" name="Early Development" color="#cc3300" meeting="false" start="2016-10-10" duration="6" complete="0" expand="true">
                 <notes><![CDATA[See requirements in PoC Final Changes task]]></notes>
                 <depend id="64" type="2" difference="0" hardness="Strong"/>
             </task>
@@ -138,7 +134,6 @@ See src/Class_Outline.txt for rough implementation responsibilities outline.]]><
         <allocation task-id="136" resource-id="3" function="Default:1" responsible="false" load="75.0"/>
         <allocation task-id="26" resource-id="3" function="Default:1" responsible="true" load="100.0"/>
         <allocation task-id="53" resource-id="3" function="Default:1" responsible="false" load="100.0"/>
-        <allocation task-id="55" resource-id="3" function="Default:1" responsible="true" load="100.0"/>
         <allocation task-id="64" resource-id="3" function="Default:1" responsible="false" load="100.0"/>
         <allocation task-id="96" resource-id="3" function="Default:1" responsible="false" load="25.0"/>
         <allocation task-id="85" resource-id="3" function="Default:1" responsible="true" load="50.0"/>
@@ -165,7 +160,6 @@ See src/Class_Outline.txt for rough implementation responsibilities outline.]]><
         <allocation task-id="26" resource-id="6" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="38" resource-id="6" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="53" resource-id="6" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="55" resource-id="6" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="64" resource-id="6" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="96" resource-id="6" function="Default:0" responsible="false" load="25.0"/>
         <allocation task-id="85" resource-id="6" function="Default:0" responsible="false" load="50.0"/>
