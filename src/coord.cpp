@@ -1,6 +1,7 @@
 #include "include/coord.h"
 #include <string>
 #include <cmath>
+#include <algorithm>
 
 Coord::Coord(int x, int y)
 	: x(x)
@@ -72,4 +73,8 @@ bool Coord::operator!=(const Coord& other) {
 
 std::string Coord::toString() const{
 	return std::to_string(x) + ", " + std::to_string(y);
+}
+
+int Coord::distanceTo(const Coord& other) const {
+	return std::max(std::abs(x - other.x), std::abs(y - other.y));
 }

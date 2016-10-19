@@ -25,6 +25,8 @@ class Coord {
 		Coord asScreen();
 		Coord copy();
 		std::string toString() const;
+		// maximum distance in either dimension
+		int distanceTo(const Coord&) const;
 	private:
 		int x, y;
 		static const int MAPX = 0, MAPY = 2;
