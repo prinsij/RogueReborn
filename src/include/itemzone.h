@@ -7,7 +7,7 @@
 class ItemZone {
 	public:
 		ItemZone();
-		Item operator[](int);
+		Item* operator[](int);
 		void add(Item&);
 		bool contains(Item*);
 		bool contains(const std::string&);
@@ -15,5 +15,18 @@ class ItemZone {
 		bool remove(Item*);
 
 	private:
-		std::vector<Item> contents;
+		struct KeysItem {
+			Item* item;
+			int quantity;
+			KeysItem(Item* item, int quantity)
+				: item(item)
+				, quantity(quantity)
+			{}
+		};
+		std::map<char, KeysItem> contents;
+		static const int MAX_SIZE = 23;
+		const std::string KEYS = "abcdefghijklmnopqrstuvwxyz";
+		char getFreeChar();
+		KeysItem* getItem(char);
+		KeysItem* getItem(Item&);
 };
