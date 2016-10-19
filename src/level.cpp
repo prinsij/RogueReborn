@@ -1,7 +1,5 @@
 
 
-#include "include/terrain.h"
-#include "include/mob.h"
 #include <vector>
 #include <queue>
 #include <map>
@@ -16,6 +14,8 @@
 #include "include/random.h"
 #include "include/playerchar.h"
 #include "include/tunnel.h"
+#include "include/terrain.h"
+#include "include/mob.h"
 
 Level::Level(int depth) 
 	: size(getSize())
@@ -345,4 +345,26 @@ std::vector<Coord> Level::traceBack(Coord end, Coord start){
 	path.push_back(start.copy());
 
 	return path;
+}
+
+Coord Level::throwLocation(Coord start, Coord dir){
+
+	Coord step = start.copy();
+
+	while((*this)[step].isPassable() && !monsterAt(step)){
+		step = step + dir;
+	}
+
+	return step;
+}
+
+bool Level::monsterAt(Coord s){
+
+	for (ClockItem c : mobs){
+		if (c.mob->getLocation() == s){
+			return true;
+		}
+	}
+
+	return false;
 }
