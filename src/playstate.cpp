@@ -72,16 +72,16 @@ PlayState::PlayState(PlayerChar* play, Level* lvl)
 	, prompt(NULL)
 {
 	play->appendLog("Hello " + play->getName() + ". Welcome to the Dungeons of Doom. Type [?] for help.");
-	updateMap();
+	currRoom = updateMap();
 }
 
-void PlayState::updateMap() {
+Room* PlayState::updateMap() {
 	for (auto x=-1; x < 2; x++) {
 		for (auto y=-1; y < 2; y++) {
 			(*level)[player->getLocation()+Coord(x,y)].setIsSeen(Terrain::Seen);
 		}
 	}
-	for (auto room : level->getRooms()) {
+	for (auto& room : level->getRooms()) {
 		if (room.contains(player->getLocation())) {
 			for (auto x=room.getPosition1()[0]-1; x < room.getPosition2()[0]+2; x++) {
 				for (auto y=room.getPosition1()[1]-1; y < room.getPosition2()[1]+2; y++) {
@@ -89,9 +89,10 @@ void PlayState::updateMap() {
 				}
 			}
 			// rooms can't overlap
-			break;
+			return &room;
 		}
 	}
+	return NULL;
 }
 
 void PlayState::draw(TCODConsole* con) {
@@ -103,6 +104,10 @@ void PlayState::draw(TCODConsole* con) {
 			if (ter.isSeen() == Terrain::Seen) {
 				auto scrPos = mapPos.asScreen();
 				con->putChar(scrPos[0], scrPos[1], (*level)[mapPos].getSymbol());
+				if (mapPos.distanceTo(player->getLocation()) > player->getSightRadius() &&
+					(currRoom == NULL || !currRoom->contains(mapPos, 1))) {
+					con->setCharForeground(scrPos[0], scrPos[1], TCODColor::grey);
+				}
 			}
 		}
 	}
@@ -168,7 +173,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	}
 	if (newPos != player->getLocation() && level->contains(newPos) && (*level)[newPos].isPassable()) {
 		player->setLocation(newPos);
-		updateMap();
+		currRoom = updateMap();
 	}
 	level->pushMob(player, 50);
 	return this;
