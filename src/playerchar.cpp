@@ -214,3 +214,7 @@ void PlayerChar::appendLog(std::string item) {
 		this->log.erase(this->log.begin());
 	}
 }
+
+int PlayerChar::getSightRadius() {
+	return SIGHT_RADIUS;
+}

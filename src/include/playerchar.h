@@ -47,6 +47,7 @@ class PlayerChar : public Mob {
 		bool zap(Wand*, Level*);
 		std::vector<std::string>& getLog();
 		void appendLog(std::string);
+		int getSightRadius();
 
 	private:
 		int currentStr;
@@ -61,7 +62,7 @@ class PlayerChar : public Mob {
 		int maxStr;
 		static const int START_ARMOR = 1, 
 		START_EXP = 0, START_GOLD = 0, START_HP = 12,
-		START_LEVEL = 1, START_STR = 16;		
+		START_LEVEL = 1, START_STR = 16, SIGHT_RADIUS=1;		
 
 		bool removeItem(Item*);
 };
