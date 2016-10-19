@@ -177,8 +177,6 @@ void Level::generate(PlayerChar player) {
 		}
 	}
 
-	std::cout << "I'm made " << tunnels.size() << " tunnels" << std::endl;
-
 	for (Tunnel t : tunnels){
 		t.dig(*this);
 	}
@@ -192,126 +190,90 @@ void Level::addTunnel(int i, int j, bool* a, bool* b, Generator gen){
 	}
 }
 
-void Level::addPerps(Coord current, std::queue<Coord>& deltas){
-	
-	Coord target;
-
-	target = current + Coord(1, 0);
-	tryAdd(current, deltas, target);
-
-	target = current + Coord(-1, 0);
-	tryAdd(current, deltas, target);
-
-	target = current + Coord(0, 1);
-	tryAdd(current, deltas, target);
-
-	target = current + Coord(0, -1);
-	tryAdd(current, deltas, target);
-}
-
-void Level::addDiags(Coord current, std::queue<Coord>& deltas){
-	
-	Coord target;
-
-	target = current + Coord(1, 1);
-	tryAdd(current, deltas, target);
-
-	target = current + Coord(-1, 1);
-	tryAdd(current, deltas, target);
-
-	target = current + Coord(-1, -1);
-	tryAdd(current, deltas, target);
-
-	target = current + Coord(1, -1);
-	tryAdd(current, deltas, target);
-}
-
 void Level::tryAddPassable(Coord current, std::queue<Coord>& q, Coord target){
 
 	if (target[0] > 0 && target[0] < size[0] && target[1] > 0 && target[1] < size[1]){
 
-		if(tiles[target[0]][target[1]].isPassable() == Terrain::Passable && !tiles[target[0]][target[1]].checked){
-			q.push(target.copy());
-			tiles[target[0]][target[1]].checked = true;
-			Coord t_ = target.copy();
-			Coord c_ = current.copy();
+		if(tiles[target[0]][target[1]].isPassable() == Terrain::Passable && !(tiles[target[0]][target[1]].checked)){
 
-			//parents.insert(std::make_pair(t_, c_));
+			Coord c_ = current.copy();
+			Coord p_ = target.copy();
+
+			q.push(p_);
+
+			tiles[target[0]][target[1]].checked = true;
+			tiles[target[0]][target[1]].parent = c_;
 		}
 	}
 }
 
-void Level::tryAdd(Coord current, std::queue<Coord>& deltas, Coord target){
+void Level::tryAdd(Coord current, std::queue<Coord>& q, Coord target){
 
 	if (target[0] > 0 && target[0] < size[0] && target[1] > 0 && target[1] < size[1]){
 
 		if(!(tiles[target[0]][target[1]].checked)){
 
-			Coord t_ = target.copy();
 			Coord c_ = current.copy();
 			Coord p_ = target.copy();
 
-			Coord f_ = target.copy();
+			q.push(p_);
 
-			deltas.push(p_);
-
-			tiles[f_[0]][f_[1]].checked = true;
-			tiles[f_[0]][f_[1]].parent = c_;
+			tiles[target[0]][target[1]].checked = true;
+			tiles[target[0]][target[1]].parent = c_;
 		}
 	}
 }
 
 std::vector<Coord> Level::bfsDiag(Coord start, Coord end){
 
-	/*
+	resetPF();
 
-	for (auto x=0; x < size[0]; x++) {
-		for (auto y=0; y < size[1]; y++) {
-			tiles[x][y].checked = false;
-		}
-	}
+	std::queue<Coord> q;
+	q.push(start.copy());
 
-	std::queue<Coord> delta;
-	delta.push(start.copy());
+	while(!q.empty()){
 
-	while(!delta.empty()){
-
-		Coord current = delta.front();
-		delta.pop();
+		Coord current = q.front().copy();
+		q.pop();
 
 		if (current == end){
 			break;
 		}
+	
+		Coord target;
 
-		//addPerps(current, delta, parents);
-		//addDiags(current, delta, parents);
+		target = current + Coord(1, 0);
+		tryAddPassable(current, q, target);
+
+		target = current + Coord(-1, 0);
+		tryAddPassable(current, q, target);
+
+		target = current + Coord(0, 1);
+		tryAddPassable(current, q, target);
+
+		target = current + Coord(0, -1);
+		tryAddPassable(current, q, target);
+	
+		target = current + Coord(1, 1);
+		tryAddPassable(current, q, target);
+
+		target = current + Coord(-1, 1);
+		tryAddPassable(current, q, target);
+
+		target = current + Coord(1, -1);
+		tryAddPassable(current, q, target);
+
+		target = current + Coord(-1, -1);
+		tryAddPassable(current, q, target);
 	}
 
-	//TODO: Put this into its own function
-	std::vector<Coord> path;
-	Coord current = end.copy();
-	while(current != start){
-
-		path.push_back(current);
-		current = parent[current[0]][current[1]].copy();
-	}
-	path.push_back(start.copy());
-
+	std::vector<Coord> path = traceBack(end, start);
 	return path;
-
-	*/
 }
 
 std::vector<Coord> Level::bfsPerp(Coord start, Coord end){
 
-	std::cout << "AAA" << std::endl;
-
-	for (auto x=0; x < size[0]; x++) {
-		for (auto y=0; y < size[1]; y++) {
-			tiles[x][y].checked = false;
-			tiles[x][y].parent = Coord(0,0);
-		}
-	}
+	resetPF();
 
 	std::queue<Coord> q;
 	q.push(start.copy());
@@ -340,26 +302,33 @@ std::vector<Coord> Level::bfsPerp(Coord start, Coord end){
 		tryAdd(current, q, target);
 	}
 
-	std::cout << "FEF" << std::endl;
+	std::vector<Coord> path = traceBack(end, start);
+	return path;
+}
+
+void Level::resetPF(){
+
+	for (auto x=0; x < size[0]; x++) {
+		for (auto y=0; y < size[1]; y++) {
+			tiles[x][y].checked = false;
+			tiles[x][y].parent = Coord(0,0);
+		}
+	}
+}
+
+std::vector<Coord> Level::traceBack(Coord end, Coord start){
 
 	std::vector<Coord> path;
 	Coord current = end.copy();  
 
-	std::cout << "Going from: " << start[0] << ", " << start[1] << std::endl;
-	std::cout << "Going to: " << end[0] << ", " << end[1] << std::endl;
-
 	int count = 0;
 
-
-	std::cout << current[0] << ", " << current[1] << std::endl;
 	while(current != start){
 
 		Coord c_ = current.copy();
 
 		path.push_back(c_);
 		current = tiles[current[0]][current[1]].parent.copy();
-
-		std::cout << current[0] << ", " << current[1] << std::endl;
 
 		count++;
 
@@ -369,28 +338,7 @@ std::vector<Coord> Level::bfsPerp(Coord start, Coord end){
 		}
 	}
 
-	std::cout << "Start: " << start[0] << ", " << start[1] << std::endl;
-	std::cout << "Current: " << current[0] << ", " << current[1] << std::endl;
-
 	path.push_back(start.copy());
 
 	return path;
-
-}
-
-std::vector<Coord> Level::getDeltas(std::vector<Coord> path, Coord start){
-
-	std::vector<Coord> deltas;
-	std::reverse(path.begin(), path.end());
-
-	if (start != path[0]){
-		std::cout << "Start != path[0]" << std::endl;
-	}
-
-	for (int i = 0; i < path.size()-1; i++){
-		Coord delta = path[i+1]-path[i];
-		deltas.push_back(delta);
-	}	
-
-	return deltas;
 }

@@ -39,9 +39,6 @@ class Level {
 		//Performs BFS without diagonals, returns deltas
 		std::vector<Coord> bfsPerp(Coord, Coord);
 
-		//Gets a delta vector based on a path and a start coord
-		std::vector<Coord> getDeltas(std::vector<Coord>, Coord);
-
 		//Given a coord, returns coords to which you can move to nearby (3x3 box)
 		std::vector<Coord> getAdjPassable(Coord);
 
@@ -49,7 +46,7 @@ class Level {
 		Coord throwLocation(Coord, Coord);
 
 		std::vector<Room>& getRooms();
-		
+
 	private:
 
 		// Store mobs with a notation for how many
@@ -78,15 +75,13 @@ class Level {
 		Coord size;
 		int depth;
 
-		//Add perpendicular coords
-		void addPerps(Coord, std::queue<Coord>&);
-
-		//Add diagonal coords
-		void addDiags(Coord, std::queue<Coord>&);
-
 		//Try to add a coord to the q
 		void tryAddPassable(Coord, std::queue<Coord>&, Coord);
 
 		//Try to add a coord to the q
 		void tryAdd(Coord, std::queue<Coord>&, Coord);
+
+		void resetPF();
+
+		std::vector<Coord> traceBack(Coord, Coord);
 };
