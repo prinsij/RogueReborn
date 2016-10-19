@@ -1,5 +1,4 @@
 
-
 mainbuild:
   script:
     - make -C ./src/
