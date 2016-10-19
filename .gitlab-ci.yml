@@ -1,0 +1,7 @@
+
+
+mainbuild:
+  script:
+    - cd src/
+    - make
+    - cd ..
