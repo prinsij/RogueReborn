@@ -3,6 +3,7 @@
 #include "include/playerchar.h"
 #include "include/level.h"
 #include "include/ripscreen.h"
+#include "include/invscreen.h"
 #include "libtcod/include/libtcod.hpp"
 #include <iostream>
 #include <string>
@@ -159,6 +160,9 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	if (key.c == 'Q') {
 		prompt = new QuitPrompt(player, level);
 		return this;
+	}
+	if (key.c == 'i') {
+		return new InvScreen(player, level);
 	}
 	//Arrow controls
 	auto newPos = player->getLocation().copy();
