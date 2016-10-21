@@ -1,5 +1,9 @@
 
-all: *.cpp
-	@echo "I'm compiling tests" 
+source: *.cpp
+	@echo Compiling tests...
+	@g++ -g *.cpp -o TestRogueReborn.exe -L. -Wl,-rpath=. -Wall -std=c++11
 
-default: all
+clean:
+	@rm -f TestRogueReborn.exe
+
+default: source

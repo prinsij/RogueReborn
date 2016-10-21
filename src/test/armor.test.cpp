@@ -2,11 +2,11 @@
 #include <vector>
 #include <iostream>
 
-#include "include/armor.h"
+#include "../include/armor.h"
 
 
 int main(){
 
-	sd::cout << "Hello" << std::endl;
+	std::cout << "Hello" << std::endl;
 
 }

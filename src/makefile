@@ -1,12 +1,12 @@
-all: *.cpp
+source: *.cpp
+	@echo Compiling sources...
 	@cp ./libtcod/*.so .
 	@g++ -g *.cpp -o RogueReborn.exe -I./libtcod/include -L. -ltcod -ltcodxx -Wl,-rpath=. -Wall -std=c++11
-
-default: all test
-
-tests:
-	@make -C test
+	@make source -C test
 
 clean:
 	@rm -f RogueReborn.exe *.so
 	@rm -f scores.txt
+	@make clean -C test
+
+default: source
