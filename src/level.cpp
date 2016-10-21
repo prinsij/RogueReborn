@@ -14,6 +14,7 @@
 #include "include/tunnel.h"
 #include "include/terrain.h"
 #include "include/mob.h"
+#include "include/feature.h"
 
 Level::Level(int depth) 
 	: size(getSize())
@@ -25,6 +26,10 @@ Level::Level(int depth)
 			tiles[x].push_back(Wall());
 		}
 	}
+}
+
+std::vector<Feature*>& Level::getFeatures() {
+	return features;
 }
 
 int Level::getDepth() {

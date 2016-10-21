@@ -10,6 +10,7 @@
 #include "goldpile.h"
 #include "room.h"
 #include "tunnel.h"
+#include "feature.h"
 
 class Room;
 
@@ -48,6 +49,8 @@ class Level {
 
 		std::vector<Room>& getRooms();
 
+		std::vector<Feature*>& getFeatures();
+
 	private:
 
 		// Store mobs with a notation for how many
@@ -71,6 +74,7 @@ class Level {
 		std::vector<ClockItem> mobs;
 		std::vector<GoldPile> golds;
 		std::vector<Tunnel> tunnels;
+		std::vector<Feature*> features;
 		int genGoldAmount(Generator);
 		void addTunnel(int, int, bool*, bool*, Generator);
 		Coord size;
