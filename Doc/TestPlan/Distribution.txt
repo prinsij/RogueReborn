@@ -1,0 +1,21 @@
+I = Ian
+O = Ori
+M = Mikhail
+
+---
+
+M - General Information (4)
+O - Plan (4)
+I - Unit Testing Plan (4)
+
+---
+
+O - Tests for Functional Requirements (3)
+M - Tests for Nonfunctional Requirements  (3)
+I - Tests for Proof of Concept (3)
+
+---
+
+O - Comparison to Existing Implementation (2)
+I - Appendix (Survey) (2)
+M - Editing (?)
