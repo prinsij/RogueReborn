@@ -12,3 +12,5 @@ char Feature::getSymbol() {
 Coord Feature::getLocation() {
 	return this->location;
 }
+
+Feature::~Feature() {}
