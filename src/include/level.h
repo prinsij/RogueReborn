@@ -59,6 +59,8 @@ class Level {
 			int delay;
 		};
 
+		static const Coord nearby[8] = { Coord(-1,-1), Coord(0,-1), Coord(1,-1), Coord(1,0), Coord(1,1), Coord(0,1), Coord(-1,1), Coord(-1,0) };
+
 		const int MAX_ROOMS = 9;
 		const double GOLD_CHANCE = .333;
 		const double ROOM_EXIST_CHANCE = 0.9;
