@@ -16,5 +16,8 @@
 # CLion stuff (ignore)
 .idea/*
 
+# Score record file
+scores.txt
+
 # Library files
 src/*.so

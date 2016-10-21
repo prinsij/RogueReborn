@@ -4,6 +4,10 @@
 #include "include/level.h"
 #include "include/ripscreen.h"
 #include "include/invscreen.h"
+#include "include/stairs.h"
+#include "include/feature.h"
+#include "include/item.h"
+#include "include/goldpile.h"
 #include "libtcod/include/libtcod.hpp"
 #include <iostream>
 #include <string>
@@ -119,6 +123,11 @@ void PlayState::draw(TCODConsole* con) {
 	} else if (player->getLog().size() > 0) {
 		con->print(0, 0, player->getLog().back().c_str());
 	}
+	// Display the features
+	for (Feature* feat : level->getFeatures()) {
+		auto scrPos = feat->getLocation().asScreen();
+		con->putChar(scrPos[0], scrPos[1], feat->getSymbol());
+	}
 	// Display the mobs
 	for (Mob* mob : level->getMobs()) {
 		auto scrPos = mob->getLocation().asScreen();
@@ -178,6 +187,26 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	if (newPos != player->getLocation() && level->contains(newPos) && (*level)[newPos].isPassable()) {
 		player->setLocation(newPos);
 		currRoom = updateMap();
+		for (Feature*& feat : level->getFeatures()) {
+			if (feat->getLocation() != newPos) {
+				continue;
+			}
+			Item* i = dynamic_cast<Item*>(feat);
+			if (i != NULL) {
+				player->pickupItem(i);
+				continue;
+			}
+			GoldPile* gp = dynamic_cast<GoldPile*>(feat);
+			if (gp != NULL) {
+				player->collectGold(gp);
+				feat = NULL;
+				continue;
+			}
+			Stairs* st = dynamic_cast<Stairs*>(feat);
+			if (st != NULL) {
+				std::cout << "transition level\n";
+			}
+		}
 	}
 	level->pushMob(player, 50);
 	return this;

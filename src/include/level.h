@@ -10,6 +10,7 @@
 #include "goldpile.h"
 #include "room.h"
 #include "tunnel.h"
+#include "feature.h"
 
 class Room;
 
@@ -48,6 +49,8 @@ class Level {
 
 		std::vector<Room>& getRooms();
 
+		std::vector<Feature*>& getFeatures();
+
 	private:
 
 		// Store mobs with a notation for how many
@@ -59,9 +62,9 @@ class Level {
 			Mob* mob;
 			int delay;
 		};
-
 		const Coord nearby[8] = { Coord(-1,-1), Coord(0,-1), Coord(1,-1), Coord(1,0), Coord(1,1), Coord(0,1), Coord(-1,1), Coord(-1,0) };
-		const int MAX_ROOMS = 9;
+#define MAX_ROOMS_DEF (9)
+		static const int MAX_ROOMS = 9;
 		const double GOLD_CHANCE = .333;
 		const double ROOM_EXIST_CHANCE = 0.9;
 		static const int ROOM_PADDING = 2;
@@ -72,6 +75,7 @@ class Level {
 		std::vector<ClockItem> mobs;
 		std::vector<GoldPile> golds;
 		std::vector<Tunnel> tunnels;
+		std::vector<Feature*> features;
 		int genGoldAmount(Generator);
 		void addTunnel(int, int, bool*, bool*, Generator);
 		Coord size;
