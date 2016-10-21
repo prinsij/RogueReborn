@@ -354,6 +354,14 @@ std::vector<Coord> Level::traceBack(Coord end, Coord start){
 	return path;
 }
 
+std::vector<Coord> Level::getAdjPassable(Coord s){
+
+	std::vector<Coord> sample;
+
+	return sample;
+	
+}
+
 Coord Level::throwLocation(Coord start, Coord dir){
 
 	Coord step = start.copy();
