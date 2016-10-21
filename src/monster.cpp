@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cmath> 
 #include <iostream>
 #include <map>
 #include <string>
@@ -58,11 +59,22 @@ Monster::Monster(char symbol, Coord location)
 	name = std::get<7>(monsterTuple);
 }
 
-void Monster::attack(Mob* mob) {
+void Monster::attack(Level* level) {
 	std::cout << "Monster " << this->getName() << " Attack\n";
 
 	// TODO
+	
+	/*
+	std::vector<Coord> possibleCoords = level->getAdjPassable(this->location);
 
+	for (auto coordIt = possibleCoords.begin() ; coordIt != possibleCoords.end() ; coordIt++) {
+		PlayerChar* playerChar = level->playerCharAt(*coordIt);
+		if (playerChar != NULL) {
+			playerChar->hit(this->calculateDamage());
+			break;
+		}
+	}
+	*/
 }
 
 int Monster::calculateDamage() {
@@ -75,10 +87,38 @@ int Monster::getCarryChance() {
 	return this->carryChance;
 }
 
+std::vector<char> Monster::getSymbolsForLevel(int depth) {
+	std::vector<char> symbols;
+
+	for (auto monsterIt = Monster::templateMap.begin() ; monsterIt != Monster::templateMap.end() ; monsterIt++) {
+		std::pair<int, int> levelRange = std::get<8>(monsterIt->second);
+
+		if (levelRange.first <= depth && depth <= levelRange.second) {
+			symbols.push_back(monsterIt->first);
+		}
+	}
+
+	return symbols;
+}
+
+std::vector<char> Monster::getSymbolsForTreasure(int depth) {
+	return getSymbolsForLevel(depth);
+}
+
+void Monster::relocate(Level* level) {
+	/*
+	if (rand() % 2 == 0) {
+		std::vector<Coord> possibleCoords = level->getAdjPassable(this->location);
+		this->location = possibleCoords[rand() % possibleCoords.size()];
+	}
+	*/
+}
+
 int Monster::turn(Level* level) {
 	std::cout << "Monster " << this->getName() << "'s Turn\n";
 
-	// TODO
+	relocate(level);
+	attack(level);
 
 	return 1;
 }

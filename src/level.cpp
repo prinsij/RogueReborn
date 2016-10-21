@@ -1,5 +1,3 @@
-
-
 #include <vector>
 #include <queue>
 #include <map>
@@ -27,6 +25,10 @@ Level::Level(int depth)
 			tiles[x].push_back(Wall());
 		}
 	}
+}
+
+int Level::getDepth() {
+	return depth;
 }
 
 Terrain& Level::operator[](Coord coord) {
@@ -150,7 +152,7 @@ void Level::generate(PlayerChar player) {
 	}
 
 	//Used to say: If A -> B, then B -> A
-	bool symmetric [MAX_ROOMS][MAX_ROOMS];//Take care of non-existent rooms
+	bool symmetric [MAX_ROOMS][MAX_ROOMS] = {{0}};//Take care of non-existent rooms
 
 	for (auto i=0; i < MAX_ROOMS; i++){
 

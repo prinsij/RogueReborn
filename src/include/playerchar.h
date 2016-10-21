@@ -22,7 +22,9 @@ class PlayerChar : public Mob {
 	public:
 		PlayerChar(Coord, std::string);
 		void activateItem(Item*);
+		void appendLog(std::string);
 		void attack(Mob*);
+		int calculateDamage();
 		void collectGold(GoldPile*);
 		bool dropItem(Item*);
 		void eat(Food*);
@@ -31,11 +33,11 @@ class PlayerChar : public Mob {
 		void equipRingRight(Ring*);
 		void equipWeapon(Weapon*);
 		int getGold();
-		std::vector<std::pair<Item*, int>> getInventory();
+		std::vector<std::pair<Item*, int> > getInventory();
 		int getStrength();
 		int getMaxStrength();
+		int getSightRadius();
 		bool hasAmulet();
-		int maxDelved();
 		void pickupItem(Item*);
 		void quaff(Potion*, Mob*);
 		void read(Scroll*, Level*);
@@ -46,11 +48,10 @@ class PlayerChar : public Mob {
 		bool throwItem(Item*);
 		bool zap(Wand*, Level*);
 		std::vector<std::string>& getLog();
-		void appendLog(std::string);
-		int getSightRadius();
-
+		
 	private:
 		int currentStr;
+		int foodLife;
 		int gold;
 		ItemZone inventory;
 		Armor* itemArmor;
@@ -60,9 +61,12 @@ class PlayerChar : public Mob {
 		std::vector<std::string> log;
 		static const int MAX_LOG = 30;
 		int maxStr;
-		static const int START_ARMOR = 1, 
-		START_EXP = 0, START_GOLD = 0, START_HP = 12,
-		START_LEVEL = 1, START_STR = 16, SIGHT_RADIUS=1;		
-
-		bool removeItem(Item*);
+		static const int START_ARMOR = 1; 
+		static const int START_EXP = 0;
+		static const int START_GOLD = 0;
+		static const int START_HP = 12;
+		static const int START_LEVEL = 1;
+		static const int START_STR = 16;
+		static const int SIGHT_RADIUS = 1;
+		static const int START_FOOD = 1250;		
 };

@@ -9,6 +9,6 @@ class PlayerChar;
 
 class Food : public Item {
 	public:
-		Food(Coord, Item::Context, std::string, std::string, unsigned char);
+		Food(Coord, Item::Context);
 		bool activate(PlayerChar*);
 };

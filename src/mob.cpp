@@ -1,3 +1,4 @@
+#include <cmath>
 #include <string>
 
 #include "include/coord.h"
@@ -12,9 +13,9 @@ Mob::Mob(char symbol, Coord location, std::string name, int armor, int exp, int 
 	  currentHP(mobHP),
 	  exp(exp),
 	  level(level),
+	  location(location),
 	  maxHP(mobHP),
 	  name(name),
-	  location(location),
 	  symbol(symbol) {}
 
 int Mob::diceSum(int rolls, int faces) {
@@ -56,6 +57,13 @@ std::string Mob::getName() {
 
 char Mob::getSymbol() {
 	return symbol;
+}
+
+void Mob::hit(int damage) {
+	// TODO
+	
+	int deltaHP = std::max(1, damage - this->armor);
+	this->currentHP -= deltaHP;
 }
 
 void Mob::moveLocation(Coord location) {

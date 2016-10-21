@@ -12,6 +12,7 @@ class Mob {
 		static int diceSum(int, int);
 
 		virtual void attack(Mob*) = 0;
+		virtual int calculateDamage() = 0;
 		void changeArmor(int);
 		int getArmor();
 		int getExperience();
@@ -21,6 +22,7 @@ class Mob {
 		Coord& getLocation();
 		std::string getName();
 		char getSymbol();
+		void hit(int);
 		void moveLocation(Coord);
 		void setCurrentHP(int);
 		void setLocation(Coord);
@@ -33,10 +35,10 @@ class Mob {
 		int currentHP;
 		int exp;
 		int level;
+		Coord location;
 		int maxHP;
 		std::string name;
 
 	private:
-		Coord location;
 		char symbol;
 };

@@ -3,7 +3,7 @@
 #include "include/trap.h"
 
 Trap::Trap(Coord location, unsigned char type, bool visible)
-	: Feature('.', location),
+	: Feature('^', location),
 	  type(type),
 	  visible(visible) {}
 

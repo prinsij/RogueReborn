@@ -3,6 +3,7 @@
 #include "include/playerchar.h"
 #include "include/level.h"
 #include "include/ripscreen.h"
+#include "include/invscreen.h"
 #include "libtcod/include/libtcod.hpp"
 #include <iostream>
 #include <string>
@@ -53,7 +54,7 @@ class QuitPrompt : public Prompt {
 
 		virtual Transition handleInput(TCOD_key_t key) {
 			if (key.c == 'y' || key.c == 'Y') {
-				return Transition(NULL, new RIPScreen(player));
+				return Transition(NULL, new RIPScreen(player, level, "retired"));
 			}
 			if (key.c == 'n' || key.c == 'N') {
 				return Transition(NULL, NULL);
@@ -82,7 +83,7 @@ Room* PlayState::updateMap() {
 		}
 	}
 	for (auto& room : level->getRooms()) {
-		if (room.contains(player->getLocation())) {
+		if (room.contains(player->getLocation(), 1)) {
 			for (auto x=room.getPosition1()[0]-1; x < room.getPosition2()[0]+2; x++) {
 				for (auto y=room.getPosition1()[1]-1; y < room.getPosition2()[1]+2; y++) {
 					(*level)[Coord(x,y)].setIsSeen(Terrain::Seen);
@@ -159,6 +160,9 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	if (key.c == 'Q') {
 		prompt = new QuitPrompt(player, level);
 		return this;
+	}
+	if (key.c == 'i') {
+		return new InvScreen(player, level);
 	}
 	//Arrow controls
 	auto newPos = player->getLocation().copy();

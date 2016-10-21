@@ -6,6 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <exception>
+#include <algorithm>
 
 struct ScoreItem {
 	ScoreItem(int gold, int depth, std::string name, std::string death)
@@ -48,10 +49,15 @@ struct ScoreItem {
 		}
 		return true;
 	}
+
+	bool operator<(const ScoreItem& other) const {
+		return gold < other.gold;
+	}
 };
 
 
-RIPScreen::RIPScreen(PlayerChar* player)
+RIPScreen::RIPScreen(PlayerChar* player,
+					 Level* level, std::string reason)
 	: player(player)
 {
 	std::ifstream scoreFile(SCORE_FILE);
@@ -68,23 +74,26 @@ RIPScreen::RIPScreen(PlayerChar* player)
 	} else {
 		std::cerr << "could not open " << SCORE_FILE << "\n";
 	}
-	scores.push_back(ScoreItem(player->getGold(), -1, player->getName(), "unknown"));
+	scores.push_back(ScoreItem(player->getGold(), level->getDepth(), player->getName(), reason));
 	// create if not exist, otherwise append
 	std::ofstream outStream(SCORE_FILE, std::ios::app | std::ios::out);
 	if (outStream.is_open()) {
 		outStream << scores.back().encode() << "\n";
 	}
 	outStream.close();
+	delete level;
+	std::sort(scores.begin(), scores.end());
+	std::reverse(scores.begin(), scores.end());
 }
 
 void RIPScreen::draw(TCODConsole* con) {
-	int i = 0;
+	int y = 1;
 	for (ScoreItem item : scores) {
-		con->print(0, i, (std::to_string(item.gold) + ":" + item.name + " " + item.death 
+		con->print(0, y, (std::to_string(item.gold) + ":" + item.name + " " + item.death 
 					+ " on level " + std::to_string(item.depth)).c_str());
-		i++;
+		y++;
 	}
-	con->print(10, 10, std::string("rip").c_str());
+	con->print(0, 0, std::string("rip").c_str());
 }
 
 UIState* RIPScreen::handleInput(TCOD_key_t key) {

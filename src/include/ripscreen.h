@@ -2,6 +2,7 @@
 #include "uistate.h"
 #include "playerchar.h"
 #include "../libtcod/include/libtcod.hpp"
+#include "level.h"
 #include <vector>
 #include <string>
 #include <sstream>
@@ -10,7 +11,7 @@ struct ScoreItem;
 
 class RIPScreen : public UIState {
 	public:
-		RIPScreen(PlayerChar*);
+		RIPScreen(PlayerChar*, Level*, std::string);
 		virtual void draw(TCODConsole*);
 		virtual UIState* handleInput(TCOD_key_t);
 	private:

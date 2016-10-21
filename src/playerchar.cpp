@@ -13,8 +13,9 @@
 #include "include/weapon.h"
 
 PlayerChar::PlayerChar(Coord location, std::string name)
-	: Mob('@', location, name, START_ARMOR, START_EXP, START_HP, START_LEVEL),
+	: Mob('@', location, name, START_ARMOR, START_EXP, START_LEVEL, START_HP),
 	  currentStr(START_STR),
+	  foodLife(START_FOOD),
 	  gold(START_GOLD),
 	  inventory(ItemZone()),
 	  itemArmor(NULL),
@@ -23,10 +24,35 @@ PlayerChar::PlayerChar(Coord location, std::string name)
 	  itemWeapon(NULL),
 	  maxStr(START_STR) {}
 
+void PlayerChar::appendLog(std::string entry) {
+	this->log.push_back(entry);
+	if (this->log.size() > MAX_LOG) {
+		this->log.erase(this->log.begin());
+	}
+}
+
 void PlayerChar::attack(Mob* mob) {
 	std::cout << "PlayerChar Attack\n";
 
 	// TODO
+
+	/*
+	std::vector<Coord> possibleCoords = level->getAdjPassable(this->location);
+
+	for (auto coordIt = possibleCoords.begin() ; coordIt != possibleCoords.end() ; coordIt++) {
+		Monster* monster = level->monsterAt(*coordIt);
+		if (monster != NULL) {
+			monster->hit(this->calculateDamage());
+			break;
+		}
+	}
+	*/
+}
+
+int PlayerChar::calculateDamage() {
+	// TODO
+
+	return 1;
 }
 
 void PlayerChar::collectGold(GoldPile* goldpile) {
@@ -83,10 +109,10 @@ int PlayerChar::getGold() {
 	return this->gold;
 }
 
-std::vector<std::pair<Item*, int>> PlayerChar::getInventory() {
-	std::map<std::string, std::pair<Item*, int>> itemMap;
+std::vector<std::pair<Item*, int> > PlayerChar::getInventory() {
+	std::map<std::string, std::pair<Item*, int> > itemMap;
 	std::vector<Item*> contents = this->inventory.getContents();
-	std::vector<std::pair<Item*, int>> displayContents;
+	std::vector<std::pair<Item*, int> > displayContents;
 
 	for (auto itemIt = contents.begin() ; itemIt != contents.end() ; itemIt++) {
 		std::string itemName = (*itemIt)->getName();
@@ -107,6 +133,10 @@ std::vector<std::pair<Item*, int>> PlayerChar::getInventory() {
 	return displayContents;	
 }
 
+std::vector<std::string>& PlayerChar::getLog() {
+	return this->log;
+}
+
 int PlayerChar::getStrength() {
 	return this->currentStr;
 }
@@ -119,8 +149,9 @@ bool PlayerChar::hasAmulet() {
 	return this->inventory.contains("The Amulet of Yendor");
 }
 
-int PlayerChar::maxDelved() {
-	return -1;
+
+int PlayerChar::getSightRadius() {
+ 	return PlayerChar::SIGHT_RADIUS;
 }
 
 void PlayerChar::pickupItem(Item* item) {
@@ -202,19 +233,4 @@ bool PlayerChar::zap(Wand* wand, Level* level) {
 	// TODO
 
 	return true;
-}
-
-std::vector<std::string>& PlayerChar::getLog() {
-	return this->log;
-}
-
-void PlayerChar::appendLog(std::string item) {
-	this->log.push_back(item);
-	if (this->log.size() > MAX_LOG) {
-		this->log.erase(this->log.begin());
-	}
-}
-
-int PlayerChar::getSightRadius() {
-	return SIGHT_RADIUS;
 }

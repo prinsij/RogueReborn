@@ -5,43 +5,94 @@
 
 ItemZone::ItemZone() {}
 
-Item ItemZone::operator[](int i) {
-	return contents[i];
+Item* ItemZone::operator[](int x) {
+	int i = 0;
+	for (auto it=contents.begin(); it != contents.end(); it++) {
+		if (i == x) {
+			return it->second.item;
+		}
+	}
+	return NULL;
+}
+
+ItemZone::KeysItem* ItemZone::getItem(char symbol) {
+	auto result = contents.find(symbol);
+	if (result != contents.end()) {
+		return &result->second;
+	}
+	return NULL;
+}
+
+ItemZone::KeysItem* ItemZone::getItem(Item& item) {
+	for (auto it=contents.begin(); it != contents.end(); it++) {
+		if (it->second.item == &item) {
+			return &(it->second);
+		}
+	}
+	return NULL;
 }
 
 void ItemZone::add(Item& item) {
-	contents.push_back(item);
+	for (auto it=contents.begin(); it != contents.end(); it++) {
+		if (it->second.item->getType() == item.getType()) {
+			it->second.quantity += 1;
+		}
+	}
+	if (contents.size() >= MAX_SIZE) {
+		return;
+	}
+	char key = getFreeChar();
+	if (key == '0') {
+		return;
+	}
+	contents.insert(std::make_pair(key, ItemZone::KeysItem(&item, 1)));
+}
+
+char ItemZone::getFreeChar() {
+	for (char c : KEYS) {
+		for (auto it=contents.begin(); it != contents.end(); it++) {
+			if (it->first == c) {
+				goto L_Outer;
+			}
+		}
+		return c;
+		L_Outer:;
+	}
+	return '0';
 }
 
 bool ItemZone::contains(Item* item) {
-	return find(contents.begin(), contents.end(), *item) != contents.end();
+	return getItem(*item) != NULL;
 }
 
 bool ItemZone::contains(const std::string& itemName) {
-	for (auto itemIterator = contents.begin() ; itemIterator != contents.end() ; itemIterator++)	
-		if (itemIterator->getName() == itemName)
+	for (auto it=contents.begin(); it != contents.end(); it++) {
+		if (it->second.item->getName() == itemName) {
 			return true;
-
+		}
+	}
 	return false;
 }
 
 std::vector<Item*> ItemZone::getContents() {
 	std::vector<Item*> contentPointers;
 	
-	for (auto itemIterator = contents.begin() ; itemIterator != contents.end() ; itemIterator++) {
-		contentPointers.push_back(&(*itemIterator));
+	for (auto it=contents.begin(); it != contents.end(); it++) {
+		contentPointers.push_back(it->second.item);
 	}
 
 	return contentPointers;
 } 
 
 bool ItemZone::remove(Item* item) {
-	for (auto itemIterator = contents.begin() ; itemIterator != contents.end() ; itemIterator++) {
-		if (*itemIterator == *item) {
-			contents.erase(itemIterator);
+	for (auto it=contents.begin(); it != contents.end(); it++) {
+		if (it->second.item == item) {
+			it->second.quantity -= 1;
+			if (it->second.quantity <= 0) {
+				contents.erase(it);
+			}
 			return true;
 		}
-	}	
-
+	}
 	return false;
 }

@@ -22,6 +22,7 @@ class Level {
 		Terrain& operator[](Coord);
 		void generate(PlayerChar);
 		bool contains(Coord);
+		int getDepth();
 		static Coord getSize() { return Coord(X_SIZE, Y_SIZE); };
 
 		// Add a mob to the level's collection
@@ -60,8 +61,8 @@ class Level {
 		};
 
 		static const Coord nearby[8] = { Coord(-1,-1), Coord(0,-1), Coord(1,-1), Coord(1,0), Coord(1,1), Coord(0,1), Coord(-1,1), Coord(-1,0) };
-
 		const int MAX_ROOMS = 9;
+		static const int MAX_ROOMS = 9;
 		const double GOLD_CHANCE = .333;
 		const double ROOM_EXIST_CHANCE = 0.9;
 		static const int ROOM_PADDING = 2;
@@ -86,6 +87,5 @@ class Level {
 		void resetPF();
 
 		std::vector<Coord> traceBack(Coord, Coord);
-
 		bool monsterAt(Coord);
 };
