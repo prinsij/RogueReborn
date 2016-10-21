@@ -351,7 +351,9 @@ std::vector<Coord> Level::traceBack(Coord end, Coord start){
 
 std::vector<Coord> Level::getAdjPassable(Coord s){
 
-	
+	std::vector<Coord> sample;
+
+	return sample;
 	
 }
 
