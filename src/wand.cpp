@@ -4,6 +4,7 @@
 
 #include "include/coord.h"
 #include "include/item.h"
+#include "include/random.h"
 #include "include/wand.h"
 
 std::vector<WAND_TUPLE_TYPE > Wand::typeVector = {
@@ -31,11 +32,11 @@ std::vector<std::string> Wand::nameVector = Item::shuffleNameVector({
 
 
 Wand::Wand(Coord location)
-	: Wand(location, Item::Context::FLOOR, rand() % Wand::typeVector.size()) {}
+	: Wand(location, Item::Context::FLOOR, Generator::intFromRange(0, Wand::typeVector.size() - 1)) {}
 
 Wand::Wand(Coord location, Item::Context context, int type)
 	: Item('/', location, context, "Wand", std::get<0>(Wand::typeVector[type]), Wand::nameVector[type], type, false, false),
-	  charges(3 + (rand() % 5)) {}
+	  charges(Generator::intFromRange(3, 7)) {}
 
 bool Wand::activate(Level* level) {
 	this->charges--;

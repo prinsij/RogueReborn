@@ -125,7 +125,7 @@ void Level::generate(PlayerChar player) {
 		bool dne = false;
 
 		//If room DNE, set its size to 1x1
-		if (gen() > ROOM_EXIST_CHANCE){
+		if (gen.rand() > ROOM_EXIST_CHANCE){
 			roomSize = Coord(1,1);
 			dne = true;
 		}
