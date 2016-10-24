@@ -3,12 +3,16 @@
 #include <iostream>
 
 #include "include/armor.h"
+#include "testable.test.cpp"
 
-int test(){
+class ArmorTest : public Testable {
+	public:
+		ArmorTest(){
+			std::cout << "Creating armor test" << std::endl;
+		}
 
-	Armor a = Armor(Coord(5,5));
-
-	std::cout << a.getRating() << std::endl;
-
-	return 0;
-}
+		bool test(){
+			std::cout << "Testing armor!" << std::endl;
+			return true;
+		}
+};

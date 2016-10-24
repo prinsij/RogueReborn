@@ -4,6 +4,7 @@
 
 #include "include/coord.h"
 #include "include/item.h"
+#include "include/random.h"
 #include "include/scroll.h"
 
 
@@ -40,12 +41,12 @@ std::vector<std::string> Scroll::initializeScrollNames() {
 	std::vector<std::string> nameVector;
 	for (int type = 0 ; type < static_cast<int>(Scroll::typeVector.size()) ; type++) {
 		std::string scrollName = "Scroll titled '";
-		scrollName += Scroll::syllableVector[rand() % Scroll::syllableVector.size()];
+		scrollName += Scroll::syllableVector[Generator::intFromRange(0, Scroll::syllableVector.size() - 1)];
 
-		int syllables = 1 + (rand() % 3);
+		int syllables = Generator::intFromRange(1, 3);
 
 		for (int syll = 0 ; syll < syllables ; syll++) {
-			scrollName += " " + Scroll::syllableVector[rand() % Scroll::syllableVector.size()];
+			scrollName += " " + Scroll::syllableVector[Generator::intFromRange(0, Scroll::syllableVector.size() - 1)];
 		}
 
 		scrollName += "'";
@@ -56,7 +57,7 @@ std::vector<std::string> Scroll::initializeScrollNames() {
 }
 
 Scroll::Scroll(Coord location)
-	: Scroll(location, Item::Context::FLOOR, rand() % Scroll::typeVector.size()) {}
+	: Scroll(location, Item::Context::FLOOR, Generator::intFromRange(0, Scroll::typeVector.size() - 1)) {}
 
 Scroll::Scroll(Coord location, Item::Context context, int type)
 	: Item('?', location, context, "Scroll", std::get<0>(Scroll::typeVector[type]), Scroll::nameVector[type], type, true, true) {}

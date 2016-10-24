@@ -1,0 +1,6 @@
+#!/bin/bash
+if [ -d "temp" ]; then
+	rm -f *.cpp
+	cp temp/*.cpp .
+	rm -rf temp/
+fi
