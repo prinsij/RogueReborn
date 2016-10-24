@@ -3,6 +3,7 @@
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{hyperref}
+\usepackage{tikz}
 \hypersetup{
     colorlinks,
     citecolor=black,
@@ -94,11 +95,55 @@ This document ...
 		
 	\subsection{Software Description}
 
+	Initially, the plan for testing involved the usage of a pre-made testing system called Boost. Boost has industry renown and is very well documented. The drawback to using such a profound system is exactly its advantage - it is heavy, globally encompassing, and requires a lot of work to use properly. The Boost library is suitable for projects spanning years, with dedicated testing teams. This is not the present situation. With hardly over a month until the completion of the project, starting to use Boost would be most unwise.\\
+
+	Instead, an alternative solution has been proposed and implemented. Native test cases can be written in C++ to do exactly that which is required. The details of this implementation will be explained in the parts to follow.
+
 	\subsection{Test Team}
+
+	All members of the team will take part in the testing procedure. While Mikhail was given the title of project manager, and Ian C++ expert, Ori was assigned the role of testing expert. Testing will be monitored by Ori, but of course every member of the team will contribute to the testing facilities. It would be desirable for the team member who wrote class $C$ to write the unit tests for this class. Due to the dependency-tree-like structure of the project's design, there will be cases where a unit test for one class encompasses a partial system test for another one. This can be extrapolated from the class inheritance diagram.
 
 	\subsection{Automated Testing Approach}
 
+	We have made a very large attempt at automating whatever we could for this project. In the real world, any task that \textit{can} be automated, is automated. The steps we have taken are as follows:
+
+	\begin{itemize}
+		\item Set up a GitLab pipeline for the project. The pipeline is programmed to run a series of commands on an external VPS whenever a push is made to the git repository. Each run is documented and its history may be accessed.
+		\item Write a special makefile that outputs 2 executables: the first being the actual project, and the second the project's tests. The details will be delved into in the following sub-section.
+		\item The team's primary method of communication is Slack, a cross-platform, programmer-friendly chat interface. We hooked up the GitLab project repository to the Slack channel such that whenever a push is made or an issue addressed, a notification is sent. This method makes it far easier to communicate about project-related inquiries.
+	\end{itemize}
+
 	\subsection{Testing Tools}
+
+	The special makefile discussed previously utilizes a phenomenon of C++ to perform the necessary steps. First, it places \textit{all} source files into a dedicated folder, distinguishing between program files and test files. This is an absolutely necessary step, as there is an important relationship between \textit{source} and \textit{test} classes. See the diagram below:
+
+	\bigskip
+	\bigskip
+	\bigskip
+
+	% Venn-diagram
+	\centering
+	\begin{tikzpicture}[fill=white]
+		% left hand
+		\scope
+		\clip (1,0) circle (1);
+		\endscope
+
+		% right hand
+		\scope
+		\clip (0,0) circle (1);
+		\endscope
+
+		% outline
+		\draw 	(-1,0) circle (2) (-4,1)  node [text=black,above] {$Source$}
+		 		(1,0) circle (2) (4,1)  node [text=black,above] {$Test$};
+	\end{tikzpicture}
+	\flushleft
+
+	\bigskip
+	\bigskip
+
+	As the diagram above depicts, there are classes shared between both final programs. The vast majority of classes fall in the center, required by both the final project and its testing component. The files required by the test which are not required by the source are, obviously, testing-related files. These are the files that contain the test case implementations. The files required by the source which are not required by the test are 
 
 	\subsection{Testing Schedule}
 		
