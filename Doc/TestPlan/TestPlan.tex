@@ -41,7 +41,7 @@
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
 10/21/16 & 0.1 & Initial Setup\\
-10/24/16 & 0.2 & Add Unit Testing and Usability Survey
+10/24/16 & 0.2 & Add Unit Testing and Usability Survey \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -233,6 +233,7 @@ How test will be performed:
 			\item The dungeon generation functions. The work of generating the dungeon is complex, but it is also easy to automate verification of dungeon properties such as a correct number of rooms, connectness, compliance with formulas for item generation, presence or absence of certain key features such as the stairs connecting levels or the Amulet of Yendor in the final level.
 			\item The keyboard input functions. As libtcod provides a Key struct which models keyboard input, we can mock/automate these functions. They are fairly complex, and since they return a pointer to the next desired state (similar to a finite state machine) we can easily verify their behavior.
 			\item Some of the item activation functions. For example it could be verified that when the player drank a potion of healing their health increased (if it was not at its maximum), when a scroll of magic-mapping is read the level was revealed, or that a scroll of identification reveals the nature of an item.
+		\end{itemize}
 
 	\subsection{Unit testing of output files}
 		There is only one output file for the product, the high score file, which stores the scores in a csv format. The production and reading of this file can be unit-tested by verifying its contents after writing to it, and by providing a testing version of the file with known contents and verifying the function reads them correctly.
