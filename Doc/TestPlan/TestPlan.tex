@@ -41,6 +41,7 @@
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
 10/21/16 & 0.1 & Initial Setup\\
+10/24/16 & 0.2 & Add Unit Testing and Usability Survey \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -223,10 +224,19 @@ How test will be performed:
 \section{Comparison to Existing Implementation}	
 				
 \section{Unit Testing Plan}
-		
-\subsection{Unit testing of internal functions}
-		
-\subsection{Unit testing of output files}		
+	
+	After examining the boost library's utilities for unit testing, we have decided we will not use a unit testing framework for testing the product. We concluded that adding a framework would not make the work significantly easier, while reducing our flexibility and adding installation difficulties.
+	
+	\subsection{Unit testing of internal functions}
+		Internal functions in the product will be unit tested. This will be reserved for more complex functions so as to not waste development time unnecessarily. The following are examples of internal functions that are good candidates for unit testing:
+		\begin{itemize}
+			\item The dungeon generation functions. The work of generating the dungeon is complex, but it is also easy to automate verification of dungeon properties such as a correct number of rooms, connectness, compliance with formulas for item generation, presence or absence of certain key features such as the stairs connecting levels or the Amulet of Yendor in the final level.
+			\item The keyboard input functions. As libtcod provides a Key struct which models keyboard input, we can mock/automate these functions. They are fairly complex, and since they return a pointer to the next desired state (similar to a finite state machine) we can easily verify their behavior.
+			\item Some of the item activation functions. For example it could be verified that when the player drank a potion of healing their health increased (if it was not at its maximum), when a scroll of magic-mapping is read the level was revealed, or that a scroll of identification reveals the nature of an item.
+		\end{itemize}
+
+	\subsection{Unit testing of output files}
+		There is only one output file for the product, the high score file, which stores the scores in a csv format. The production and reading of this file can be unit-tested by verifying its contents after writing to it, and by providing a testing version of the file with known contents and verifying the function reads them correctly.
 
 % \bibliographystyle{plainnat}
 
@@ -240,11 +250,44 @@ This is where you can place additional information.
 
 \subsection{Symbolic Parameters}
 
-The definition of the test cases will call for SYMBOLIC\_CONSTANTS.
-Their values are defined in this section for easy maintenance.
+	\begin{table}[h!]
+		\centering
+		\caption{\textbf{Symbolic Parameter Table}}
+		\label{symbolicParameters}
+		\bigskip
+		\def\arraystretch{1.6}
+
+
+		\begin{tabular}{| c | c |}
+			\bottomrule
+			\textbf{Parameter} & \textbf{Value} \\
+			\hline
+			FINAL\_LEVEL & 26 \\
+			WIDTH\_RESOLUTION & 1280 \\
+			HEIGHT\_RESOLUTION & 400 \\
+			VIEW\_DISTANCE & 2 \\
+			START\_LEVEL & 1 \\
+			MINIMUM\_ENTERTAINMENT\_TIME & 20 \\
+			MINIMUM\_RESPONSE\_SPEED & 30 \\
+			HIGH\_SCORE\_CAPACITY & 15 \\
+			LUMINOSITY\_DELTA & 0.5 \\
+			\toprule
+		\end{tabular}
+	\end{table}
+
 
 \subsection{Usability Survey Questions?}
 
-This is a section that would be appropriate for some teams.
+	\begin{itemize}
+		\item Is there any game feature you were unable to figure out how to utilize?
+		\item How helpful was the help screen for you?
+		\item Was there anything going on in the game that the interface failed to make clear to you or deceived you about?
+		\item What common UI interactions did you find particularly lengthy?
+		\item What aspects of the interface did you find unintuitive?
+		\item How responsive was the interface?
+		\item How easy was it to see everything that was going on?
+		\item How effective are the graphics/symbols?
+		\item Would an alternative input device such as a mouse make interacting with the interface easier for you?
+	\end{itemize}
 
 \end{document}
