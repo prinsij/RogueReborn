@@ -1,6 +1,5 @@
 #!/bin/bash
-if [ -d "temp" ]; then
+if [ -d ".srcstore" ]; then
 	rm -f *.cpp
-	cp temp/*.cpp .
-	rm -rf temp/
+	cp .srcstore/*.cpp .
 fi

@@ -1,37 +1,51 @@
-source: *.cpp
+
+.PHONY: default clean recall link compile ready
+
+default: link
+
+ready:
 
 	#Setting up...
 
+	@#Bring over the libtcod reqs
 	@cp ./libtcod/*.so .
 
-	@rm -rf temp/
-	@mkdir temp
-	@cp *.cpp temp/
+	@#Copy to the srcstore
+	@rm -rf .srcstore/
+	@mkdir .srcstore
+	@cp *.cpp .srcstore/
 
-	@bash .hiddenmv
+	@#Rename to src.*
+	@bash .srcmv
 
+	@#Bring over the tests
 	@cp test/*.cpp .
+
+compile: ready
 
 	#Compiling...
 	@g++ -g -c *.cpp -I./libtcod/include -L. -ltcod -ltcodxx -Wl,-rpath=. -Wall -std=c++11
 
-	#Linking source...
-	@g++ -g -o RogueReborn.exe zz.*.o *.so -I./libtcod/include -L. -ltcod -ltcodxx -Wl,-rpath=. -Wall -std=c++11
+	@# Remove *.cpp and bring back the old ones (could also just rename src.*.cpp -> *.cpp)
+	@rm -f *.cpp
+	@cp .srcstore/*.cpp .
 
-	@rm -f zz.main.o
+link: compile
+
+	#Linking source...
+	@g++ -g -o RogueReborn.exe src.*.o *.so -I./libtcod/include -L. -ltcod -ltcodxx -Wl,-rpath=. -Wall -std=c++11
+
+	@rm -f src.main.o
 
 	#Linking tests...
 	@g++ -g -o Test.exe *.o *.so -I./libtcod/include -L. -ltcod -ltcodxx -Wl,-rpath=. -Wall -std=c++11
 
-	#Cleaning up...
-	@rm -f *.o *.cpp
-	@cp temp/*.cpp .
+	#Removing objects
+	@rm -f *.o
+
 
 recall:
 	@bash .recall
 
 clean:
-	@rm -f *.exe *.so *.o
-	@rm -f scores.txt
-
-default: source
+	@rm -f *.exe *.so *.o scores.txt

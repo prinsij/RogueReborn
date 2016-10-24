@@ -7,7 +7,7 @@
 #include <iostream>
 
 #include "include/armor.h"
-#include "testable.test.cpp"
+#include "test.testable.cpp"
 
 class ArmorTest : public Testable {
 	public:

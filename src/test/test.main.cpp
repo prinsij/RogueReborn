@@ -5,8 +5,8 @@
 #include <vector>
 #include <iostream>
 
-#include "armor.test.cpp"
-#include "testable.test.cpp"
+#include "test.armor.cpp"
+#include "test.testable.cpp"
 
 
 int main(){
