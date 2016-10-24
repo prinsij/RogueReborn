@@ -1,3 +1,7 @@
+
+#ifndef ARMOR_TEST
+#define ARMOR_TEST
+
 #include <string>
 #include <vector>
 #include <iostream>
@@ -16,3 +20,5 @@ class ArmorTest : public Testable {
 			return true;
 		}
 };
+
+#endif

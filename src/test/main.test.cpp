@@ -1,3 +1,6 @@
+#ifndef MAIN_TEST
+#define MAIN_TEST
+
 #include <string>
 #include <vector>
 #include <iostream>
@@ -15,3 +18,5 @@ int main(){
 	return 0;
 
 }
+
+#endif
