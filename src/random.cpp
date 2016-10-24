@@ -1,19 +1,22 @@
-#include <random>
 #include <algorithm>
-#include "include/random.h"
-#include "include/coord.h"
+#include <random>
 
-Generator::Generator() {
-	gen = std::mt19937(std::random_device()());
-}
+#include "include/coord.h"
+#include "include/random.h"
+
+std::mt19937 Generator::gen = std::mt19937(std::random_device()());
 
 //inclusive
 int Generator::intFromRange(int lower, int upper) {
 	return std::uniform_int_distribution<>(lower, upper)(gen);
 }
 
-double Generator::operator()() {
+double Generator::rand() {
 	return std::uniform_real_distribution<>(0, 1)(gen);
+}
+
+bool Generator::randBool() {
+	return rand() < 0.5;
 }
 
 Coord Generator::randPosition(Coord a, Coord b) {
