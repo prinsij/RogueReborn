@@ -2,19 +2,9 @@
 #include <vector>
 #include <iostream>
 
-#include "../include/armor.h"
-#include "../armor.cpp"
+#include "include/armor.h"
 
-#include "../include/coord.h"
-#include "../coord.cpp"
-
-#include "../include/item.h"
-#include "../item.cpp"
-
-#include "../include/feature.h"
-#include "../feature.cpp"
-
-int main(){
+int test(){
 
 	Armor a = Armor(Coord(5,5));
 

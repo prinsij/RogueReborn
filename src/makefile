@@ -1,18 +1,35 @@
 source: *.cpp
-	@echo Compiling sources...
+
+	#Compiling...
+
 	@cp ./libtcod/*.so .
-	@g++ -g *.cpp -o RogueReborn.exe -I./libtcod/include -L. -ltcod -ltcodxx -Wl,-rpath=. -Wall -std=c++11
-	@make source -C test
 
-tests:
-	@make source -C test
+	@rm -rf temp/
+	@mkdir temp
+	@cp *.cpp temp/
 
-runtest:
-	@./test/TestRogueReborn.exe
+	@bash .hiddenmv
+
+	@cp test/*.cpp .
+
+	@g++ -g -c *.cpp -I./libtcod/include -L. -ltcod -ltcodxx -Wl,-rpath=. -Wall -std=c++11
+
+	@g++ -g -o RogueReborn.exe zz.*.o *.so -I./libtcod/include -L. -ltcod -ltcodxx -Wl,-rpath=. -Wall -std=c++11
+
+	@rm -f zz.main.o
+
+	@g++ -g -o Test.exe *.o *.so -I./libtcod/include -L. -ltcod -ltcodxx -Wl,-rpath=. -Wall -std=c++11
+
+	@rm -f *.o *.cpp
+	@cp temp/*.cpp .
+
+recall:
+	@rm -f *.cpp
+	@cp temp/*.cpp .
+	@rm -rf temp/
 
 clean:
-	@rm -f RogueReborn.exe *.so
+	@rm -f *.exe *.so *.o
 	@rm -f scores.txt
-	@make clean -C test
 
 default: source
