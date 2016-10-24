@@ -43,6 +43,7 @@
 \midrule
 10/21/16 & 0.1 & Initial Setup\\
 10/24/16 & 0.2 & Add Unit Testing and Usability Survey \\
+10/24/16 & 0.3 & Add most of section 2 \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -143,11 +144,19 @@ This document ...
 	\bigskip
 	\bigskip
 
-	As the diagram above depicts, there are classes shared between both final programs. The vast majority of classes fall in the center, required by both the final project and its testing component. The files required by the test which are not required by the source are, obviously, testing-related files. These are the files that contain the test case implementations. The files required by the source which are not required by the test are 
+	As the diagram above depicts, there are classes shared between both final programs. The vast majority of classes fall in the center, required by both the final project and its testing component. The files required by the test which are not required by the source are, obviously, testing-related files. These are the files that contain the test case implementations. At the time of writing, there is actually only one file required by source that is not required by the test, and that is the source program entry (i.e. the file that contains the main() method).
+
+	\bigskip
+
+	The entire procedure of file collection, compilation, and separate linking is handled by the makefile, and is triggered by the "make" command. Then, simply running Test.exe will fire off all of the pre-written tests.
+
+	\bigskip
+
+	There is a plan to implement a python script on the GitLab pipeline that will cause the build to fail if any of the tests do not pass. At this time of writing this is not yet implemented, but note will be made when it does. It should be noted that if a build fails, the pipeline not only reports the failure, but also logs where the failure happened, down to the specific test case. This will hopefully make debugging a more pleasant experience later on.
 
 	\subsection{Testing Schedule}
 		
-	See Gantt Chart at the following url ...
+	See Gantt Chart at the following url ... TODO
 
 \section{System Test Description}
 	
@@ -224,8 +233,7 @@ This document ...
 		\end{enumerate}
 
 	\subsubsection{Area of Testing2}
-
-...
+	...
 
 \section{Tests for Proof of Concept}
 
@@ -265,9 +273,10 @@ This document ...
 
 	...
 
-	
 \section{Comparison to Existing Implementation}	
-				
+
+	
+
 \section{Unit Testing Plan}
 	
 	After examining the boost library's utilities for unit testing, we have decided we will not use a unit testing framework for testing the product. We concluded that adding a framework would not make the work significantly easier, while reducing our flexibility and adding installation difficulties.
@@ -291,35 +300,34 @@ This document ...
 
 \section{Appendix}
 
-This is where you can place additional information.
+	This is where you can place additional information.
 
-\subsection{Symbolic Parameters}
+	\subsection{Symbolic Parameters}
 
-	\begin{table}[h!]
-		\centering
-		\caption{\textbf{Symbolic Parameter Table}}
-		\label{symbolicParameters}
-		\bigskip
-		\def\arraystretch{1.6}
+		\begin{table}[h!]
+			\centering
+			\caption{\textbf{Symbolic Parameter Table}}
+			\label{symbolicParameters}
+			\bigskip
+			\def\arraystretch{1.6}
 
 
-		\begin{tabular}{| c | c |}
-			\bottomrule
-			\textbf{Parameter} & \textbf{Value} \\
-			\hline
-			FINAL\_LEVEL & 26 \\
-			WIDTH\_RESOLUTION & 1280 \\
-			HEIGHT\_RESOLUTION & 400 \\
-			VIEW\_DISTANCE & 2 \\
-			START\_LEVEL & 1 \\
-			MINIMUM\_ENTERTAINMENT\_TIME & 20 \\
-			MINIMUM\_RESPONSE\_SPEED & 30 \\
-			HIGH\_SCORE\_CAPACITY & 15 \\
-			LUMINOSITY\_DELTA & 0.5 \\
-			\toprule
-		\end{tabular}
-	\end{table}
-
+			\begin{tabular}{| c | c |}
+				\bottomrule
+				\textbf{Parameter} & \textbf{Value} \\
+				\hline
+				FINAL\_LEVEL & 26 \\
+				WIDTH\_RESOLUTION & 1280 \\
+				HEIGHT\_RESOLUTION & 400 \\
+				VIEW\_DISTANCE & 2 \\
+				START\_LEVEL & 1 \\
+				MINIMUM\_ENTERTAINMENT\_TIME & 20 \\
+				MINIMUM\_RESPONSE\_SPEED & 30 \\
+				HIGH\_SCORE\_CAPACITY & 15 \\
+				LUMINOSITY\_DELTA & 0.5 \\
+				\toprule
+			\end{tabular}
+		\end{table}
 
 \subsection{Usability Survey Questions?}
 
