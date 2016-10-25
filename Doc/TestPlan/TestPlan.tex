@@ -156,23 +156,23 @@
 	\bigskip
 
 	% Venn-diagram
-	\centering
-	\begin{tikzpicture}[fill=white]
-		% left hand
-		\scope
-		\clip (1,0) circle (1);
-		\endscope
+	\begin{center}
+		\begin{tikzpicture}[fill=white]
+			% left hand
+			\scope
+			\clip (1,0) circle (1);
+			\endscope
 
-		% right hand
-		\scope
-		\clip (0,0) circle (1);
-		\endscope
+			% right hand
+			\scope
+			\clip (0,0) circle (1);
+			\endscope
 
-		% outline
-		\draw 	(-1,0) circle (2) (-4,1)  node [text=black,above] {$Source$}
-		 		(1,0) circle (2) (4,1)  node [text=black,above] {$Test$};
-	\end{tikzpicture}
-	\flushleft
+			% outline
+			\draw 	(-1,0) circle (2) (-4,1)  node [text=black,above] {$Source$}
+			 		(1,0) circle (2) (4,1)  node [text=black,above] {$Test$};
+		\end{tikzpicture}
+	\end{center}
 
 	\bigskip
 	\bigskip
@@ -185,7 +185,7 @@
 
 	\bigskip
 
-	There is a plan to implement a python script on the GitLab pipeline that will cause the build to fail if any of the tests do not pass. At this time of writing this is not yet implemented, but note will be made when it does. It should be noted that if a build fails, the pipeline not only reports the failure, but also logs where the failure happened, down to the specific test case. This will hopefully make debugging a more pleasant experience later on.
+	There is a plan to implement a python script on the GitLab pipeline that will cause the build to fail if any of the tests do not pass. At the time of writing this document, it is not yet implemented, but note will be made when it does. It should be noted that if a build fails, the pipeline not only reports the failure, but also logs where the failure happened, down to the specific test case. This will hopefully make debugging a more pleasant experience later on.
 
 	\subsection{Testing Schedule}
 		
