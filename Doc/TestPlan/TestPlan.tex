@@ -1,25 +1,36 @@
 \documentclass[12pt, titlepage]{article}
 
+% Packages
+
 \usepackage{booktabs}
 \usepackage{tabularx}
+\usepackage{float}
 \usepackage{hyperref}
+\usepackage{indentfirst}
+\usepackage[usenames, dvipsnames]{color}
 \usepackage{tikz}
+
+% Colour Scheme
+
 \hypersetup{
     colorlinks,
-    citecolor=black,
-    filecolor=black,
-    linkcolor=red,
+    citecolor=blue,
+    filecolor=ForestGreen,
+    linkcolor=MidnightBlue,
     urlcolor=blue
 }
-%\usepackage[round]{natbib}
+
+% Custom Commands
+
+% Title Page Elements
 
 \title{SE 3XA3: Test Plan\\Rogue Reborn}
 
-\author{Team \#6, Team Rogue++\\\\
+\author{Group \#6, Team Rogue++\\\\
 	\begin{tabular} {l r}
 		Ian Prins & prinsij \\
 		Mikhail Andrenkov & andrem5 \\
-		Or Almog  & almogo
+		Or Almog & almogo
 	\end{tabular}
 }
 
@@ -31,67 +42,89 @@
 
 \maketitle
 
+% Report outline
+
 \pagenumbering{roman}
 \tableofcontents
 \listoftables
 \listoffigures
 
+% Revision Table
+
 \begin{table}[bp]
-\caption{\bf Revision History}
-\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
-\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
-\midrule
-10/21/16 & 0.1 & Initial Setup\\
-10/24/16 & 0.2 & Add Unit Testing and Usability Survey \\
-10/24/16 & 0.3 & Add most of section 2 \\
-\bottomrule
-\end{tabularx}
+	\caption{\bf Revision History}
+	\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
+		\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
+		\midrule
+		10/21/16 & 0.0 & Initial Setup\\
+		10/24/16 & 0.1 & Added Unit Testing and Usability Survey \\
+		10/24/16 & 0.2 & Added Most of Section 2 \\
+		10/24/16 & 0.3 & Added Section 1 \\
+		\bottomrule
+	\end{tabularx}
 \end{table}
 
 \newpage
 
-\pagenumbering{arabic}
+% Report Content
 
-This document ...
+\pagenumbering{arabic}
 
 \section{General Information}
 
 	\subsection{Purpose}
+		The purpose of this document is to explore the verification process that will be applied to the Rogue Reborn project.  After reviewing the document, the reader should understand the strategy, focus, and motivation behind the efforts of the Rogue++ testing team.   
 
 	\subsection{Scope}
+		This report will encompass all technical aspects of the testing environment and implementation plan, as well as other elements in the domain of team coordination and project deadlines.  The document will also strive to be comprehensive by providing context behind critical decisions, motivating the inclusion of particular features by referring to the existing \textit{Rogue} implementation, and offering a large variety of tests for various purposes and hierarchical units.  Aside from the implementation, the report will also discuss a relevant component from the requirements elicitation process.
 
 	\subsection{Acronyms, Abbreviations, and Symbols}
 		
-		\begin{table}[hbp]
-		\caption{\textbf{Table of Abbreviations}} \label{Table}
-
-		\begin{tabularx}{\textwidth}{p{3cm}X}
-			\toprule
-			\textbf{Abbreviation} & \textbf{Definition} \\
-			\midrule
-			Abbreviation1 & Definition1\\
-			Abbreviation2 & Definition2\\
-			\bottomrule
-		\end{tabularx}
-
+		\begin{table}[H]
+			\centering
+			\caption{\textbf{Table of Abbreviations and Acronyms}}
+			\label{TableAbbreviations}
+			\bigskip
+			\begin{tabularx}{\textwidth}{p{3cm}X}
+				\toprule
+				\textbf{Abbreviation} & \textbf{Definition} \\
+				\midrule
+				PoC & Proof of Concept\\
+				\bottomrule
+			\end{tabularx}
 		\end{table}
 
-			\begin{table}[!htbp]
-				\caption{\textbf{Table of Definitions}} \label{Table}
-
-				\begin{tabularx}{\textwidth}{p{3cm}X}
+		\begin{table}[H]
+			\centering
+			\caption{\textbf{Table of Definitions}}
+			\label{TableDefinitions}
+			\bigskip
+			\begin{tabularx}{\textwidth}{p{3cm}X}
 				\toprule
 				\textbf{Term} & \textbf{Definition}\\
 				\midrule
-				Term1 & Definition1\\
-				Term2 & Definition2\\
+				\textbf{Boost} & C++ utility library that includes a comprehensive unit testing framework\\
+				\textbf{Libtcod} & Graphics library that specializes in emulating a roguelike experience\\
+				\textbf{Permadeath} & Feature of roguelike games whereby a character death will end the game\\
+				\textbf{Roguelike} & Genre of video games characterized by ASCII graphics, procedurally-generated levels, and permadeath\\
 				\bottomrule
 			\end{tabularx}
-
 		\end{table}	
 
 	\subsection{Overview of Document}
+		The early sections of the report will describe the testing environment and the logistic components of the Rogue Reborn testing effort, including the schedule and work allocation.  Next, a suite of tests will be discussed with respect to the functional requirements, nonfunctional requirements, and proof of concept demonstration.  Upon discussing the relevance of this project to the original \textit{Rogue}, a variety of unit tests will be given followed by a sample usability survey to guage the interest and opinion of the Rogue Reborn game.  A breakdown of the sections is listed below:
 
+		\begin{itemize}
+			\item \S1 - Brief overview of the report contents
+			\item \S2 - Project logistics and the software testing environment
+			\item \S3 - Description of system-level integration tests (based on requirements)
+			\item \S4 - Explanation of test plans that were inspired by the PoC demonstration
+			\item \S5 - Comparison of the existing \textit{Rogue} to the current project in the context of testing
+			\item \S6 - Outline of the module-level unit tests 
+			\item \S7 - Appendix for symbolic parameters and the aforementioned usability survey
+		\end{itemize}
+
+\newpage
 \section{Plan}
 		
 	\subsection{Software Description}
@@ -158,6 +191,7 @@ This document ...
 		
 	See Gantt Chart at the following url ... TODO
 
+\newpage
 \section{System Test Description}
 	
 	\subsection{Tests for Functional Requirements}
@@ -235,6 +269,7 @@ This document ...
 	\subsubsection{Area of Testing2}
 	...
 
+\newpage
 \section{Tests for Proof of Concept}
 
 	\subsection{Area of Testing1}
@@ -273,10 +308,11 @@ This document ...
 
 	...
 
+\newpage
 \section{Comparison to Existing Implementation}	
 
 	
-
+\newpage
 \section{Unit Testing Plan}
 	
 	After examining the boost library's utilities for unit testing, we have decided we will not use a unit testing framework for testing the product. We concluded that adding a framework would not make the work significantly easier, while reducing our flexibility and adding installation difficulties.
@@ -297,7 +333,6 @@ This document ...
 % \bibliography{SRS}
 
 \newpage
-
 \section{Appendix}
 
 	This is where you can place additional information.
@@ -329,6 +364,7 @@ This document ...
 			\end{tabular}
 		\end{table}
 
+\newpage
 \subsection{Usability Survey Questions?}
 
 	\begin{itemize}
