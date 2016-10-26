@@ -364,14 +364,14 @@
 \newpage
 \section{Unit Testing Plan}
 	
-	After examining the boost library's utilities for unit testing, we have decided we will not use a unit testing framework for testing the product. We concluded that adding a framework would not make the work significantly easier, while reducing our flexibility and adding installation difficulties.
+	After examining the boost library's utilities for unit testing, we have decided we will not use a unit testing framework for testing the product. We concluded that adding a framework would not make the work significantly easier, while reducing our flexibility and adding installation difficulties. Since we are not using a framework, drivers will be written by hand. Stubs will be produced when necessary to simulate system components.
 	
 	\subsection{Unit testing of internal functions}
-		Internal functions in the product will be unit tested. This will be reserved for more complex functions so as to not waste development time unnecessarily. The following are examples of internal functions that are good candidates for unit testing:
+		Internal functions in the product will be unit tested. This will be reserved for more complex functions so as to not waste development time unnecessarily. As complete code coverage is not a goal, generic code coverage metrics will not be used. Instead, care will be taken that complex functions are covered by unit tests. The following are examples of internal functions that are initial candidates for unit testing. Other functions will be added as necessary:
 		\begin{itemize}
 			\item The dungeon generation functions. The work of generating the dungeon is complex, but it is also easy to automate verification of dungeon properties such as a correct number of rooms, connectness, compliance with formulas for item generation, presence or absence of certain key features such as the stairs connecting levels or the Amulet of Yendor in the final level.
 			\item The keyboard input functions. As libtcod provides a Key struct which models keyboard input, we can mock/automate these functions. They are fairly complex, and since they return a pointer to the next desired state (similar to a finite state machine) we can easily verify their behavior.
-			\item Some of the item activation functions. For example it could be verified that when the player drank a potion of healing their health increased (if it was not at its maximum), when a scroll of magic-mapping is read the level was revealed, or that a scroll of identification reveals the nature of an item.
+			\item The item activation functions. For example it could be verified that when the player drank a potion of healing their health increased (if it was not at its maximum), that a scroll of magic-mapping is reveals the level, or that a scroll of identification reveals the nature of an item.
 		\end{itemize}
 
 	\subsection{Unit testing of output files}
