@@ -22,6 +22,62 @@
 
 % Custom Commands
 
+\newcounter{funCounter}
+\newcounter{nonCounter}
+\newcounter{pocCounter}
+
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0em}}p{#1}}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0em}}p{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0em}}p{#1}}
+
+\newcommand\testTitle{NULL}
+\newcommand\testCounter{NULL}
+
+% Arguments
+%    1 = {F, N, P} for functional, non-functional, and PoC respectively
+%    2 = {Static, Dynamic}
+%    3 = {Manual, Automatic}
+%    4 = {Black, White}
+%    5 = Initial state
+%    6 = Input
+%    7 = Output
+%    8 = How the test will be performed
+
+\newcommand{\test}[8]{	
+	\begin{table}[h!]
+		\if#1F
+			\stepcounter{funCounter}
+			\renewcommand\testTitle{Functional }
+			\renewcommand\testCounter{\thefunCounter} 
+		\else
+			\if#1N
+				\stepcounter{nonCounter}
+				\renewcommand\testTitle{Non-Functional }
+				\renewcommand\testCounter{\thenonCounter} 
+			\else
+				\stepcounter{pocCounter}
+				\renewcommand\testTitle{Proof of Concept }
+				\renewcommand\testCounter{\thepocCounter} 
+			\fi
+		\fi
+		
+		\centering
+		\def\arraystretch{1.6}
+		\begin{tabular}{| R{7em} L{20em} |}
+			\bottomrule
+			\multicolumn{2}{| c |}{\textbf{\testTitle Test} \# \testCounter} \\
+			\hline
+			\textit{Type:} & #2 / #3 / #4 Box\\
+			\textit{Initial State:} & #5 \\
+			\textit{Input:} & #6 \\
+			\textit{Output:} & #7 \\
+			\textit{Execution:} & #8 \\
+			\toprule
+		\end{tabular}
+	\end{table}
+	\smallskip
+}
+
 % Title Page Elements
 
 \title{SE 3XA3: Test Plan\\Rogue Reborn}
@@ -34,7 +90,7 @@
 	\end{tabular}
 }
 
-\date{Due Monday, October 31\textsuperscript{th}, 2016}
+\date{Due Monday, October 31\textsuperscript{st}, 2016}
 
 \input{../Comments}
 
@@ -53,6 +109,7 @@
 
 \begin{table}[bp]
 	\caption{\bf Revision History}
+	\bigskip
 	\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 		\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 		\midrule
@@ -61,6 +118,7 @@
 		10/24/16 & 0.2 & Added Most of Section 2 \\
 		10/24/16 & 0.3 & Added Section 1 \\
 		10/26/16 & 0.4 & Added PoC tests \\
+		10/26/16 & 0.4.1 & Added Test Template \\
 		\bottomrule
 	\end{tabularx}
 \end{table}
@@ -198,74 +256,18 @@
 	\subsection{Tests for Functional Requirements}
 
 		\subsubsection{Area of Testing1}
-				
-		\paragraph{Title for Test}
-
-		\begin{enumerate}
-
-			\item{test-id1\\}
-
-			Type: Functional, Dynamic, Manual, Static etc.
-								
-			Initial State: 
-								
-			Input: 
-								
-			Output: 
-								
-			How test will be performed: 
-								
-			\item{test-id2\\}
-
-			Type: Functional, Dynamic, Manual, Static etc.
-								
-			Initial State: 
-								
-			Input: 
-								
-			Output: 
-								
-			How test will be performed: 
-
-		\end{enumerate}
+		
+		\test{F}{Dynamic}{Manual}{Black}{Menu screen}{Alphanumeric keyboard interrupts}{Valid characters that are pressed will appear on the screen beside the character name prompt}{Typing the name of the character on the keyboard}
 
 	\subsubsection{Area of Testing2}
 
 	...
 
-	\subsection{Tests for Nonfunctional Requirements}
+	\subsection{Tests for Non-Functional Requirements}
 
 	\subsubsection{Area of Testing1}
 			
-		\paragraph{Title for Test}
-
-		\begin{enumerate}
-
-			\item{test-id1\\}
-
-			Type: 
-								
-			Initial State: 
-								
-			Input/Condition: 
-								
-			Output/Result: 
-								
-			How test will be performed: 
-								
-			\item{test-id2\\}
-
-			Type: Functional, Dynamic, Manual, Static etc.
-								
-			Initial State: 
-								
-			Input: 
-								
-			Output: 
-								
-			How test will be performed: 
-
-		\end{enumerate}
+		\test{N}{Dynamic}{Manual}{Black}{Gameplay screen}{Game model}{Graphical display}{Visual inspection}
 
 	\subsubsection{Area of Testing2}
 	...
@@ -274,20 +276,11 @@
 \section{Tests for Proof of Concept}
 
 	\subsection{Static Testing}
+	
+		\test{P}{Static}{Automatic}{White}{None}{Program Source}{Program Executable}{Verify that the program compiles with g++}
 
 		\begin{enumerate}
 
-		\item{test-id1\\}
-
-		Type: Static/Automatic
-							
-		Initial State: None
-							
-		Input: Program Source
-							
-		Output: Program Executable
-							
-		How test will be performed: Verify that the program compiles with g++.
 							
 		\item{test-id2\\}
 
