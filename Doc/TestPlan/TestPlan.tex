@@ -60,6 +60,7 @@
 		10/24/16 & 0.1 & Added Unit Testing and Usability Survey \\
 		10/24/16 & 0.2 & Added Most of Section 2 \\
 		10/24/16 & 0.3 & Added Section 1 \\
+		10/26/16 & 0.4 & Added PoC tests \\
 		\bottomrule
 	\end{tabularx}
 \end{table}
@@ -272,9 +273,7 @@
 \newpage
 \section{Tests for Proof of Concept}
 
-	\subsection{Area of Testing1}
-				
-		\paragraph{Title for Test}
+	\subsection{Static Testing}
 
 		\begin{enumerate}
 
@@ -304,9 +303,59 @@
 
 		\end{enumerate}
 
-	\subsection{Area of Testing2}
+	\subsection{Basic Movement}
+		
+		\begin{enumerate}
 
-	...
+		\item{test-id1\\}
+
+		Type: Dynamic/Manual
+
+		Initial State: Normal playstate
+
+		Input: Movement commands
+
+		Output: Player should move about the level, without clipping through walls or failing to walk through empty space
+
+		How test will be performed: A developer will manually walk through the level
+
+		\end{enumerate}		
+
+	\subsection{Score File}
+
+		\begin{enumerate}
+
+		\item{test-id1\\}
+
+		Type: Dynamic/Manual
+
+		Initial State: Main menu
+
+		Input: Enter name, then quit, restart game, enter name again, and quit.
+
+		Output: 1st name should appear in both the first and second score screens. The 2nd should appear in the second. Both should have correct values for level, cause of death/quit, and gold collected.
+
+		How test will be performed: A developer will manually perform the above input, and verify the output.
+
+		\end{enumerate}
+
+	\subsection{Line of Sight System}
+
+		\begin{enumerate}
+
+		\item{test-id1\\}
+
+		Type: Dynamic/Manual
+
+		Initial State: Normal playstate
+
+		Input: Movement commands
+
+		Output: Screen should display correct portions of level, with correct coloration schemes. This means that the player should be able to see the entirety of a room they are in or in the doorway of, and only their adjacent squares if they are in a corridor. Squares that the player has seen in the past but cannot see currently should be shown greyed out. Squares they have not seen should be black and featureless.
+
+		How test will be performed: A developer will manually walk through the level, verifying that the above LoS rules are preserved, especially in edge cases like the corners of rooms and doorways.
+
+		\end{enumerate} 
 
 \newpage
 \section{Comparison to Existing Implementation}	
