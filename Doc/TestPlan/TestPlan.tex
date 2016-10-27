@@ -246,6 +246,10 @@
 
 	There is a plan to implement a python script on the GitLab pipeline that will cause the build to fail if any of the tests do not pass. At the time of writing this document, it is not yet implemented, but note will be made when it does. It should be noted that if a build fails, the pipeline not only reports the failure, but also logs where the failure happened, down to the specific test case. This will hopefully make debugging a more pleasant experience later on.
 
+	\bigskip
+
+	As an extra safety measure, the Rogue++ team will also be utilizing a tool called Valgrind in the testing procedure. Valgrind is a tool that tests the amount of memory a C++ program utilizes, and detects errors such as memory leaks. This is an extremely useful and powerful tool. C++, unlike Java and other high level languages, does not have a built-in garbage collector. Garbage collectors are to be implemented by the user. Due to this, it is easy to accidentally leave behind an object or two, causing a memory leak in the program. Valgrind detects this, and will provide useful information during development and testing.
+
 	\subsection{Testing Schedule}
 		
 	See Gantt Chart at the following url ... TODO
