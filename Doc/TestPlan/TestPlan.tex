@@ -127,6 +127,7 @@
 		10/26/16 & 0.4.1 & Added Test Template \\
 		10/30/16 & 0.5 & Added Non-Functional Req. Tests \\
 		10/30/16 & 0.5.1 & Added Bibliography \\
+		10/31/16 & 0.6 & Switch PoC to test template \\
 		\bottomrule
 	\end{tabularx}
 \end{table}
@@ -344,78 +345,28 @@
 
 	\subsection{Static Testing}
 	
-		\test{P}{Static}{Automatic}{White}{None}{Program Source}{Program Executable}{Verify that the program compiles with g++}
+		\test{P}{Static}{Automatic}{White}{None}{Program Source}{Program Executable}{Verify that the program compiles with g++.}
+		
+		\test{P}{Dynamic}{Manual}{White}{None}{A brief but complete playthrough of the game.}{Breakdown of program memory usage.}{A tester will briefly play the game, and a developer will use valgrind's memcheck utility to verify that program does not leak memory or utilize uninitialized memory.}
 
-		\begin{enumerate}
+	\subsection{Rendering}
+		\test{P}{Dynamic}{Manua}l{Black}{Gameplay State}{30-60 seconds of gameplay.}{ The player character and any dungeon features should be shown at the correct location with the correct glyphs. Correct player statistics will be shown along the bottom. The dialog box will correctly display the log and any prompts.}{A tester will manually play the game and verify the display is correct.}
 
-							
-		\item{test-id2\\}
-
-		Type: Dynamic/Manual/Automatic
-							
-		Initial State: None
-							
-		Input: 30-60 seconds of gameplay
-							
-		Output: Breakdown of program memory usage.
-							
-		How test will be performed: Use valgrind memcheck utility to verify that program does not leak memory or utilize uninitialized memory.
-
-		\end{enumerate}
+	\subsection{Dungeon Generation}
+		
+		\test{P}{Dynamic}{Manual}{Black}{None}{Repeated restarts of the game}{Level should contain ROOMS\-PER\_LEVEL rooms, which should form a connected graph.}{A tester will manually start the game, briefly explore the level to verify correct generation, then repeat this process until confidence is achieved.}
 
 	\subsection{Basic Movement}
-		
-		\begin{enumerate}
 
-		\item{test-id1\\}
-
-		Type: Dynamic/Manual
-
-		Initial State: Normal playstate
-
-		Input: Movement commands
-
-		Output: Player should move about the level, without clipping through walls or failing to walk through empty space
-
-		How test will be performed: A developer will manually walk through the level
-
-		\end{enumerate}		
+		\test{P}{Dynamic}{Manual}{Black}{Gameplay State}{Movement commands}{Player should move about the level, without clipping through walls, failing to walk through empty space, or jump to an unconnected square.}{A tester will manually walk through the level, and visually verify correctness.}
 
 	\subsection{Score File}
 
-		\begin{enumerate}
-
-		\item{test-id1\\}
-
-		Type: Dynamic/Manual
-
-		Initial State: Main menu
-
-		Input: Enter name, then quit, restart game, enter name again, and quit.
-
-		Output: 1st name should appear in both the first and second score screens. The 2nd should appear in the second. Both should have correct values for level, cause of death/quit, and gold collected.
-
-		How test will be performed: A developer will manually perform the above input, and verify the output.
-
-		\end{enumerate}
+		\test{P}{Dynamic}{Manual}{Black}{Menu State}{Enter name, then quit, restart game, enter name again, and quit.}{1st name should appear in both the first and second score screens. The 2nd should appear in the second. Both should have correct values for level, cause of death/quit, and gold collected.}{A developer will manually perform the above input, and verify the output. Should be tested both with and without an initial score file.}
 
 	\subsection{Line of Sight System}
 
-		\begin{enumerate}
-
-		\item{test-id1\\}
-
-		Type: Dynamic/Manual
-
-		Initial State: Normal playstate
-
-		Input: Movement commands
-
-		Output: Screen should display correct portions of level, with correct coloration schemes. This means that the player should be able to see the entirety of a room they are in or in the doorway of, and only their adjacent squares if they are in a corridor. Squares that the player has seen in the past but cannot see currently should be shown greyed out. Squares they have not seen should be black and featureless.
-
-		How test will be performed: A developer will manually walk through the level, verifying that the above LoS rules are preserved, especially in edge cases like the corners of rooms and doorways.
-
-		\end{enumerate} 
+		\test{P}{Dynamic}{Manual}{Black}{Gameplay State}{Movement commands}{Screen should display correct portions of level, with correct coloration schemes. This means that the player should be able to see the entirety of a room they are in or in the doorway of, and VIEW\_DISTANCE squares away if they are in a corridor. Squares that the player has seen in the past but cannot see currently should be shown greyed out. Squares they have not seen should be black and featureless.}{A developer will manually walk through the level, verifying that the above LoS rules are preserved, especially in edge cases like the corners of rooms and doorways.}
 
 \newpage
 \section{Comparison to Existing Implementation}	
@@ -425,7 +376,7 @@
 \section{Unit Testing Plan}
 \label{section6}
 	
-	After examining the boost library's utilities for unit testing, we have decided we will not use a unit testing framework for testing the product. We concluded that adding a framework would not make the work significantly easier, while reducing our flexibility and adding installation difficulties. Since we are not using a framework, drivers will be written by hand. Stubs will be produced when necessary to simulate system components.
+	After examining the boost library's utilities for unit testing, we have decided we will not use a unit testing framework for testing the product. We concluded that adding a framework would not make the work significantly easier, while reducing our flexibility and adding installation difficulties. Since we are not using a framework, drivers will be written by hand. Stubs will be produced when necessary to simulate system components. Since there are no database or network connections, stubs should hopefully be kept to a minimum. However, functions may be required to construct objects in states suitable for easy testing, for example creating a level or player with certain known properties, rather than by random generation.
 	
 	\subsection{Unit testing of internal functions}
 		Internal functions in the product will be unit tested. This will be reserved for more complex functions so as to not waste development time unnecessarily. As complete code coverage is not a goal, generic code coverage metrics will not be used. Instead, care will be taken that complex functions are covered by unit tests. The following are examples of internal functions that are initial candidates for unit testing. Other functions will be added as necessary:
@@ -433,6 +384,7 @@
 			\item The dungeon generation functions. The work of generating the dungeon is complex, but it is also easy to automate verification of dungeon properties such as a correct number of rooms, connectness, compliance with formulas for item generation, presence or absence of certain key features such as the stairs connecting levels or the Amulet of Yendor in the final level.
 			\item The keyboard input functions. As libtcod provides a Key struct which models keyboard input, we can mock/automate these functions. They are fairly complex, and since they return a pointer to the next desired state (similar to a finite state machine) we can easily verify their behavior.
 			\item The item activation functions. For example it could be verified that when the player drank a potion of healing their health increased (if it was not at its maximum), that a scroll of magic-mapping is reveals the level, or that a scroll of identification reveals the nature of an item.
+			\item The item storage functions. Each item is mapped to a persistent hotkey in the player's inventory. Certain items can stack with copies, reducing the amount of inventory space they take up, and how they are displayed. These factors make the inventory fairly complex. It is however easily verifiable, and automated testing can examine edge cases that would be impracticle to test manually.
 		\end{itemize}
 
 	\subsection{Unit testing of output files}
@@ -464,6 +416,7 @@
 				\bottomrule
 				\textbf{Parameter} & \textbf{Value} \\
 				\hline
+				ROOMS\_PER\_LEVEL & 9 \\
 				FINAL\_LEVEL & 26 \\
 				HEIGHT\_RESOLUTION & 400 \\
 				LUMINOSITY\_DELTA & 0.5 \\
@@ -475,7 +428,7 @@
 				PLAYTEST\_LONG\_TIME & 3 \\
 				REGEX\_INTEGER & \lstinline$(char|int|long).*(,|;)$ \\
 				START\_LEVEL & 1 \\
-				VIEW\_DISTANCE & 2 \\
+				VIEW\_DISTANCE & 1 \\
 				WIDTH\_RESOLUTION & 1280 \\
 				\toprule
 			\end{tabular}
