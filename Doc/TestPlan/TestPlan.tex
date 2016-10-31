@@ -127,7 +127,8 @@
 		10/26/16 & 0.4.1 & Added Test Template \\
 		10/30/16 & 0.5 & Added Non-Functional Req. Tests \\
 		10/30/16 & 0.5.1 & Added Bibliography \\
-		10/31/16 & 0.6 & Switch PoC to test template \\
+		10/31/16 & 0.6 & Switch PoC to Test Template \\
+		10/31/16 & 0.7 & Add Name to Test Template \\
 		\bottomrule
 	\end{tabularx}
 \end{table}
@@ -379,28 +380,28 @@
 
 	\subsection{Static Testing}
 	
-		\test{P}{Name}{Static}{Automatic}{White}{None}{Program Source}{Program Executable}{Verify that the program compiles with g++.}
+		\test{P}{PoC Compile Test}{Static}{Automatic}{White}{None}{Program Source}{Program Executable}{Verify that the program compiles with g++.}
 		
-		\test{P}{Name}{Dynamic}{Manual}{White}{None}{A brief but complete playthrough of the game.}{Breakdown of program memory usage.}{A tester will briefly play the game, and a developer will use Valgrind's memcheck utility to verify that program does not leak memory or utilize uninitialized memory.}
+		\test{P}{PoC Memory Check}{Dynamic}{Manual}{White}{None}{A brief but complete playthrough of the game.}{Breakdown of program memory usage.}{A tester will briefly play the game, and a developer will use Valgrind's memcheck utility to verify that program does not leak memory or utilize uninitialized memory.}
 
 	\subsection{Rendering}
-		\test{P}{Name}{Dynamic}{Manual}l{Black}{Gameplay State}{30-60 seconds of gameplay.}{ The player character and any dungeon features should be shown at the correct location with the correct glyphs. Correct player statistics will be shown along the bottom. The dialog box will correctly display the log and any prompts.}{A tester will manually play the game and verify the display is correct.}
+		\test{P}{PoC Render Check}{Dynamic}{Manual}l{Black}{Gameplay State}{30-60 seconds of gameplay.}{ The player character and any dungeon features should be shown at the correct location with the correct glyphs. Correct player statistics will be shown along the bottom. The dialog box will correctly display the log and any prompts.}{A tester will manually play the game and verify the display is correct.}
 
 	\subsection{Dungeon Generation}
 		
-		\test{P}{Name}{Dynamic}{Manual}{Black}{None}{Repeated restarts of the game}{Level should contain ROOMS\-PER\_LEVEL rooms, which should form a connected graph.}{A tester will manually start the game, briefly explore the level to verify correct generation, then repeat this process until confidence is achieved.}
+		\test{P}{PoC Dungeon-Gen Check}{Dynamic}{Manual}{Black}{None}{Repeated restarts of the game}{Level should contain \hyperref[symbolicParameters]{ROOMS\_PER\_LEVEL} rooms, which should form a connected graph.}{A tester will manually start the game, briefly explore the level to verify correct generation, then repeat this process until confidence is achieved.}
 
 	\subsection{Basic Movement}
 
-		\test{P}{Name}{Dynamic}{Manual}{Black}{Gameplay State}{Movement commands}{Player should move about the level, without clipping through walls, failing to walk through empty space, or jump to an unconnected square.}{A tester will manually walk through the level, and visually verify correctness.}
+		\test{P}{PoC Movement Check}{Dynamic}{Manual}{Black}{Gameplay State}{Movement commands}{Player should move about the level, without clipping through walls, failing to walk through empty space, or jump to an unconnected square.}{A tester will manually walk through the level, and visually verify correctness.}
 
 	\subsection{Score File}
 
-		\test{P}{Name}{Dynamic}{Manual}{Black}{Menu State}{Enter name, then quit, restart game, enter name again, and quit.}{1st name should appear in both the first and second score screens. The 2nd should appear in the second. Both should have correct values for level, cause of death/quit, and gold collected.}{A developer will manually perform the above input, and verify the output. Should be tested both with and without an initial score file.}
+		\test{P}{PoC Scoring File Check}{Dynamic}{Manual}{Black}{Menu State}{Enter name, then quit, restart game, enter name again, and quit.}{1st name should appear in both the first and second score screens. The 2nd should appear in the second. Both should have correct values for level, cause of death/quit, and gold collected.}{A developer will manually perform the above input, and verify the output. Should be tested both with and without an initial score file.}
 
 	\subsection{Line of Sight System}
 
-		\test{P}{Name}{Dynamic}{Manual}{Black}{Gameplay State}{Movement commands}{Screen should display correct portions of level, with correct coloration schemes. This means that the player should be able to see the entirety of a room they are in or in the doorway of, and VIEW\_DISTANCE squares away if they are in a corridor. Squares that the player has seen in the past but cannot see currently should be shown greyed out. Squares they have not seen should be black and featureless.}{A developer will manually walk through the level, verifying that the above LoS rules are preserved, especially in edge cases like the corners of rooms and doorways.}
+		\test{P}{PoC LoS Check}{Dynamic}{Manual}{Black}{Gameplay State}{Movement commands}{Screen should display correct portions of level, with correct coloration schemes. This means that the player should be able to see the entirety of a room they are in or in the doorway of, and \hyperref[symbolicParameters]{VIEW\_DISTANCE} squares away if they are in a corridor. Squares that the player has seen in the past but cannot see currently should be shown greyed out. Squares they have not seen should be black and featureless.}{A developer will manually walk through the level, verifying that the above LoS rules are preserved, especially in edge cases like the corners of rooms and doorways.}
 
 \newpage
 \section{Comparison to Existing Implementation}	
