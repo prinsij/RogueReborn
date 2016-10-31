@@ -295,8 +295,6 @@
 	
 	\subsection{Tests for Functional Requirements}
 
-		\subsubsection{Basic Mechanics}
-
 		%Dynamic 	Conduct test by running program
 		%Static 	Conducted without running program (spell check)
 		%~~~
@@ -312,15 +310,17 @@
 		%output
 		%how it will be performed
 
-		\test{F}{Dynamic}{Manual}{Black}{Nothing running.}{A new game is started.}{The program is started.}{Either double-clicking the .exe or via terminal: \textit{./RogueReborn.exe}.}
+		\subsubsection{Basic Mechanics}
 
-		\test{F}{Dynamic}{Manual}{Black}{Game screen}{Save command is given or save key is pressed.}{A message saying that the game has been saved is shown to the user in the status box.}{A user will have to play the game and trigger the input sequence. This process can be verified to work by the following test.}
+			\test{F}{Dynamic}{Manual}{Black}{Nothing running.}{A new game is started.}{The program is started.}{Either double-clicking the .exe or via terminal: \textit{./RogueReborn.exe}.}
 
-		\test{F}{Dynamic}{Manual}{Black}{Game screen}{Load command is given or save key is pressed.}{A message saying that the game has been loaded is shown to the user in the status box. The data model (level, player, monsters, etc.) is also updated to reflect the state changes.}{A user will have to play the game and trigger the input sequence to load, and verify that it is in fact the same state that was previously saved.}
+			\test{F}{Dynamic}{Manual}{Black}{Game screen}{Save command is given or save key is pressed.}{A message saying that the game has been saved is shown to the user in the status box.}{A user will have to play the game and trigger the input sequence. This process can be verified to work by the following test.}
 
-		\test{F}{Dynamic}{Automatic}{Black}{Nothing running}{A new game is started.}{The player has the default starting gear and statistics.}{This feature can be tested by analyzing a save file. In the file is listed everything about the player, meaning the information can be attained from there.}
+			\test{F}{Dynamic}{Manual}{Black}{Game screen}{Load command is given or save key is pressed.}{A message saying that the game has been loaded is shown to the user in the status box. The data model (level, player, monsters, etc.) is also updated to reflect the state changes.}{A user will have to play the game and trigger the input sequence to load, and verify that it is in fact the same state that was previously saved.}
 
-		\test{F}{Dynamic}{Manual}{Black}{Game screen}{The "help" command is given or the "help" key is pressed.}{The user is shown a screen with a list of possible actions and other information}{Players will be given the game with no instructions or guide. The usefulness and accessibility of the help screen will be judged by their performance after having seen the help screen.}
+			\test{F}{Dynamic}{Automatic}{Black}{Nothing running}{A new game is started.}{The player has the default starting gear and statistics.}{This feature can be tested by analyzing a save file. In the file is listed everything about the player, meaning the information can be attained from there.}
+
+			\test{F}{Dynamic}{Manual}{Black}{Game screen}{The "help" command is given or the "help" key is pressed.}{The user is shown a screen with a list of possible actions and other information}{Players will be given the game with no instructions or guide. The usefulness and accessibility of the help screen will be judged by their performance after having seen the help screen.}
 
 		\subsubsection{Interaction}
 
