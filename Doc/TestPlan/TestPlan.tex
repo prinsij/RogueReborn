@@ -337,7 +337,7 @@
 
 		\subsubsection{Look and Feel Requirements}
 			% Appearance
-			\test{N}{Dynamic}{Manual}{Black}{Public Test State}{Users are asked to rate the aesthestic similarity between \textit{Rogue} and Rogue Reborn.}{A numeric quantity between 0 and 10, where 0 indicates that the graphics are entirely disjoint and 10 indicates that the graphics are virtually indistinguishable.}{A random sample of users will be asked to play \textit{Rogue} and the Rogue Reborn variant for \hyperref[symbolicParameters]{PLAYTEST\_SHORT\_TIME} minutes a piece.  Afterwards, they will be asked to judge the graphical similarity of the games based on the aforementioned scale.}
+			\test{N}{Dynamic}{Manual}{Black}{Public Test State}{Users are asked to rate the aesthetic similarity between \textit{Rogue} and Rogue Reborn.}{A numeric quantity between 0 and 10, where 0 indicates that the graphics are entirely disjoint and 10 indicates that the graphics are virtually indistinguishable.}{A random sample of users will be asked to play \textit{Rogue} and the Rogue Reborn variant for \hyperref[symbolicParameters]{PLAYTEST\_SHORT\_TIME} minutes a piece.  Afterwards, they will be asked to judge the graphical similarity of the games based on the aforementioned scale.}
 		\subsubsection{Usability and Humanity Requirements}
 			% Ease of Use
 			\test{N}{Dynamic}{Manual}{Black}{Public Test State}{New users are instructed to play Rogue Reborn.}{The quantity of time the user willingly decides to play the game.}{A random sample of users who are unfamiliar with \textit{Rogue} will be asked to play Rogue Reborn until they feel bored (or \hyperref[symbolicParameters]{MAXIMUM\_ENTERTAINMENT\_TIME} has expired).  Once they indicate that they no longer wish to play, their playing time will be recorded.}
@@ -381,10 +381,10 @@
 	
 		\test{P}{Static}{Automatic}{White}{None}{Program Source}{Program Executable}{Verify that the program compiles with g++.}
 		
-		\test{P}{Dynamic}{Manual}{White}{None}{A brief but complete playthrough of the game.}{Breakdown of program memory usage.}{A tester will briefly play the game, and a developer will use valgrind's memcheck utility to verify that program does not leak memory or utilize uninitialized memory.}
+		\test{P}{Dynamic}{Manual}{White}{None}{A brief but complete playthrough of the game.}{Breakdown of program memory usage.}{A tester will briefly play the game, and a developer will use Valgrind's memcheck utility to verify that program does not leak memory or utilize uninitialized memory.}
 
 	\subsection{Rendering}
-		\test{P}{Dynamic}{Manua}l{Black}{Gameplay State}{30-60 seconds of gameplay.}{ The player character and any dungeon features should be shown at the correct location with the correct glyphs. Correct player statistics will be shown along the bottom. The dialog box will correctly display the log and any prompts.}{A tester will manually play the game and verify the display is correct.}
+		\test{P}{Dynamic}{Manual}l{Black}{Gameplay State}{30-60 seconds of gameplay.}{ The player character and any dungeon features should be shown at the correct location with the correct glyphs. Correct player statistics will be shown along the bottom. The dialog box will correctly display the log and any prompts.}{A tester will manually play the game and verify the display is correct.}
 
 	\subsection{Dungeon Generation}
 		
@@ -417,10 +417,10 @@
 	\subsection{Unit testing of internal functions}
 		Internal functions in the product will be unit tested. This will be reserved for more complex functions so as to not waste development time unnecessarily. As complete code coverage is not a goal, generic code coverage metrics will not be used. Instead, care will be taken that complex functions are covered by unit tests. The following are examples of internal functions that are initial candidates for unit testing. Other functions will be added as necessary:
 		\begin{itemize}
-			\item The dungeon generation functions. The work of generating the dungeon is complex, but it is also easy to automate verification of dungeon properties such as a correct number of rooms, connectness, compliance with formulas for item generation, presence or absence of certain key features such as the stairs connecting levels or the Amulet of Yendor in the final level.
+			\item The dungeon generation functions. The work of generating the dungeon is complex, but it is also easy to automate verification of dungeon properties such as a correct number of rooms, connectedness, compliance with formulas for item generation, presence or absence of certain key features such as the stairs connecting levels or the Amulet of Yendor in the final level.
 			\item The keyboard input functions. As libtcod provides a Key struct which models keyboard input, we can mock/automate these functions. They are fairly complex, and since they return a pointer to the next desired state (similar to a finite state machine) we can easily verify their behavior.
 			\item The item activation functions. For example it could be verified that when the player drank a potion of healing their health increased (if it was not at its maximum), that a scroll of magic-mapping is reveals the level, or that a scroll of identification reveals the nature of an item.
-			\item The item storage functions. Each item is mapped to a persistent hotkey in the player's inventory. Certain items can stack with copies, reducing the amount of inventory space they take up, and how they are displayed. These factors make the inventory fairly complex. It is however easily verifiable, and automated testing can examine edge cases that would be impracticle to test manually.
+			\item The item storage functions. Each item is mapped to a persistent hotkey in the player's inventory. Certain items can stack with copies, reducing the amount of inventory space they take up, and how they are displayed. These factors make the inventory fairly complex. It is however easily verifiable, and automated testing can examine edge cases that would be impractical to test manually.
 		\end{itemize}
 
 	\subsection{Unit testing of output files}
