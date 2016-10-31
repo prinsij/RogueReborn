@@ -7,10 +7,12 @@
 \usepackage{float}
 \usepackage{hyperref}
 \usepackage{indentfirst}
+\usepackage{listings}
+\usepackage[round]{natbib}
 \usepackage[usenames, dvipsnames]{color}
 \usepackage{tikz}
 
-% Colour Scheme
+% Setup
 
 \hypersetup{
     colorlinks,
@@ -18,6 +20,10 @@
     filecolor=ForestGreen,
     linkcolor=MidnightBlue,
     urlcolor=blue
+}
+
+\lstset{
+	basicstyle=\ttfamily\footnotesize
 }
 
 % Custom Commands
@@ -44,7 +50,7 @@
 %    8 = How the test will be performed
 
 \newcommand{\test}[8]{	
-	\begin{table}[h!]
+	\begin{table}[H]
 		\if#1F
 			\stepcounter{funCounter}
 			\renewcommand\testTitle{Functional }
@@ -63,7 +69,7 @@
 		
 		\centering
 		\def\arraystretch{1.6}
-		\begin{tabular}{| R{7em} L{20em} |}
+		\begin{tabular}{| R{7em} L{25em} |}
 			\bottomrule
 			\multicolumn{2}{| c |}{\textbf{\testTitle Test} \# \testCounter} \\
 			\hline
@@ -107,7 +113,7 @@
 
 % Revision Table
 
-\begin{table}[bp]
+\begin{table}[bp!]
 	\caption{\bf Revision History}
 	\bigskip
 	\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
@@ -119,6 +125,8 @@
 		10/24/16 & 0.3 & Added Section 1 \\
 		10/26/16 & 0.4 & Added PoC tests \\
 		10/26/16 & 0.4.1 & Added Test Template \\
+		10/30/16 & 0.5 & Added Non-Functional Req. Tests \\
+		10/30/16 & 0.5.1 & Added Bibliography \\
 		\bottomrule
 	\end{tabularx}
 \end{table}
@@ -130,6 +138,7 @@
 \pagenumbering{arabic}
 
 \section{General Information}
+\label{section1}
 
 	\subsection{Purpose}
 		The purpose of this document is to explore the verification process that will be applied to the Rogue Reborn project.  After reviewing the document, the reader should understand the strategy, focus, and motivation behind the efforts of the Rogue++ testing team.   
@@ -137,7 +146,7 @@
 	\subsection{Scope}
 		This report will encompass all technical aspects of the testing environment and implementation plan, as well as other elements in the domain of team coordination and project deadlines.  The document will also strive to be comprehensive by providing context behind critical decisions, motivating the inclusion of particular features by referring to the existing \textit{Rogue} implementation, and offering a large variety of tests for various purposes and hierarchical units.  Aside from the implementation, the report will also discuss a relevant component from the requirements elicitation process.
 
-	\subsection{Acronyms, Abbreviations, and Symbols}
+	\subsection{Acronyms, Abbreviations, and States}
 		
 		\begin{table}[H]
 			\centering
@@ -148,6 +157,7 @@
 				\toprule
 				\textbf{Abbreviation} & \textbf{Definition} \\
 				\midrule
+				GUI & Graphical User Interface\\
 				PoC & Proof of Concept\\
 				\bottomrule
 			\end{tabularx}
@@ -158,14 +168,35 @@
 			\caption{\textbf{Table of Definitions}}
 			\label{TableDefinitions}
 			\bigskip
-			\begin{tabularx}{\textwidth}{p{3cm}X}
+			\begin{tabularx}{\textwidth}{p{3.5cm}X}
 				\toprule
 				\textbf{Term} & \textbf{Definition}\\
 				\midrule
 				\textbf{Boost} & C++ utility library that includes a comprehensive unit testing framework\\
+				\textbf{Frame} & An instantaneous ``Snapshot'' of the GUI screen\\
 				\textbf{Libtcod} & Graphics library that specializes in emulating a roguelike experience\\
+				\textbf{Monochrome Luminance} & The brightness of a given colour (with respect to the average sensitivity of the human eye)\\
 				\textbf{Permadeath} & Feature of roguelike games whereby a character death will end the game\\
 				\textbf{Roguelike} & Genre of video games characterized by ASCII graphics, procedurally-generated levels, and permadeath\\
+				\bottomrule
+			\end{tabularx}
+		\end{table}	
+
+		\begin{table}[H]
+			\centering
+			\caption{\textbf{Table of States}}
+			\label{StateDefinitions}
+			\bigskip
+			\begin{tabularx}{\textwidth}{p{3.5cm}X}
+				\toprule
+				\textbf{State} & \textbf{Definition}\\
+				\midrule
+				\textbf{Developer State} & The file system state corresponding to the latest source code revision from the Git repository\\
+				\textbf{Fresh State} & The file system state corresponding to a ``fresh'' Rogue Reborn installation\\
+				\textbf{Gameplay State} & Any application state that reflects the actual gameplay\\
+				\textbf{High Score State} & Any application state that reflects the top high scores screen\\
+				\textbf{Menu State} & Any application state that reflects the opening menu\\
+				\textbf{Public Test State} & The system state corresponding to an installation of Rogue Reborn that is shared by a subset of the public game testers\\
 				\bottomrule
 			\end{tabularx}
 		\end{table}	
@@ -174,17 +205,18 @@
 		The early sections of the report will describe the testing environment and the logistic components of the Rogue Reborn testing effort, including the schedule and work allocation.  Next, a suite of tests will be discussed with respect to the functional requirements, nonfunctional requirements, and proof of concept demonstration.  Upon discussing the relevance of this project to the original \textit{Rogue}, a variety of unit tests will be given followed by a sample usability survey to guage the interest and opinion of the Rogue Reborn game.  A breakdown of the sections is listed below:
 
 		\begin{itemize}
-			\item[\S 1] Brief overview of the report contents
-			\item[\S 2] Project logistics and the software testing environment
-			\item[\S 3] Description of system-level integration tests (based on requirements)
-			\item[\S 4] Explanation of test plans that were inspired by the PoC demonstration
-			\item[\S 5] Comparison of the existing \textit{Rogue} to the current project in the context of testing
-			\item[\S 6] Outline of the module-level unit tests 
-			\item[\S 7] Appendix for symbolic parameters and the aforementioned usability survey
+			\item \hyperref[section1]{\S 1} Brief overview of the report contents
+			\item \hyperref[section2]{\S 2} Project logistics and the software testing environment
+			\item \hyperref[section3]{\S 3} Description of system-level integration tests (based on requirements)
+			\item \hyperref[section4]{\S 4} Explanation of test plans that were inspired by the PoC demonstration
+			\item \hyperref[section5]{\S 5} Comparison of the existing \textit{Rogue} to the current project in the context of testing
+			\item \hyperref[section6]{\S 6} Outline of the module-level unit tests 
+			\item \hyperref[section7]{\S 7} Appendix for symbolic parameters and the aforementioned usability survey
 		\end{itemize}
 
 \newpage
 \section{Plan}
+\label{section2}
 		
 	\subsection{Software Description}
 
@@ -256,6 +288,7 @@
 
 \newpage
 \section{System Test Description}
+\label{section3}
 	
 	\subsection{Tests for Functional Requirements}
 
@@ -265,19 +298,49 @@
 
 	\subsubsection{Area of Testing2}
 
-	...
-
 	\subsection{Tests for Non-Functional Requirements}
 
-	\subsubsection{Area of Testing1}
-			
-		\test{N}{Dynamic}{Manual}{Black}{Gameplay screen}{Game model}{Graphical display}{Visual inspection}
-
-	\subsubsection{Area of Testing2}
-	...
+		\subsubsection{Look and Feel Requirements}
+			% Appearance
+			\test{N}{Dynamic}{Manual}{Black}{Public Test State}{Users are asked to rate the aesthestic similarity between \textit{Rogue} and Rogue Reborn.}{A numeric quantity between 0 and 10, where 0 indicates that the graphics are entirely disjoint and 10 indicates that the graphics are virtually indistinguishable.}{A random sample of users will be asked to play \textit{Rogue} and the Rogue Reborn variant for \hyperref[symbolicParameters]{PLAYTEST\_SHORT\_TIME} minutes a piece.  Afterwards, they will be asked to judge the graphical similarity of the games based on the aforementioned scale.}
+		\subsubsection{Usability and Humanity Requirements}
+			% Ease of Use
+			\test{N}{Dynamic}{Manual}{Black}{Public Test State}{New users are instructed to play Rogue Reborn.}{The quantity of time the user willingly decides to play the game.}{A random sample of users who are unfamiliar with \textit{Rogue} will be asked to play Rogue Reborn until they feel bored (or \hyperref[symbolicParameters]{MAXIMUM\_ENTERTAINMENT\_TIME} has expired).  Once they indicate that they no longer wish to play, their playing time will be recorded.}
+			% Personalization and Internationalization
+			\test{N}{Static}{Manual}{White}{Developer State}{Rogue Reborn source code.}{An approximation of the English spelling, punctuation, and grammar mistakes that can be visible from the GUI.}{All strings in the Rogue Reborn source code will be concatenated with a newline delimiter and placed in a text file.  A modern edition of Microsoft Word will be used to open this generated text file, and a developer can then manually correct all indicated errors that are potentially associated with a GUI output.}
+			% Learning
+			\test{N}{Dynamic}{Manual}{Black}{Public Test State}{Users are asked to rate the intuitiveness of the Rogue Reborn key bindings.}{A numeric quantity between 0 and 10, where 0 indicates that the key bindings are extremely confusing and 10 indicates that the key bindings are perfectly natural.}{A random sample of users who are inexperienced with the roguelike genre will be asked to play Rogue Reborn for \hyperref[symbolicParameters]{SHORT\_TIME} minutes without viewing the key binding help screen.  Next, the key bindings will be revealed and the users will continue to play for an additional \hyperref[symbolicParameters]{PLAYTEST\_SHORT\_TIME} minutes.  Afterwards, they will be asked to judge the quality of the key bindings based on the aforementioned scale}
+		\subsubsection{Performance Requirements}
+			% Speed and Latency
+			\test{N}{Dynamic}{Automatic}{White}{Public Test State}{Users are instructed to play Rogue Reborn.}{A log of occurrences where a computation that was initiated by a user input took an excessive quantity of time to execute.}{A random sample of experienced users will be asked to play a special version of Rogue Reborn for \hyperref[symbolicParameters]{PLAYTEST\_MEDIUM\_RANGE} minutes.  This version will use a StopWatch implementation to measure the execution time of a computation, and if such a computation exceeds \hyperref[symbolicParameters]{RESPONSE\_SPEED} milliseconds, the user action and timestamp will be recorded in a log file.}
+			% Precision or Accuracy
+			\test{N}{Static}{Manual}{White}{Developer State}{Rogue Reborn source code.}{All declarations of integer-typed variables.}{A recursive \lstinline$grep$ command will be used to capture all lines in the Rogue Reborn source code that match \hyperref[symbolicParameters]{REGEX\_INTEGER} (i.e., integer declarations).  A group of Rogue++ developers can review these declarations together and alter them if deemed necessary to avoid integer overflow issues.}
+			% Reliability or Availability
+			\test{N}{Dynamic}{Manual}{Black}{Public Test State}{Playtesters are instructed to play Rogue Reborn for at least \hyperref[symbolicParameters]{PLAYTEST\_LONG\_TIME} hours.}{A collection of crash occurrences along with descriptions that explain how the failure occurred.}{All Rogue Reborn playtesters will be required to play the game for at least \hyperref[symbolicParameters]{PLAYTEST\_LONG\_TIME} hours in total (spanned over multiple sessions if desired).  If the application crashes during any time, the user must record the incident along with a description of the visible GUI state and the steps required to reproduce the failure.  The Rogue++ team must address each crash by either resolving the issue or confidently declaring that the event is irreproducible.}
+			% Capacity
+			\test{N}{Dynamic}{Manual}{White}{High Score State}{A high score record file containing a large quantity of entries.}{Screen denoting the top high scores.}{The Rogue Reborn developers will artificially fabricate a high score record file with at least \hyperref[symbolicParameters]{HIGH\_SCORE\_CAPACITY} + 2 records.  One round of the game will be played, and when the high score screen is revealed, only the top \hyperref[symbolicParameters]{HIGH\_SCORE\_CAPACITY} scores should be displayed.}
+		\subsubsection{Operational and Environment Requirements}
+			% Expected Physical Environment
+			\test{N}{Dynamic}{Manual}{Black}{Fresh State}{Users are instructed to run Rogue Reborn on their personal machine.}{An indication of whether the game can successfully execute.}{A random sample of users with computers that are equipped with Intel x64 processors will be asked to download the latest Rogue Reborn distribution and attempt to run the executable.  The user will then report if the game successfully runs on their machine.}
+			% Productization
+			\test{N}{Static}{Manual}{Black}{Developer State}{Rogue Reborn distribution package.}{An indication of whether or not the distribution contains any files aside from the primary executable and the associated licenses.}{The public distribution package will be visually inspected for extraneous files.}
+		\subsubsection{Maintainability Requirements}
+			% Maintenance
+			\test{N}{Static}{Manual}{Black}{Developer State}{All ITS issues labeled as bugs in the Rogue Reborn GitLab repository.}{A list of all bug reports and their corresponding resolution date (if closed).}{The Rogue Reborn GitLab repository will be queried for all issues concerning bugs (which are denoted by a ``Bug'' label).  A developer can then manually verify that every closed bug fix request was resolved within a month of its creation.}
+			% Adaptability
+			\test{N}{Dynamic}{Manual}{Black}{Fresh State}{Users are instructed to run Rogue Reborn on their personal machine.}{An indication of whether the game can successfully execute.}{A random sample of users with computers that use a modern 64-bit Linux operating system will be asked to download the latest Rogue Reborn distribution and attempt to run the executable.  The user will then report if the game successfully runs on their machine.}
+		\subsubsection{Security Requirements}
+			% Integrity
+			\test{N}{Dynamic}{Manual}{White}{High Score State}{A corrupted high score record file.}{Screen denoting the top \hyperref[symbolicParameters]{HIGH\_SCORE\_CAPACITY} (valid) high scores.}{The Rogue++ team will illegally modify a high score record file by manually altering or adding values such that the expected format or value integrity is violated.  These modifications should include negative high score values, missing text, and incorrect delimiter usage.  The game will then be executed to reach the High Score State, where invalid record file contents should be ignored and amended in the next write to the file.}
+		\subsubsection{Legal Requirements}
+			% Compliance
+			\test{N}{Static}{Manual}{Black}{Developer State}{Rogue Reborn distribution package.}{An indication of whether or not the distribution is missing any mandatory license files.}{The original \textit{Rogue} source code (as referenced on the Rogue Reborn GitLab homepage) will be reviewed for legal requirements, and the public distribution package will be visually inspected to ensure that all license files are present.}
+		\subsubsection{Health and Safety Requirements}
+			\test{N}{Static}{Manual}{Black}{Developer State}{Two screenshots denoting the largest possible luminosity difference present between two consecutive frames.}{The difference in luminosity between the two captured frames.}{After identifying the frame pair that is most likely to induce a seizure, the game will be played to reach the states that reflect each frame (this should be a brief process; no clever game model manipulation is required).  At the occurrence of each desired frame, the game screen will be captured.  At this point, the average monochrome luminance across each frame will be calculated according to \[L = 0.299R + 0.587G + 0.114B\] where $L$ is the luminance, $R$ is the red RGB component, $G$ is the green RGB component, and $B$ is the blue RGB component ~\citep{MonochromeLuminance}.  Finally, the absolute value of the luminance difference can then compared to \hyperref[symbolicParameters]{LUMINOSITY\_DELTA}.}   
 
 \newpage
 \section{Tests for Proof of Concept}
+\label{section4}
 
 	\subsection{Static Testing}
 	
@@ -356,10 +419,11 @@
 
 \newpage
 \section{Comparison to Existing Implementation}	
-
+\label{section5}
 	
 \newpage
 \section{Unit Testing Plan}
+\label{section6}
 	
 	After examining the boost library's utilities for unit testing, we have decided we will not use a unit testing framework for testing the product. We concluded that adding a framework would not make the work significantly easier, while reducing our flexibility and adding installation difficulties. Since we are not using a framework, drivers will be written by hand. Stubs will be produced when necessary to simulate system components.
 	
@@ -374,12 +438,15 @@
 	\subsection{Unit testing of output files}
 		There is only one output file for the product, the high score file, which stores the scores in a csv format. The production and reading of this file can be unit-tested by verifying its contents after writing to it, and by providing a testing version of the file with known contents and verifying the function reads them correctly.
 
-% \bibliographystyle{plainnat}
+\newpage
 
-% \bibliography{SRS}
+\bibliographystyle{plainnat}
+
+\bibliography{TestPlan}
 
 \newpage
 \section{Appendix}
+\label{section7}
 
 	This is where you can place additional information.
 
@@ -398,14 +465,18 @@
 				\textbf{Parameter} & \textbf{Value} \\
 				\hline
 				FINAL\_LEVEL & 26 \\
-				WIDTH\_RESOLUTION & 1280 \\
 				HEIGHT\_RESOLUTION & 400 \\
-				VIEW\_DISTANCE & 2 \\
-				START\_LEVEL & 1 \\
+				LUMINOSITY\_DELTA & 0.5 \\
 				MINIMUM\_ENTERTAINMENT\_TIME & 20 \\
 				MINIMUM\_RESPONSE\_SPEED & 30 \\
 				HIGH\_SCORE\_CAPACITY & 15 \\
-				LUMINOSITY\_DELTA & 0.5 \\
+				PLAYTEST\_SHORT\_TIME & 5 \\
+				PLAYTEST\_MEDIUM\_RANGE & 10-20 \\
+				PLAYTEST\_LONG\_TIME & 3 \\
+				REGEX\_INTEGER & \lstinline$(char|int|long).*(,|;)$ \\
+				START\_LEVEL & 1 \\
+				VIEW\_DISTANCE & 2 \\
+				WIDTH\_RESOLUTION & 1280 \\
 				\toprule
 			\end{tabular}
 		\end{table}
