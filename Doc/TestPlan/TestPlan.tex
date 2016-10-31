@@ -41,15 +41,15 @@
 
 % Arguments
 %    1 = {F, N, P} for functional, non-functional, and PoC respectively
-%    2 = {Static, Dynamic}
-%    3 = {Manual, Automatic}
-%    4 = {Black, White}
-%    5 = Initial state
-%    6 = Input
-%    7 = Output
-%    8 = How the test will be performed
-
-\newcommand{\test}[8]{	
+%	 2 = Test name
+%    3 = {Static, Dynamic}
+%    4 = {Manual, Automatic}
+%    5 = {Black, White}
+%    6 = Initial state
+%    7 = Input
+%    8 = Output
+%    9 = How the test will be performed
+\newcommand{\test}[9]{	
 	\begin{table}[H]
 		\if#1F
 			\stepcounter{funCounter}
@@ -62,7 +62,7 @@
 				\renewcommand\testCounter{\thenonCounter} 
 			\else
 				\stepcounter{pocCounter}
-				\renewcommand\testTitle{Proof of Concept }
+				\renewcommand\testTitle{PoC }
 				\renewcommand\testCounter{\thepocCounter} 
 			\fi
 		\fi
@@ -71,13 +71,13 @@
 		\def\arraystretch{1.6}
 		\begin{tabular}{| R{7em} L{25em} |}
 			\bottomrule
-			\multicolumn{2}{| c |}{\textbf{\testTitle Test} \# \testCounter} \\
+			\multicolumn{2}{| c |}{\textbf{#2} - \testTitle Test \# \testCounter} \\
 			\hline
-			\textit{Type:} & #2 / #3 / #4 Box\\
-			\textit{Initial State:} & #5 \\
-			\textit{Input:} & #6 \\
-			\textit{Output:} & #7 \\
-			\textit{Execution:} & #8 \\
+			\textit{Type:} & #3 / #4 / #5 Box\\
+			\textit{Initial State:} & #6 \\
+			\textit{Input:} & #7 \\
+			\textit{Output:} & #8 \\
+			\textit{Execution:} & #9 \\
 			\toprule
 		\end{tabular}
 	\end{table}
@@ -281,7 +281,9 @@
 
 	\bigskip
 
-	As an extra safety measure, the Rogue++ team will also be utilizing a tool called Valgrind in the testing procedure. Valgrind is a tool that tests the amount of memory a C++ program utilizes, and detects errors such as memory leaks. This is an extremely useful and powerful tool. C++, unlike Java and other high level languages, does not have a built-in garbage collector. Garbage collectors are to be implemented by the user. Due to this, it is easy to accidentally leave behind an object or two, causing a memory leak in the program. Valgrind detects this, and will provide useful information during development and testing.
+	As an extra safety measure, the Rogue++ team will also be utilizing a tool called Valgrind in the testing procedure. Valgrind is a tool that tests the amount of memory a C++ program utilizes, and detects memory allocation errors (such as memory leaks). This is an extremely useful and powerful tool. C++, unlike Java and other high level languages, does not have a built-in garbage collector. This is just one of the reasons why it is so much faster than the rest. A consequence of this, however, is that it is very easy to accidentally leave behind an object in memory, causing a memory leak in the program.\\
+
+	At the time of writing, the entire program occupies 1 MB of memory. This is not much, and even if it was all left behind in a leak, the system would not be too hindered. However, memory leaks represent only a consequence of a larger issue: incorrect code! Using Valgrind, we will be able to detect these kinds of errors, potentially pointing us in the direction of a crucial bugfix.
 
 	\subsection{Testing Schedule}
 		
@@ -293,51 +295,83 @@
 	
 	\subsection{Tests for Functional Requirements}
 
-		\subsubsection{Area of Testing1}
-		
-		\test{F}{Dynamic}{Manual}{Black}{Menu screen}{Alphanumeric keyboard interrupts}{Valid characters that are pressed will appear on the screen beside the character name prompt}{Typing the name of the character on the keyboard}
+		%Dynamic 	Conduct test by running program
+		%Static 	Conducted without running program (spell check)
+		%~~~
+		%Manual 	Actual human being has to decide if result is correct or not
+		%Automatic 	Script
+		%~~~
+		%Black 		Decided on input and output
+		%White 		Generate test cases based on code (Use code to make decisions)
 
-	\subsubsection{Area of Testing2}
+		%123
+		%initial state
+		%input
+		%output
+		%how it will be performed
+
+		\subsubsection{Basic Mechanics}
+
+			\test{F}{Name}{Dynamic}{Manual}{Black}{Nothing running.}{A new game is started.}{The program is started.}{Either double-clicking the .exe or via terminal: \textit{./RogueReborn.exe}.}
+
+			\test{F}{Name}{Dynamic}{Manual}{Black}{Game screen}{Save command is given or save key is pressed.}{A message saying that the game has been saved is shown to the user in the status box.}{A user will have to play the game and trigger the input sequence. This process can be verified to work by the following test.}
+
+			\test{F}{Name}{Dynamic}{Manual}{Black}{Game screen}{Load command is given or save key is pressed.}{A message saying that the game has been loaded is shown to the user in the status box. The data model (level, player, monsters, etc.) is also updated to reflect the state changes.}{A user will have to play the game and trigger the input sequence to load, and verify that it is in fact the same state that was previously saved.}
+
+			\test{F}{Name}{Dynamic}{Automatic}{Black}{Nothing running}{A new game is started.}{The player has the default starting gear and statistics.}{This feature can be tested by analyzing a save file. In the file is listed everything about the player, meaning the information can be attained from there.}
+
+			\test{F}{Name}{Dynamic}{Manual}{Black}{Game screen}{The "help" command is given or the "help" key is pressed.}{The user is shown a screen with a list of possible actions and other information}{Players will be given the game with no instructions or guide. The usefulness and accessibility of the help screen will be judged by their performance after having seen the help screen.}
+
+		\subsubsection{Interaction}
+
+		\test{F}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
+
+		\test{F}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
+
+		\test{F}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
+
+		\test{F}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
+
 
 	\subsection{Tests for Non-Functional Requirements}
 
 		\subsubsection{Look and Feel Requirements}
 			% Appearance
-			\test{N}{Dynamic}{Manual}{Black}{Public Test State}{Users are asked to rate the aesthestic similarity between \textit{Rogue} and Rogue Reborn.}{A numeric quantity between 0 and 10, where 0 indicates that the graphics are entirely disjoint and 10 indicates that the graphics are virtually indistinguishable.}{A random sample of users will be asked to play \textit{Rogue} and the Rogue Reborn variant for \hyperref[symbolicParameters]{PLAYTEST\_SHORT\_TIME} minutes a piece.  Afterwards, they will be asked to judge the graphical similarity of the games based on the aforementioned scale.}
+			\test{N}{Aesthetic Similarity}{Dynamic}{Manual}{Black}{Public Test State}{Users are asked to rate the aesthetic similarity between \textit{Rogue} and Rogue Reborn.}{A numeric quantity between 0 and 10, where 0 indicates that the graphics are entirely disjoint and 10 indicates that the graphics are virtually indistinguishable.}{A random sample of users will be asked to play \textit{Rogue} and the Rogue Reborn variant for \hyperref[symbolicParameters]{PLAYTEST\_SHORT\_TIME} minutes a piece.  Afterwards, they will be asked to judge the graphical similarity of the games based on the aforementioned scale.}
 		\subsubsection{Usability and Humanity Requirements}
 			% Ease of Use
-			\test{N}{Dynamic}{Manual}{Black}{Public Test State}{New users are instructed to play Rogue Reborn.}{The quantity of time the user willingly decides to play the game.}{A random sample of users who are unfamiliar with \textit{Rogue} will be asked to play Rogue Reborn until they feel bored (or \hyperref[symbolicParameters]{MAXIMUM\_ENTERTAINMENT\_TIME} has expired).  Once they indicate that they no longer wish to play, their playing time will be recorded.}
+			\test{N}{Name}{Dynamic}{Manual}{Black}{Public Test State}{New users are instructed to play Rogue Reborn.}{The quantity of time the user willingly decides to play the game.}{A random sample of users who are unfamiliar with \textit{Rogue} will be asked to play Rogue Reborn until they feel bored (or \hyperref[symbolicParameters]{MAXIMUM\_ENTERTAINMENT\_TIME} has expired).  Once they indicate that they no longer wish to play, their playing time will be recorded.}
 			% Personalization and Internationalization
-			\test{N}{Static}{Manual}{White}{Developer State}{Rogue Reborn source code.}{An approximation of the English spelling, punctuation, and grammar mistakes that can be visible from the GUI.}{All strings in the Rogue Reborn source code will be concatenated with a newline delimiter and placed in a text file.  A modern edition of Microsoft Word will be used to open this generated text file, and a developer can then manually correct all indicated errors that are potentially associated with a GUI output.}
+			\test{N}{Name}{Static}{Manual}{White}{Developer State}{Rogue Reborn source code.}{An approximation of the English spelling, punctuation, and grammar mistakes that can be visible from the GUI.}{All strings in the Rogue Reborn source code will be concatenated with a newline delimiter and placed in a text file.  A modern edition of Microsoft Word will be used to open this generated text file, and a developer can then manually correct all indicated errors that are potentially associated with a GUI output.}
 			% Learning
-			\test{N}{Dynamic}{Manual}{Black}{Public Test State}{Users are asked to rate the intuitiveness of the Rogue Reborn key bindings.}{A numeric quantity between 0 and 10, where 0 indicates that the key bindings are extremely confusing and 10 indicates that the key bindings are perfectly natural.}{A random sample of users who are inexperienced with the roguelike genre will be asked to play Rogue Reborn for \hyperref[symbolicParameters]{SHORT\_TIME} minutes without viewing the key binding help screen.  Next, the key bindings will be revealed and the users will continue to play for an additional \hyperref[symbolicParameters]{PLAYTEST\_SHORT\_TIME} minutes.  Afterwards, they will be asked to judge the quality of the key bindings based on the aforementioned scale}
+			\test{N}{Name}{Dynamic}{Manual}{Black}{Public Test State}{Users are asked to rate the intuitiveness of the Rogue Reborn key bindings.}{A numeric quantity between 0 and 10, where 0 indicates that the key bindings are extremely confusing and 10 indicates that the key bindings are perfectly natural.}{A random sample of users who are inexperienced with the roguelike genre will be asked to play Rogue Reborn for \hyperref[symbolicParameters]{SHORT\_TIME} minutes without viewing the key binding help screen.  Next, the key bindings will be revealed and the users will continue to play for an additional \hyperref[symbolicParameters]{PLAYTEST\_SHORT\_TIME} minutes.  Afterwards, they will be asked to judge the quality of the key bindings based on the aforementioned scale}
 		\subsubsection{Performance Requirements}
 			% Speed and Latency
-			\test{N}{Dynamic}{Automatic}{White}{Public Test State}{Users are instructed to play Rogue Reborn.}{A log of occurrences where a computation that was initiated by a user input took an excessive quantity of time to execute.}{A random sample of experienced users will be asked to play a special version of Rogue Reborn for \hyperref[symbolicParameters]{PLAYTEST\_MEDIUM\_RANGE} minutes.  This version will use a StopWatch implementation to measure the execution time of a computation, and if such a computation exceeds \hyperref[symbolicParameters]{RESPONSE\_SPEED} milliseconds, the user action and timestamp will be recorded in a log file.}
+			\test{N}{Name}{Dynamic}{Automatic}{White}{Public Test State}{Users are instructed to play Rogue Reborn.}{A log of occurrences where a computation that was initiated by a user input took an excessive quantity of time to execute.}{A random sample of experienced users will be asked to play a special version of Rogue Reborn for \hyperref[symbolicParameters]{PLAYTEST\_MEDIUM\_RANGE} minutes.  This version will use a StopWatch implementation to measure the execution time of a computation, and if such a computation exceeds \hyperref[symbolicParameters]{RESPONSE\_SPEED} milliseconds, the user action and timestamp will be recorded in a log file.}
 			% Precision or Accuracy
-			\test{N}{Static}{Manual}{White}{Developer State}{Rogue Reborn source code.}{All declarations of integer-typed variables.}{A recursive \lstinline$grep$ command will be used to capture all lines in the Rogue Reborn source code that match \hyperref[symbolicParameters]{REGEX\_INTEGER} (i.e., integer declarations).  A group of Rogue++ developers can review these declarations together and alter them if deemed necessary to avoid integer overflow issues.}
+			\test{N}{Name}{Static}{Manual}{White}{Developer State}{Rogue Reborn source code.}{All declarations of integer-typed variables.}{A recursive \lstinline$grep$ command will be used to capture all lines in the Rogue Reborn source code that match \hyperref[symbolicParameters]{REGEX\_INTEGER} (i.e., integer declarations).  A group of Rogue++ developers can review these declarations together and alter them if deemed necessary to avoid integer overflow issues.}
 			% Reliability or Availability
-			\test{N}{Dynamic}{Manual}{Black}{Public Test State}{Playtesters are instructed to play Rogue Reborn for at least \hyperref[symbolicParameters]{PLAYTEST\_LONG\_TIME} hours.}{A collection of crash occurrences along with descriptions that explain how the failure occurred.}{All Rogue Reborn playtesters will be required to play the game for at least \hyperref[symbolicParameters]{PLAYTEST\_LONG\_TIME} hours in total (spanned over multiple sessions if desired).  If the application crashes during any time, the user must record the incident along with a description of the visible GUI state and the steps required to reproduce the failure.  The Rogue++ team must address each crash by either resolving the issue or confidently declaring that the event is irreproducible.}
+			\test{N}{Name}{Dynamic}{Manual}{Black}{Public Test State}{Playtesters are instructed to play Rogue Reborn for at least \hyperref[symbolicParameters]{PLAYTEST\_LONG\_TIME} hours.}{A collection of crash occurrences along with descriptions that explain how the failure occurred.}{All Rogue Reborn playtesters will be required to play the game for at least \hyperref[symbolicParameters]{PLAYTEST\_LONG\_TIME} hours in total (spanned over multiple sessions if desired).  If the application crashes during any time, the user must record the incident along with a description of the visible GUI state and the steps required to reproduce the failure.  The Rogue++ team must address each crash by either resolving the issue or confidently declaring that the event is irreproducible.}
 			% Capacity
-			\test{N}{Dynamic}{Manual}{White}{High Score State}{A high score record file containing a large quantity of entries.}{Screen denoting the top high scores.}{The Rogue Reborn developers will artificially fabricate a high score record file with at least \hyperref[symbolicParameters]{HIGH\_SCORE\_CAPACITY} + 2 records.  One round of the game will be played, and when the high score screen is revealed, only the top \hyperref[symbolicParameters]{HIGH\_SCORE\_CAPACITY} scores should be displayed.}
+			\test{N}{Name}{Dynamic}{Manual}{White}{High Score State}{A high score record file containing a large quantity of entries.}{Screen denoting the top high scores.}{The Rogue Reborn developers will artificially fabricate a high score record file with at least \hyperref[symbolicParameters]{HIGH\_SCORE\_CAPACITY} + 2 records.  One round of the game will be played, and when the high score screen is revealed, only the top \hyperref[symbolicParameters]{HIGH\_SCORE\_CAPACITY} scores should be displayed.}
 		\subsubsection{Operational and Environment Requirements}
 			% Expected Physical Environment
-			\test{N}{Dynamic}{Manual}{Black}{Fresh State}{Users are instructed to run Rogue Reborn on their personal machine.}{An indication of whether the game can successfully execute.}{A random sample of users with computers that are equipped with Intel x64 processors will be asked to download the latest Rogue Reborn distribution and attempt to run the executable.  The user will then report if the game successfully runs on their machine.}
+			\test{N}{Name}{Dynamic}{Manual}{Black}{Fresh State}{Users are instructed to run Rogue Reborn on their personal machine.}{An indication of whether the game can successfully execute.}{A random sample of users with computers that are equipped with Intel x64 processors will be asked to download the latest Rogue Reborn distribution and attempt to run the executable.  The user will then report if the game successfully runs on their machine.}
 			% Productization
-			\test{N}{Static}{Manual}{Black}{Developer State}{Rogue Reborn distribution package.}{An indication of whether or not the distribution contains any files aside from the primary executable and the associated licenses.}{The public distribution package will be visually inspected for extraneous files.}
+			\test{N}{Name}{Static}{Manual}{Black}{Developer State}{Rogue Reborn distribution package.}{An indication of whether or not the distribution contains any files aside from the primary executable and the associated licenses.}{The public distribution package will be visually inspected for extraneous files.}
 		\subsubsection{Maintainability Requirements}
 			% Maintenance
-			\test{N}{Static}{Manual}{Black}{Developer State}{All ITS issues labeled as bugs in the Rogue Reborn GitLab repository.}{A list of all bug reports and their corresponding resolution date (if closed).}{The Rogue Reborn GitLab repository will be queried for all issues concerning bugs (which are denoted by a ``Bug'' label).  A developer can then manually verify that every closed bug fix request was resolved within a month of its creation.}
+			\test{N}{Name}{Static}{Manual}{Black}{Developer State}{All ITS issues labeled as bugs in the Rogue Reborn GitLab repository.}{A list of all bug reports and their corresponding resolution date (if closed).}{The Rogue Reborn GitLab repository will be queried for all issues concerning bugs (which are denoted by a ``Bug'' label).  A developer can then manually verify that every closed bug fix request was resolved within a month of its creation.}
 			% Adaptability
-			\test{N}{Dynamic}{Manual}{Black}{Fresh State}{Users are instructed to run Rogue Reborn on their personal machine.}{An indication of whether the game can successfully execute.}{A random sample of users with computers that use a modern 64-bit Linux operating system will be asked to download the latest Rogue Reborn distribution and attempt to run the executable.  The user will then report if the game successfully runs on their machine.}
+			\test{N}{Name}{Dynamic}{Manual}{Black}{Fresh State}{Users are instructed to run Rogue Reborn on their personal machine.}{An indication of whether the game can successfully execute.}{A random sample of users with computers that use a modern 64-bit Linux operating system will be asked to download the latest Rogue Reborn distribution and attempt to run the executable.  The user will then report if the game successfully runs on their machine.}
 		\subsubsection{Security Requirements}
 			% Integrity
-			\test{N}{Dynamic}{Manual}{White}{High Score State}{A corrupted high score record file.}{Screen denoting the top \hyperref[symbolicParameters]{HIGH\_SCORE\_CAPACITY} (valid) high scores.}{The Rogue++ team will illegally modify a high score record file by manually altering or adding values such that the expected format or value integrity is violated.  These modifications should include negative high score values, missing text, and incorrect delimiter usage.  The game will then be executed to reach the High Score State, where invalid record file contents should be ignored and amended in the next write to the file.}
+			\test{N}{Name}{Dynamic}{Manual}{White}{High Score State}{A corrupted high score record file.}{Screen denoting the top \hyperref[symbolicParameters]{HIGH\_SCORE\_CAPACITY} (valid) high scores.}{The Rogue++ team will illegally modify a high score record file by manually altering or adding values such that the expected format or value integrity is violated.  These modifications should include negative high score values, missing text, and incorrect delimiter usage.  The game will then be executed to reach the High Score State, where invalid record file contents should be ignored and amended in the next write to the file.}
 		\subsubsection{Legal Requirements}
 			% Compliance
-			\test{N}{Static}{Manual}{Black}{Developer State}{Rogue Reborn distribution package.}{An indication of whether or not the distribution is missing any mandatory license files.}{The original \textit{Rogue} source code (as referenced on the Rogue Reborn GitLab homepage) will be reviewed for legal requirements, and the public distribution package will be visually inspected to ensure that all license files are present.}
+			\test{N}{Name}{Static}{Manual}{Black}{Developer State}{Rogue Reborn distribution package.}{An indication of whether or not the distribution is missing any mandatory license files.}{The original \textit{Rogue} source code (as referenced on the Rogue Reborn GitLab homepage) will be reviewed for legal requirements, and the public distribution package will be visually inspected to ensure that all license files are present.}
 		\subsubsection{Health and Safety Requirements}
-			\test{N}{Static}{Manual}{Black}{Developer State}{Two screenshots denoting the largest possible luminosity difference present between two consecutive frames.}{The difference in luminosity between the two captured frames.}{After identifying the frame pair that is most likely to induce a seizure, the game will be played to reach the states that reflect each frame (this should be a brief process; no clever game model manipulation is required).  At the occurrence of each desired frame, the game screen will be captured.  At this point, the average monochrome luminance across each frame will be calculated according to \[L = 0.299R + 0.587G + 0.114B\] where $L$ is the luminance, $R$ is the red RGB component, $G$ is the green RGB component, and $B$ is the blue RGB component ~\citep{MonochromeLuminance}.  Finally, the absolute value of the luminance difference can then compared to \hyperref[symbolicParameters]{LUMINOSITY\_DELTA}.}   
+			\test{N}{Name}{Static}{Manual}{Black}{Developer State}{Two screenshots denoting the largest possible luminosity difference present between two consecutive frames.}{The difference in luminosity between the two captured frames.}{After identifying the frame pair that is most likely to induce a seizure, the game will be played to reach the states that reflect each frame (this should be a brief process; no clever game model manipulation is required).  At the occurrence of each desired frame, the game screen will be captured.  At this point, the average monochrome luminance across each frame will be calculated according to \[L = 0.299R + 0.587G + 0.114B\] where $L$ is the luminance, $R$ is the red RGB component, $G$ is the green RGB component, and $B$ is the blue RGB component ~\citep{MonochromeLuminance}.  Finally, the absolute value of the luminance difference can then compared to \hyperref[symbolicParameters]{LUMINOSITY\_DELTA}.}   
 
 \newpage
 \section{Tests for Proof of Concept}
@@ -345,32 +379,34 @@
 
 	\subsection{Static Testing}
 	
-		\test{P}{Static}{Automatic}{White}{None}{Program Source}{Program Executable}{Verify that the program compiles with g++.}
+		\test{P}{Name}{Static}{Automatic}{White}{None}{Program Source}{Program Executable}{Verify that the program compiles with g++.}
 		
-		\test{P}{Dynamic}{Manual}{White}{None}{A brief but complete playthrough of the game.}{Breakdown of program memory usage.}{A tester will briefly play the game, and a developer will use valgrind's memcheck utility to verify that program does not leak memory or utilize uninitialized memory.}
+		\test{P}{Name}{Dynamic}{Manual}{White}{None}{A brief but complete playthrough of the game.}{Breakdown of program memory usage.}{A tester will briefly play the game, and a developer will use Valgrind's memcheck utility to verify that program does not leak memory or utilize uninitialized memory.}
 
 	\subsection{Rendering}
-		\test{P}{Dynamic}{Manua}l{Black}{Gameplay State}{30-60 seconds of gameplay.}{ The player character and any dungeon features should be shown at the correct location with the correct glyphs. Correct player statistics will be shown along the bottom. The dialog box will correctly display the log and any prompts.}{A tester will manually play the game and verify the display is correct.}
+		\test{P}{Name}{Dynamic}{Manual}l{Black}{Gameplay State}{30-60 seconds of gameplay.}{ The player character and any dungeon features should be shown at the correct location with the correct glyphs. Correct player statistics will be shown along the bottom. The dialog box will correctly display the log and any prompts.}{A tester will manually play the game and verify the display is correct.}
 
 	\subsection{Dungeon Generation}
 		
-		\test{P}{Dynamic}{Manual}{Black}{None}{Repeated restarts of the game}{Level should contain ROOMS\-PER\_LEVEL rooms, which should form a connected graph.}{A tester will manually start the game, briefly explore the level to verify correct generation, then repeat this process until confidence is achieved.}
+		\test{P}{Name}{Dynamic}{Manual}{Black}{None}{Repeated restarts of the game}{Level should contain ROOMS\-PER\_LEVEL rooms, which should form a connected graph.}{A tester will manually start the game, briefly explore the level to verify correct generation, then repeat this process until confidence is achieved.}
 
 	\subsection{Basic Movement}
 
-		\test{P}{Dynamic}{Manual}{Black}{Gameplay State}{Movement commands}{Player should move about the level, without clipping through walls, failing to walk through empty space, or jump to an unconnected square.}{A tester will manually walk through the level, and visually verify correctness.}
+		\test{P}{Name}{Dynamic}{Manual}{Black}{Gameplay State}{Movement commands}{Player should move about the level, without clipping through walls, failing to walk through empty space, or jump to an unconnected square.}{A tester will manually walk through the level, and visually verify correctness.}
 
 	\subsection{Score File}
 
-		\test{P}{Dynamic}{Manual}{Black}{Menu State}{Enter name, then quit, restart game, enter name again, and quit.}{1st name should appear in both the first and second score screens. The 2nd should appear in the second. Both should have correct values for level, cause of death/quit, and gold collected.}{A developer will manually perform the above input, and verify the output. Should be tested both with and without an initial score file.}
+		\test{P}{Name}{Dynamic}{Manual}{Black}{Menu State}{Enter name, then quit, restart game, enter name again, and quit.}{1st name should appear in both the first and second score screens. The 2nd should appear in the second. Both should have correct values for level, cause of death/quit, and gold collected.}{A developer will manually perform the above input, and verify the output. Should be tested both with and without an initial score file.}
 
 	\subsection{Line of Sight System}
 
-		\test{P}{Dynamic}{Manual}{Black}{Gameplay State}{Movement commands}{Screen should display correct portions of level, with correct coloration schemes. This means that the player should be able to see the entirety of a room they are in or in the doorway of, and VIEW\_DISTANCE squares away if they are in a corridor. Squares that the player has seen in the past but cannot see currently should be shown greyed out. Squares they have not seen should be black and featureless.}{A developer will manually walk through the level, verifying that the above LoS rules are preserved, especially in edge cases like the corners of rooms and doorways.}
+		\test{P}{Name}{Dynamic}{Manual}{Black}{Gameplay State}{Movement commands}{Screen should display correct portions of level, with correct coloration schemes. This means that the player should be able to see the entirety of a room they are in or in the doorway of, and VIEW\_DISTANCE squares away if they are in a corridor. Squares that the player has seen in the past but cannot see currently should be shown greyed out. Squares they have not seen should be black and featureless.}{A developer will manually walk through the level, verifying that the above LoS rules are preserved, especially in edge cases like the corners of rooms and doorways.}
 
 \newpage
 \section{Comparison to Existing Implementation}	
 \label{section5}
+%How does it compare to the original and how does that help us test it
+%Monster damage, etc.
 	
 \newpage
 \section{Unit Testing Plan}
@@ -381,10 +417,10 @@
 	\subsection{Unit testing of internal functions}
 		Internal functions in the product will be unit tested. This will be reserved for more complex functions so as to not waste development time unnecessarily. As complete code coverage is not a goal, generic code coverage metrics will not be used. Instead, care will be taken that complex functions are covered by unit tests. The following are examples of internal functions that are initial candidates for unit testing. Other functions will be added as necessary:
 		\begin{itemize}
-			\item The dungeon generation functions. The work of generating the dungeon is complex, but it is also easy to automate verification of dungeon properties such as a correct number of rooms, connectness, compliance with formulas for item generation, presence or absence of certain key features such as the stairs connecting levels or the Amulet of Yendor in the final level.
+			\item The dungeon generation functions. The work of generating the dungeon is complex, but it is also easy to automate verification of dungeon properties such as a correct number of rooms, connectedness, compliance with formulas for item generation, presence or absence of certain key features such as the stairs connecting levels or the Amulet of Yendor in the final level.
 			\item The keyboard input functions. As libtcod provides a Key struct which models keyboard input, we can mock/automate these functions. They are fairly complex, and since they return a pointer to the next desired state (similar to a finite state machine) we can easily verify their behavior.
 			\item The item activation functions. For example it could be verified that when the player drank a potion of healing their health increased (if it was not at its maximum), that a scroll of magic-mapping is reveals the level, or that a scroll of identification reveals the nature of an item.
-			\item The item storage functions. Each item is mapped to a persistent hotkey in the player's inventory. Certain items can stack with copies, reducing the amount of inventory space they take up, and how they are displayed. These factors make the inventory fairly complex. It is however easily verifiable, and automated testing can examine edge cases that would be impracticle to test manually.
+			\item The item storage functions. Each item is mapped to a persistent hotkey in the player's inventory. Certain items can stack with copies, reducing the amount of inventory space they take up, and how they are displayed. These factors make the inventory fairly complex. It is however easily verifiable, and automated testing can examine edge cases that would be impractical to test manually.
 		\end{itemize}
 
 	\subsection{Unit testing of output files}
