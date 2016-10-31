@@ -281,7 +281,9 @@
 
 	\bigskip
 
-	As an extra safety measure, the Rogue++ team will also be utilizing a tool called Valgrind in the testing procedure. Valgrind is a tool that tests the amount of memory a C++ program utilizes, and detects errors such as memory leaks. This is an extremely useful and powerful tool. C++, unlike Java and other high level languages, does not have a built-in garbage collector. Garbage collectors are to be implemented by the user. Due to this, it is easy to accidentally leave behind an object or two, causing a memory leak in the program. Valgrind detects this, and will provide useful information during development and testing.
+	As an extra safety measure, the Rogue++ team will also be utilizing a tool called Valgrind in the testing procedure. Valgrind is a tool that tests the amount of memory a C++ program utilizes, and detects memory allocation errors (such as memory leaks). This is an extremely useful and powerful tool. C++, unlike Java and other high level languages, does not have a built-in garbage collector. This is just one of the reasons why it is so much faster than the rest. A consequence of this, however, is that it is very easy to accidentally leave behind an object in memory, causing a memory leak in the program.\\
+
+	At the time of writing, the entire program occupies 1 MB of memory. This is not much, and even if it was all left behind in a leak, the system would not be too hindered. However, memory leaks represent only a consequence of a larger issue: incorrect code! Using Valgrind, we will be able to detect these kinds of errors, potentially pointing us in the direction of a crucial bugfix.
 
 	\subsection{Testing Schedule}
 		
@@ -293,11 +295,43 @@
 	
 	\subsection{Tests for Functional Requirements}
 
-		\subsubsection{Area of Testing1}
-		
-		\test{F}{Dynamic}{Manual}{Black}{Menu screen}{Alphanumeric keyboard interrupts}{Valid characters that are pressed will appear on the screen beside the character name prompt}{Typing the name of the character on the keyboard}
+		\subsubsection{Basic Mechanics}
 
-	\subsubsection{Area of Testing2}
+		%Dynamic 	Conduct test by running program
+		%Static 	Conducted without running program (spell check)
+		%~~~
+		%Manual 	Actual human being has to decide if result is correct or not
+		%Automatic 	Script
+		%~~~
+		%Black 		Decided on input and output
+		%White 		Generate test cases based on code (Use code to make decisions)
+
+		%123
+		%initial state
+		%input
+		%output
+		%how it will be performed
+
+		\test{F}{Dynamic}{Manual}{Black}{Nothing running.}{A new game is started.}{The program is started.}{Either double-clicking the .exe or via terminal: \textit{./RogueReborn.exe}.}
+
+		\test{F}{Dynamic}{Manual}{Black}{Game screen}{Save command is given or save key is pressed.}{A message saying that the game has been saved is shown to the user in the status box.}{A user will have to play the game and trigger the input sequence. This process can be verified to work by the following test.}
+
+		\test{F}{Dynamic}{Manual}{Black}{Game screen}{Load command is given or save key is pressed.}{A message saying that the game has been loaded is shown to the user in the status box. The data model (level, player, monsters, etc.) is also updated to reflect the state changes.}{A user will have to play the game and trigger the input sequence to load, and verify that it is in fact the same state that was previously saved.}
+
+		\test{F}{Dynamic}{Automatic}{Black}{Nothing running}{A new game is started.}{The player has the default starting gear and statistics.}{This feature can be tested by analyzing a save file. In the file is listed everything about the player, meaning the information can be attained from there.}
+
+		\test{F}{Dynamic}{Manual}{Black}{Game screen}{The "help" command is given or the "help" key is pressed.}{The user is shown a screen with a list of possible actions and other information}{Players will be given the game with no instructions or guide. The usefulness and accessibility of the help screen will be judged by their performance after having seen the help screen.}
+
+		\subsubsection{Interaction}
+
+		\test{F}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
+
+		\test{F}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
+
+		\test{F}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
+
+		\test{F}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
+
 
 	\subsection{Tests for Non-Functional Requirements}
 
@@ -371,6 +405,8 @@
 \newpage
 \section{Comparison to Existing Implementation}	
 \label{section5}
+%How does it compare to the original and how does that help us test it
+%Monster damage, etc.
 	
 \newpage
 \section{Unit Testing Plan}
