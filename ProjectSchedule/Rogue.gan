@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Rogue" company="Team Rogue++" webLink="" view-date="2016-10-09" view-index="0" gantt-divider-location="582" resource-divider-location="363" version="2.8.1" locale="en_US">
+<?xml version="1.0" encoding="UTF-8"?><project name="Rogue" company="Team Rogue++" webLink="" view-date="2016-05-01" view-index="0" gantt-divider-location="582" resource-divider-location="431" version="2.8.1" locale="en_CA">
     <description><![CDATA[3XA3 Cornerstone]]></description>
-    <view zooming-state="default:4" id="gantt-chart">
-        <field id="tpd3" name="Name" width="372" order="0"/>
-        <field id="tpd4" name="Begin date" width="91" order="1"/>
-        <field id="tpd5" name="End date" width="115" order="2"/>
-        <option id="color.recent"><![CDATA[#66ff00 #00cc00 #ff00ff #cc3300 #cccc00 #99ffff #ff3399 #33ff33]]></option>
+    <view zooming-state="default:7" id="gantt-chart">
+        <field id="tpd3" name="Name" width="362" order="0"/>
+        <field id="tpd4" name="Begin date" width="89" order="1"/>
+        <field id="tpd5" name="End date" width="112" order="2"/>
+        <option id="color.recent"><![CDATA[#0000ff #cc3300 #66ff00 #00cc00 #ff00ff #cccc00 #99ffff #ff3399 #33ff33]]></option>
     </view>
     <view id="resource-table">
-        <field id="0" name="Name" width="258" order="0"/>
-        <field id="tpc0" name="Role" width="101" order="1"/>
+        <field id="0" name="Name" width="284" order="0"/>
+        <field id="tpc0" name="Role" width="128" order="1"/>
     </view>
     <!-- -->
     <calendars>
@@ -41,6 +41,13 @@
             <task id="38" name="Edit + Polish" color="#cccc00" meeting="false" start="2016-10-07" duration="2" complete="0" expand="true"/>
             <task id="68" name="Due: Requirements Document" color="#cccc00" meeting="true" start="2016-10-11" duration="0" complete="0" expand="true"/>
         </task>
+        <task id="305" name="Testing" meeting="false" start="2016-10-17" duration="60" complete="0" expand="true">
+            <task id="306" name="Implement/Perform PoC Tests" color="#0000ff" meeting="false" start="2016-10-17" duration="2" complete="0" expand="true"/>
+            <task id="307" name="Implement Unit Tests" color="#0000ff" meeting="false" start="2016-11-01" duration="11" complete="0" expand="true"/>
+            <task id="308" name="Implement System Tests" color="#0000ff" meeting="false" start="2016-11-10" duration="5" complete="0" expand="true"/>
+            <task id="310" name="Usability Survey" color="#0000ff" meeting="false" start="2017-01-02" duration="5" complete="0" expand="true"/>
+            <task id="311" name="Nonfunctional Testing" color="#0000ff" meeting="false" start="2016-11-15" duration="9" complete="0" expand="true"/>
+        </task>
         <task id="51" name="Development" color="#cc3300" meeting="false" start="2016-10-10" duration="37" complete="0" expand="true">
             <task id="53" name="Early Development" color="#cc3300" meeting="false" start="2016-10-10" duration="6" complete="0" expand="true">
                 <notes><![CDATA[See requirements in PoC Final Changes task]]></notes>
@@ -67,7 +74,7 @@ See src/Class_Outline.txt for rough implementation responsibilities outline.]]><
 - Trivial item effects]]></notes>
                 <depend id="235" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="235" name="Primary Development - Stage 2" color="#cc3300" meeting="false" start="2016-10-31" duration="9" complete="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
+            <task id="235" name="Primary Development - Stage 2" color="#cc3300" meeting="false" start="2016-10-31" duration="1" complete="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
                 <notes><![CDATA[Goals:
 - Majority of item and trap effects
 - Advanced dungeon generation (treasure rooms, entity placement, etc.)
@@ -75,7 +82,7 @@ See src/Class_Outline.txt for rough implementation responsibilities outline.]]><
 - Game statistics]]></notes>
                 <depend id="252" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="252" name="Primary Development - Stage 3" color="#cc3300" meeting="false" start="2016-11-11" duration="2" complete="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
+            <task id="252" name="Primary Development - Stage 3" color="#cc3300" meeting="false" start="2016-11-01" duration="2" complete="0" expand="true" cost-manual-value="0.0" cost-calculated="true">
                 <notes><![CDATA[Goals:
 - Complete the game
     - Item effects
@@ -92,14 +99,14 @@ See src/Class_Outline.txt for rough implementation responsibilities outline.]]><
             </task>
             <task id="146" name="Due: Final Demo (Dev Milestone 2)" color="#cc3300" meeting="true" start="2016-11-30" duration="0" complete="0" expand="true"/>
         </task>
-        <task id="66" name="Test Plan" color="#00cc00" meeting="false" start="2016-10-19" duration="7" complete="0" expand="true">
+        <task id="66" name="Test Plan" color="#00cc00" meeting="false" start="2016-10-10" duration="14" complete="0" expand="true">
             <task id="70" name="Technology Familiarization" color="#00cc00" meeting="false" start="2016-10-19" duration="2" complete="0" expand="true">
                 <notes><![CDATA[This time will be used to familiarize with Boost]]></notes>
             </task>
-            <task id="76" name="Draft" color="#00cc00" meeting="false" start="2016-10-21" duration="4" complete="0" expand="true">
+            <task id="76" name="Draft" color="#00cc00" meeting="false" start="2016-10-10" duration="13" complete="0" expand="true">
                 <notes><![CDATA[Alongside the implementation, this document will cover the details of the testing implementation from a design perspective]]></notes>
                 <depend id="96" type="2" difference="0" hardness="Strong"/>
-                <task id="291" name="General Information" color="#66ff00" meeting="false" start="2016-10-21" duration="4" complete="0" expand="true"/>
+                <task id="291" name="General Information" color="#66ff00" meeting="false" start="2016-10-10" duration="1" complete="0" expand="true"/>
                 <task id="292" name="Test Plan" color="#66ff00" meeting="false" start="2016-10-21" duration="4" complete="0" expand="true"/>
                 <task id="293" name="Unit Testing Plan" color="#66ff00" meeting="false" start="2016-10-21" duration="4" complete="0" expand="true"/>
                 <task id="294" name="Tests for Functional Requirements" color="#66ff00" meeting="false" start="2016-10-21" duration="4" complete="0" expand="true"/>
@@ -158,11 +165,14 @@ See src/Class_Outline.txt for rough implementation responsibilities outline.]]><
         <allocation task-id="291" resource-id="3" function="Default:1" responsible="true" load="30.0"/>
         <allocation task-id="79" resource-id="3" function="Default:1" responsible="false" load="20.0"/>
         <allocation task-id="70" resource-id="3" function="Default:1" responsible="false" load="50.0"/>
+        <allocation task-id="307" resource-id="3" function="Default:1" responsible="false" load="25.0"/>
+        <allocation task-id="310" resource-id="3" function="Default:1" responsible="true" load="50.0"/>
+        <allocation task-id="311" resource-id="3" function="Default:1" responsible="false" load="25.0"/>
         <allocation task-id="26" resource-id="5" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="53" resource-id="5" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="70" resource-id="5" function="Default:0" responsible="true" load="50.0"/>
         <allocation task-id="79" resource-id="5" function="Default:0" responsible="true" load="20.0"/>
-        <allocation task-id="85" resource-id="5" function="Default:0" responsible="false" load="50.0"/>
+        <allocation task-id="85" resource-id="5" function="Default:0" responsible="false" load="25.0"/>
         <allocation task-id="235" resource-id="5" function="Default:0" responsible="false" load="50.0"/>
         <allocation task-id="160" resource-id="5" function="Default:0" responsible="false" load="40.0"/>
         <allocation task-id="252" resource-id="5" function="Default:0" responsible="false" load="40.0"/>
@@ -172,21 +182,28 @@ See src/Class_Outline.txt for rough implementation responsibilities outline.]]><
         <allocation task-id="294" resource-id="5" function="Default:0" responsible="true" load="30.0"/>
         <allocation task-id="136" resource-id="5" function="Default:0" responsible="false" load="10.0"/>
         <allocation task-id="297" resource-id="5" function="Default:0" responsible="true" load="10.0"/>
+        <allocation task-id="307" resource-id="5" function="Default:0" responsible="true" load="25.0"/>
+        <allocation task-id="308" resource-id="5" function="Default:0" responsible="true" load="25.0"/>
+        <allocation task-id="310" resource-id="5" function="Default:0" responsible="false" load="50.0"/>
         <allocation task-id="136" resource-id="6" function="Default:0" responsible="true" load="10.0"/>
         <allocation task-id="26" resource-id="6" function="Default:0" responsible="false" load="100.0"/>
-        <allocation task-id="53" resource-id="6" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="64" resource-id="6" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="53" resource-id="6" function="Default:0" responsible="true" load="75.0"/>
+        <allocation task-id="64" resource-id="6" function="Default:0" responsible="true" load="75.0"/>
         <allocation task-id="85" resource-id="6" function="Default:0" responsible="false" load="50.0"/>
         <allocation task-id="235" resource-id="6" function="Default:0" responsible="true" load="50.0"/>
         <allocation task-id="160" resource-id="6" function="Default:0" responsible="false" load="40.0"/>
-        <allocation task-id="252" resource-id="6" function="Default:0" responsible="true" load="40.0"/>
-        <allocation task-id="165" resource-id="6" function="Default:0" responsible="false" load="60.0"/>
+        <allocation task-id="252" resource-id="6" function="Default:0" responsible="true" load="25.0"/>
+        <allocation task-id="165" resource-id="6" function="Default:0" responsible="false" load="35.0"/>
         <allocation task-id="173" resource-id="6" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="293" resource-id="6" function="Default:0" responsible="true" load="30.0"/>
         <allocation task-id="296" resource-id="6" function="Default:0" responsible="true" load="30.0"/>
         <allocation task-id="298" resource-id="6" function="Default:0" responsible="true" load="10.0"/>
         <allocation task-id="79" resource-id="6" function="Default:0" responsible="false" load="20.0"/>
         <allocation task-id="70" resource-id="6" function="Default:0" responsible="false" load="50.0"/>
+        <allocation task-id="307" resource-id="6" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="306" resource-id="6" function="Default:0" responsible="true" load="25.0"/>
+        <allocation task-id="310" resource-id="6" function="Default:0" responsible="false" load="50.0"/>
+        <allocation task-id="311" resource-id="6" function="Default:0" responsible="true" load="25.0"/>
     </allocations>
     <vacations/>
     <previous/>

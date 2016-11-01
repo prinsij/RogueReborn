@@ -11,6 +11,11 @@
 #include "include/playerchar.h"
 #include "include/ring.h"
 #include "include/weapon.h"
+#include "include/level.h"
+#include "include/wand.h"
+#include "include/food.h"
+#include "include/scroll.h"
+#include "include/potion.h"
 
 PlayerChar::PlayerChar(Coord location, std::string name)
 	: Mob('@', location, name, START_ARMOR, START_EXP, START_LEVEL, START_HP),
@@ -60,7 +65,7 @@ void PlayerChar::collectGold(GoldPile* goldpile) {
 	this->gold += goldpile->getQuantity();
 }
 
-bool PlayerChar::dropItem(Item* item) {
+bool PlayerChar::dropItem(Item* item, Level* level) {
 	if (this->itemArmor == item || 
 		this->itemRingLeft == item ||
 		this->itemRingRight == item ||
@@ -70,6 +75,9 @@ bool PlayerChar::dropItem(Item* item) {
 	std::cout << "PlayerChar Dropped Item " << item->getName() << "\n";
 
 	this->inventory.remove(item);
+	item->setContext(Item::FLOOR);
+	item->setLocation(getLocation());
+	level->getFeatures().push_back(item);
 	return true;
 }
 

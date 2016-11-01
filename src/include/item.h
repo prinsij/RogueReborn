@@ -22,6 +22,7 @@ class Item : public Feature {
 		bool operator<(const Item&) const;
 
 		Context getContext();
+		void setContext(Context);
 		std::string getDisplayName();
 		std::string getName();
 		int getType();
