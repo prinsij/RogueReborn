@@ -69,7 +69,7 @@
 		
 		\centering
 		\def\arraystretch{1.6}
-		\begin{tabular}{| R{7em} L{25em} |}
+		\begin{tabular}{| R{7em} L{28em} |}
 			\bottomrule
 			\multicolumn{2}{| c |}{\textbf{#2} - \testTitle Test \# \testCounter} \\
 			\hline
@@ -195,9 +195,10 @@
 				\textbf{Developer State} & The file system state corresponding to the latest source code revision from the Git repository\\
 				\textbf{Fresh State} & The file system state corresponding to a ``fresh'' Rogue Reborn installation\\
 				\textbf{Gameplay State} & Any application state that reflects the actual gameplay\\
+				\textbf{Generic State} & The file system state corresponding to a functional installation of Rogue Reborn\\
 				\textbf{High Score State} & Any application state that reflects the top high scores screen\\
 				\textbf{Menu State} & Any application state that reflects the opening menu\\
-				\textbf{Public Test State} & The system state corresponding to an installation of Rogue Reborn that is shared by a subset of the public game testers\\
+				\textbf{Seasoned State} & The system state corresponding to an installation of Rogue Reborn that already contains several high score records\\
 				\bottomrule
 			\end{tabularx}
 		\end{table}	
@@ -324,54 +325,68 @@
 
 		\subsubsection{Interaction}
 
-		\test{F}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
+		\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
 
-		\test{F}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
+		\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
 
-		\test{F}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
+		\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
 
-		\test{F}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
+		\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
 
 
 	\subsection{Tests for Non-Functional Requirements}
 
 		\subsubsection{Look and Feel Requirements}
 			% Appearance
-			\test{N}{Aesthetic Similarity}{Dynamic}{Manual}{Black}{Public Test State}{Users are asked to rate the aesthetic similarity between \textit{Rogue} and Rogue Reborn.}{A numeric quantity between 0 and 10, where 0 indicates that the graphics are entirely disjoint and 10 indicates that the graphics are virtually indistinguishable.}{A random sample of users will be asked to play \textit{Rogue} and the Rogue Reborn variant for \hyperref[symbolicParameters]{PLAYTEST\_SHORT\_TIME} minutes a piece.  Afterwards, they will be asked to judge the graphical similarity of the games based on the aforementioned scale.}
+			\test{N}{Aesthetic Similarity}{Dynamic}{Manual}{Black}{Generic State}{Users are asked to rate the aesthetic similarity between \textit{Rogue} and Rogue Reborn.}{A numeric quantity between 0 and 10, where 0 indicates that the graphics are entirely disjoint and 10 indicates that the graphics are virtually indistinguishable.}{A random sample of users will be asked to play \textit{Rogue} and the Rogue Reborn variant for \hyperref[symbolicParameters]{PLAYTEST\_SHORT\_TIME} minutes.  Afterwards, they will be asked to judge the graphical similarity of the games based on the aforementioned scale.}
+
 		\subsubsection{Usability and Humanity Requirements}
 			% Ease of Use
-			\test{N}{Name}{Dynamic}{Manual}{Black}{Public Test State}{New users are instructed to play Rogue Reborn.}{The quantity of time the user willingly decides to play the game.}{A random sample of users who are unfamiliar with \textit{Rogue} will be asked to play Rogue Reborn until they feel bored (or \hyperref[symbolicParameters]{MAXIMUM\_ENTERTAINMENT\_TIME} has expired).  Once they indicate that they no longer wish to play, their playing time will be recorded.}
+			\test{N}{Interest Gauge}{Dynamic}{Manual}{Black}{Generic State}{New users are instructed to play Rogue Reborn.}{The quantity of time the user willingly decides to play the game.}{A random sample of users who are unfamiliar with \textit{Rogue} will be asked to play Rogue Reborn until they feel bored (or \hyperref[symbolicParameters]{MAXIMUM\_ENTERTAINMENT\_TIME} has expired).  Once the user indicates that they are no longer interested in the game, their playing time will be recorded.}
+
 			% Personalization and Internationalization
-			\test{N}{Name}{Static}{Manual}{White}{Developer State}{Rogue Reborn source code.}{An approximation of the English spelling, punctuation, and grammar mistakes that can be visible from the GUI.}{All strings in the Rogue Reborn source code will be concatenated with a newline delimiter and placed in a text file.  A modern edition of Microsoft Word will be used to open this generated text file, and a developer can then manually correct all indicated errors that are potentially associated with a GUI output.}
+			\test{N}{English Check}{Static}{Manual}{White}{Developer State}{Rogue Reborn source code.}{An approximation of the English spelling, punctuation, and grammar mistakes that are visible through the GUI.}{All strings in the Rogue Reborn source code will be concatenated with a newline delimiter and outputted to a text file.  A modern edition of Microsoft Word from ~\citep{MicrosoftWord} will be used to open this generated text file, and a developer will manually correct all of the indicated errors that are potentially associated with a GUI output.}
+
 			% Learning
-			\test{N}{Name}{Dynamic}{Manual}{Black}{Public Test State}{Users are asked to rate the intuitiveness of the Rogue Reborn key bindings.}{A numeric quantity between 0 and 10, where 0 indicates that the key bindings are extremely confusing and 10 indicates that the key bindings are perfectly natural.}{A random sample of users who are inexperienced with the roguelike genre will be asked to play Rogue Reborn for \hyperref[symbolicParameters]{SHORT\_TIME} minutes without viewing the key binding help screen.  Next, the key bindings will be revealed and the users will continue to play for an additional \hyperref[symbolicParameters]{PLAYTEST\_SHORT\_TIME} minutes.  Afterwards, they will be asked to judge the quality of the key bindings based on the aforementioned scale}
+			\test{N}{Key Comfort}{Dynamic}{Manual}{Black}{Generic State}{Users are asked to rate the intuitiveness of the Rogue Reborn key bindings.}{A numeric quantity between 0 and 10, where 0 indicates that the key bindings are extremely confusing and 10 indicates that the key bindings are perfectly natural.}{A random sample of users who are inexperienced with the roguelike genre will be asked to play Rogue Reborn for \hyperref[symbolicParameters]{SHORT\_TIME} minutes without viewing the in-game help screen.  Next, the key bindings will be revealed, and the users will continue to play the game for an additional \hyperref[symbolicParameters]{PLAYTEST\_SHORT\_TIME} minutes.  Afterwards, they will be asked to judge the quality of the key bindings based on the aforementioned scale}
+
 		\subsubsection{Performance Requirements}
 			% Speed and Latency
-			\test{N}{Name}{Dynamic}{Automatic}{White}{Public Test State}{Users are instructed to play Rogue Reborn.}{A log of occurrences where a computation that was initiated by a user input took an excessive quantity of time to execute.}{A random sample of experienced users will be asked to play a special version of Rogue Reborn for \hyperref[symbolicParameters]{PLAYTEST\_MEDIUM\_RANGE} minutes.  This version will use a StopWatch implementation to measure the execution time of a computation, and if such a computation exceeds \hyperref[symbolicParameters]{RESPONSE\_SPEED} milliseconds, the user action and timestamp will be recorded in a log file.}
+			\test{N}{Response Delay}{Dynamic}{Automatic}{White}{Generic State}{Users are instructed to play Rogue Reborn.}{A log of occurrences that indicate events where a computation that was initiated by a user input took an excessive quantity of time to execute.}{A random sample of experienced users will be asked to play a special version of Rogue Reborn for \hyperref[symbolicParameters]{PLAYTEST\_MEDIUM\_RANGE} minutes.  This edition will utilize a StopWatch implementation to measure the execution time of a computation, and if the computation exceeds \hyperref[symbolicParameters]{RESPONSE\_SPEED} milliseconds, the user action and the associated timestamp will be recorded in a log file.}
+
 			% Precision or Accuracy
-			\test{N}{Name}{Static}{Manual}{White}{Developer State}{Rogue Reborn source code.}{All declarations of integer-typed variables.}{A recursive \lstinline$grep$ command will be used to capture all lines in the Rogue Reborn source code that match \hyperref[symbolicParameters]{REGEX\_INTEGER} (i.e., integer declarations).  A group of Rogue++ developers can review these declarations together and alter them if deemed necessary to avoid integer overflow issues.}
+			\test{N}{Overflow Avoidance}{Static}{Manual}{White}{Developer State}{Rogue Reborn source code.}{All declarations of integer-typed variables.}{All occurrences of lines that match \hyperref[symbolicParameters]{REGEX\_INTEGER} (i.e., integer declarations) in the Rogue Reborn source code will be outputted to a file.  A group of Rogue++ developers will then review these declarations together and alter them if deemed necessary to avoid integer overflow issues.}
+
 			% Reliability or Availability
-			\test{N}{Name}{Dynamic}{Manual}{Black}{Public Test State}{Playtesters are instructed to play Rogue Reborn for at least \hyperref[symbolicParameters]{PLAYTEST\_LONG\_TIME} hours.}{A collection of crash occurrences along with descriptions that explain how the failure occurred.}{All Rogue Reborn playtesters will be required to play the game for at least \hyperref[symbolicParameters]{PLAYTEST\_LONG\_TIME} hours in total (spanned over multiple sessions if desired).  If the application crashes during any time, the user must record the incident along with a description of the visible GUI state and the steps required to reproduce the failure.  The Rogue++ team must address each crash by either resolving the issue or confidently declaring that the event is irreproducible.}
+			\test{N}{Crash Collection}{Dynamic}{Manual}{Black}{Generic State}{Playtesters are instructed to play Rogue Reborn for at least \hyperref[symbolicParameters]{PLAYTEST\_LONG\_TIME} hours.}{A collection of crash occurrences along with a detailed description of the failure environment.}{All Rogue Reborn playtesters will be required to play the game for at least \hyperref[symbolicParameters]{PLAYTEST\_LONG\_TIME} hours in total (spanned over multiple sessions if desired).  Every time the application crashes, the playtester must record the incident along with a description of the visible GUI state and the steps required to reproduce the failure.  After this data has been collected, the Rogue++ team will address every crash occurrence by either resolving the issue or confidently declaring that the event is irreproducible.}
+
 			% Capacity
-			\test{N}{Name}{Dynamic}{Manual}{White}{High Score State}{A high score record file containing a large quantity of entries.}{Screen denoting the top high scores.}{The Rogue Reborn developers will artificially fabricate a high score record file with at least \hyperref[symbolicParameters]{HIGH\_SCORE\_CAPACITY} + 2 records.  One round of the game will be played, and when the high score screen is revealed, only the top \hyperref[symbolicParameters]{HIGH\_SCORE\_CAPACITY} scores should be displayed.}
+			\test{N}{Score Overflow}{Dynamic}{Dynamic}{White}{High Score State}{A high score record file containing a large quantity of entries.}{Rogue Reborn GUI displaying the top high scores.}{The Rogue Reborn developers will artificially fabricate a high score record file with at least \hyperref[symbolicParameters]{HIGH\_SCORE\_CAPACITY} + 2 records.  The game will then be played until the high score screen is revealed; only the top \hyperref[symbolicParameters]{HIGH\_SCORE\_CAPACITY} scores should be displayed.}
+
 		\subsubsection{Operational and Environment Requirements}
 			% Expected Physical Environment
-			\test{N}{Name}{Dynamic}{Manual}{Black}{Fresh State}{Users are instructed to run Rogue Reborn on their personal machine.}{An indication of whether the game can successfully execute.}{A random sample of users with computers that are equipped with Intel x64 processors will be asked to download the latest Rogue Reborn distribution and attempt to run the executable.  The user will then report if the game successfully runs on their machine.}
+			\test{N}{Processor Compatibility}{Dynamic}{Manual}{Black}{Fresh State}{Users are instructed to install and run Rogue Reborn on their personal machines.}{An indication of whether or not the game is able to successfully execute.}{A random sample of users with computers that are equipped with Intel x64 processors will be asked to download the latest Rogue Reborn distribution, perform any necessary installation, and then run the executable file.  The user will then report if the game was able to successfully run on their machine.}
+
 			% Productization
-			\test{N}{Name}{Static}{Manual}{Black}{Developer State}{Rogue Reborn distribution package.}{An indication of whether or not the distribution contains any files aside from the primary executable and the associated licenses.}{The public distribution package will be visually inspected for extraneous files.}
+			\test{N}{Streamline Packaging}{Static}{Manual}{Black}{Developer State}{Rogue Reborn distribution package.}{An indication of whether or not the distribution contains any files aside from the primary executable and the associated development licenses.}{The public distribution package will be visually inspected for extraneous files.}
+
 		\subsubsection{Maintainability Requirements}
 			% Maintenance
-			\test{N}{Name}{Static}{Manual}{Black}{Developer State}{All ITS issues labeled as bugs in the Rogue Reborn GitLab repository.}{A list of all bug reports and their corresponding resolution date (if closed).}{The Rogue Reborn GitLab repository will be queried for all issues concerning bugs (which are denoted by a ``Bug'' label).  A developer can then manually verify that every closed bug fix request was resolved within a month of its creation.}
+			\test{N}{Bug Productivity}{Static}{Manual}{Black}{Developer State}{All ITS issues labeled as bugs in the Rogue Reborn GitLab repository.}{An indication of whether or not all bug reports were closed within a month of their conception.}{The Rogue Reborn GitLab repository will be queried for all issues concerning bugs (which are denoted by a ``Bug'' label).  Next, a developer will manually verify that every closed bug fix request was resolved within a month of its creation.}
+
 			% Adaptability
-			\test{N}{Name}{Dynamic}{Manual}{Black}{Fresh State}{Users are instructed to run Rogue Reborn on their personal machine.}{An indication of whether the game can successfully execute.}{A random sample of users with computers that use a modern 64-bit Linux operating system will be asked to download the latest Rogue Reborn distribution and attempt to run the executable.  The user will then report if the game successfully runs on their machine.}
+			\test{N}{Linux Compatibility}{Dynamic}{Manual}{Black}{Fresh State}{Users are instructed to run Rogue Reborn on their personal machine.}{An indication of whether the game can successfully execute.}{A random sample of users with computers that use a modern 64-bit Linux operating system will be asked to download the latest Rogue Reborn distribution, perform any necessary installation, and then run the executable file.  The user will then report if the game was able to successfully run on their machine.}
+
 		\subsubsection{Security Requirements}
 			% Integrity
-			\test{N}{Name}{Dynamic}{Manual}{White}{High Score State}{A corrupted high score record file.}{Screen denoting the top \hyperref[symbolicParameters]{HIGH\_SCORE\_CAPACITY} (valid) high scores.}{The Rogue++ team will illegally modify a high score record file by manually altering or adding values such that the expected format or value integrity is violated.  These modifications should include negative high score values, missing text, and incorrect delimiter usage.  The game will then be executed to reach the High Score State, where invalid record file contents should be ignored and amended in the next write to the file.}
+			\test{N}{Illegal Records}{Dynamic}{Manual}{White}{Seasoned State}{A corrupted high score record file.}{Rogue Reborn GUI displaying the top high scores.}{The Rogue++ team will illegally modify a high score record file by manually altering or adding values such that the expected format or value integrity is violated.  These modifications should include negative high score values, missing text, and incorrect delimiter usage.  The game will then be played until the high score screen is revealed; all invalid record file contents should be ignored and amended in the next write to the record file.}
+
 		\subsubsection{Legal Requirements}
 			% Compliance
-			\test{N}{Name}{Static}{Manual}{Black}{Developer State}{Rogue Reborn distribution package.}{An indication of whether or not the distribution is missing any mandatory license files.}{The original \textit{Rogue} source code (as referenced on the Rogue Reborn GitLab homepage) will be reviewed for legal requirements, and the public distribution package will be visually inspected to ensure that all license files are present.}
+			\test{N}{License Presence}{Static}{Manual}{Black}{Developer State}{Rogue Reborn distribution package.}{An indication of whether or not the distribution is missing any mandatory license files.}{The original \textit{Rogue} source code hosted by ~\citep{BSDRogue} will be reviewed for legal requirements, and the public distribution package will be visually inspected to ensure that all mandatory license files are present.}
+
 		\subsubsection{Health and Safety Requirements}
-			\test{N}{Name}{Static}{Manual}{Black}{Developer State}{Two screenshots denoting the largest possible luminosity difference present between two consecutive frames.}{The difference in luminosity between the two captured frames.}{After identifying the frame pair that is most likely to induce a seizure, the game will be played to reach the states that reflect each frame (this should be a brief process; no clever game model manipulation is required).  At the occurrence of each desired frame, the game screen will be captured.  At this point, the average monochrome luminance across each frame will be calculated according to \[L = 0.299R + 0.587G + 0.114B\] where $L$ is the luminance, $R$ is the red RGB component, $G$ is the green RGB component, and $B$ is the blue RGB component ~\citep{MonochromeLuminance}.  Finally, the absolute value of the luminance difference can then compared to \hyperref[symbolicParameters]{LUMINOSITY\_DELTA}.}   
+			\test{N}{Seizure Prevention}{Dynamic}{Manual}{Black}{Developer State}{Two screenshots denoting the largest possible luminosity difference present between consecutive frames.}{The difference in luminosity between the two captured frames.}{After identifying the frame pair that is most likely to induce a seizure, the game will be played to reach the states that reflect each frame (this should be a brief process; no clever game model manipulation is required).  At the occurrence of each desired frame, the game screen will be captured and saved.  At this point, the average monochrome luminance across each frame will be calculated according to the formula \[L = 0.299R + 0.587G + 0.114B\] where $L$ is the luminance, $R$ is the red RGB component, $G$ is the green RGB component, and $B$ is the blue RGB component ~\citep{MonochromeLuminance}.  Finally, the absolute value of the luminance difference can then compared to \hyperref[symbolicParameters]{LUMINOSITY\_DELTA}.}   
 
 \newpage
 \section{Tests for Proof of Concept}
