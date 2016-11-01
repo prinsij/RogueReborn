@@ -341,17 +341,31 @@
 
 			\test{F}{Trap activation}{Dynamic}{Manual}{Black}{Game screen.}{A dungeon level that can generate traps (This only occurs in the deeper levels).}{A message and effect describing what the trap has done.}{Players will be asked to report any trap they come across and the effect it has bestowed upon them.}
 
+		\subsubsection{The Dungeon}
 
-			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
-			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
-			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
-			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
-			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
-			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
-			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
-			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
-			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
+			\test{F}{Staircase guarantee}{Dynamic}{Automatic}{Black}{Nothing running.}{A randomly generated dungeon (preferably many).}{An assertion that all contain a downwards staircase.}{The algorithm for this is rather straight-forward; it is a simple BFS or DFS touring every passable block in the dungeon.}
 
+			\test{F}{Connectedness \& Reachability}{Dynamic}{Automatic}{White}{Nothing running.}{A randomly generated dungeon (preferably many).}{An assertion that the dungeon is connected and all tile are reachable from one-another.}{Again, another simple algorithm. A BFS or DFS can acquire a list of all passable tiles in the dungeon, which can be compared to the list provided by the source-code. If the two lists match, then the assertion is true.}
+
+			\test{F}{Line of Sight}{Dynamic}{Manual}{Black}{Game screen.}{Player is somewhere in the dungeon that is recognizable (i.e. not hidden), and player is not blind.}{Visibility dependent on surroundings. If in a room, the player should be able to see the entire room. If in a corridor, the player should only be able to see in a 3x3 square centered on the player.}{Players will be asked to assess the visibility standards. This is a bug-prone feature, as many exceptions exist in the realm of "What is the player on?".}
+
+			\test{F}{Amulet of Yendor}{Dynamic}{Automatic}{White}{Nothing running.}{Levels generated with a depth of 26}{A correct assertion that all levels generated contain the amulet somewhere on the level.}{It only takes a double-nested for-loop to make sure that somewhere in the level, on a passable tile, the amulet exists. Any since we already know that every passable tile is reachable, we know that the amulet is as well.}
+
+			\test{F}{Searching \& Finding}{Dynamic}{Manual}{Black}{Player in the dungeon beside a hidden door/passage.}{The player activates the "search" command to look around.}{The door or passage is either revealed or stays hidden.}{Players will be told before the game begins to occasionally look out for hidden doors, as they are normally fairly hard to find. Once found, players will document the number of searches they needed to uncover the hidden door.}
+
+		\subsubsection{Equipment}
+
+			\test{F}{Inventory tracking}{Dynamic}{Manual}{Black}{Game screen.}{New players are instructed to play the game with no special requirements.}{No player experiences a situation in which their inventory is mis-represented. All items collected by the player should be kept track of and indexed.}{Players will be asked to maintain, on a piece of paper, their inventory, and at the end of the game compare their copy to that of the game.}
+
+			\test{F}{Identification \& Naming}{Dynamic}{Manual}{Black}{Game screen.}{Players are instructed to pronounce the names of all items they collect.}{Players are \textbf{not able} to pronounce items they have yet to \textit{identify}.}{To test the terribleness of the randomly-generated names, players will be asked to try and pronounce them. While some may succeed, the names will all be utterly nonsensical.}
+
+			\test{F}{Armor \& Deterioration}{Dynamic}{Manual}{Black}{Game screen.}{Players are assured that no bad thing could happen to their armor.}{Players should complain that their armor is somehow being damaged.}{Aquators and traps are able to destroy player armor. Approximately at level 6, players will start finding such setbacks, and report their results.}
+
+		\subsubsection{Combat}
+
+			\test{F}{Monster AI}{Dynamic}{Automatic}{White}{Nothing running.}{A target position to chase, given to all monsters in the dungeon.}{(Most) monsters calculating ideal paths towards the target specified. Some monsters have a different expected behavior.}{An automatic script can easily be created to generate a level, plant some monsters in it, and simulate a player character somewhere on the map. Then, a traceback log of monster paths could be created and analyzed, by having the player simulation always skip its turn. This way enemies will have a non-moving target to path to.}
+
+			\test{F}{Monster attack pattern}{Dynamic}{Automatic}{Black}{Nothing running.}{No target for monsters to attack.}{Monsters roaming around pointlessly, waiting for something to do.}{Like the previous test, a level could be generated and populated with enemies. Unlike the previous test case, however, no player will be supplied in this level. Monsters should aimlessly wander the halls of the dungeon and find no meaning or purpose.}
 
 	\subsection{Tests for Non-Functional Requirements}
 
@@ -442,6 +456,8 @@
 \label{section5}
 %How does it compare to the original and how does that help us test it
 %Monster damage, etc.
+
+	
 	
 \newpage
 \section{Unit Testing Plan}
