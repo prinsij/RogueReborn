@@ -13,4 +13,8 @@ Coord Feature::getLocation() {
 	return this->location;
 }
 
+void Feature::setLocation(Coord newLoc) {
+	this->location = newLoc;
+}
+
 Feature::~Feature() {}
