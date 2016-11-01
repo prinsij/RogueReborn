@@ -463,7 +463,9 @@
 
 	Another aspect of the game that was replicated as the source-code describes is dungeon generation. Of course, today we are using a more advanced data structure, with several capabilities that were not available for the C of 1980, but the idea behind the data structure is the same. The process followed for dungeon generation in 1980 was somewhat ill-conceived and convoluted. Despite this its discernible aspects were used as inspiration for the algorithm used in Rogue++. So while at the end of the day the two do not follow the same algorithm, the end result is close enough, and test cases are included to make sure that all properties of the old \textit{Rogue} are satisfied in Rogue++.\\
 
-	Another way Rogue++ can be compared to the original \textit{Rogue} is by its controls. This is something that can be algorithmically tested, and guaranteed to function exactly as intended. Every key in \textit{Rogue} is mapped to a specific action, which can be replicated one-for-one in Rogue++. WIP
+	Another way Rogue++ can be compared to the original \textit{Rogue} is by its controls. This is something that can be algorithmically tested, and guaranteed to function exactly as intended. Every key in \textit{Rogue} is mapped to a specific action, which can be replicated one-for-one in Rogue++. This kind of relationship makes testing easy, and makes implementation nearly trivial.\\
+
+	The final comparison we will discuss is the environment in which each runs. The original \textit{Rogue} runs in the terminal, and still does so on *nix machines. Rogue++, however, runs in a window handled by libtcod (The Doryen Library). The differences may not mean much for a standard end-user, but for programmers this makes a world of difference. There are many dozens of different terminals, and each has its own special features, such as macros, special display characteristics, and more. The different environment may slightly alter response time, game speed, and several other factors. The differences between terminal Rogue and libtcod Rogue will be exactly the differences we will try to uncover with our tests and minimize with our implementation.
 
 	
 	
