@@ -313,33 +313,36 @@
 
 		\subsubsection{Basic Mechanics}
 
-			\test{F}{Name}{Dynamic}{Manual}{Black}{Nothing running.}{A new game is started.}{The program is started.}{Either double-clicking the .exe or via terminal: \textit{./RogueReborn.exe}.}
+			\test{F}{New game start}{Dynamic}{Manual}{Black}{Nothing running.}{A new game is started.}{The program is started.}{Either double-clicking the .exe or via terminal: \textit{./RogueReborn.exe}.}
 
-			\test{F}{Name}{Dynamic}{Manual}{Black}{Game screen}{Save command is given or save key is pressed.}{A message saying that the game has been saved is shown to the user in the status box.}{A user will have to play the game and trigger the input sequence. This process can be verified to work by the following test.}
+			\test{F}{Save game}{Dynamic}{Manual}{Black}{Game screen}{Save command is given or save key is pressed.}{A message saying that the game has been saved is shown to the user in the status box.}{A user will have to play the game and trigger the input sequence. This process can be verified to work by the following test.}
 
-			\test{F}{Name}{Dynamic}{Manual}{Black}{Game screen}{Load command is given or save key is pressed.}{A message saying that the game has been loaded is shown to the user in the status box. The data model (level, player, monsters, etc.) is also updated to reflect the state changes.}{A user will have to play the game and trigger the input sequence to load, and verify that it is in fact the same state that was previously saved.}
+			\test{F}{Load game}{Dynamic}{Manual}{Black}{Game screen}{Load command is given or save key is pressed.}{A message saying that the game has been loaded is shown to the user in the status box. The data model (level, player, monsters, etc.) is also updated to reflect the state changes.}{A user will have to play the game and trigger the input sequence to load, and verify that it is in fact the same state that was previously saved.}
 
-			\test{F}{Name}{Dynamic}{Automatic}{Black}{Nothing running}{A new game is started.}{The player has the default starting gear and statistics.}{This feature can be tested by analyzing a save file. In the file is listed everything about the player, meaning the information can be attained from there.}
+			\test{F}{New game starting statistics}{Dynamic}{Automatic}{Black}{Nothing running.}{A new game is started.}{The player has the default starting gear and statistics.}{This feature can be tested by analyzing a save file. In the file is listed everything about the player, meaning the information can be attained from there.}
 
-			\test{F}{Name}{Dynamic}{Manual}{Black}{Game screen}{The "help" command is given or the "help" key is pressed.}{The user is shown a screen with a list of possible actions and other information}{Players will be given the game with no instructions or guide. The usefulness and accessibility of the help screen will be judged by their performance after having seen the help screen.}
+			\test{F}{Help command}{Dynamic}{Manual}{Black}{Game screen}{The "help" command is given or the "help" key is pressed.}{The user is shown a screen with a list of possible actions and other information}{Players will be given the game with no instructions or guide. The usefulness and accessibility of the help screen will be judged by their performance after having seen the help screen.}
 
 		\subsubsection{Interaction}
 
-			\test{F}{Dynamic}{Manual}{Black}{Game screen.}{None.}{Details about the player (such as level, health, known status effects, current depth, etc.) are displayed at the bottom of the screen, in the area known as the "Info bar".}{At random points during the playtest, players will be asked to answer basic questions about their player. To answer these questions, the player will have to refer to the info bar.}
+			\test{F}{Detailer player information}{Dynamic}{Manual}{Black}{Game screen.}{None.}{Details about the player (such as level, health, known status effects, current depth, etc.) are displayed at the bottom of the screen, in the area known as the "Info bar".}{At random points during the playtest, players will be asked to answer basic questions about their player. To answer these questions, the player will have to refer to the info bar.}
 
-			\test{F}{Dynamic}{Manual}{Black}{Game screen.}{The "look" key or command, and then an environment aspect character.}{After the input is supplied, a brief description of the environment aspect is supplied. This can be limited to a word or two (i.e. "This is an Emu").}{Players will be told about the "look" key before starting, and will have to employ it to get to know their surroundings.}
+			\test{F}{Environment inspection}{Dynamic}{Manual}{Black}{Game screen.}{The "look" key or command, and then an environment aspect character.}{After the input is supplied, a brief description of the environment aspect is supplied. This can be limited to a word or two (i.e. "This is an Emu").}{Players will be told about the "look" key before starting, and will have to employ it to get to know their surroundings.}
 
-			\test{F}{Dynamic}{Manual}{Black}{1}{Input}{Output}{Execution}
+			\test{F}{Pass turn}{Dynamic}{Manual}{Black}{Game screen.}{The player wishes to skip his turn. This is usually the case if an enemy is about to move perpendicularly to the player's pre-determined projectile path, which will place the enemy in the direction of the player's projectile.}{All entities but the player act, performing whatever action their AI has instructed them to perform.}{Players will be asked to skip their turn several times once an enemy is spotted.}
 
-		\test{F}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
-		\test{F}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
-		\test{F}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
-		\test{F}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
-		\test{F}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
-		\test{F}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
-		\test{F}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
-		\test{F}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
-		\test{F}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
+			\test{F}{Trap activation}{Dynamic}{Manual}{Black}{Game screen.}{A dungeon level that can generate traps (This only occurs in the deeper levels).}{A message and effect describing what the trap has done.}{Players will be asked to report any trap they come across and the effect it has bestowed upon them.}
+
+
+			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
+			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
+			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
+			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
+			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
+			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
+			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
+			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
+			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
 
 
 	\subsection{Tests for Non-Functional Requirements}
