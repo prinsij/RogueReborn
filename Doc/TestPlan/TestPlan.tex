@@ -343,6 +343,16 @@
 			\test{F}{Line of Sight}{Dynamic}{Manual}{Black}{Game screen.}{Player is somewhere in the dungeon that is recognizable (i.e. not hidden), and player is not blind.}{Visibility dependent on surroundings. If in a room, the player should be able to see the entire room. If in a corridor, the player should only be able to see in a 3x3 square centered on the player.}{Players will be asked to assess the visibility standards. This is a bug-prone feature, as many exceptions exist in the realm of "What is the player on?".}
 
 			\test{F}{Amulet of Yendor}{Dynamic}{Automatic}{White}{Nothing running.}{Levels generated with a depth of 26}{A correct assertion that all levels generated contain the amulet somewhere on the level.}{It only takes a double-nested for-loop to make sure that somewhere in the level, on a passable tile, the amulet exists. Any since we already know that every passable tile is reachable, we know that the amulet is as well.}
+
+			\test{F}{Searching \& Finding}{Dynamic}{Manual}{Black}{Player in the dungeon beside a hidden door/passage.}{The player activates the "search" command to look around.}{The door or passage is either revealed or stays hidden.}{Players will be told before the game begins to occasionally look out for hidden doors, as they are normally fairly hard to find. Once found, players will document the number of searches they needed to uncover the hidden door.}
+
+		\subsubsection{Equipment}
+
+			\test{F}{Inventory tracking}{Dynamic}{Manual}{Black}{Game screen.}{New players are instructed to play the game with no special requirements.}{No player experiences a situation in which their inventory is mis-represented. All items collected by the player should be kept track of and indexed.}{Players will be asked to maintain, on a piece of paper, their inventory, and at the end of the game compare their copy to that of the game.}
+
+			\test{F}{Identification \& Naming}{Dynamic}{Manual}{Black}{Game screen.}{Players are instructed to pronounce the names of all items they collect.}{Players are \textbf{not able} to pronounce items they have yet to \textit{identify}.}{To test the terribleness of the randomly-generated names, players will be asked to try and pronounce them. While some may succeed, the names will all be utterly nonsensical.}
+
+			\test{F}{Armor \& Deterioration}{Dynamic}{Manual}{Black}{Game screen.}{Players are assured that no bad thing could happen to their armor.}{Players should complain that their armor is somehow being damaged.}{Aquators and traps are able to destroy player armor. Approximately at level 6, players will start finding such setbacks, and report their results.}
 			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
 			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
 			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
