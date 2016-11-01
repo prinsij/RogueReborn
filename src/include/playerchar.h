@@ -3,20 +3,20 @@
 #include <string>
 #include <vector>
 
-#include "armor.h"
 #include "coord.h"
-#include "food.h"
 #include "goldpile.h"
-#include "item.h"
 #include "itemzone.h"
 #include "mob.h"
-#include "potion.h"
-#include "ring.h"
-#include "scroll.h"
-#include "weapon.h"
-#include "wand.h"
 
 class Level;
+class Food;
+class Item;
+class Ring;
+class Weapon;
+class Armor;
+class Wand;
+class Scroll;
+class Potion;
 
 class PlayerChar : public Mob {
 	public:
@@ -26,7 +26,7 @@ class PlayerChar : public Mob {
 		void attack(Mob*);
 		int calculateDamage();
 		void collectGold(GoldPile*);
-		bool dropItem(Item*);
+		bool dropItem(Item*, Level*);
 		void eat(Food*);
 		void equipArmor(Armor*);
 		void equipRingLeft(Ring*);

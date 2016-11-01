@@ -7,6 +7,7 @@ class Feature {
 		Feature(char, Coord);
 		char getSymbol();
 		Coord getLocation();
+		void setLocation(Coord);
 		virtual ~Feature();
 	private:
 		Coord location;

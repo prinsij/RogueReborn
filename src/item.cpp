@@ -38,6 +38,10 @@ Item::Context Item::getContext() {
 	return this->context;
 }
 
+void Item::setContext(Item::Context newContext) {
+	this->context = newContext;
+}
+
 std::string Item::getDisplayName() {
 	if (Item::identified[this->className].find(this->type) == Item::identified[this->className].end()) {
 		return this->pseudoName;	
