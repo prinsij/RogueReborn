@@ -127,8 +127,7 @@
 		10/26/16 & 0.4.1 & Added Test Template \\
 		10/30/16 & 0.5 & Added Non-Functional Req. Tests \\
 		10/30/16 & 0.5.1 & Added Bibliography \\
-		10/31/16 & 0.6 & Switch PoC to Test Template \\
-		10/31/16 & 0.7 & Add Name to Test Template \\
+		10/31/16 & 0.6 & Added Names to Test Template \\
 		\bottomrule
 	\end{tabularx}
 \end{table}
@@ -143,10 +142,10 @@
 \label{section1}
 
 	\subsection{Purpose}
-		The purpose of this document is to explore the verification process that will be applied to the Rogue Reborn project.  After reviewing the document, the reader should understand the strategy, focus, and motivation behind the efforts of the Rogue++ testing team.   
+		The purpose of this document is to explore the verification process that will be applied to the Rogue Reborn project.  Interested stakeholders are welcome to view and critique this paper to gain confidence in the success of the final product.  After reviewing the document, the reader should understand the strategy, focus, and motivation behind the efforts of the Rogue++ testing team.
 
 	\subsection{Scope}
-		This report will encompass all technical aspects of the testing environment and implementation plan, as well as other elements in the domain of team coordination and project deadlines.  The document will also strive to be comprehensive by providing context behind critical decisions, motivating the inclusion of particular features by referring to the existing \textit{Rogue} implementation, and offering a large variety of tests for various purposes and hierarchical units.  Aside from the implementation, the report will also discuss a relevant component from the requirements elicitation process.
+		This report will encompass all technical aspects of the testing environment and implementation plan, as well as other elements in the domain of team coordination and project deadlines.  The document will also strive to be comprehensive by providing context behind critical decisions, motivating the inclusion of particular features by referring to the existing \textit{Rogue} implementation, and offering a large variety of tests for various purposes and hierarchical units.  Aside from the implementation, the report will also discuss a relevant component from the requirements elicitation process (and its relevance to the testing effort).
 
 	\subsection{Acronyms, Abbreviations, and States}
 		
@@ -160,7 +159,9 @@
 				\textbf{Abbreviation} & \textbf{Definition} \\
 				\midrule
 				GUI & Graphical User Interface\\
+				IM & Instant Messenger\\
 				PoC & Proof of Concept\\
+				VPS & Virtual Private Server\\
 				\bottomrule
 			\end{tabularx}
 		\end{table}
@@ -175,11 +176,12 @@
 				\textbf{Term} & \textbf{Definition}\\
 				\midrule
 				\textbf{Boost} & C++ utility library that includes a comprehensive unit testing framework\\
-				\textbf{Frame} & An instantaneous ``Snapshot'' of the GUI screen\\
-				\textbf{Libtcod} & Graphics library that specializes in emulating a roguelike experience\\
+				\textbf{Frame} & An instantaneous ``snapshot'' of the GUI screen\\
+				\textbf{Libtcod} & Graphics library that specializes in delivering a roguelike experience\\
 				\textbf{Monochrome Luminance} & The brightness of a given colour (with respect to the average sensitivity of the human eye)\\
 				\textbf{Permadeath} & Feature of roguelike games whereby a character death will end the game\\
 				\textbf{Roguelike} & Genre of video games characterized by ASCII graphics, procedurally-generated levels, and permadeath\\
+				\textbf{Slack} & An online communication platform specializing in team and project coordination\\ 
 				\bottomrule
 			\end{tabularx}
 		\end{table}	
@@ -193,28 +195,28 @@
 				\toprule
 				\textbf{State} & \textbf{Definition}\\
 				\midrule
-				\textbf{Developer State} & The file system state corresponding to the latest source code revision from the Git repository\\
+				\textbf{Developer State} & The file system state corresponding to the latest source code revision from the GitLab repository\\
 				\textbf{Fresh State} & The file system state corresponding to a ``fresh'' Rogue Reborn installation\\
 				\textbf{Gameplay State} & Any application state that reflects the actual gameplay\\
-				\textbf{Generic State} & The file system state corresponding to a functional installation of Rogue Reborn\\
+				\textbf{Generic State} & The file system state corresponding to a functional (working) installation of Rogue Reborn\\
 				\textbf{High Score State} & Any application state that reflects the top high scores screen\\
 				\textbf{Menu State} & Any application state that reflects the opening menu\\
-				\textbf{Seasoned State} & The system state corresponding to an installation of Rogue Reborn that already contains several high score records\\
+				\textbf{Seasoned State} & The file system state corresponding to an installation of Rogue Reborn that already contains several high score records\\
 				\bottomrule
 			\end{tabularx}
 		\end{table}	
 
 	\subsection{Overview of Document}
-		The early sections of the report will describe the testing environment and the logistic components of the Rogue Reborn testing effort, including the schedule and work allocation.  Next, a suite of tests will be discussed with respect to the functional requirements, nonfunctional requirements, and proof of concept demonstration.  Upon discussing the relevance of this project to the original \textit{Rogue}, a variety of unit tests will be given followed by a sample usability survey to guage the interest and opinion of the Rogue Reborn game.  A breakdown of the sections is listed below:
+		The early sections of the report will describe the testing environment and the logistic components of the Rogue Reborn testing effort, including the schedule and work allocation.  Next, a suite of tests will be discussed with respect to the functional requirements, non-functional requirements, and the PoC demonstration.  Upon discussing the relevance of this project to the original \textit{Rogue}, a variety of unit testing strategies will be given followed by a sample usability survey to gauge the interest and opinion of the Rogue Reborn game.  A breakdown of the sections is listed below:
 
 		\begin{itemize}
-			\item \hyperref[section1]{\S 1} Brief overview of the report contents
-			\item \hyperref[section2]{\S 2} Project logistics and the software testing environment
-			\item \hyperref[section3]{\S 3} Description of system-level integration tests (based on requirements)
-			\item \hyperref[section4]{\S 4} Explanation of test plans that were inspired by the PoC demonstration
-			\item \hyperref[section5]{\S 5} Comparison of the existing \textit{Rogue} to the current project in the context of testing
-			\item \hyperref[section6]{\S 6} Outline of the module-level unit tests 
-			\item \hyperref[section7]{\S 7} Appendix for symbolic parameters and the aforementioned usability survey
+			\item [] \hyperref[section1]{\S 1} Brief overview of the report contents
+			\item [] \hyperref[section2]{\S 2} Project logistics and the software testing environment
+			\item [] \hyperref[section3]{\S 3} Description of system-level integration tests (based on requirements)
+			\item [] \hyperref[section4]{\S 4} Explanation of test plans that were inspired by the PoC demonstration
+			\item [] \hyperref[section5]{\S 5} Comparison of the existing \textit{Rogue} to the current project in the context of testing
+			\item [] \hyperref[section6]{\S 6} Outline of the approach to be implemented for unit testing  
+			\item [] \hyperref[section7]{\S 7} Appendix for symbolic parameters and the usability survey
 		\end{itemize}
 
 \newpage
@@ -223,34 +225,39 @@
 		
 	\subsection{Software Description}
 
-	Initially, the plan for testing involved the usage of a pre-made testing system called Boost. Boost has industry renown and is very well documented. The drawback to using such a profound system is exactly its advantage - it is heavy, globally encompassing, and requires a lot of work to use properly. The Boost library is suitable for projects spanning years, with dedicated testing teams. This is not the present situation. With hardly over a month until the completion of the project, starting to use Boost would be most unwise.\\
+	Initially, a large component of the testing implementation involved the usage of \textit{Boost}.  In general, Boost is regarded as an industry standard C++ utility library and comes packaged with a great deal of documentation ~\citep{BoostHome}.  However, this is a double-edged sword --- Boost is heavy, globally encompassing, and requires plentiful effort to properly setup.  The Boost library is suitable for projects spanning years with dedicated testing and QA teams.  Unfortunately, this is not the present condition of the Rogue Reborn project, and with the project nearing completion over the next month, the Rogue++ team agreed that it would be unwise to start using Boost.\\
 
-	Instead, an alternative solution has been proposed and implemented. Native test cases can be written in C++ to do exactly that which is required. The details of this implementation will be explained in the parts to follow.
+	Instead, an alternative solution has been proposed: native test cases can be written in C++ to perform exactly the required tasks and nothing extra.  The details of this implementation will be explained in the following sections.
 
 	\subsection{Test Team}
 
-	All members of the team will take part in the testing procedure. While Mikhail was given the title of project manager, and Ian C++ expert, Ori was assigned the role of testing expert. Testing will be monitored by Ori, but of course every member of the team will contribute to the testing facilities. It would be desirable for the team member who wrote class $C$ to write the unit tests for this class. Due to the dependency-tree-like structure of the project's design, there will be cases where a unit test for one class encompasses a partial system test for another one. This can be extrapolated from the class inheritance diagram.
+	All members of the Rogue++ team will take part in the testing procedure.  While Mikhail and Ian were assigned the roles of Project Manager and C++ Expert respectively, Ori was given the title of Testing Expert. Testing will be primarily monitored and maintained by Ori although every team member will contribute to the testing facilities.  The logic behind this rationale is that it would be desirable for the team member who wrote class $C$ to write the unit tests for the same class $C$.  Due to the dependency structure of the project's design, there will be cases where a unit test for one class will encompass a partial system test for another class.  These instances can be extrapolated from the class inheritance diagram.
 
 	\subsection{Automated Testing Approach}
 
-	We have made a very large attempt at automating whatever we could for this project. In the real world, any task that \textit{can} be automated, is automated. The steps we have taken are as follows:
+	There has been considerable effort expended towards automating project infrastructure components.  In the real world, any task that \textit{can} be automated, should be automated.  The steps that have been performed to reduce manual labour are as follows:
 
 	\begin{itemize}
-		\item Set up a GitLab pipeline for the project. The pipeline is programmed to run a series of commands on an external VPS whenever a push is made to the git repository. Each run is documented and its history may be accessed.
-		\item Write a special makefile that outputs 2 executables: the first being the actual project, and the second the project's tests. The details will be delved into in the following sub-section.
-		\item The team's primary method of communication is Slack, a cross-platform, programmer-friendly chat interface. We hooked up the GitLab project repository to the Slack channel such that whenever a push is made or an issue addressed, a notification is sent. This method makes it far easier to communicate about project-related inquiries.
+		\item Set up a GitLab pipeline for the project.  The pipeline is programmed to run a series of commands on an external VPS whenever a push is made to the GitLab repository.  Every run is logged and its history may be accessed at any time.
+		\item Write a special makefile that produces 2 executables:
+		\begin{enumerate}
+			\item The Rogue Reborn game executable
+			\item The project test suite.
+		\end{enumerate}
+		The details of this process will be described in the following sub-section.
+		\item The team's primary method of communication is Slack: a cross-platform and programmer-friendly IM.  The Rogue++ team hooked the GitLab project repository to the team's Slack channel such that whenever the repository detects activity, a notification is sent to the channel.  This method greatly improves the team's awareness about each other's contributions and also facilitates communication about project-related inquiries.
 	\end{itemize}
 
 	\subsection{Testing Tools}
 
-	The special makefile discussed previously utilizes a phenomenon of C++ to perform the necessary steps. First, it places \textit{all} source files into a dedicated folder, distinguishing between program files and test files. This is an absolutely necessary step, as there is an important relationship between \textit{source} and \textit{test} classes. See the diagram below:
-
-	\bigskip
-	\bigskip
-	\bigskip
+	The special makefile discussed above utilizes a phenomenon of C++ to perform the necessary steps.  First, it places \textit{all} source files into a dedicated folder to distinguish them between program files and test files; this is mandatory since there is an important relationship between the \textit{source} and \textit{test} classes.  Consider the diagram below:
 
 	% Venn-diagram
-	\begin{center}
+	\begin{figure}[H]
+		\centering
+		\caption{\textbf{Source and Test Relationship}}
+		\bigskip
+		\label {Src-Test_Relationship}
 		\begin{tikzpicture}[fill=white]
 			% left hand
 			\scope
@@ -263,33 +270,33 @@
 			\endscope
 
 			% outline
-			\draw 	(-1,0) circle (2) (-4,1)  node [text=black,above] {$Source$}
-			 		(1,0) circle (2) (4,1)  node [text=black,above] {$Test$};
+			\draw 	(-0.5,0) circle (2) (-3,1)  node [text=black,above] {$Source$}
+			 		(0.5,0) circle (2) (3,1)  node [text=black,above] {$Test$};
 		\end{tikzpicture}
-	\end{center}
+	\end{figure}
 
 	\bigskip
 	\bigskip
 
-	As the diagram above depicts, there are classes shared between both final programs. The vast majority of classes fall in the center, required by both the final project and its testing component. The files required by the test which are not required by the source are, obviously, testing-related files. These are the files that contain the test case implementations. At the time of writing, there is actually only one file required by source that is not required by the test, and that is the source program entry (i.e. the file that contains the main() method).
+	As the diagram depicts, there are classes that are shared between both final programs.  In fact, the vast majority of classes fall in the center and are required by both the game executable as well as the testing component.  The files that are necessary for the tests but not for the source are, obviously, testing-related files that contain the test case implementations.  At the time of writing, there is only one file required by the source code that is not required by the test code: the source program entry (i.e. the C++ file that contains \lstinline$main()$).
 
 	\bigskip
 
-	The entire procedure of file collection, compilation, and separate linking is handled by the makefile, and is triggered by the "make" command. Then, simply running Test.exe will fire off all of the pre-written tests.
+	The entire procedure of file collection, compilation, and separate linking is handled by the makefile, and is triggered by the \lstinline$make$ command.  From there, simply running \lstinline$Test.exe$ will trigger all of the pre-written tests.
 
 	\bigskip
 
-	There is a plan to implement a python script on the GitLab pipeline that will cause the build to fail if any of the tests do not pass. At the time of writing this document, it is not yet implemented, but note will be made when it does. It should be noted that if a build fails, the pipeline not only reports the failure, but also logs where the failure happened, down to the specific test case. This will hopefully make debugging a more pleasant experience later on.
+	There is also a plan to implement a Python script on the GitLab pipeline that will cause the build to fail if any of the tests do not pass.  It should be noted that, if a build fails, the pipeline not only reports the failure, but also logs the location of the failure down to the specific test case.  This will hopefully expedite the debugging process and lead to more responsible development further into the project timeline.
 
 	\bigskip
 
-	As an extra safety measure, the Rogue++ team will also be utilizing a tool called Valgrind in the testing procedure. Valgrind is a tool that tests the amount of memory a C++ program utilizes, and detects memory allocation errors (such as memory leaks). This is an extremely useful and powerful tool. C++, unlike Java and other high level languages, does not have a built-in garbage collector. This is just one of the reasons why it is so much faster than the rest. A consequence of this, however, is that it is very easy to accidentally leave behind an object in memory, causing a memory leak in the program.\\
+	As an extra safety measure, the Rogue++ team will also be utilizing a tool called \textit{Valgrind} in the testing procedure.  Valgrind is a powerful analysis tool that tests the amount of memory a C++ program utilizes and detects memory allocation errors such as memory leaks ~\citep{ValgrindHome}.  C++, unlike Java and other high level languages, does not include a built-in garbage collector (otherwise there would be nothing left!) to give programmers total control over their application lifetime.  Consequently, it is a common mistake to accidentally leave unreferenced objects in memory and cause a memory leak in the program.\\
 
-	At the time of writing, the entire program occupies 1 MB of memory. This is not much, and even if it was all left behind in a leak, the system would not be too hindered. However, memory leaks represent only a consequence of a larger issue: incorrect code! Using Valgrind, we will be able to detect these kinds of errors, potentially pointing us in the direction of a crucial bugfix.
+	At the time of writing, the Rogue Reborn application occupies approximately 1 MB of RAM during peak execution.  Although this is a minute quantity, memory leaks are representative of a larger issue: incorrect code!  By using Valgrind, the Rogue++ team will be able to detect the presence of these errors and indicate the direction of the next crucial bug fix.
 
 	\subsection{Testing Schedule}
 		
-	See Gantt Chart at the following url ... TODO
+	The Gantt Chart can be accessed at \href{run:../../ProjectSchedule/Rogue.gan}{this location}.
 
 \newpage
 \section{System Test Description}
