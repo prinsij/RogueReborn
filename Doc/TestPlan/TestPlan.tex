@@ -69,7 +69,7 @@
 		
 		\centering
 		\def\arraystretch{1.6}
-		\begin{tabular}{| R{7em} L{28em} |}
+		\begin{tabular}{| R{7em} L{25em} |}
 			\bottomrule
 			\multicolumn{2}{| c |}{\textbf{#2} - \testTitle Test \# \testCounter} \\
 			\hline
@@ -160,6 +160,7 @@
 				\midrule
 				GUI & Graphical User Interface\\
 				IM & Instant Messenger\\
+				LoS & Line of Sight\\
 				PoC & Proof of Concept\\
 				VPS & Virtual Private Server\\
 				\bottomrule
@@ -175,11 +176,14 @@
 				\toprule
 				\textbf{Term} & \textbf{Definition}\\
 				\midrule
+				\textbf{Amulet of Yendor} & An item located on the deepest level of the dungeon that enables the player character to ascend through the levels and complete the game\\
 				\textbf{Boost} & C++ utility library that includes a comprehensive unit testing framework\\
 				\textbf{Frame} & An instantaneous ``snapshot'' of the GUI screen\\
 				\textbf{Libtcod} & Graphics library that specializes in delivering a roguelike experience\\
 				\textbf{Monochrome Luminance} & The brightness of a given colour (with respect to the average sensitivity of the human eye)\\
 				\textbf{Permadeath} & Feature of roguelike games whereby a character death will end the game\\
+				\textbf{Player Character} & Primary game character that is controlled by the user in Rogue Reborn\\
+				\textbf{Rogue} & The original UNIX game developer in 1980 that initiated the roguelike genre\\
 				\textbf{Roguelike} & Genre of video games characterized by ASCII graphics, procedurally-generated levels, and permadeath\\
 				\textbf{Slack} & An online communication platform specializing in team and project coordination\\ 
 				\bottomrule
@@ -195,7 +199,7 @@
 				\toprule
 				\textbf{State} & \textbf{Definition}\\
 				\midrule
-				\textbf{Developer State} & The file system state corresponding to the latest source code revision from the GitLab repository\\
+				\textbf{Developer State} & The file system state corresponding to the latest source code revision and compilation from the GitLab repository\\
 				\textbf{Fresh State} & The file system state corresponding to a ``fresh'' Rogue Reborn installation\\
 				\textbf{Gameplay State} & Any application state that reflects the actual gameplay\\
 				\textbf{Generic State} & The file system state corresponding to a functional (working) installation of Rogue Reborn\\
@@ -321,51 +325,57 @@
 
 		\subsubsection{Basic Mechanics}
 
-			\test{F}{New game start}{Dynamic}{Manual}{Black}{Nothing running.}{A new game is started.}{The program is started.}{Either double-clicking the .exe or via terminal: \textit{./RogueReborn.exe}.}
+			\test{F}{New Game Start}{Dynamic}{Manual}{Black}{Fresh State}{A new game is started.}{The program is started.}{Either double-clicking the \lstinline$.exe$ or via terminal:
 
-			\test{F}{Save game}{Dynamic}{Manual}{Black}{Game screen}{Save command is given or save key is pressed.}{A message saying that the game has been saved is shown to the user in the status box.}{A user will have to play the game and trigger the input sequence. This process can be verified to work by the following test.}
+			\begin{center}
+				\lstinline$./RogueReborn.exe$.
+			\end{center}
+			}
 
-			\test{F}{Load game}{Dynamic}{Manual}{Black}{Game screen}{Load command is given or save key is pressed.}{A message saying that the game has been loaded is shown to the user in the status box. The data model (level, player, monsters, etc.) is also updated to reflect the state changes.}{A user will have to play the game and trigger the input sequence to load, and verify that it is in fact the same state that was previously saved.}
+			\test{F}{Save Game}{Dynamic}{Manual}{Black}{Gameplay State}{Save command is given or the save key is pressed.}{A message indicating that the game has been saved is displayed to the user in the status area.}{A user will play the game and trigger the input sequence.  Note that this process can be verified by the Test \# 3.}
 
-			\test{F}{New game starting statistics}{Dynamic}{Automatic}{Black}{Nothing running.}{A new game is started.}{The player has the default starting gear and statistics.}{This feature can be tested by analyzing a save file. In the file is listed everything about the player, meaning the information can be attained from there.}
+			\test{F}{Load game}{Dynamic}{Manual}{Black}{Gameplay State}{Load command is given or the save key is pressed.}{A message indicating that the game has been loaded is displayed to the user in the status area. The data model (level, player, monsters, etc.) is also updated to reflect the state changes.}{A user will play the game and trigger the input sequence to load and verify that it is in fact the same state that was previously saved.}
 
-			\test{F}{Help command}{Dynamic}{Manual}{Black}{Game screen}{The "help" command is given or the "help" key is pressed.}{The user is shown a screen with a list of possible actions and other information}{Players will be given the game with no instructions or guide. The usefulness and accessibility of the help screen will be judged by their performance after having seen the help screen.}
+			\test{F}{Starting Statistics}{Dynamic}{Automatic}{Black}{Generic State}{A new game is started.}{The player character has the default starting equipment and statistics.}{This feature can be tested by analyzing the save file since it records all the necessary information about the player character.}
+
+			\test{F}{Help Command}{Dynamic}{Manual}{Black}{Gameplay State}{The ``help'' command is given or the ``help'' key is pressed.}{The user is displayed a screen with a list of possible actions and other information.}{A user play the game and trigger the input sequence to display the ``help'' menu.}
 
 		\subsubsection{Interaction}
 
-			\test{F}{Detailer player information}{Dynamic}{Manual}{Black}{Game screen.}{None.}{Details about the player (such as level, health, known status effects, current depth, etc.) are displayed at the bottom of the screen, in the area known as the "Info bar".}{At random points during the playtest, players will be asked to answer basic questions about their player. To answer these questions, the player will have to refer to the info bar.}
+			\test{F}{Detailer Player Information}{Dynamic}{Manual}{Black}{Gameplay State}{N/A}{Details about the player (level, health, known status effects, current depth, etc.) are displayed at the bottom of the screen in the area known as the \textit{Info Bar}.}{Rogue Reborn playtesters will be asked to answer basic questions about their player character at random intervals throughout the game.  To answer these questions, the user must refer to the Info Bar.}
 
-			\test{F}{Environment inspection}{Dynamic}{Manual}{Black}{Game screen.}{The "look" key or command, and then an environment aspect character.}{After the input is supplied, a brief description of the environment aspect is supplied. This can be limited to a word or two (i.e. "This is an Emu").}{Players will be told about the "look" key before starting, and will have to employ it to get to know their surroundings.}
+			\test{F}{Environment Inspection}{Dynamic}{Manual}{Black}{Gameplay State}{The ``look'' key or command, and then an environment aspect character.}{After the input is supplied, a brief description of the environment aspect is displayed.  This can be limited to several words (e.g. ``This is an Emu'').}{Players will be told about the ``look'' key before their session and will have to employ it in order to gain information about their surroundings.}
 
-			\test{F}{Pass turn}{Dynamic}{Manual}{Black}{Game screen.}{The player wishes to skip his turn. This is usually the case if an enemy is about to move perpendicularly to the player's pre-determined projectile path, which will place the enemy in the direction of the player's projectile.}{All entities but the player act, performing whatever action their AI has instructed them to perform.}{Players will be asked to skip their turn several times once an enemy is spotted.}
+			\test{F}{Pass Turn}{Dynamic}{Manual}{Black}{Gameplay State}{The ``wait'' key or command is pressed.}{All entities but the player engage in a turn by performing an action (as dictated by their respective AI).}{Players will be asked to skip their turn several times once an enemy is located (this tactic is used to ensure the player character delivers the first strike in a combat sequence).}
 
-			\test{F}{Trap activation}{Dynamic}{Manual}{Black}{Game screen.}{A dungeon level that can generate traps (This only occurs in the deeper levels).}{A message and effect describing what the trap has done.}{Players will be asked to report any trap they come across and the effect it has bestowed upon them.}
+			\test{F}{Trap Activation}{Dynamic}{Manual}{Black}{Gameplay State}{A dungeon level that can generate traps (this only occurs at deeper levels).}{A message and a message describing the effect of the trap.}{Players will be asked to report the traps they encounter and the effect that was bestowed upon them upon activation.}
 
 		\subsubsection{The Dungeon}
 
-			\test{F}{Staircase guarantee}{Dynamic}{Automatic}{Black}{Nothing running.}{A randomly generated dungeon (preferably many).}{An assertion that all contain a downwards staircase.}{The algorithm for this is rather straight-forward; it is a simple BFS or DFS touring every passable block in the dungeon.}
+			\test{F}{Staircase Guarantee}{Dynamic}{Automatic}{Black}{Developer State}{A set of randomly generated dungeon levels.}{An indication of whether or not each dungeon contains a downwards staircase.}{Each generated level will be traversed using a simple graph discovery algorithm that tours every passable block; if no staircase is discovered, a flag is raised.}
 
-			\test{F}{Connectedness \& Reachability}{Dynamic}{Automatic}{White}{Nothing running.}{A randomly generated dungeon (preferably many).}{An assertion that the dungeon is connected and all tile are reachable from one-another.}{Again, another simple algorithm. A BFS or DFS can acquire a list of all passable tiles in the dungeon, which can be compared to the list provided by the source-code. If the two lists match, then the assertion is true.}
+			\test{F}{Level Accessibility}{Dynamic}{Automatic}{White}{Developer State}{A set of randomly generated dungeon levels.}{An indication of whether or not every dungeon level forms a strongly connected component.}{Each generated level will be traversed using a simple graph discovery algorithm that tours every passable block; if the number of discovered blocks is not equal to the number of blocks in the level, a flag is raised.}
 
-			\test{F}{Line of Sight}{Dynamic}{Manual}{Black}{Game screen.}{Player is somewhere in the dungeon that is recognizable (i.e. not hidden), and player is not blind.}{Visibility dependent on surroundings. If in a room, the player should be able to see the entire room. If in a corridor, the player should only be able to see in a 3x3 square centered on the player.}{Players will be asked to assess the visibility standards. This is a bug-prone feature, as many exceptions exist in the realm of "What is the player on?".}
+			\test{F}{Line of Sight}{Dynamic}{Manual}{Black}{Gameplay State}{The player character is somewhere in the dungeon that is recognizable (i.e. not hidden) and is not blind.}{Visibility that depends on the player character's surroundings.  If the player character is in a room, they should be able to view the entire room.  If the player character is in a corridor, the player should only be able to view in surroundings within \hyperref[symbolicParameters]{VIEW\_DISTANCE} of their location.}{Users will be asked to assess the visibility standards.  Note that this is a bug-prone feature since many exceptions exist in the realm of the player character's current setting.}
 
-			\test{F}{Amulet of Yendor}{Dynamic}{Automatic}{White}{Nothing running.}{Levels generated with a depth of 26}{A correct assertion that all levels generated contain the amulet somewhere on the level.}{It only takes a double-nested for-loop to make sure that somewhere in the level, on a passable tile, the amulet exists. Any since we already know that every passable tile is reachable, we know that the amulet is as well.}
+			\test{F}{Amulet of Yendor}{Dynamic}{Automatic}{White}{Developer State}{Levels generated with a depth of \hyperref[symbolicParameters]{FINAL\_LEVEL}}{An indication of whether or not all generated levels contain the Amulet of Yendor on a reachable tile within the level.}{Each generated level will be traversed using a simple graph discovery algorithm that tours every passable block; if no Amulet is encountered, a flag is raised.}
 
-			\test{F}{Searching \& Finding}{Dynamic}{Manual}{Black}{Player in the dungeon beside a hidden door/passage.}{The player activates the "search" command to look around.}{The door or passage is either revealed or stays hidden.}{Players will be told before the game begins to occasionally look out for hidden doors, as they are normally fairly hard to find. Once found, players will document the number of searches they needed to uncover the hidden door.}
+			\test{F}{Searching \& Finding}{Dynamic}{Manual}{Black}{The player character in a dungeon beside a hidden door or passage.}{The player character activates the ``search'' command to search for adjacent hidden environment features.}{The door or passage is either revealed or remains hidden.}{Playtesters will be told before the game begins to occasionally look out for hidden doors; once discovered, the playtesters will document the number of searches that were required to reveal the hidden element.}
 
 		\subsubsection{Equipment}
 
-			\test{F}{Inventory tracking}{Dynamic}{Manual}{Black}{Game screen.}{New players are instructed to play the game with no special requirements.}{No player experiences a situation in which their inventory is mis-represented. All items collected by the player should be kept track of and indexed.}{Players will be asked to maintain, on a piece of paper, their inventory, and at the end of the game compare their copy to that of the game.}
+			\test{F}{Inventory Tracking}{Dynamic}{Manual}{Black}{Gameplay State}{New users are instructed to play the game with no special requirements.}{No users experiences a situation where the inventory screen does not represent their actual possessions.}{Users will be asked to laboriously maintain their inventory on a piece of paper and compare their copy to that of the game at various time intervals.}
 
-			\test{F}{Identification \& Naming}{Dynamic}{Manual}{Black}{Game screen.}{Players are instructed to pronounce the names of all items they collect.}{Players are \textbf{not able} to pronounce items they have yet to \textit{identify}.}{To test the terribleness of the randomly-generated names, players will be asked to try and pronounce them. While some may succeed, the names will all be utterly nonsensical.}
+			\test{F}{Identification \& Naming}{Dynamic}{Manual}{Black}{Gameplay State}{Users are instructed to pronounce the names of all items they collect.}{Users are unable to pronounce items they have yet to identify.}{Users will be asked to pronounce the generated names to the best of their ability to ensure they are nonsensical.}
 
-			\test{F}{Armor \& Deterioration}{Dynamic}{Manual}{Black}{Game screen.}{Players are assured that no bad thing could happen to their armor.}{Players should complain that their armor is somehow being damaged.}{Aquators and traps are able to destroy player armor. Approximately at level 6, players will start finding such setbacks, and report their results.}
+			\test{F}{Armor \& Deterioration}{Dynamic}{Manual}{Black}{Gameplay State}{Users are assured that their armor is invincible.}{Users should complain that their armor loses effectiveness over time.}{Aquators and traps possess the capability to destroy player armor. Users should begin to encounter such setbacks (starting at level 6) and report their findings.}
 
 		\subsubsection{Combat}
 
-			\test{F}{Monster AI}{Dynamic}{Automatic}{White}{Nothing running.}{A target position to chase, given to all monsters in the dungeon.}{(Most) monsters calculating ideal paths towards the target specified. Some monsters have a different expected behavior.}{An automatic script can easily be created to generate a level, plant some monsters in it, and simulate a player character somewhere on the map. Then, a traceback log of monster paths could be created and analyzed, by having the player simulation always skip its turn. This way enemies will have a non-moving target to path to.}
+			\test{F}{Monster AI}{Dynamic}{Automatic}{White}{Developer State}{The position of the player character is transmitted to all monsters in a dungeon level.}{All aggressive monsters will calculate their respective paths and make progress towards the player character.}{An automatic script will be created to generate a level, spawn several monsters in the level, and then simulate a player character somewhere on the map.  From there, a traceback log of monster paths could be created and analyzed by having the player simulation repeatedly skip their turn.}
 
-			\test{F}{Monster attack pattern}{Dynamic}{Automatic}{Black}{Nothing running.}{No target for monsters to attack.}{Monsters roaming around pointlessly, waiting for something to do.}{Like the previous test, a level could be generated and populated with enemies. Unlike the previous test case, however, no player will be supplied in this level. Monsters should aimlessly wander the halls of the dungeon and find no meaning or purpose.}
+			\test{F}{Monster Attack Pattern}{Dynamic}{Automatic}{Black}{Developer State}{No target for monsters to attack.}{Monsters aimlessly wandering around.}{Similar to test \# 18, a level could be generated and populated with monsters; however, no player character location will be supplied to the level.}
+
 
 	\subsection{Tests for Non-Functional Requirements}
 
@@ -428,28 +438,28 @@
 
 	\subsection{Static Testing}
 	
-		\test{P}{Compile Test}{Static}{Automatic}{White}{None}{Program Source}{Program Executable}{Verify that the program compiles with g++.}
+		\test{P}{Compile Test}{Static}{Automatic}{White}{Developer State}{Program source code.}{Program executable file.}{Run the makefile to verify that the program is able to successfully compile.}
 		
-		\test{P}{Memory Check}{Dynamic}{Manual}{White}{None}{A brief but complete playthrough of the game.}{Breakdown of program memory usage.}{A tester will briefly play the game, and a developer will use Valgrind's memcheck utility to verify that program does not leak memory or utilize uninitialized memory.}
+		\test{P}{Memory Check}{Dynamic}{Manual}{White}{Generic State}{A brief but complete playthrough of the game.}{Breakdown of program memory usage.}{A playtester will briefly play the game while a developer uses Valgrind's memcheck utility to verify that program does not leak memory or utilize uninitialized memory.}
 
 	\subsection{Rendering}
-		\test{P}{Render Check}{Dynamic}{Manual}l{Black}{Gameplay State}{30-60 seconds of gameplay.}{ The player character and any dungeon features should be shown at the correct location with the correct glyphs. Correct player statistics will be shown along the bottom. The dialog box will correctly display the log and any prompts.}{A tester will manually play the game and verify the display is correct.}
+		\test{P}{Render Check}{Dynamic}{Manual}l{Black}{Gameplay State}{30-60 seconds of gameplay.}{The player character (along with any dungeon features) should be depicted at their  correct respective location with the correct glyph.  Additionally, the correct player statistics should be shown along the bottom of the screen.  The dialog box should correctly display the log and any prompts.}{A tester will manually play the game and verify that the GUI text is correct.}
 
 	\subsection{Dungeon Generation}
 		
-		\test{P}{Dungeon-Gen Check}{Dynamic}{Manual}{Black}{None}{Repeated restarts of the game}{Level should contain \hyperref[symbolicParameters]{ROOMS\_PER\_LEVEL} rooms, which should form a connected graph.}{A tester will manually start the game, briefly explore the level to verify correct generation, then repeat this process until confidence is achieved.}
+		\test{P}{Dungeon-Gen Check}{Dynamic}{Manual}{Black}{Generic State}{Repeated restarts of the game}{Level should contain \hyperref[symbolicParameters]{ROOMS\_PER\_LEVEL} rooms, which should form a connected graph.}{A tester will manually start the game, briefly explore the level to verify correct generation, and then repeat this process until a sufficient level of confidence is achieved.}
 
 	\subsection{Basic Movement}
 
-		\test{P}{Movement Check}{Dynamic}{Manual}{Black}{Gameplay State}{Movement commands}{Player should move about the level, without clipping through walls, failing to walk through empty space, or jump to an unconnected square.}{A tester will manually walk through the level, and visually verify correctness.}
+		\test{P}{Movement Check}{Dynamic}{Manual}{Black}{Gameplay State}{Movement commands}{The player character should move about the level without clipping through walls, failing to walk through empty space, or jump to a tile that is not adjacent to their previous position.}{A playtester will manually walk through the level and visually verify correctness.}
 
 	\subsection{Score File}
 
-		\test{P}{Scoring File Check}{Dynamic}{Manual}{Black}{Menu State}{Enter name, then quit, restart game, enter name again, and quit.}{1st name should appear in both the first and second score screens. The 2nd should appear in the second. Both should have correct values for level, cause of death/quit, and gold collected.}{A developer will manually perform the above input, and verify the output. Should be tested both with and without an initial score file.}
+		\test{P}{Scoring File Check}{Dynamic}{Manual}{Black}{Menu State}{Enter a name, quit, restart the game, and then enter name again, and then quit.}{The first name should appear in both the first and second score screens; the second name should appear in only the second score screen.  Both records should have correct values for level, cause of death, and collected gold.}{A developer will manually perform the input sequence above and verify the output.  This should be tested both with and without an initial score file.}
 
 	\subsection{Line of Sight System}
 
-		\test{P}{LoS Check}{Dynamic}{Manual}{Black}{Gameplay State}{Movement commands}{Screen should display correct portions of level, with correct coloration schemes. This means that the player should be able to see the entirety of a room they are in or in the doorway of, and \hyperref[symbolicParameters]{VIEW\_DISTANCE} squares away if they are in a corridor. Squares that the player has seen in the past but cannot see currently should be shown greyed out. Squares they have not seen should be black and featureless.}{A developer will manually walk through the level, verifying that the above LoS rules are preserved, especially in edge cases like the corners of rooms and doorways.}
+		\test{P}{Line of Sight Check}{Dynamic}{Manual}{Black}{Gameplay State}{Movement commands}{Screen should display correct portions of the level with the correct coloration schemes. This means that the player should be able to see the entirety of a room they are in or in the doorway of, and \hyperref[symbolicParameters]{VIEW\_DISTANCE} squares away if they are in a corridor.  Tiles that the player has previously explored but cannot currently see should be displayed in a dark shade of grey; tiles they have not yet been discovered should remain black and featureless.}{A developer will manually walk through the level, verifying that the above LoS rules are preserved (especially in edge cases like the corners of rooms and doorways).}
 
 \newpage
 \section{Comparison to Existing Implementation}	
