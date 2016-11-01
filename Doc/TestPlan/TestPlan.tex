@@ -450,6 +450,12 @@
 %How does it compare to the original and how does that help us test it
 %Monster damage, etc.
 
+	The original \textit{Rogue} is feature-full, and luckily, open source. This means that many, if not all of the features in Rogue++ can be tested in accordance with their similarity to the original game. Some examples are discussed below.\\
+
+	An attempt has been made to replicate nearly one-for-one the items, loot, and treasure obtainable in the original \textit{Rogue}. Wands, staffs, rings, potions, ammunition, weapons, armor and more were all copied over with the same values in place. Regarding the items available for collection, players of the original game should feel right at home with the new Rogue++. Unlike some more modern games, the original \textit{Rogue} does not specify how effective an attack is besides hit or miss, as does Rogue++. This means that a player experienced with the original game may expect certain behavior out of a weapon or item, and find a difference in its effectiveness, despite the near one-to-one transition. This could stem from a variety of sources, perhaps most likely of which is a piece of code that does something unexpected, in an unexpected place.\\
+
+	Another aspect of the game that was replicated as the source-code describes is dungeon generation. Of course, today we are using a more advanced data structure, with several capabilities that were not available for the C of 1980, but the idea behind the data structure is the same. The process followed for dungeon generation in 1980 was somewhat ill-conceived and convoluted. Despite this its discernible aspects were used as inspiration for the algorithm used in Rogue++. So while at the end of the day the two do not follow the same algorithm, the end result is close enough, and test cases are included to make sure that all properties of the old \textit{Rogue} are satisfied in Rogue++.\\
+
 	
 	
 \newpage
