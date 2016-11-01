@@ -113,7 +113,9 @@
 
 % Revision Table
 
-\begin{table}[bp!]
+\newpage
+
+\begin{table}[H]
 	\caption{\bf Revision History}
 	\bigskip
 	\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
@@ -128,12 +130,12 @@
 		10/30/16 & 0.5 & Added Non-Functional Req. Tests \\
 		10/30/16 & 0.5.1 & Added Bibliography \\
 		10/31/16 & 0.6 & Added Names to Test Template \\
+		10/31/16 & 0.7 & Proofread and Editing \\
 		\bottomrule
 	\end{tabularx}
 \end{table}
 
 \newpage
-
 % Report Content
 
 \pagenumbering{arabic}
@@ -158,6 +160,8 @@
 				\toprule
 				\textbf{Abbreviation} & \textbf{Definition} \\
 				\midrule
+				CSV & Comma-Separated Value\\
+				FSM & Finite State Machine\\
 				GUI & Graphical User Interface\\
 				IM & Instant Messenger\\
 				LoS & Line of Sight\\
@@ -467,35 +471,37 @@
 %How does it compare to the original and how does that help us test it
 %Monster damage, etc.
 
-	The original \textit{Rogue} is feature-full, and luckily, open source. This means that many, if not all of the features in Rogue++ can be tested in accordance with their similarity to the original game. Some examples are discussed below.\\
+	The original \textit{Rogue} contains an abundance of features, and luckily, is open source.  This means that the vast majority of features in Rogue Reborn can be tested in accordance to their similarity to the original game. Some examples of such occurrences are discussed below.\\
 
-	An attempt has been made to replicate nearly one-for-one the items, loot, and treasure obtainable in the original \textit{Rogue}. Wands, staffs, rings, potions, ammunition, weapons, armor and more were all copied over with the same values in place. Regarding the items available for collection, players of the original game should feel right at home with the new Rogue++. Unlike some more modern games, the original \textit{Rogue} does not specify how effective an attack is besides hit or miss, as does Rogue++. This means that a player experienced with the original game may expect certain behavior out of a weapon or item, and find a difference in its effectiveness, despite the near one-to-one transition. This could stem from a variety of sources, perhaps most likely of which is a piece of code that does something unexpected, in an unexpected place.\\
+	An attempt has been made to replicate nearly one-for-one the items, loot, and treasure obtainable in the original \textit{Rogue}.  Wands, staffs, rings, potions, ammunition, weapons, armor and more were all implemented with the same values and parameters.  Regarding the items available for collection, players of the original game should feel comfortable with the remastered Rogue Reborn experience.  Unlike some contemporary games, the original \textit{Rogue} does not specify the effectiveness of an attack (besides its hit or miss), as does Rogue Reborn.  Consequently, a user who is experienced with the original game may expect certain behavior out of a weapon or item, and find a difference in its effectiveness, despite the near one-to-one transition.  This phenomenon could stem from a variety of sources, the most likely of which being a bug in the new implementation.\\
 
-	Another aspect of the game that was replicated as the source-code describes is dungeon generation. Of course, today we are using a more advanced data structure, with several capabilities that were not available for the C of 1980, but the idea behind the data structure is the same. The process followed for dungeon generation in 1980 was somewhat ill-conceived and convoluted. Despite this its discernible aspects were used as inspiration for the algorithm used in Rogue++. So while at the end of the day the two do not follow the same algorithm, the end result is close enough, and test cases are included to make sure that all properties of the old \textit{Rogue} are satisfied in Rogue++.\\
+	Another aspect of the game that was replicated from the original source code is the dungeon generation.  Of course, the modern Rogue Reborn makes use of a more advanced data structure with several capabilities that were not available for the C of 1980, but the data structures are still conceptually similar.  The process followed for dungeon generation in 1980 was somewhat ill-conceived and convoluted.  Despite this, its discernible aspects were used as an inspiration for the algorithm used in Rogue Reborn.  While at the end of the day the two do not follow exactly the same procedure, the end results are quite close, and the included functional test cases ensure that all properties of the old \textit{Rogue} are satisfied in Rogue Reborn.\\
 
-	Another way Rogue++ can be compared to the original \textit{Rogue} is by its controls. This is something that can be algorithmically tested, and guaranteed to function exactly as intended. Every key in \textit{Rogue} is mapped to a specific action, which can be replicated one-for-one in Rogue++. This kind of relationship makes testing easy, and makes implementation nearly trivial.\\
+	Another way Rogue Reborn can be compared to the original \textit{Rogue} is by its controls.  This is a feature that can be automatically tested, and can be guaranteed to function exactly as intended.  Every key in \textit{Rogue} is mapped to a specific action, which can be replicated one-for-one in Rogue Reborn.  This kind of relationship allows for the creation of easy, maintainable tests whose implementation are nearly trivial.\\
 
-	The final comparison we will discuss is the environment in which each runs. The original \textit{Rogue} runs in the terminal, and still does so on *nix machines. Rogue++, however, runs in a window handled by libtcod (The Doryen Library). The differences may not mean much for a standard end-user, but for programmers this makes a world of difference. There are many dozens of different terminals, and each has its own special features, such as macros, special display characteristics, and more. The different environment may slightly alter response time, game speed, and several other factors. The differences between terminal Rogue and libtcod Rogue will be exactly the differences we will try to uncover with our tests and minimize with our implementation.
-
+	The final comparison to be discussed is the software environment.  The original \textit{Rogue} was executed in the terminal, and still does so on UNIX-like machines.  Rogue Reborn, however, runs in a window handled by \textit{libtcod}.  The differences may not be apparent to a standard end-user, but this is extremely significant for the developers of the application.  There are many dozens of different terminals, each with its own special display characteristics, features, macros, and  more.  The different software environment may slightly alter response time, save and load times, and several other factors, although these changes can only improve the user experience.  The differences between the terminal \textit{Rogue} and the \textit{libtcod} Rogue will be exactly the features the Rogue++ team will attempt to discover with a solid foundation and tests and implementation experiments.
 	
 	
 \newpage
 \section{Unit Testing Plan}
 \label{section6}
 	
-	After examining the boost library's utilities for unit testing, we have decided we will not use a unit testing framework for testing the product. We concluded that adding a framework would not make the work significantly easier, while reducing our flexibility and adding installation difficulties. Since we are not using a framework, drivers will be written by hand. Stubs will be produced when necessary to simulate system components. Since there are no database or network connections, stubs should hopefully be kept to a minimum. However, functions may be required to construct objects in states suitable for easy testing, for example creating a level or player with certain known properties, rather than by random generation.
+	After examining the Boost library's utilities for unit testing, it was decided that integrating an existing unit testing framework was not in the project's best interests.  The Rogue++ team concluded that adding a framework would significantly decrease the amount of work to be done, while at the same time reducing flexibility and causing potential installation difficulties.  As a consequence of this fact, test drivers will be manually written.  Stubs will also be produced when necessary to simulate system components; since there are no database or network connections, stubs should be kept minimalistic and clean.  It is important to note that additional functions may be required to construct objects in states suitable for easy testing (e.g. creating a level or player character with certain known properties rather than by random generation).
 	
-	\subsection{Unit testing of internal functions}
-		Internal functions in the product will be unit tested. This will be reserved for more complex functions so as to not waste development time unnecessarily. As complete code coverage is not a goal, generic code coverage metrics will not be used. Instead, care will be taken that complex functions are covered by unit tests. The following are examples of internal functions that are initial candidates for unit testing. Other functions will be added as necessary:
+	\subsection{Unit Testing of Internal Functions}
+		Internal functions in the product will be unit tested.  This will be reserved for more complex functions in order to not avoid wasting valuable development time.  Given that complete code coverage is not a realistic goal, generic code coverage metrics will not be used.  Instead, care will be taken that complex functions are covered by unit test cases.  The following list highlights several examples of internal functions that are solid initial candidates for unit testing:
+
 		\begin{itemize}
-			\item The dungeon generation functions. The work of generating the dungeon is complex, but it is also easy to automate verification of dungeon properties such as a correct number of rooms, connectedness, compliance with formulas for item generation, presence or absence of certain key features such as the stairs connecting levels or the Amulet of Yendor in the final level.
-			\item The keyboard input functions. As libtcod provides a Key struct which models keyboard input, we can mock/automate these functions. They are fairly complex, and since they return a pointer to the next desired state (similar to a finite state machine) we can easily verify their behavior.
-			\item The item activation functions. For example it could be verified that when the player drank a potion of healing their health increased (if it was not at its maximum), that a scroll of magic-mapping is reveals the level, or that a scroll of identification reveals the nature of an item.
-			\item The item storage functions. Each item is mapped to a persistent hotkey in the player's inventory. Certain items can stack with copies, reducing the amount of inventory space they take up, and how they are displayed. These factors make the inventory fairly complex. It is however easily verifiable, and automated testing can examine edge cases that would be impractical to test manually.
+			\item \textbf{Dungeon Generation Functions} - The dungeon generation software may be algorithmically complex, but it also lends itself to easy automated verification of properties such as checking the correct number of rooms, connectedness, compliance with formulas for item generation, and the presence or absence of certain key features such as the stairs connecting levels or the Amulet of Yendor in the final level.
+			\item \textbf{Keyboard Input Functions} - As \textit{libtcod} provides a \lstinline$Key$ struct that models keyboard input, it is possible to mock and automate these functions.  These functions tend to be fairly complex, but since they return a pointer to the next desired state (similar to a FSM), their behavior can be verified with greater ease.
+			\item \textbf{Item Activation Functions} - It could be verified that when the player character, for example, quaffs a Potion of Healing, their health is increased.  Other examples include verifying that a Scroll of Magic-Mapping reveals the current level, or that a Scroll of Identification reveals the nature (name) of an item.
+			\item \textbf{Item Storage Functions} - Each item is mapped to a persistent hotkey in the player character's inventory.  Certain items can also stack with copies, reducing the amount of inventory space they consume, which also alters the way they are displayed the user.  These factors complicate the inventory storage structure; however, it is still easily verifiable, and automated testing can be created to examine edge cases that would be impractical to test manually.
 		\end{itemize}
 
-	\subsection{Unit testing of output files}
-		There is only one output file for the product, the high score file, which stores the scores in a csv format. The production and reading of this file can be unit-tested by verifying its contents after writing to it, and by providing a testing version of the file with known contents and verifying the function reads them correctly.
+		As the project matures, additional functions may be included.
+
+	\subsection{Unit Testing of Output Files}
+		The only output file for the product is the high score record file which stores the previous scores in a CSV format.  The production and reading of this file can be unit tested by verifying its contents after writing to it, and then by supplying a testing version of the file with known contents and verifying that the game can correctly load the data from the file.
 
 \newpage
 
@@ -506,8 +512,6 @@
 \newpage
 \section{Appendix}
 \label{section7}
-
-	This is where you can place additional information.
 
 	\subsection{Symbolic Parameters}
 
@@ -543,23 +547,22 @@
 
 \newpage
 \subsection{Usability Survey Questions}
-
 	\begin{enumerate}
-		\item Is there any game feature you were unable to figure out how to utilize?
-		\item How helpful was the help screen for you?
-		\item Was there anything going on in the game that the interface failed to make clear to you or deceived you about?
+		\item Are there any game features that you were unable to figure out how to utilize?
+		\item How convenient was the help screen?
+		\item Were there any actions in the game that the interface failed to make clear to you (or even deceived you)?
 		\item What common UI interactions did you find particularly lengthy?
 		\item What aspects of the interface did you find unintuitive?
-		\item How responsive was the interface?
-		\item How easy was it to see everything that was going on?
-		\item How effective are the graphics/symbols?
-		\item Would an alternative input device such as a mouse make interacting with the interface easier for you?
-		\item Is there any extra functionality you would like added to the interface?
-		\item How difficult was it to learn the game? How much experience do you have with Roguelikes?
-		\item How helpful was the original game manual?
+		\item How responsive was the interface?  Were there any instances where the game felt slow or sluggish?
+		\item Did you find it easy to mentally process all of the events in a given level?
+		\item How effective were the graphics/symbols?
+		\item Would an alternative input device such as a mouse improve the interaction with the interface?
+		\item Is there any extra functionality you would like to see added to the interface?
+		\item How much experience do you have with the roguelike genre?  Did you find the learning curve of the game shallow or steep? 
+		\item How helpful was the original \textit{Rogue} game manual?
 		\item How pleasing was the color scheme?
-		\item Was the font large enough for easy use?
-		\item Were you able to learn the hotkeys easily?
+		\item Was the font a comfortable size?
+		\item How would you rate the key binding layout on a scale ranging from 1 through 10?
 	\end{enumerate}
 
 \end{document}
