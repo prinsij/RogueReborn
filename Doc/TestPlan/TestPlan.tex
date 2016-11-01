@@ -353,12 +353,12 @@
 			\test{F}{Identification \& Naming}{Dynamic}{Manual}{Black}{Game screen.}{Players are instructed to pronounce the names of all items they collect.}{Players are \textbf{not able} to pronounce items they have yet to \textit{identify}.}{To test the terribleness of the randomly-generated names, players will be asked to try and pronounce them. While some may succeed, the names will all be utterly nonsensical.}
 
 			\test{F}{Armor \& Deterioration}{Dynamic}{Manual}{Black}{Game screen.}{Players are assured that no bad thing could happen to their armor.}{Players should complain that their armor is somehow being damaged.}{Aquators and traps are able to destroy player armor. Approximately at level 6, players will start finding such setbacks, and report their results.}
-			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
-			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
-			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
-			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
-			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
 
+		\subsubsection{Combat}
+
+			\test{F}{Monster AI}{Dynamic}{Automatic}{White}{Nothing running.}{A target position to chase, given to all monsters in the dungeon.}{(Most) monsters calculating ideal paths towards the target specified. Some monsters have a different expected behavior.}{An automatic script can easily be created to generate a level, plant some monsters in it, and simulate a player character somewhere on the map. Then, a traceback log of monster paths could be created and analyzed, by having the player simulation always skip its turn. This way enemies will have a non-moving target to path to.}
+
+			\test{F}{Monster attack pattern}{Dynamic}{Automatic}{Black}{Nothing running.}{No target for monsters to attack.}{Monsters roaming around pointlessly, waiting for something to do.}{Like the previous test, a level could be generated and populated with enemies. Unlike the previous test case, however, no player will be supplied in this level. Monsters should aimlessly wander the halls of the dungeon and find no meaning or purpose.}
 
 	\subsection{Tests for Non-Functional Requirements}
 
@@ -449,6 +449,8 @@
 \label{section5}
 %How does it compare to the original and how does that help us test it
 %Monster damage, etc.
+
+	
 	
 \newpage
 \section{Unit Testing Plan}
