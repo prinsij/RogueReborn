@@ -334,11 +334,15 @@
 
 			\test{F}{Trap activation}{Dynamic}{Manual}{Black}{Game screen.}{A dungeon level that can generate traps (This only occurs in the deeper levels).}{A message and effect describing what the trap has done.}{Players will be asked to report any trap they come across and the effect it has bestowed upon them.}
 
+		\subsubsection{The Dungeon}
 
-			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
-			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
-			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
-			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
+			\test{F}{Staircase guarantee}{Dynamic}{Automatic}{Black}{Nothing running.}{A randomly generated dungeon (preferably many).}{An assertion that all contain a downwards staircase.}{The algorithm for this is rather straight-forward; it is a simple BFS or DFS touring every passable block in the dungeon.}
+
+			\test{F}{Connectedness \& Reachability}{Dynamic}{Automatic}{White}{Nothing running.}{A randomly generated dungeon (preferably many).}{An assertion that the dungeon is connected and all tile are reachable from one-another.}{Again, another simple algorithm. A BFS or DFS can acquire a list of all passable tiles in the dungeon, which can be compared to the list provided by the source-code. If the two lists match, then the assertion is true.}
+
+			\test{F}{Line of Sight}{Dynamic}{Manual}{Black}{Game screen.}{Player is somewhere in the dungeon that is recognizable (i.e. not hidden), and player is not blind.}{Visibility dependent on surroundings. If in a room, the player should be able to see the entire room. If in a corridor, the player should only be able to see in a 3x3 square centered on the player.}{Players will be asked to assess the visibility standards. This is a bug-prone feature, as many exceptions exist in the realm of "What is the player on?".}
+
+			\test{F}{Amulet of Yendor}{Dynamic}{Automatic}{White}{Nothing running.}{Levels generated with a depth of 26}{A correct assertion that all levels generated contain the amulet somewhere on the level.}{It only takes a double-nested for-loop to make sure that somewhere in the level, on a passable tile, the amulet exists. Any since we already know that every passable tile is reachable, we know that the amulet is as well.}
 			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
 			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
 			\test{F}{Name}{Type}{ManAut}{Color}{InitState}{Input}{Output}{Execution}
