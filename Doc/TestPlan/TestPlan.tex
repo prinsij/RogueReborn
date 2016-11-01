@@ -468,9 +468,6 @@
 \newpage
 \section{Comparison to Existing Implementation}	
 \label{section5}
-%How does it compare to the original and how does that help us test it
-%Monster damage, etc.
-
 	The original \textit{Rogue} contains an abundance of features, and luckily, is open source.  This means that the vast majority of features in Rogue Reborn can be tested in accordance to their similarity to the original game. Some examples of such occurrences are discussed below.\\
 
 	An attempt has been made to replicate nearly one-for-one the items, loot, and treasure obtainable in the original \textit{Rogue}.  Wands, staffs, rings, potions, ammunition, weapons, armor and more were all implemented with the same values and parameters.  Regarding the items available for collection, players of the original game should feel comfortable with the remastered Rogue Reborn experience.  Unlike some contemporary games, the original \textit{Rogue} does not specify the effectiveness of an attack (besides its hit or miss), as does Rogue Reborn.  Consequently, a user who is experienced with the original game may expect certain behavior out of a weapon or item, and find a difference in its effectiveness, despite the near one-to-one transition.  This phenomenon could stem from a variety of sources, the most likely of which being a bug in the new implementation.\\
@@ -498,7 +495,7 @@
 			\item \textbf{Item Storage Functions} - Each item is mapped to a persistent hotkey in the player character's inventory.  Certain items can also stack with copies, reducing the amount of inventory space they consume, which also alters the way they are displayed the user.  These factors complicate the inventory storage structure; however, it is still easily verifiable, and automated testing can be created to examine edge cases that would be impractical to test manually.
 		\end{itemize}
 
-		As the project matures, additional functions may be included.
+		As the project matures, additional functions may be included as special testing considerations.
 
 	\subsection{Unit Testing of Output Files}
 		The only output file for the product is the high score record file which stores the previous scores in a CSV format.  The production and reading of this file can be unit tested by verifying its contents after writing to it, and then by supplying a testing version of the file with known contents and verifying that the game can correctly load the data from the file.
