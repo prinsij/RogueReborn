@@ -1,21 +1,18 @@
+#pragma once
+
 #include <random>
 #include <string>
 #include <vector>
 
 #include "coord.h"
 
-#ifndef RANDOM_H
-#define RANDOM_H
-
 class Generator {
 	public:
-		Generator();
-		int intFromRange(int, int);
-		double operator()();
-		Coord randPosition(Coord, Coord);
-		void shuffle(std::vector<Coord>*);
+		static int intFromRange(int, int);
+		static double rand();
+		static bool randBool();
+		static Coord randPosition(Coord, Coord);
+		static void shuffle(std::vector<Coord>*);
 	private:
-		std::mt19937 gen;
+		static std::mt19937 gen;
 };
-
-#endif

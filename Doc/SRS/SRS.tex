@@ -9,6 +9,8 @@
 \usepackage{indentfirst}
 \usepackage[round]{natbib}
 \usepackage[usenames, dvipsnames]{color}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows}
 
 % Colour Scheme
 
@@ -179,15 +181,50 @@ This document describes the requirements for the Rogue Reborn project.  The temp
 
 		\subsubsection{Work Partitioning}
 		\textcolor{red}{ This is not quite what this section is for, see "volere Template16" in the course repo for more information - CM} \\
-		The work required to complete this project has been partitioned between the Rogue++ team of Ian, Mikhail, and Or.  Each member has been assigned a highly-cohesive, loosely-coupled segment of the code to be written.  It was unanimously agreed upon that each person is to present their API to the rest of the team as soon as it is ready. This API materializes as a C++ header file which other modules can interpret and use.\\
+		The below table illustrates the events of the system:\\
+		\vspace{5mm}
+		\begin{tabular}{c | c | c }
+			Event & Input System & Response \\
+			\midrule
+			user presses key & libtcod detects keypress & system updates model and/or transitions ui \\
+			playerchar dies & system detects death & system reads and updates high scores \\
+			gameworld updates & system detects change & system renders onto virtual console \\
+			game prompts user & system detects UI change & system transitions to prompt state
+		\end{tabular}
+		\vspace{5mm}
+		The below flowchart illustrates the high level flow of the application:
 
-		\begin{itemize}
-			\item Ian is responsible for the game state control, flow, and graphics.  This includes handling user input, rendering graphics, and displaying menus and high scores.\\
+		\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black, fill=red!30]
+		\tikzstyle{io} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=2cm, minimum height=1cm, text centered, draw=black, fill=blue!30]
+		\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=orange!30]
+		\tikzstyle{decision} = [diamond, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=green!30]
+		\tikzstyle{arrow} = [thick,->,>=stealth]
+		\begin{center}
+		\begin{tikzpicture}[node distance=2cm]
 
-			\item Mikhail is responsible for most player-tangibles.  This includes eating, quaffing potions, handling weaponry, as well as using armor, rings, wands, and scrolls.  This work will also transfer over to monster actions, which Mikhail will also actively develop.\\
+			\node (mm) [startstop] {Main Menu};
+			\node (name) [io, below of=mm] {User inputs name};
+			\node (gameplay) [decision, below of=name, yshift=-1cm] {Update World};
+			\node (death) [process, left of=gameplay, xshift=-2cm] {Death};
+			\node (scores) [startstop, below of=death, yshift=-2.5cm] {High Scores};
+			\node (stairs) [process, right of=gameplay, xshift=2cm] {Stairs};
+			\node (vic) [decision, below of=stairs, yshift=-2.5cm] {Victory?};
+			\node (input) [io, below of=gameplay, yshift=-0.5cm, xshift=-1cm] {User Input};
 
-			\item Or is responsible for dungeon and feature generation.  This includes generating room, corridor, wall, and door locations, in addition to handling vision and the placement of treasure and traps.
-		\end{itemize}
+			\draw [arrow] (mm) -- (name);
+			\draw [arrow] (name) -- (gameplay);
+			\draw [arrow] (gameplay) -- (death);
+			\draw [arrow] (death) -- (scores);
+			\draw [arrow] (gameplay) -- (stairs);
+			\draw [arrow] (stairs) -- (vic);
+			\draw [arrow] (vic) -- node[anchor=south] {yes} (scores);
+			\draw [arrow] (vic) -- node[anchor=west] {no} (gameplay);
+			\draw [arrow] (input) -- (gameplay);
+			\draw [arrow] (gameplay) -- (input);
+
+		\end{tikzpicture}
+		\end{center}
+
 		
 		\subsubsection{Individual Product Use Cases}
 

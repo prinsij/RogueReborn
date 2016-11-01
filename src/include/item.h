@@ -38,6 +38,7 @@ class Item : public Feature {
 		bool canThrow;
 		std::string className;
 		Context context;
+		bool cursed;
 		std::string name;
 		std::string pseudoName;
 		int type;

@@ -6,6 +6,8 @@
 *.o
 *.synctex.gz
 
+.hiddenmv
+
 # Editor files
 *.swp
 
@@ -19,5 +21,15 @@
 # Score record file
 scores.txt
 
+#Boost
+src/boost_1_62_0/*
+
 # Library files
 src/*.so
+
+*.lof
+*.lot
+*.toc
+*.out
+
+src/temp/*

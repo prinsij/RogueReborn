@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "include/item.h"
+#include "include/random.h"
 
 std::map<std::string, std::map<int, bool> > Item::identified;
 
@@ -23,14 +24,7 @@ Item::Item(char symbol, Coord location, Item::Context context, std::string class
 	  type(type) {}
 
 Item::Item(char symbol, Coord location, Item::Context context, std::string className, std::string name, int type, bool canStack, bool canThrow)
-	: Feature(symbol, location),
-	  canStack(canStack),
-	  canThrow(canThrow),
-	  className(className),
-	  context(context),
-	  name(name),
-	  pseudoName(name),
-	  type(type) {}
+	: Item(symbol, location, context, className, name, name, type, canStack, canThrow) {} 
 
 bool Item::operator==(const Item& other) const {
 	return this->name.compare(other.name) == 0;
