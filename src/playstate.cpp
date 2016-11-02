@@ -177,6 +177,11 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	if (key.c == '?') {
 		return new HelpScreen(player, level);
 	}
+	// Rest action
+	if (key.c == '.') {
+		level->pushMob(player, 50);
+		player->appendLog("You rest briefly");
+	}
 	//Arrow controls
 	auto newPos = player->getLocation().copy();
 	if (key.vk == TCODK_UP) {
