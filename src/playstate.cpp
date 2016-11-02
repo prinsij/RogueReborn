@@ -110,9 +110,21 @@ void PlayState::draw(TCODConsole* con) {
 			if (ter.isSeen() == Terrain::Seen) {
 				auto scrPos = mapPos.asScreen();
 				con->putChar(scrPos[0], scrPos[1], (*level)[mapPos].getSymbol());
-				if (mapPos.distanceTo(player->getLocation()) > player->getSightRadius() &&
+				int sightRadius = player->getSightRadius();
+				if (currRoom == NULL || currRoom->getDark() == Room::DARK) {
+					sightRadius = 1;
+				}
+				// Previously but not currently seen
+				if (mapPos.distanceTo(player->getLocation()) > sightRadius &&
 					(currRoom == NULL || !currRoom->contains(mapPos, 1))) {
 					con->setCharForeground(scrPos[0], scrPos[1], TCODColor::grey);
+				// Currently in view
+				} else {
+					for (Mob* mob : level->getMobs()) {
+						if (mob->getLocation() == mapPos) {
+							con->putChar(scrPos[0], scrPos[1], mob->getSymbol());
+						}
+					}
 				}
 			}
 		}
@@ -128,11 +140,6 @@ void PlayState::draw(TCODConsole* con) {
 	for (Feature* feat : level->getFeatures()) {
 		auto scrPos = feat->getLocation().asScreen();
 		con->putChar(scrPos[0], scrPos[1], feat->getSymbol());
-	}
-	// Display the mobs
-	for (Mob* mob : level->getMobs()) {
-		auto scrPos = mob->getLocation().asScreen();
-		con->putChar(scrPos[0], scrPos[1], mob->getSymbol());
 	}
 	// Display the info bar
 	const int y = Coord(0, level->getSize()[1]).asScreen()[1]+1;
