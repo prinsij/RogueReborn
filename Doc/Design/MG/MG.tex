@@ -1,5 +1,6 @@
 \documentclass[12pt, titlepage]{article}
 
+\usepackage{acronym}
 \usepackage{fullpage}
 \usepackage[round]{natbib}
 \usepackage{multirow}
@@ -8,34 +9,43 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{hyperref}
-\hypersetup{
-    colorlinks,
-    citecolor=black,
-    filecolor=black,
-    linkcolor=red,
-    urlcolor=blue
-}
+\usepackage[usenames, dvipsnames]{color}
 \usepackage[round]{natbib}
+
+\definecolor{DarkBlue}{rgb}{0.1, 0.2, 0.5}
+
+% Setup
+
+\hypersetup{
+	colorlinks,
+	citecolor=blue,
+	filecolor=ForestGreen,
+	linkcolor=DarkBlue,
+	urlcolor=blue
+}
 
 \newcounter{acnum}
 \newcommand{\actheacnum}{AC\theacnum}
 \newcommand{\acref}[1]{AC\ref{#1}}
+%\newcommand{\acref}[1]{A Ref}
 
 \newcounter{ucnum}
 \newcommand{\uctheucnum}{UC\theucnum}
 \newcommand{\uref}[1]{UC\ref{#1}}
+%\newcommand{\ucref}[1]{U Ref}
 
 \newcounter{mnum}
 \newcommand{\mthemnum}{M\themnum}
 \newcommand{\mref}[1]{M\ref{#1}}
+%\newcommand{\mref}[1]{M Ref}
 
-\title{SE 3XA3: Test Plan\\Rogue Reborn}
+\title{SE 3XA3: Module Guide\\Rogue Reborn}
 
 \author{Group \#6, Team Rogue++\\\\
   \begin{tabular} {l r}
-    Ian Prins & prinsij \\
-    Mikhail Andrenkov & andrem5 \\
-    Or Almog & almogo
+	Ian Prins & prinsij \\
+	Mikhail Andrenkov & andrem5 \\
+	Or Almog & almogo
   \end{tabular}
 }
 
@@ -53,14 +63,13 @@
 \listoffigures
 
 \begin{table}[bp]
-\caption{\bf Revision History}
-\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
-\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
-\midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
-\bottomrule
-\end{tabularx}
+	\caption{\bf Revision History}
+	\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
+		\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
+		\midrule
+		11/01/16 & 0.1 & Added Template\\
+		\bottomrule
+	\end{tabularx}
 \end{table}
 
 \newpage
