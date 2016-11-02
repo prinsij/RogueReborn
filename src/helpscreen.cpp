@@ -31,9 +31,15 @@ void HelpScreen::draw(TCODConsole* con) {
 						   "<dir> <obj> Throw object", "Show version", "<obj> Wield weapon", "Definable key; see [X]",
 						   "<dir> <obj> Zap wand"};
 	int i = 0;
-	for (int y=6; y < 23; y++) {
+	for (int y=6; y < 20; y++) {
 		con->print(0, y, hotkeys[i].c_str());
 		con->print(9, y, descs[i].c_str());
+		i += 1;
+	}
+	for (int y=0; y < 23 && (unsigned int) i < sizeof(hotkeys)/sizeof(*hotkeys); y++) {
+		con->print(41, y, hotkeys[i].c_str());
+		con->print(46, y, descs[i].c_str());
+		i += 1;
 	}
 }
 
