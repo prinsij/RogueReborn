@@ -171,7 +171,8 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			break;
 		}
 		// Do AI turn
-		level->pushMob(nextUp, 50);
+		std::cout << "taking turn: " << nextUp->getName();
+		level->pushMob(nextUp, nextUp->turn(level));
 	}
 	// Quitting
 	if (key.c == 'Q') {
