@@ -83,7 +83,7 @@ void Mob::setMaxHP(int maxHP) {
 }
 
 int Mob::turn(Level* lvl) {
-	return 0;
+	return 10000;
 }
 
 Mob::~Mob() {}
