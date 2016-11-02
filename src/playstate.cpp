@@ -3,6 +3,7 @@
 #include "include/playerchar.h"
 #include "include/level.h"
 #include "include/ripscreen.h"
+#include "include/helpscreen.h"
 #include "include/invscreen.h"
 #include "include/stairs.h"
 #include "include/feature.h"
@@ -172,6 +173,9 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	}
 	if (key.c == 'i') {
 		return new InvScreen(player, level);
+	}
+	if (key.c == '?') {
+		return new HelpScreen(player, level);
 	}
 	//Arrow controls
 	auto newPos = player->getLocation().copy();
