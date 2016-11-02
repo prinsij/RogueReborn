@@ -81,3 +81,7 @@ bool Room::contains(Coord& coord, int border) {
 	return (topLeft[0]-border <= coord[0]) && (coord[0] <= bottomRight[0]+border)
 	&& (topLeft[1]-border <= coord[1]) && (coord[1] <= bottomRight[1]+border);
 }
+
+Room::Darkness Room::getDark() {
+	return this->isDark;
+}
