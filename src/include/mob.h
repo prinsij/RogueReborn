@@ -4,6 +4,8 @@
 
 #include "coord.h"
 
+class Level;
+
 class Mob {
 	public:
 		Mob(char, Coord);
@@ -27,6 +29,7 @@ class Mob {
 		void setCurrentHP(int);
 		void setLocation(Coord);
 		void setMaxHP(int);
+		virtual int turn(Level*);
 
 		virtual ~Mob();
 

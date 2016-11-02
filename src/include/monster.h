@@ -23,7 +23,7 @@ class Monster : public Mob {
 		std::vector<char> getSymbolsForLevel(int);
 		std::vector<char> getSymbolsForTreasure(int);
 
-		int turn(Level*);
+		virtual int turn(Level*);
 
 	private:
 		static std::map<char, MONSTER_TUPLE_TYPE > templateMap;
