@@ -32,4 +32,4 @@ src/*.so
 *.toc
 *.out
 
-src/temp/*
+src/.srcstore/*

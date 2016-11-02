@@ -1,4 +1,11 @@
 
 mainbuild:
   script:
-    - make -C ./src/
+    - make -i -C ./src/
+    - cd src/
+    - ./Test.exe > ../Pipeline/TestResults
+    - cd ..
+    - make clean -C ./src/
+    - cd Pipeline/
+    - python check.py
+    - cd ..
