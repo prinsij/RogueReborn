@@ -44,8 +44,9 @@ link: compile
 	@rm -f *.o
 
 sane:
-	@cp ./libtcod/*.so .
-	@g++ *.cpp -o RogueRebon.exe -I./libtcod/include -L. -ltcod -ltcodxx -Wl,-rpath=. -Wall -std=c++11
+	@cp -n ./libtcod/*.so .
+	@g++ -g -c *.cpp -I./libtcod/include -L. -ltcod -ltcodxx -Wl,-rpath=. -Wall -std=c++11
+	@g++ -g -o RogueReborn.exe *.o *.so -I./libtcod/include -L. -ltcod -ltcodxx -Wl,-rpath=. -Wall -std=c++11
 
 recall:
 	@bash .recall
