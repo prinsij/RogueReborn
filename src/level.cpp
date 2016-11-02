@@ -193,7 +193,7 @@ void Level::generate(PlayerChar& player) {
 		t.dig(*this);
 	}
 	// Place mobs
-	for (int i=0; i < 10; i++) {
+	for (int i=0; i < 40; i++) {
 		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1), 
 							  gen.intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable()) {
