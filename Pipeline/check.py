@@ -9,7 +9,7 @@ x = False
 #Otherwise, only a first character of "0" means success
 #Anything else will fail!
 for i in results:
-	print "[PYTHON TESTER] " + i
+	print "[PYTHON TESTER] " + i.strip()
 	if "0" != i[0] and "#" != i[0]:
 		x = True
 		break
