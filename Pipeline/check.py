@@ -11,6 +11,6 @@ for i in results:
 
 if (x):
 	print "Failed!"
-	os.system("make -C ./fail/")
+	os.system("make -C ./.fail/")
 else:
 	print "OK!"
