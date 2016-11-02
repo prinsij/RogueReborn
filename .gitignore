@@ -33,3 +33,6 @@ src/*.so
 *.out
 
 src/.srcstore/*
+
+# Generated dependency files
+*.depends
