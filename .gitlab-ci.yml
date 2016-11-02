@@ -7,5 +7,5 @@ mainbuild:
     - cd ..
     - make clean -C ./src/
     - cd Pipeline/
-    - python ./Pipeline/check.py
+    - python check.py
     - cd ..
