@@ -21,7 +21,7 @@ class Level {
 		Level(int);
 		Terrain& tileAt(Coord);
 		Terrain& operator[](Coord);
-		void generate(PlayerChar);
+		void generate(PlayerChar&);
 		bool contains(Coord);
 		int getDepth();
 		static Coord getSize() { return Coord(X_SIZE, Y_SIZE); };

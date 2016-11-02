@@ -11,7 +11,7 @@ class Mob {
 		
 		static int diceSum(int, int);
 
-		virtual void attack(Mob*) = 0;
+		//virtual void attack(Mob*) = 0;
 		virtual int calculateDamage() = 0;
 		void changeArmor(int);
 		int getArmor();

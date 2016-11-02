@@ -14,6 +14,7 @@
 #include "include/tunnel.h"
 #include "include/terrain.h"
 #include "include/mob.h"
+#include "include/monster.h"
 #include "include/feature.h"
 
 Level::Level(int depth) 
@@ -104,7 +105,7 @@ std::vector<Mob*> Level::getMobs() {
 	return result;
 }
 
-void Level::generate(PlayerChar player) {
+void Level::generate(PlayerChar& player) {
 
 	Generator gen = Generator();
 	Coord maxRoomSize = Coord(size[0]/3, size[1]/3);
@@ -190,6 +191,14 @@ void Level::generate(PlayerChar player) {
 
 	for (Tunnel t : tunnels){
 		t.dig(*this);
+	}
+	// Place mobs
+	for (int i=0; i < 10; i++) {
+		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1), 
+							  gen.intFromRange(0, Y_SIZE-1));
+		if (tileAt(randPos).isPassable()) {
+			registerMob(new Monster('D', randPos));
+		}
 	}
 }
 
