@@ -28,9 +28,12 @@ class Coord {
 		std::string toString() const;
 		// maximum distance in either dimension
 		int distanceTo(const Coord&) const;
+		static Coord ORTHO[4];
 	private:
 		int x, y;
 		static const int MAPX = 0, MAPY = 2;
 };
+
+
 
 #endif

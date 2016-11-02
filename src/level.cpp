@@ -363,9 +363,16 @@ std::vector<Coord> Level::traceBack(Coord end, Coord start){
 	return path;
 }
 
-std::vector<Coord> Level::getAdjPassable(Coord s){
+std::vector<Coord> Level::getAdjPassable(Coord ori){
 
 	std::vector<Coord> sample;
+	for (Coord& ortho : Coord::ORTHO) {
+		Coord adj = ortho + ori;
+		if (contains(adj) && tileAt(adj).isPassable() == Terrain::Passable 
+				&& !monsterAt(adj) ) {
+			sample.push_back(adj);
+		}
+	}
 
 	return sample;
 	

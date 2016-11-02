@@ -3,6 +3,9 @@
 #include <cmath>
 #include <algorithm>
 
+Coord Coord::ORTHO[4] = {Coord(0,1), Coord(1,0), 
+						  Coord(0,-1), Coord(-1,0)};
+
 Coord::Coord(int x, int y)
 	: x(x)
 	, y(y)
