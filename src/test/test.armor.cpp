@@ -22,6 +22,12 @@ class ArmorTest : public Testable {
 			std::cout << "0 Test 2 success" << std::endl;
 			std::cout << "0 Test 3 success" << std::endl;
 
+			std::cout << "1 Test 4 fail" << std::endl;
+			
+			std::cout << "0 Test 1 success" << std::endl;
+			std::cout << "0 Test 2 success" << std::endl;
+			std::cout << "0 Test 3 success" << std::endl;
+
 			return true;
 		}
 };
