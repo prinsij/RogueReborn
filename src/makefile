@@ -43,6 +43,9 @@ link: compile
 	#Removing objects
 	@rm -f *.o
 
+sane:
+	@cp ./libtcod/*.so .
+	@g++ *.cpp -o RogueRebon.exe -I./libtcod/include -L. -ltcod -ltcodxx -Wl,-rpath=. -Wall -std=c++11
 
 recall:
 	@bash .recall
