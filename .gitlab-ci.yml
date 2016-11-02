@@ -6,4 +6,6 @@ mainbuild:
     - ./Test.exe > ../Pipeline/TestResults
     - cd ..
     - make clean -C ./src/
+    - cd Pipeline/
     - python ./Pipeline/check.py
+    - cd ..
