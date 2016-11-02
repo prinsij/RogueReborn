@@ -1,0 +1,28 @@
+CXX = g++
+CXXFLAGS = -O1 -g -I./libtcod/include -L. -ltcod -ltcodxx -Wl,-rpath=. -Wall -std=c++11
+LDFLAGS = 
+TARGET = RogueReborn.exe
+
+SRCS=amulet.cpp armor.cpp coord.cpp feature.cpp food.cpp goldpile.cpp helpscreen.cpp invscreen.cpp item.cpp itemzone.cpp level.cpp main.cpp mainmenu.cpp mastercontroller.cpp mob.cpp monster.cpp playerchar.cpp playstate.cpp potion.cpp random.cpp ring.cpp ripscreen.cpp room.cpp scroll.cpp stairs.cpp terrain.cpp tiles.cpp trap.cpp tunnel.cpp uistate.cpp wand.cpp weapon.cpp
+
+OBJS = $(SRCS:.cpp=.o)
+DEPS = $(SRCS:.cpp=.depends)
+
+.PHONY: clean all
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(OBJS) *.so -o $(TARGET)
+
+.cpp.o:
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+%.depends: %.cpp
+	$(CXX) -M $(CXXFLAGS) $< > $@
+
+clean:
+	echo $(OBJS)
+	rm -f $(OBJS) $(DEPS) $(TARGET)
+
+-include $(DEPS)
