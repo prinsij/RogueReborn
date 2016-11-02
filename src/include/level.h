@@ -51,6 +51,8 @@ class Level {
 
 		std::vector<Feature*>& getFeatures();
 
+		bool monsterAt(Coord);
+
 	private:
 
 		// Store mobs with a notation for how many
@@ -90,5 +92,4 @@ class Level {
 		void resetPF();
 
 		std::vector<Coord> traceBack(Coord, Coord);
-		bool monsterAt(Coord);
 };
