@@ -16,6 +16,6 @@ for i in results:
 
 if (x):
 	print "Failed!"
-	return 1
+	raise Exception("Failure!")
 else:
 	print "[PYTHON TESTER] All tests have passed successfully!"
