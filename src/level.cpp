@@ -16,6 +16,7 @@
 #include "include/mob.h"
 #include "include/monster.h"
 #include "include/feature.h"
+#include "include/stairs.h"
 
 Level::Level(int depth) 
 	: size(getSize())
@@ -200,10 +201,24 @@ void Level::generate(PlayerChar& player) {
 	for (int i=0; i < 40; i++) {
 		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1), 
 							  gen.intFromRange(0, Y_SIZE-1));
-		if (tileAt(randPos).isPassable()) {
+		if (tileAt(randPos).isPassable() == Terrain::Passable) {
 			registerMob(new Monster('D', randPos));
 		}
 	}
+	// Place staircase
+	while (true) {
+		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1), 
+							  gen.intFromRange(0, Y_SIZE-1));
+		if (tileAt(randPos).isPassable() == Terrain::Passable) {
+			for (Room& r : rooms) {
+				if (r.contains(randPos)) {
+					features.push_back(new Stairs(randPos, true));
+					goto stair_exit;
+				}
+			}
+		}
+	}
+	stair_exit:;
 }
 
 void Level::addTunnel(int i, int j, bool* a, bool* b, Generator gen){
