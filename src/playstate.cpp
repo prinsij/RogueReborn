@@ -107,10 +107,15 @@ void PlayState::draw(TCODConsole* con) {
 	for (auto x=0; x < level->getSize()[0]; x++) {
 		for (auto y=0; y < level->getSize()[1]; y++) {
 			auto mapPos = Coord(x, y);
-			Terrain ter = (*level)[mapPos];
+			Terrain& ter = (*level)[mapPos];
 			if (ter.isSeen() == Terrain::Seen) {
 				auto scrPos = mapPos.asScreen();
 				con->putChar(scrPos[0], scrPos[1], (*level)[mapPos].getSymbol());
+				for (Feature* feat : level->getFeatures()) {
+					if (feat->getLocation() == mapPos) {
+						con->putChar(scrPos[0], scrPos[1], feat->getSymbol());
+					}
+				}
 				int sightRadius = player->getSightRadius();
 				if (currRoom == NULL || currRoom->getDark() == Room::DARK) {
 					sightRadius = 1;
@@ -136,11 +141,6 @@ void PlayState::draw(TCODConsole* con) {
 		prompt->showText(con, 0, 1);
 	} else if (player->getLog().size() > 0) {
 		con->print(0, 0, player->getLog().back().c_str());
-	}
-	// Display the features
-	for (Feature* feat : level->getFeatures()) {
-		auto scrPos = feat->getLocation().asScreen();
-		con->putChar(scrPos[0], scrPos[1], feat->getSymbol());
 	}
 	// Display the info bar
 	const int y = Coord(0, level->getSize()[1]).asScreen()[1]+1;
@@ -172,7 +172,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			level->pushMob(player, 0);
 			break;
 		}
-		std::cout << "taking turn: " << nextUp->getName() << "\n";
+		//std::cout << "taking turn: " << nextUp->getName() << "\n";
 		// Do AI turn
 		level->pushMob(nextUp, nextUp->turn(level));
 	}
@@ -209,7 +209,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			&& !level->monsterAt(newPos)) {
 		player->setLocation(newPos);
 		level->pushMob(player, TURN_TIME);
-		std::cout << "taking turn: " << player->getName() << "\n";
+		//std::cout << "taking turn: " << player->getName() << "\n";
 		currRoom = updateMap();
 		for (Feature*& feat : level->getFeatures()) {
 			if (feat->getLocation() != newPos) {
