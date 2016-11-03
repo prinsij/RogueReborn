@@ -193,6 +193,22 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		player->appendLog("You rest briefly");
 		return this;
 	}
+	if (key.c == '<' || key.c == '>') {
+		for (Feature* feat : level->getFeatures()) {
+			Stairs* stair = dynamic_cast<Stairs*>(feat);
+			if (stair != NULL) {
+				if ((key.c == '>') == stair->getDirection()) {
+					int currDepth = level->getDepth();
+					delete level;
+					level = new Level(currDepth+1);
+					level->registerMob(player);
+					level->generate(*player);
+					currRoom = updateMap();
+					return this;
+				}
+			}
+		}
+	}
 	//Arrow controls
 	auto newPos = player->getLocation().copy();
 	if (key.vk == TCODK_UP) {
@@ -225,10 +241,6 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 				player->collectGold(gp);
 				feat = NULL;
 				continue;
-			}
-			Stairs* st = dynamic_cast<Stairs*>(feat);
-			if (st != NULL) {
-				std::cout << "transition level\n";
 			}
 		}
 	}
