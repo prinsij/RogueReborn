@@ -53,6 +53,8 @@ class Level {
 
 		bool monsterAt(Coord);
 
+		~Level();
+
 	private:
 
 		// Store mobs with a notation for how many

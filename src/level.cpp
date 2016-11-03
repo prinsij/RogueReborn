@@ -418,3 +418,15 @@ bool Level::monsterAt(Coord s){
 
 	return false;
 }
+
+Level::~Level() {
+	for (Feature* feat : features) {
+		delete feat;
+	}
+	for (auto& item : mobs) {
+		auto* pc = dynamic_cast<PlayerChar*>(item.mob);
+		if (pc == NULL) {
+			delete item.mob;
+		}
+	}
+}
