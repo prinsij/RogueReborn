@@ -8,6 +8,7 @@
 #include "include/coord.h"
 #include "include/mob.h"
 #include "include/monster.h"
+#include "include/globals.h"
 
 // Monster Template Values
 std::map<char, MONSTER_TUPLE_TYPE > Monster::templateMap = {
@@ -106,7 +107,7 @@ Monster::Monster(char symbol, Coord location)
 }
 
 void Monster::attack(Level* level) {
-	std::cout << "Monster " << this->getName() << " Attack\n";
+	//std::cout << "Monster " << this->getName() << " Attack\n";
 
 	// TODO
 	
@@ -152,19 +153,19 @@ std::vector<char> Monster::getSymbolsForTreasure(int depth) {
 }
 
 void Monster::relocate(Level* level) {
-	/*
 	if (rand() % 2 == 0) {
 		std::vector<Coord> possibleCoords = level->getAdjPassable(this->location);
-		this->location = possibleCoords[rand() % possibleCoords.size()];
+		if (possibleCoords.size()) {
+			this->location = possibleCoords[rand() % possibleCoords.size()];
+		}
 	}
-	*/
 }
 
 int Monster::turn(Level* level) {
-	std::cout << "Monster " << this->getName() << "'s Turn\n";
+	//std::cout << "Monster " << this->getName() << "'s Turn\n";
 
 	relocate(level);
 	attack(level);
 
-	return 1;
+	return TURN_TIME;
 }

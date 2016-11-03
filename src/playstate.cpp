@@ -4,6 +4,7 @@
 #include "include/level.h"
 #include "include/ripscreen.h"
 #include "include/helpscreen.h"
+#include "include/globals.h"
 #include "include/invscreen.h"
 #include "include/stairs.h"
 #include "include/feature.h"
@@ -168,10 +169,11 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	while (true) {
 		auto nextUp = level->popTurnClock();
 		if (nextUp == player) {
+			level->pushMob(player, 0);
 			break;
 		}
+		std::cout << "taking turn: " << nextUp->getName() << "\n";
 		// Do AI turn
-		std::cout << "taking turn: " << nextUp->getName();
 		level->pushMob(nextUp, nextUp->turn(level));
 	}
 	// Quitting
@@ -187,8 +189,9 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	}
 	// Rest action
 	if (key.c == '.') {
-		level->pushMob(player, 50);
+		level->pushMob(player, TURN_TIME);
 		player->appendLog("You rest briefly");
+		return this;
 	}
 	//Arrow controls
 	auto newPos = player->getLocation().copy();
@@ -201,8 +204,12 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	} else if (key.vk == TCODK_RIGHT) {
 		newPos += Coord(1, 0);
 	}
-	if (newPos != player->getLocation() && level->contains(newPos) && (*level)[newPos].isPassable()) {
+	if (newPos != player->getLocation() && level->contains(newPos) 
+			&& (*level)[newPos].isPassable()
+			&& !level->monsterAt(newPos)) {
 		player->setLocation(newPos);
+		level->pushMob(player, TURN_TIME);
+		std::cout << "taking turn: " << player->getName() << "\n";
 		currRoom = updateMap();
 		for (Feature*& feat : level->getFeatures()) {
 			if (feat->getLocation() != newPos) {
@@ -225,7 +232,6 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			}
 		}
 	}
-	level->pushMob(player, 50);
 	return this;
 }
 

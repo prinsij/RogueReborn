@@ -84,6 +84,9 @@ void Level::pushMob(Mob* which, int delay) {
 			break;
 		}
 	}
+	/*for (ClockItem& item : mobs) {
+		std::cout << item.mob->getName() << " " << item.delay << "\n";
+	}*/
 	if (mobs.empty()) {
 		mobs.push_back(ClockItem(which, newTime));
 		return;
@@ -95,6 +98,7 @@ void Level::pushMob(Mob* which, int delay) {
 			return;
 		}
 	}
+	mobs.insert(mobs.end(), ClockItem(which, newTime));
 }
 
 std::vector<Mob*> Level::getMobs() {
