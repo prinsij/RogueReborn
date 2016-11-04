@@ -18,11 +18,7 @@ int main(){
 
 	ArmorTest a = ArmorTest();
 
-	bool b = a.test();
+	a.test();
 
-	if (b){
-		std::cout << "Done!" << std::endl;
-	}
-	
 	return 0;
 }
