@@ -17,6 +17,8 @@
 #include "include/monster.h"
 #include "include/feature.h"
 #include "include/stairs.h"
+#include "include/potion.h"
+#include "include/goldpile.h"
 
 Level::Level(int depth) 
 	: size(getSize())
@@ -221,11 +223,20 @@ void Level::generate(PlayerChar& player) {
 	stair_exit:;
 	// Place gold
 	int i = 0;
-	while (i < 30) {
+	while (i < 15) {
 		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1), 
 							  gen.intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
 			features.push_back(new GoldPile(randPos, gen.intFromRange(1, 35)));
+			++i;
+		}
+	}
+	i = 0;
+	while (i < 15) {
+		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1), 
+							  gen.intFromRange(0, Y_SIZE-1));
+		if (tileAt(randPos).isPassable() == Terrain::Passable) {
+			features.push_back(new Potion(randPos));
 			++i;
 		}
 	}
