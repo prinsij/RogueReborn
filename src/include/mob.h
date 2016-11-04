@@ -26,7 +26,7 @@ class Mob {
 		char getSymbol();
 		void hit(int);
 		void moveLocation(Coord);
-		void setCurrentHP(int);
+		bool setCurrentHP(int);
 		void setLocation(Coord);
 		void setMaxHP(int);
 		virtual int turn(Level*);

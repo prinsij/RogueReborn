@@ -70,8 +70,9 @@ void Mob::moveLocation(Coord location) {
 	this->location += location;
 }
 
-void Mob::setCurrentHP(int currentHP) {
+bool Mob::setCurrentHP(int currentHP) {
 	this->currentHP = currentHP;
+	return this->currentHP <= 0;
 }
 
 void Mob::setLocation(Coord location) {
