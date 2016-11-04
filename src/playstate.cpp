@@ -13,6 +13,7 @@
 #include "libtcod/include/libtcod.hpp"
 #include <iostream>
 #include <string>
+#include <algorithm>
 
 /* The game can prompt the user for response.
  * This is blocking, but the level view remains.
@@ -227,22 +228,28 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		level->pushMob(player, TURN_TIME);
 		//std::cout << "taking turn: " << player->getName() << "\n";
 		currRoom = updateMap();
-		for (Feature*& feat : level->getFeatures()) {
-			if (feat->getLocation() != newPos) {
-				continue;
+		bool search;
+		do {
+			search = false;
+			for (Feature* feat : level->getFeatures()) {
+				if (feat->getLocation() != newPos) {
+					continue;
+				}
+				Item* i = dynamic_cast<Item*>(feat);
+				if (i != NULL) {
+					player->pickupItem(i);
+					search = true;
+				}
+				GoldPile* gp = dynamic_cast<GoldPile*>(feat);
+				if (gp != NULL) {
+					player->collectGold(gp);
+					level->removeFeature(feat);
+					delete feat;
+					search = true;
+					break;
+				}
 			}
-			Item* i = dynamic_cast<Item*>(feat);
-			if (i != NULL) {
-				player->pickupItem(i);
-				continue;
-			}
-			GoldPile* gp = dynamic_cast<GoldPile*>(feat);
-			if (gp != NULL) {
-				player->collectGold(gp);
-				feat = NULL;
-				continue;
-			}
-		}
+		} while (search);
 	}
 	return this;
 }
