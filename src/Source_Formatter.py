@@ -88,7 +88,8 @@ def addHeader(cppFile, content):
 def mutateContent(cppFile, content):
 	newContent = trim(content)
 	newContent = sortIncludes(newContent)
-	if re.search(r"\.h$", cppFile):
+	if re.search(r"test.*cpp|\.h$", cppFile):
+		print cppFile
 		newContent = cleanPragmas(newContent)
 
 	newContent = addHeader(cppFile, newContent)

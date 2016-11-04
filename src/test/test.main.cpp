@@ -5,6 +5,8 @@
  * File: test.main.cpp
  */ 
 
+#pragma once
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -21,5 +23,3 @@ int main(){
 	return 0;
 
 }
-
-#endif

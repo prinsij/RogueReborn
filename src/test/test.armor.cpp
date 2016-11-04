@@ -5,6 +5,8 @@
  * File: test.armor.cpp
  */ 
 
+#pragma once
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -32,5 +34,3 @@ class ArmorTest : public Testable {
 			return true;
 		}
 };
-
-#endif
