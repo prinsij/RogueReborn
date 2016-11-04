@@ -1,3 +1,10 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: potion.cpp
+ */ 
+
 #include <algorithm>
 #include <string>
 #include <vector>

@@ -1,3 +1,10 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: armor.h
+ */ 
+
 #pragma once
 
 #include <string>
@@ -6,8 +13,7 @@
 #include "coord.h"
 #include "item.h"
 
-
-// <Name, Rating> 
+// <Name, Rating>
 using ARMOR_TUPLE_TYPE = std::tuple<std::string, int>;
 
 class Armor : public Item {

@@ -1,10 +1,18 @@
-#include "include/mastercontroller.h"
-#include "include/coord.h"
-#include "libtcod/include/libtcod.hpp"
-#include "include/mainmenu.h"
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: mastercontroller.cpp
+ */ 
+
 #include <iostream>
 #include <string>
+
+#include "include/coord.h"
 #include "include/level.h"
+#include "include/mainmenu.h"
+#include "include/mastercontroller.h"
+#include "libtcod/include/libtcod.hpp"
 
 MasterController::MasterController()
 	: currState(new MainMenu())
@@ -23,7 +31,7 @@ void MasterController::run() {
 	// Limits number of flushes/second so we don't consum 100% cpu
 	TCODSystem::setFps(FPS_LIMIT);
 	//Game loop
-    while (!TCODConsole::isWindowClosed()) {	
+    while (!TCODConsole::isWindowClosed()) {
         TCOD_key_t key;
 		auto temp = currState;
 		currState = currState->handleInput(key);

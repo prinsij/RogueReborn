@@ -1,28 +1,36 @@
-#include <vector>
-#include <queue>
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: level.cpp
+ */ 
+
+#include <algorithm>
+#include <iostream>
+#include <iterator>
 #include <map>
 #include <math.h>
-#include <iostream>
-#include <algorithm>
-#include <iterator>
-#include "include/tiles.h"
-#include "include/level.h"
+#include <queue>
+#include <vector>
+
 #include "include/coord.h"
-#include "include/room.h"
-#include "include/random.h"
-#include "include/playerchar.h"
-#include "include/tunnel.h"
-#include "include/terrain.h"
+#include "include/feature.h"
+#include "include/goldpile.h"
+#include "include/level.h"
 #include "include/mob.h"
 #include "include/monster.h"
-#include "include/feature.h"
-#include "include/stairs.h"
+#include "include/playerchar.h"
 #include "include/potion.h"
-#include "include/goldpile.h"
+#include "include/random.h"
+#include "include/room.h"
+#include "include/stairs.h"
+#include "include/terrain.h"
+#include "include/tiles.h"
+#include "include/tunnel.h"
 
-Level::Level(int depth) 
+Level::Level(int depth)
 	: size(getSize())
-	, depth(depth) 
+	, depth(depth)
 {
 	for (auto x=0; x < size[0]; x++) {
 		tiles.push_back(std::vector<Terrain>());
@@ -49,7 +57,7 @@ Terrain& Level::tileAt(Coord coord) {
 }
 
 bool Level::contains(Coord pos) {
-	return pos[0] >= 0 && pos[1] >= 0 && pos[0] < size[0] && pos[1] < size[1]; 
+	return pos[0] >= 0 && pos[1] >= 0 && pos[0] < size[0] && pos[1] < size[1];
 }
 
 int Level::genGoldAmount(Generator gen) {
@@ -127,7 +135,7 @@ void Level::generate(PlayerChar& player) {
 	Coord maxRoomSize = Coord(size[0]/3, size[1]/3);
 	for (auto i=0; i < MAX_ROOMS; i++) {
 
-			//Define upper left corner 
+			//Define upper left corner
 		Coord totalTopLeft = Coord((i%3)*maxRoomSize[0], i/3*maxRoomSize[1]);
 
 		Coord padding = Coord(ROOM_PADDING, ROOM_PADDING);
@@ -210,7 +218,7 @@ void Level::generate(PlayerChar& player) {
 	}
 	// Place mobs
 	for (int i=0; i < 40; i++) {
-		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1), 
+		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
 							  gen.intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
 			registerMob(new Monster('D', randPos));
@@ -218,7 +226,7 @@ void Level::generate(PlayerChar& player) {
 	}
 	// Place staircase
 	while (true) {
-		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1), 
+		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
 							  gen.intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
 			for (Room& r : rooms) {
@@ -233,7 +241,7 @@ void Level::generate(PlayerChar& player) {
 	// Place gold
 	int i = 0;
 	while (i < 15) {
-		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1), 
+		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
 							  gen.intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
 			features.push_back(new GoldPile(randPos, gen.intFromRange(1, 35)));
@@ -242,7 +250,7 @@ void Level::generate(PlayerChar& player) {
 	}
 	i = 0;
 	while (i < 15) {
-		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1), 
+		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
 							  gen.intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
 			features.push_back(new Potion(randPos));
@@ -308,7 +316,7 @@ std::vector<Coord> Level::bfsDiag(Coord start, Coord end){
 		if (current == end){
 			break;
 		}
-	
+
 		Coord target;
 
 		target = current + Coord(1, 0);
@@ -322,7 +330,7 @@ std::vector<Coord> Level::bfsDiag(Coord start, Coord end){
 
 		target = current + Coord(0, -1);
 		tryAddPassable(current, q, target);
-	
+
 		target = current + Coord(1, 1);
 		tryAddPassable(current, q, target);
 
@@ -355,7 +363,7 @@ std::vector<Coord> Level::bfsPerp(Coord start, Coord end){
 		if (current == end){
 			break;
 		}
-	
+
 		Coord target;
 
 		target = current + Coord(1, 0);
@@ -388,7 +396,7 @@ void Level::resetPF(){
 std::vector<Coord> Level::traceBack(Coord end, Coord start){
 
 	std::vector<Coord> path;
-	Coord current = end.copy();  
+	Coord current = end.copy();
 
 	int count = 0;
 
@@ -417,14 +425,14 @@ std::vector<Coord> Level::getAdjPassable(Coord ori){
 	std::vector<Coord> sample;
 	for (Coord& ortho : Coord::ORTHO) {
 		Coord adj = ortho + ori;
-		if (contains(adj) && tileAt(adj).isPassable() == Terrain::Passable 
+		if (contains(adj) && tileAt(adj).isPassable() == Terrain::Passable
 				&& !monsterAt(adj) ) {
 			sample.push_back(adj);
 		}
 	}
 
 	return sample;
-	
+
 }
 
 Coord Level::throwLocation(Coord start, Coord dir){
@@ -463,7 +471,7 @@ Level::~Level() {
 
 void Level::removeFeature(Feature* feat) {
 	features.erase(std::find(
-			features.begin(), 
+			features.begin(),
 			features.end(), feat));
 }
 

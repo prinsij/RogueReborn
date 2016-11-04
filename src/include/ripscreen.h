@@ -1,11 +1,20 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: ripscreen.h
+ */ 
+
 #pragma once
-#include "uistate.h"
-#include "playerchar.h"
+
+#include <sstream>
+#include <string>
+#include <vector>
+
 #include "../libtcod/include/libtcod.hpp"
 #include "level.h"
-#include <vector>
-#include <string>
-#include <sstream>
+#include "playerchar.h"
+#include "uistate.h"
 
 struct ScoreItem;
 

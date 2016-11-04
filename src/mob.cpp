@@ -1,3 +1,10 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: mob.cpp
+ */ 
+
 #include <cmath>
 #include <string>
 
@@ -61,7 +68,7 @@ char Mob::getSymbol() {
 
 void Mob::hit(int damage) {
 	// TODO
-	
+
 	int deltaHP = std::max(1, damage - this->armor);
 	this->currentHP -= deltaHP;
 }

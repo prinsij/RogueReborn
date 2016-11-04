@@ -1,3 +1,10 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: playerchar.h
+ */ 
+
 #pragma once
 
 #include <string>
@@ -48,7 +55,7 @@ class PlayerChar : public Mob {
 		bool throwItem(Item*);
 		bool zap(Wand*, Level*);
 		std::vector<std::string>& getLog();
-		
+
 	private:
 		int currentStr;
 		int foodLife;
@@ -61,12 +68,12 @@ class PlayerChar : public Mob {
 		std::vector<std::string> log;
 		static const int MAX_LOG = 30;
 		int maxStr;
-		static const int START_ARMOR = 1; 
+		static const int START_ARMOR = 1;
 		static const int START_EXP = 0;
 		static const int START_GOLD = 0;
 		static const int START_HP = 12;
 		static const int START_LEVEL = 1;
 		static const int START_STR = 16;
 		static const int SIGHT_RADIUS = 1;
-		static const int START_FOOD = 1250;		
+		static const int START_FOOD = 1250;
 };

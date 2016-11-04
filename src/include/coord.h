@@ -1,8 +1,11 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: coord.h
+ */ 
 
-
-#ifndef COORD_H
-#define COORD_H
-
+#pragma once
 
 #include <string>
 
@@ -33,7 +36,3 @@ class Coord {
 		int x, y;
 		static const int MAPX = 0, MAPY = 2;
 };
-
-
-
-#endif

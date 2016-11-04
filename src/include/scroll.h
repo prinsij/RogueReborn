@@ -1,3 +1,10 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: scroll.h
+ */ 
+
 #pragma once
 
 #include <string>
@@ -6,7 +13,7 @@
 #include "coord.h"
 #include "item.h"
 
-// <Name> 
+// <Name>
 using SCROLL_TUPLE_TYPE = std::tuple<std::string>;
 
 class Level;

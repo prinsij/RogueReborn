@@ -1,10 +1,18 @@
-#include "include/uistate.h"
-#include "libtcod/include/libtcod.hpp"
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: mainmenu.cpp
+ */ 
+
 #include <iostream>
+
 #include "include/level.h"
+#include "include/mainmenu.h"
 #include "include/playerchar.h"
 #include "include/playstate.h"
-#include "include/mainmenu.h"
+#include "include/uistate.h"
+#include "libtcod/include/libtcod.hpp"
 
 MainMenu::MainMenu()
 	: nameBuffer("")

@@ -1,7 +1,13 @@
-#include "terrain.h"
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: tiles.h
+ */ 
 
-#ifndef TILES_H
-#define TiLES_H
+#pragma once
+
+#include "terrain.h"
 
 class Floor : public Terrain {
 	public:
@@ -22,5 +28,3 @@ class Door : public Terrain {
 	public:
 		Door();
 };
-
-#endif

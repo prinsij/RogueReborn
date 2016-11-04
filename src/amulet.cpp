@@ -1,3 +1,10 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: amulet.cpp
+ */ 
+
 #include <string>
 
 #include "include/amulet.h"

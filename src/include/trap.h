@@ -1,3 +1,10 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: trap.h
+ */ 
+
 #pragma once
 
 #include <string>

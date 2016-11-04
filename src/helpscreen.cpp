@@ -1,3 +1,10 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: helpscreen.cpp
+ */ 
+
 #include "include/helpscreen.h"
 #include "include/playstate.h"
 

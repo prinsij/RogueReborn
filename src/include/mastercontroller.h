@@ -1,3 +1,10 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: mastercontroller.h
+ */ 
+
 #pragma once
 
 #include "../libtcod/include/libtcod.hpp"

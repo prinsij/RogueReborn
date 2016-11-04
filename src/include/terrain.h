@@ -1,8 +1,13 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: terrain.h
+ */ 
+
+#pragma once
 
 #include "coord.h"
-
-#ifndef TERRAIN_H
-#define TERRAIN_H
 
 class Coord;
 
@@ -11,7 +16,7 @@ class Terrain {
 		enum Passability {Blocked, Passable};
 		enum Visibility {Opaque, Corridor, Transparent};
 		enum Mapped {Seen, UnSeen};
-		Terrain(char, Visibility, Passability); 
+		Terrain(char, Visibility, Passability);
 		char getSymbol();
 		Passability isPassable();
 		Mapped isSeen();
@@ -25,5 +30,3 @@ class Terrain {
 		Passability passable;
 		Mapped seen;
 };
-
-#endif

@@ -1,10 +1,13 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: test.armor.cpp
+ */ 
 
-#ifndef ARMOR_TEST
-#define ARMOR_TEST
-
+#include <iostream>
 #include <string>
 #include <vector>
-#include <iostream>
 
 #include "include/armor.h"
 #include "test.testable.cpp"

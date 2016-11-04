@@ -1,3 +1,10 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: feature.cpp
+ */ 
+
 #include "include/coord.h"
 #include "include/feature.h"
 
