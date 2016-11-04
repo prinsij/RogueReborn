@@ -61,6 +61,7 @@ int PlayerChar::calculateDamage() {
 
 void PlayerChar::collectGold(GoldPile* goldpile) {
 	std::cout << "PlayerChar Collected " << goldpile->getQuantity() << " Gold\n";
+	this->appendLog("Collected " + std::to_string(goldpile->getQuantity()) + " gold");
 	this->gold += goldpile->getQuantity();
 }
 
@@ -144,6 +145,7 @@ int PlayerChar::getSightRadius() {
 void PlayerChar::pickupItem(Item* item) {
 	this->inventory.add(*item);
 	item->setContext(Item::INVENTORY);
+	this->appendLog("Picked up " + item->getDisplayName());
 }
 
 void PlayerChar::quaff(Potion* potion, Mob* mob) {
