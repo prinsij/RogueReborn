@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <vector>
+#include <map>
 
 #include "include/itemzone.h"
 
@@ -74,15 +75,9 @@ bool ItemZone::contains(const std::string& itemName) {
 	return false;
 }
 
-std::vector<Item*> ItemZone::getContents() {
-	std::vector<Item*> contentPointers;
-	
-	for (auto it=contents.begin(); it != contents.end(); it++) {
-		contentPointers.push_back(it->second.item);
-	}
-
-	return contentPointers;
-} 
+std::map<char, ItemZone::KeysItem>& ItemZone::getContents() {
+	return contents;
+}
 
 bool ItemZone::remove(Item* item) {
 	for (auto it=contents.begin(); it != contents.end(); it++) {
