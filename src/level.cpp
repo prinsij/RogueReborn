@@ -64,6 +64,15 @@ void Level::registerMob(Mob* mob) {
 	mobs.push_back(ClockItem(mob, 0));
 }
 
+void Level::removeMob(Mob* mob) {
+	for (auto it=mobs.begin(); it != mobs.end(); ++it) {
+		if (it->mob == mob) {
+			mobs.erase(it);
+			break;
+		}
+	}
+}
+
 Mob* Level::popTurnClock() {
 	if (mobs.empty()) {
 		return NULL;
@@ -429,15 +438,15 @@ Coord Level::throwLocation(Coord start, Coord dir){
 	return step;
 }
 
-bool Level::monsterAt(Coord s){
+Mob* Level::monsterAt(Coord s){
 
 	for (ClockItem c : mobs){
 		if (c.mob->getLocation() == s){
-			return true;
+			return c.mob;
 		}
 	}
 
-	return false;
+	return NULL;
 }
 
 Level::~Level() {

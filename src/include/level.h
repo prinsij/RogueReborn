@@ -29,6 +29,8 @@ class Level {
 		// Add a mob to the level's collection
 		void registerMob(Mob*);
 
+		void removeMob(Mob*);
+
 		std::vector<Mob*> getMobs();
 		Mob* popTurnClock();
 
@@ -55,7 +57,7 @@ class Level {
 
 		void addFeature(Feature*);
 
-		bool monsterAt(Coord);
+		Mob* monsterAt(Coord);
 
 		~Level();
 
