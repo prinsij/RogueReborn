@@ -13,5 +13,3 @@ class Testable {
 	public:
 		virtual bool test() = 0;
 };
-
-#endif

@@ -32,5 +32,3 @@ class ArmorTest : public Testable {
 			return true;
 		}
 };
-
-#endif

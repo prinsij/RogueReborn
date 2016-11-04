@@ -1,55 +1,38 @@
+CXX = g++
+CXXFLAGS = -O1 -g -I./libtcod/include -L. -ltcod -ltcodxx -Wl,-rpath=. -Wall -std=c++11
+LDFLAGS = 
+TARGET = RogueReborn.exe
+TESTTARGET = Test.exe
 
-.PHONY: default clean recall link compile ready
+SRCS=amulet.cpp armor.cpp coord.cpp feature.cpp food.cpp goldpile.cpp helpscreen.cpp invscreen.cpp item.cpp itemzone.cpp level.cpp main.cpp mainmenu.cpp mastercontroller.cpp mob.cpp monster.cpp playerchar.cpp playstate.cpp potion.cpp random.cpp ring.cpp ripscreen.cpp room.cpp scroll.cpp stairs.cpp terrain.cpp tiles.cpp trap.cpp tunnel.cpp uistate.cpp wand.cpp weapon.cpp
 
-default: link
+TESTSRCS=test/test.armor.cpp test/test.main.cpp test/test.testable.cpp
 
-ready:
+OBJS = $(SRCS:.cpp=.o)
+DEPS = $(SRCS:.cpp=.depends)
 
-	#Setting up...
+TESTOBJS = $(TESTSRCS:.cpp=.o)
+TESTDEPS = $(TESTSRCS:.cpp=.depends)
 
-	@#Bring over the libtcod reqs
-	@cp ./libtcod/*.so .
+.PHONY: clean all
 
-	@#Copy to the srcstore
-	@rm -rf .srcstore/
-	@mkdir .srcstore
-	@cp *.cpp .srcstore/
+all: $(TARGET) $(TESTTARGET)
 
-	@#Rename to src.*
-	@bash .srcmv
-
-	@#Bring over the tests
-	@cp test/*.cpp .
-
-compile: ready
-
-	#Compiling...
-	@g++ -g -c *.cpp -I./libtcod/include -L. -ltcod -ltcodxx -Wl,-rpath=. -Wall -std=c++11
-
-	@# Remove *.cpp and bring back the old ones (could also just rename src.*.cpp -> *.cpp)
-	@rm -f *.cpp
-	@cp .srcstore/*.cpp .
-
-link: compile
-
-	#Linking source...
-	@g++ -g -o RogueReborn.exe src.*.o *.so -I./libtcod/include -L. -ltcod -ltcodxx -Wl,-rpath=. -Wall -std=c++11
-
-	@rm -f src.main.o
-
-	#Linking tests...
-	@g++ -g -o Test.exe *.o *.so -I./libtcod/include -L. -ltcod -ltcodxx -Wl,-rpath=. -Wall -std=c++11
-
-	#Removing objects
-	@rm -f *.o
-
-sane:
+$(TARGET): $(OBJS)
 	@cp -n ./libtcod/*.so .
-	@g++ -g -c *.cpp -I./libtcod/include -L. -ltcod -ltcodxx -Wl,-rpath=. -Wall -std=c++11
-	@g++ -g -o RogueReborn.exe *.o *.so -I./libtcod/include -L. -ltcod -ltcodxx -Wl,-rpath=. -Wall -std=c++11
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(OBJS) *.so -o $(TARGET)
 
-recall:
-	@bash .recall
+$(TESTTARGET): $(TESTOBJS)
+	@cp -n ./libtcod/*.so .
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(TESTOBJS) *.so -o $(TESTTARGET)
+
+.cpp.o:
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+%.depends: %.cpp
+	$(CXX) -M $(CXXFLAGS) $< > $@
 
 clean:
-	@rm -f *.exe *.so *.o scores.txt
+	rm -f $(OBJS) $(DEPS) $(TARGET) $(TESTOBJS) $(TESTDEPS) $(TESTTARGET)
+
+-include $(DEPS) $(TESTDEPS)
