@@ -1,3 +1,10 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: mob.h
+ */ 
+
 #pragma once
 
 #include <string>
@@ -10,7 +17,7 @@ class Mob {
 	public:
 		Mob(char, Coord);
 		Mob(char, Coord, std::string, int, int, int, int);
-		
+
 		static int diceSum(int, int);
 
 		//virtual void attack(Mob*) = 0;

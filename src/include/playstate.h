@@ -1,8 +1,16 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: playstate.h
+ */ 
+
 #pragma once
-#include "uistate.h"
+
 #include "../libtcod/include/libtcod.hpp"
 #include "level.h"
 #include "playerchar.h"
+#include "uistate.h"
 
 class Prompt;
 

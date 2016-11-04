@@ -1,16 +1,24 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: level.h
+ */ 
+
 #pragma once
 
-#include <vector>
 #include <map>
 #include <queue>
+#include <vector>
+
 #include "coord.h"
-#include "terrain.h"
-#include "random.h"
-#include "playerchar.h"
-#include "goldpile.h"
-#include "room.h"
-#include "tunnel.h"
 #include "feature.h"
+#include "goldpile.h"
+#include "playerchar.h"
+#include "random.h"
+#include "room.h"
+#include "terrain.h"
+#include "tunnel.h"
 
 class Room;
 
@@ -66,7 +74,7 @@ class Level {
 		// Store mobs with a notation for how many
 		// 'ticks' they are from being the current actor
 		struct ClockItem {
-			ClockItem(Mob* mob, int delay) 
+			ClockItem(Mob* mob, int delay)
 				: mob(mob)
 				, delay(delay) {}
 			Mob* mob;

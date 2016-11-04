@@ -1,9 +1,13 @@
-#ifndef TESTABLE
-#define TESTABLE
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: test.testable.cpp
+ */ 
 
+#include <iostream>
 #include <string>
 #include <vector>
-#include <iostream>
 
 class Testable {
 	public:

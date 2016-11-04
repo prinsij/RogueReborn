@@ -1,3 +1,10 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: uistate.cpp
+ */ 
+
 #include "include/uistate.h"
 #include "libtcod/include/libtcod.hpp"
 

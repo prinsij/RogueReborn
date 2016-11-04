@@ -1,7 +1,14 @@
-#include "include/tiles.h"
-#include "include/terrain.h"
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: tiles.cpp
+ */ 
 
-Floor::Floor() 
+#include "include/terrain.h"
+#include "include/tiles.h"
+
+Floor::Floor()
 	: Terrain(' ', Terrain::Transparent, Terrain::Passable)
 {}
 

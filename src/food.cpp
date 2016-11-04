@@ -1,5 +1,11 @@
-#include "include/coord.h"
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: food.cpp
+ */ 
 
+#include "include/coord.h"
 #include "include/food.h"
 #include "include/item.h"
 

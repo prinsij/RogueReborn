@@ -1,3 +1,10 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: goldpile.cpp
+ */ 
+
 #include "include/coord.h"
 #include "include/feature.h"
 #include "include/goldpile.h"

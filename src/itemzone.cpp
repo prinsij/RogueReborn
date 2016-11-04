@@ -1,6 +1,13 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: itemzone.cpp
+ */ 
+
 #include <algorithm>
-#include <vector>
 #include <map>
+#include <vector>
 
 #include "include/itemzone.h"
 

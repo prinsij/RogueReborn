@@ -1,3 +1,10 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: weapon.cpp
+ */ 
+
 #include <string>
 #include <vector>
 
@@ -38,7 +45,7 @@ Weapon::Weapon(Coord location, Item::Context context, int type)
 
 	for (int i = 0 ; i < iterations ; i ++) {
 		if (Generator::randBool()) this->enchantDamage += increment;
-		else this->enchantHit += increment; 
+		else this->enchantHit += increment;
 	}
 }
 

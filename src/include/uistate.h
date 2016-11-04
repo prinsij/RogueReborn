@@ -1,4 +1,12 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: uistate.h
+ */ 
+
 #pragma once
+
 #include "../libtcod/include/libtcod.hpp"
 
 class UIState {

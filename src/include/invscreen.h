@@ -1,9 +1,17 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: invscreen.h
+ */ 
+
 #pragma once
-#include "uistate.h"
-#include "playerchar.h"
+
 #include "../libtcod/include/libtcod.hpp"
-#include "playstate.h"
 #include "level.h"
+#include "playerchar.h"
+#include "playstate.h"
+#include "uistate.h"
 
 class InvScreen : public UIState {
 	public:

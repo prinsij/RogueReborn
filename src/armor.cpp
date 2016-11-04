@@ -1,3 +1,10 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: armor.cpp
+ */ 
+
 #include <string>
 #include <vector>
 

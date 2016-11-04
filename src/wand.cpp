@@ -1,3 +1,10 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: wand.cpp
+ */ 
+
 #include <algorithm>
 #include <string>
 #include <vector>

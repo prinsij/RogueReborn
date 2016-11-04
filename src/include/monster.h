@@ -1,3 +1,10 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: monster.h
+ */ 
+
 #pragma once
 
 #include <map>
@@ -34,6 +41,5 @@ class Monster : public Mob {
 
 		int carryChance;
 		std::vector<std::pair<int,int> > damage;
-		std::vector<Behaviour> flags; 
+		std::vector<Behaviour> flags;
 };
-

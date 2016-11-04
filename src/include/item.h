@@ -1,3 +1,10 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: item.h
+ */ 
+
 #pragma once
 
 #include <map>
@@ -12,9 +19,9 @@ class Level;
 class Item : public Feature {
 	public:
 		static std::vector<std::string> shuffleNameVector(std::vector<std::string>);
-		
+
 		enum Context {FLOOR, INVENTORY};
-		
+
 		Item(char, Coord, Context, std::string, std::string, int, bool, bool);
 		Item(char, Coord, Context, std::string, std::string, std::string, int, bool, bool);
 

@@ -1,3 +1,10 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: random.h
+ */ 
+
 #pragma once
 
 #include <random>

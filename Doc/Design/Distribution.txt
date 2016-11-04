@@ -27,9 +27,7 @@ Module Interface Specification
 
 All:
 	Doxygen
+	Environment Variables
 
 I:
 	Gantt Chart Update
-
-O:
-	Environment Variables

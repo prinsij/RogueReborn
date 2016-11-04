@@ -1,3 +1,10 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: scroll.cpp
+ */ 
+
 #include <algorithm>
 #include <string>
 #include <vector>
@@ -6,7 +13,6 @@
 #include "include/item.h"
 #include "include/random.h"
 #include "include/scroll.h"
-
 
 std::vector<SCROLL_TUPLE_TYPE > Scroll::typeVector = {
 	SCROLL_TUPLE_TYPE {"Scroll of Protect Armor"},
