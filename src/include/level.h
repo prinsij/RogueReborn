@@ -51,6 +51,10 @@ class Level {
 
 		std::vector<Feature*>& getFeatures();
 
+		void removeFeature(Feature*);
+
+		void addFeature(Feature*);
+
 		bool monsterAt(Coord);
 
 		~Level();

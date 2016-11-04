@@ -219,6 +219,16 @@ void Level::generate(PlayerChar& player) {
 		}
 	}
 	stair_exit:;
+	// Place gold
+	int i = 0;
+	while (i < 30) {
+		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1), 
+							  gen.intFromRange(0, Y_SIZE-1));
+		if (tileAt(randPos).isPassable() == Terrain::Passable) {
+			features.push_back(new GoldPile(randPos, gen.intFromRange(1, 35)));
+			++i;
+		}
+	}
 }
 
 void Level::addTunnel(int i, int j, bool* a, bool* b, Generator gen){
@@ -429,4 +439,14 @@ Level::~Level() {
 			delete item.mob;
 		}
 	}
+}
+
+void Level::removeFeature(Feature* feat) {
+	features.erase(std::find(
+			features.begin(), 
+			features.end(), feat));
+}
+
+void Level::addFeature(Feature* feat) {
+	features.push_back(feat);
 }
