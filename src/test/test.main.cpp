@@ -15,6 +15,10 @@ int main(){
 
 	bool b = a.test();
 
+	if (b){
+		std::cout << "Done!" << std::endl;
+	}
+
 	return 0;
 
 }

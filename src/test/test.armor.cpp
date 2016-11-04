@@ -6,7 +6,7 @@
 #include <vector>
 #include <iostream>
 
-#include "include/armor.h"
+#include "../include/armor.h"
 #include "test.testable.cpp"
 
 class ArmorTest : public Testable {
