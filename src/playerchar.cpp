@@ -1,4 +1,3 @@
-#include <algorithm>
 #include <iostream>
 #include <map>
 #include <string>
@@ -77,7 +76,7 @@ bool PlayerChar::dropItem(Item* item, Level* level) {
 	this->inventory.remove(item);
 	item->setContext(Item::FLOOR);
 	item->setLocation(getLocation());
-	level->getFeatures().push_back(item);
+	level->addFeature(item);
 	return true;
 }
 
