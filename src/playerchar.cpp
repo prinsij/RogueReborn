@@ -116,28 +116,8 @@ int PlayerChar::getGold() {
 	return this->gold;
 }
 
-std::vector<std::pair<Item*, int> > PlayerChar::getInventory() {
-	std::map<std::string, std::pair<Item*, int> > itemMap;
-	std::vector<Item*> contents = this->inventory.getContents();
-	std::vector<std::pair<Item*, int> > displayContents;
-
-	for (auto itemIt = contents.begin() ; itemIt != contents.end() ; itemIt++) {
-		std::string itemName = (*itemIt)->getName();
-
-		auto mapIt = itemMap.find(itemName);
-
-		if (mapIt != itemMap.end()) {
-			mapIt->second.second++;
-		} else {
-			itemMap[itemName] = std::make_pair(*itemIt, 1);
-		}
-	}
-
-	for (auto mapIt = itemMap.begin() ; mapIt != itemMap.end() ; mapIt++) {
-		displayContents.push_back(mapIt->second);
-	}
-
-	return displayContents;	
+ItemZone& PlayerChar::getInventory() {
+	return this->inventory;
 }
 
 std::vector<std::string>& PlayerChar::getLog() {
