@@ -221,36 +221,46 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	} else if (key.vk == TCODK_RIGHT) {
 		newPos += Coord(1, 0);
 	}
-	if (newPos != player->getLocation() && level->contains(newPos) 
-			&& (*level)[newPos].isPassable()
-			&& !level->monsterAt(newPos)) {
-		player->setLocation(newPos);
-		level->pushMob(player, TURN_TIME);
-		//std::cout << "taking turn: " << player->getName() << "\n";
-		currRoom = updateMap();
-		bool search;
-		do {
-			search = false;
-			for (Feature* feat : level->getFeatures()) {
-				if (feat->getLocation() != newPos) {
-					continue;
-				}
-				Item* i = dynamic_cast<Item*>(feat);
-				if (i != NULL) {
-					player->pickupItem(i);
-					level->removeFeature(feat);
-					search = true;
-				}
-				GoldPile* gp = dynamic_cast<GoldPile*>(feat);
-				if (gp != NULL) {
-					player->collectGold(gp);
-					level->removeFeature(feat);
-					delete feat;
-					search = true;
-					break;
-				}
+	if (newPos != player->getLocation() && level->contains(newPos)) {
+		Mob* mob = level->monsterAt(newPos);
+		if (mob != NULL) {
+			std::cout << mob->getHP();
+			player->appendLog("attacked " + mob->getName());
+			if (mob->setCurrentHP(mob->getHP()-player->calculateDamage())) {
+				level->removeMob(mob);
+				player->appendLog(mob->getName() + " died, horribly");
+				delete mob;
 			}
-		} while (search);
+			level->pushMob(player, TURN_TIME);
+		} else if ((*level)[newPos].isPassable()) {
+			player->setLocation(newPos);
+			level->pushMob(player, TURN_TIME);
+			//std::cout << "taking turn: " << player->getName() << "\n";
+			currRoom = updateMap();
+			bool search;
+			do {
+				search = false;
+				for (Feature* feat : level->getFeatures()) {
+					if (feat->getLocation() != newPos) {
+						continue;
+					}
+					Item* i = dynamic_cast<Item*>(feat);
+					if (i != NULL) {
+						player->pickupItem(i);
+						level->removeFeature(feat);
+						search = true;
+					}
+					GoldPile* gp = dynamic_cast<GoldPile*>(feat);
+					if (gp != NULL) {
+						player->collectGold(gp);
+						level->removeFeature(feat);
+						delete feat;
+						search = true;
+						break;
+					}
+				}
+			} while (search);
+		}
 	}
 	return this;
 }
