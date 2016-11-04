@@ -20,6 +20,13 @@ int main(){
 
 	bool b = a.test();
 
+	if (b){
+		std::cout << "Done!" << std::endl;
+	}
+
+<<<<<<< HEAD
+=======
 	return 0;
 
+>>>>>>> 069dc4700431cca4512f6a707441ab917fca3cf4
 }
