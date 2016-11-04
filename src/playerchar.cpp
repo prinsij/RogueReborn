@@ -17,7 +17,7 @@
 #include "include/potion.h"
 
 PlayerChar::PlayerChar(Coord location, std::string name)
-	: Mob('@', location, name, START_ARMOR, START_EXP, START_LEVEL, START_HP),
+	: Mob('@', location, name, START_ARMOR, START_EXP, START_HP, START_LEVEL),
 	  currentStr(START_STR),
 	  foodLife(START_FOOD),
 	  gold(START_GOLD),
@@ -56,7 +56,7 @@ void PlayerChar::attack(Mob* mob) {
 int PlayerChar::calculateDamage() {
 	// TODO
 
-	return 1;
+	return 20;
 }
 
 void PlayerChar::collectGold(GoldPile* goldpile) {
