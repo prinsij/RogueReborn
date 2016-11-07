@@ -1,12 +1,20 @@
-#include "include/ripscreen.h"
-#include "include/playerchar.h"
-#include "libtcod/include/libtcod.hpp"
-#include <string>
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <exception>
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: ripscreen.cpp
+ */ 
+
 #include <algorithm>
+#include <exception>
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <string>
+
+#include "include/playerchar.h"
+#include "include/ripscreen.h"
+#include "libtcod/include/libtcod.hpp"
 
 struct ScoreItem {
 	ScoreItem(int gold, int depth, std::string name, std::string death)
@@ -29,7 +37,7 @@ struct ScoreItem {
 		int depth = std::stoi(temp);
 		if (!readItem(ss, temp))
 			throw std::invalid_argument("bad format");
-		std::string name = temp;	
+		std::string name = temp;
 		if (!readItem(ss, temp))
 			throw std::invalid_argument("bad format");
 		std::string death = temp;
@@ -41,7 +49,7 @@ struct ScoreItem {
 			+  std::to_string(depth) + DELIM
 			+  name + DELIM + death;
 	}
-	
+
 	static bool readItem(std::stringstream& ss, std::string& str) {
 		if (!std::getline(ss, str, DELIM)) {
 			std::cerr << "error parsing score file\n";
@@ -89,7 +97,7 @@ RIPScreen::RIPScreen(PlayerChar* player,
 void RIPScreen::draw(TCODConsole* con) {
 	int y = 1;
 	for (ScoreItem item : scores) {
-		con->print(0, y, (std::to_string(item.gold) + ":" + item.name + " " + item.death 
+		con->print(0, y, (std::to_string(item.gold) + ":" + item.name + " " + item.death
 					+ " on level " + std::to_string(item.depth)).c_str());
 		y++;
 	}

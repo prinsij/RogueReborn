@@ -1,12 +1,17 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: test.armor.cpp
+ */ 
 
-#ifndef ARMOR_TEST
-#define ARMOR_TEST
+#pragma once
 
+#include <iostream>
 #include <string>
 #include <vector>
-#include <iostream>
 
-#include "include/armor.h"
+#include "../include/armor.h"
 #include "test.testable.cpp"
 
 class ArmorTest : public Testable {
@@ -29,5 +34,3 @@ class ArmorTest : public Testable {
 			return true;
 		}
 };
-
-#endif

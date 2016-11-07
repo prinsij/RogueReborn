@@ -1,14 +1,21 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: monster.cpp
+ */ 
+
 #include <algorithm>
-#include <cmath> 
+#include <cmath>
 #include <iostream>
 #include <map>
 #include <string>
 #include <vector>
 
 #include "include/coord.h"
+#include "include/globals.h"
 #include "include/mob.h"
 #include "include/monster.h"
-#include "include/globals.h"
 
 // Monster Template Values
 std::map<char, MONSTER_TUPLE_TYPE > Monster::templateMap = {
@@ -110,7 +117,7 @@ void Monster::attack(Level* level) {
 	//std::cout << "Monster " << this->getName() << " Attack\n";
 
 	// TODO
-	
+
 	/*
 	std::vector<Coord> possibleCoords = level->getAdjPassable(this->location);
 

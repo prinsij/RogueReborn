@@ -1,6 +1,14 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: helpscreen.h
+ */ 
+
 #pragma once
-#include "uistate.h"
+
 #include "../libtcod/include/libtcod.hpp"
+#include "uistate.h"
 
 class PlayerChar;
 class Level;

@@ -1,3 +1,10 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: itemzone.h
+ */ 
+
 #pragma once
 
 #include <vector>
@@ -21,9 +28,9 @@ class ItemZone {
 		bool contains(const std::string&);
 		std::map<char, KeysItem>& getContents();
 		bool remove(Item*);
-		
+
 	private:
-		
+
 		std::map<char, KeysItem> contents;
 		static const int MAX_SIZE = 23;
 		const std::string KEYS = "abcdefghijklmnopqrstuvwxyz";

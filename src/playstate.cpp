@@ -1,19 +1,27 @@
-#include "include/playstate.h"
-#include "include/uistate.h"
-#include "include/playerchar.h"
-#include "include/level.h"
-#include "include/ripscreen.h"
-#include "include/helpscreen.h"
-#include "include/globals.h"
-#include "include/invscreen.h"
-#include "include/stairs.h"
-#include "include/feature.h"
-#include "include/item.h"
-#include "include/goldpile.h"
-#include "libtcod/include/libtcod.hpp"
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: playstate.cpp
+ */ 
+
+#include <algorithm>
 #include <iostream>
 #include <string>
-#include <algorithm>
+
+#include "include/feature.h"
+#include "include/globals.h"
+#include "include/goldpile.h"
+#include "include/helpscreen.h"
+#include "include/invscreen.h"
+#include "include/item.h"
+#include "include/level.h"
+#include "include/playerchar.h"
+#include "include/playstate.h"
+#include "include/ripscreen.h"
+#include "include/stairs.h"
+#include "include/uistate.h"
+#include "libtcod/include/libtcod.hpp"
 
 /* The game can prompt the user for response.
  * This is blocking, but the level view remains.
@@ -136,7 +144,7 @@ void PlayState::draw(TCODConsole* con) {
 			}
 		}
 	}
-	
+
 	// Display the prompt
 	if (prompt != NULL) {
 		prompt->showText(con, 0, 1);

@@ -1,9 +1,17 @@
-#include "include/coord.h"
-#include <string>
-#include <cmath>
-#include <algorithm>
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: coord.cpp
+ */ 
 
-Coord Coord::ORTHO[4] = {Coord(0,1), Coord(1,0), 
+#include <algorithm>
+#include <cmath>
+#include <string>
+
+#include "include/coord.h"
+
+Coord Coord::ORTHO[4] = {Coord(0,1), Coord(1,0),
 						  Coord(0,-1), Coord(-1,0)};
 
 Coord::Coord(int x, int y)

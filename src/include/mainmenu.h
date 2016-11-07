@@ -1,8 +1,17 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: mainmenu.h
+ */ 
+
 #pragma once
-#include "uistate.h"
+
+#include <string>
+
 #include "../libtcod/include/libtcod.hpp"
 #include "globals.h"
-#include <string>
+#include "uistate.h"
 
 class MainMenu : public UIState {
 	public:

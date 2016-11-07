@@ -1,3 +1,10 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: playerchar.cpp
+ */ 
+
 #include <iostream>
 #include <map>
 #include <string>
@@ -5,16 +12,16 @@
 
 #include "include/armor.h"
 #include "include/coord.h"
+#include "include/food.h"
 #include "include/item.h"
+#include "include/level.h"
 #include "include/mob.h"
 #include "include/playerchar.h"
-#include "include/ring.h"
-#include "include/weapon.h"
-#include "include/level.h"
-#include "include/wand.h"
-#include "include/food.h"
-#include "include/scroll.h"
 #include "include/potion.h"
+#include "include/ring.h"
+#include "include/scroll.h"
+#include "include/wand.h"
+#include "include/weapon.h"
 
 PlayerChar::PlayerChar(Coord location, std::string name)
 	: Mob('@', location, name, START_ARMOR, START_EXP, START_HP, START_LEVEL),
@@ -66,7 +73,7 @@ void PlayerChar::collectGold(GoldPile* goldpile) {
 }
 
 bool PlayerChar::dropItem(Item* item, Level* level) {
-	if (this->itemArmor == item || 
+	if (this->itemArmor == item ||
 		this->itemRingLeft == item ||
 		this->itemRingRight == item ||
 		this->itemWeapon == item)
@@ -159,11 +166,11 @@ void PlayerChar::read(Scroll* scroll, Level* level) {
 	std::cout << "PlayerChar Read Scroll " << scroll->getName() << "\n";
 
 	scroll->activate(level);
-	this->inventory.remove(scroll);	
+	this->inventory.remove(scroll);
 }
 
 bool PlayerChar::removeArmor() {
-	if (this->itemArmor == NULL) return false; 
+	if (this->itemArmor == NULL) return false;
 
 	std::cout << "PlayerChar Removed Armor " << this->itemArmor->getName() << "\n";
 
@@ -174,7 +181,7 @@ bool PlayerChar::removeArmor() {
 }
 
 bool PlayerChar::removeRingLeft() {
-	if (this->itemRingLeft == NULL) return false; 
+	if (this->itemRingLeft == NULL) return false;
 
 	std::cout << "PlayerChar Removed Left Ring " << this->itemRingLeft->getName() << "\n";
 
@@ -184,7 +191,7 @@ bool PlayerChar::removeRingLeft() {
 }
 
 bool PlayerChar::removeRingRight() {
-	if (this->itemRingRight == NULL) return false; 
+	if (this->itemRingRight == NULL) return false;
 
 	std::cout << "PlayerChar Removed Right Ring " << this->itemRingRight->getName() << "\n";
 
@@ -194,7 +201,7 @@ bool PlayerChar::removeRingRight() {
 }
 
 bool PlayerChar::removeWeapon() {
-	if (this->itemWeapon == NULL) return false; 
+	if (this->itemWeapon == NULL) return false;
 
 	std::cout << "PlayerChar Removed Weapon " << this->itemWeapon->getName() << "\n";
 

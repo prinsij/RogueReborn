@@ -1,3 +1,10 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: ring.cpp
+ */ 
+
 #include <algorithm>
 #include <string>
 #include <vector>
@@ -8,8 +15,8 @@
 #include "include/ring.h"
 
 std::vector<std::string> Ring::nameVector = Item::shuffleNameVector({
-	"Diamond Ring",  "Stibotantalite Ring",  "Lapi-Lazuli Ring",  "Ruby Ring",  "Emerald Ring", 
-	"Sapphire Ring",  "Amethyst Ring",  "Quartz Ring",  "Tiger-Eye  Ring",  "Opal Ring", 
+	"Diamond Ring",  "Stibotantalite Ring",  "Lapi-Lazuli Ring",  "Ruby Ring",  "Emerald Ring",
+	"Sapphire Ring",  "Amethyst Ring",  "Quartz Ring",  "Tiger-Eye  Ring",  "Opal Ring",
 	"Agate Ring",  "Turquoise Ring",  "Pearl Ring",  "Garnet Ring"
 });
 
@@ -33,6 +40,6 @@ Ring::Ring(Coord location)
 Ring::Ring(Coord location, Item::Context context, int type)
 	: Item('=', location, context, "Ring", std::get<0>(Ring::typeVector[type]), Ring::nameVector[type], type, true, true) {}
 
-bool Ring::activate(Level* level) { 
+bool Ring::activate(Level* level) {
 	return false;
 }

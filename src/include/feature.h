@@ -1,3 +1,10 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: feature.h
+ */ 
+
 #pragma once
 
 #include "coord.h"

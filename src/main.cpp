@@ -1,10 +1,18 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: main.cpp
+ */ 
+
 #include <iostream>
-#include "libtcod/include/libtcod.hpp"
-#include "include/mastercontroller.h"
-#include "include/level.h"
-#include "include/playerchar.h"
-#include <vector>
 #include <string>
+#include <vector>
+
+#include "include/level.h"
+#include "include/mastercontroller.h"
+#include "include/playerchar.h"
+#include "libtcod/include/libtcod.hpp"
 
 using uint = unsigned int;
 

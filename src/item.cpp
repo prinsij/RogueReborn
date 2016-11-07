@@ -1,3 +1,10 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: item.cpp
+ */ 
+
 #include <algorithm>
 #include <map>
 #include <string>
@@ -10,7 +17,7 @@ std::map<std::string, std::map<int, bool> > Item::identified;
 
 std::vector<std::string> Item::shuffleNameVector(std::vector<std::string> nameVector) {
 	std::random_shuffle(nameVector.begin(), nameVector.end());
-	return nameVector;	
+	return nameVector;
 };
 
 Item::Item(char symbol, Coord location, Item::Context context, std::string className, std::string name, std::string pseudoName, int type, bool canStack, bool canThrow)
@@ -24,7 +31,7 @@ Item::Item(char symbol, Coord location, Item::Context context, std::string class
 	  type(type) {}
 
 Item::Item(char symbol, Coord location, Item::Context context, std::string className, std::string name, int type, bool canStack, bool canThrow)
-	: Item(symbol, location, context, className, name, name, type, canStack, canThrow) {} 
+	: Item(symbol, location, context, className, name, name, type, canStack, canThrow) {}
 
 bool Item::operator==(const Item& other) const {
 	return this->name.compare(other.name) == 0;
@@ -44,7 +51,7 @@ void Item::setContext(Item::Context newContext) {
 
 std::string Item::getDisplayName() {
 	if (Item::identified[this->className].find(this->type) == Item::identified[this->className].end()) {
-		return this->pseudoName;	
+		return this->pseudoName;
 	} else {
 		return Item::identified[this->className][this->type] ?  this->name : this->pseudoName ;
 	}

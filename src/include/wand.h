@@ -1,3 +1,10 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: wand.h
+ */ 
+
 #pragma once
 
 #include <string>
@@ -6,13 +13,13 @@
 #include "coord.h"
 #include "item.h"
 
-// <Name> 
+// <Name>
 using WAND_TUPLE_TYPE = std::tuple<std::string>;
 
 class Level;
 
 class Wand : public Item {
-	public:	
+	public:
 		Wand(Coord);
 		Wand(Coord, Item::Context, int);
 		bool activate(Level*);

@@ -1,3 +1,10 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: terrain.cpp
+ */ 
+
 #include "include/terrain.h"
 
 Terrain::Terrain(char character, Terrain::Visibility vis, Terrain::Passability pass)

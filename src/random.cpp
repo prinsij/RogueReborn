@@ -1,3 +1,10 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: random.cpp
+ */ 
+
 #include <algorithm>
 #include <random>
 

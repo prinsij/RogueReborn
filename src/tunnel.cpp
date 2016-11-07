@@ -1,17 +1,24 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: tunnel.cpp
+ */ 
 
-#include "include/tunnel.h"
-#include "include/terrain.h"
-#include "include/tiles.h"
-#include "include/level.h"
-#include "include/coord.h"
-#include "include/room.h"
-#include "include/random.h"
-#include <vector>
 #include <iostream>
 #include <math.h>
 #include <stdio.h>
+#include <vector>
 
-Tunnel::Tunnel(Room* p, Room* q, Generator gen) 
+#include "include/coord.h"
+#include "include/level.h"
+#include "include/random.h"
+#include "include/room.h"
+#include "include/terrain.h"
+#include "include/tiles.h"
+#include "include/tunnel.h"
+
+Tunnel::Tunnel(Room* p, Room* q, Generator gen)
 	: p(p)
 	, q(q)
 	, gen(gen)
@@ -66,7 +73,7 @@ void Tunnel::dig(Level& level){
 	Coord start = posPlusDir(pDoor, flip(dir));
 
 	//std::vector<Coord> path;
-	
+
 	std::vector<Coord> path = level.bfsPerp(start, target);
 
 	/*

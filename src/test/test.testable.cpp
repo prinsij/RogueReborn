@@ -1,13 +1,17 @@
-#ifndef TESTABLE
-#define TESTABLE
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: test.testable.cpp
+ */ 
 
+#pragma once
+
+#include <iostream>
 #include <string>
 #include <vector>
-#include <iostream>
 
 class Testable {
 	public:
 		virtual bool test() = 0;
 };
-
-#endif

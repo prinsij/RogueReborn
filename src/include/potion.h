@@ -1,3 +1,10 @@
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: potion.h
+ */ 
+
 #pragma once
 
 #include <string>
@@ -7,7 +14,7 @@
 #include "item.h"
 #include "mob.h"
 
-// <Name> 
+// <Name>
 using POTION_TUPLE_TYPE = std::tuple<std::string>;
 
 class Level;

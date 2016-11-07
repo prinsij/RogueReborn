@@ -1,22 +1,24 @@
-#ifndef MAIN_TEST
-#define MAIN_TEST
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: test.main.cpp
+ */ 
 
+#pragma once
+
+#include <iostream>
 #include <string>
 #include <vector>
-#include <iostream>
 
 #include "test.armor.cpp"
 #include "test.testable.cpp"
-
 
 int main(){
 
 	ArmorTest a = ArmorTest();
 
-	bool b = a.test();
+	a.test();
 
 	return 0;
-
 }
-
-#endif

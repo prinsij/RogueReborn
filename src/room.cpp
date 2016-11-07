@@ -1,9 +1,17 @@
-#include "include/room.h"
-#include "include/coord.h"
-#include "include/tiles.h"
+/**
+ * Rogue Reborn Project
+ * Team Rogue++
+ * 
+ * File: room.cpp
+ */ 
+
+#include <iostream>
 #include <stdexcept>
 #include <string>
-#include <iostream>
+
+#include "include/coord.h"
+#include "include/room.h"
+#include "include/tiles.h"
 
 Room::Room(Coord topLeft, Coord bottomRight)
 	: Room(topLeft, bottomRight, LIT, WORTHLESS, VISIBLE, Coord(0,0), true)
