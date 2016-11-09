@@ -14,7 +14,7 @@ DEPS = $(SRCS:.cpp=.depends)
 TESTOBJS = $(TESTSRCS:.cpp=.o)
 TESTDEPS = $(TESTSRCS:.cpp=.depends)
 
-.PHONY: clean all
+.PHONY: clean all doxy
 
 all: $(TARGET) $(TESTTARGET)
 
@@ -33,6 +33,10 @@ $(TESTTARGET): $(TESTOBJS)
 	$(CXX) -M $(CXXFLAGS) $< > $@
 
 clean:
-	rm -f $(OBJS) $(DEPS) $(TARGET) $(TESTOBJS) $(TESTDEPS) $(TESTTARGET)
+	#rm -f *.o *.so *.depends
+	rm -f $(OBJS) $(DEPS) $(TARGET) $(TESTOBJS) $(TESTDEPS) $(TESTTARGET) *.so
+
+doxy:
+	
 
 -include $(DEPS) $(TESTDEPS)

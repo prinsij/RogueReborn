@@ -32,6 +32,10 @@ src/*.so
 *.toc
 *.out
 
+# Doxygen
+src/latex/*
+src/html/*
+
 src/.srcstore/*
 
 # Generated dependency files
