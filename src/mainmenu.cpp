@@ -13,6 +13,7 @@
 #include "include/playstate.h"
 #include "include/uistate.h"
 #include "libtcod/include/libtcod.hpp"
+#include "include/globals.h"
 
 MainMenu::MainMenu()
 	: nameBuffer("")
