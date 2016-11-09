@@ -44,6 +44,7 @@ void ItemZone::add(Item& item) {
 	for (auto it=contents.begin(); it != contents.end(); it++) {
 		if (it->second.item->getType() == item.getType()) {
 			it->second.quantity += 1;
+			delete &item;
 		}
 	}
 	if (contents.size() >= MAX_SIZE) {
