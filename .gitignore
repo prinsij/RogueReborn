@@ -39,3 +39,7 @@ src/.srcstore/*
 
 # Compiled Python Files
 *.pyc
+
+# Generated doxygen files
+src/html/*
+src/latex/*
