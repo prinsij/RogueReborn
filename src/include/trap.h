@@ -14,12 +14,22 @@
 
 class Mob;
 
+/** Various hidden traps throughout the dungeon
+ *  can trigger and endanger the player.
+ */
 class Trap : public Feature {
 	public:
-		Trap(Coord, unsigned char, bool);
+		/** Constructor.
+		 * @param location Position of the trap
+		 * @param type Type of trap (dart, teleport, pitfall, etc)
+		 * @param visible Whether the trap is revealed
+		 */
+		Trap(Coord location, unsigned char type, bool visible);
+		/** Trigger the trap on the given mob. */
 		void activate(Mob*);
 	private:
-		/* 0 = Door Trap
+		/** Type of the trap.
+		   0 = Door Trap
 		   1 = Arrow Trap
 		   2 = Sleep Trap
 		   3 = Bear Trap
@@ -27,5 +37,6 @@ class Trap : public Feature {
 		   5 = Dart Trap
 		*/
 		unsigned char type;
+		/** Whether the trap is revealed. */
 		bool visible;
 };
