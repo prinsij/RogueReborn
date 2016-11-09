@@ -2487,4 +2487,5 @@ GENERATE_LEGEND        = YES
 DOT_CLEANUP            = YES
 
 INPUT = "./"
+EXCLUDE = "libtcod"
 RECURSIVE = YES
