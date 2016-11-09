@@ -5,11 +5,13 @@
  * File: test.armor.cpp
  */ 
 
+#pragma once
+
 #include <iostream>
 #include <string>
 #include <vector>
 
-#include "include/armor.h"
+#include "../include/armor.h"
 #include "test.testable.cpp"
 
 class ArmorTest : public Testable {
@@ -32,5 +34,3 @@ class ArmorTest : public Testable {
 			return true;
 		}
 };
-
-#endif

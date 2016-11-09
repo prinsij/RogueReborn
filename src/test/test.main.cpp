@@ -5,6 +5,8 @@
  * File: test.main.cpp
  */ 
 
+#pragma once
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -16,10 +18,7 @@ int main(){
 
 	ArmorTest a = ArmorTest();
 
-	bool b = a.test();
+	a.test();
 
 	return 0;
-
 }
-
-#endif
