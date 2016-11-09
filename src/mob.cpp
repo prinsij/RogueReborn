@@ -11,6 +11,11 @@
 #include "include/coord.h"
 #include "include/mob.h"
 
+Mob::Mob(char symbol, Coord location)
+	: location(location)
+	, symbol(symbol)
+	{}
+
 Mob::Mob(char symbol, Coord location, std::string name, int armor, int exp, int mobHP, int level)
 	: armor(armor),
 	  currentHP(mobHP),
