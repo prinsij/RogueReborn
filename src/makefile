@@ -37,6 +37,6 @@ clean:
 	rm -f $(OBJS) $(DEPS) $(TARGET) $(TESTOBJS) $(TESTDEPS) $(TESTTARGET) *.so
 
 doxy:
-	
+	doxygen Doxyfile
 
 -include $(DEPS) $(TESTDEPS)
