@@ -125,7 +125,7 @@ def findFiles():
 		allFiles = os.listdir(currentDir)
 
 		for nextDir in filter(lambda name: os.path.isdir(name), allFiles):
-			if not re.search(r"libtcod|ParseTest", nextDir):
+			if not re.search(r"libtcod|ParseTest|html", nextDir):
 				exploreDirs.append(currentDir + "/" + nextDir)
 
 		for nextFile in filter(lambda name: not os.path.isdir(name), allFiles):
