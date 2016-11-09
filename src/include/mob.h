@@ -19,6 +19,8 @@ class Level;
  */
 class Mob {
 	public:
+		/** Constructor used by monsters. */
+		Mob(char, Coord);
 		/** Constructor 
 		 * @see armor
 		 * @see exp
