@@ -1,19 +1,20 @@
 /**
- * Rogue Reborn Project
- * Team Rogue++
- * 
- * File: mainmenu.cpp
+ * @file mainmenu.cpp
+ * @author Team Rogue++
+ * @date November 09, 2016
+ *
+ * @brief Member definitions for the MainMenu class
  */ 
 
 #include <iostream>
 
+#include "include/globals.h"
 #include "include/level.h"
 #include "include/mainmenu.h"
 #include "include/playerchar.h"
 #include "include/playstate.h"
 #include "include/uistate.h"
 #include "libtcod/include/libtcod.hpp"
-#include "include/globals.h"
 
 MainMenu::MainMenu()
 	: nameBuffer("")

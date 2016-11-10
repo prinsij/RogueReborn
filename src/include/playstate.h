@@ -1,8 +1,9 @@
 /**
- * Rogue Reborn Project
- * Team Rogue++
- * 
- * File: playstate.h
+ * @file playstate.h
+ * @author Team Rogue++
+ * @date November 09, 2016
+ *
+ * @brief Member declarations for the PlayState class
  */ 
 
 #pragma once

@@ -1,8 +1,9 @@
 /**
- * Rogue Reborn Project
- * Team Rogue++
- * 
- * File: feature.cpp
+ * @file feature.cpp
+ * @author Team Rogue++
+ * @date November 09, 2016
+ *
+ * @brief Member definitions for the Feature class
  */ 
 
 #include "include/coord.h"

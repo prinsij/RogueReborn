@@ -1,8 +1,9 @@
 /**
- * Rogue Reborn Project
- * Team Rogue++
- * 
- * File: item.cpp
+ * @file item.cpp
+ * @author Team Rogue++
+ * @date November 09, 2016
+ *
+ * @brief Member definitions for the std class
  */ 
 
 #include <algorithm>

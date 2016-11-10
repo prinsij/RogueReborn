@@ -1,8 +1,9 @@
 /**
- * Rogue Reborn Project
- * Team Rogue++
- * 
- * File: ring.cpp
+ * @file ring.cpp
+ * @author Team Rogue++
+ * @date November 09, 2016
+ *
+ * @brief Member definitions for the Ring class
  */ 
 
 #include <algorithm>

@@ -1,8 +1,9 @@
 /**
- * Rogue Reborn Project
- * Team Rogue++
- * 
- * File: globals.h
+ * @file globals.h
+ * @author Team Rogue++
+ * @date November 09, 2016
+ *
+ * @brief Global members
  */ 
 
 #pragma once

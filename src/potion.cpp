@@ -1,8 +1,9 @@
 /**
- * Rogue Reborn Project
- * Team Rogue++
- * 
- * File: potion.cpp
+ * @file potion.cpp
+ * @author Team Rogue++
+ * @date November 09, 2016
+ *
+ * @brief Member definitions for the Potion class
  */ 
 
 #include <algorithm>

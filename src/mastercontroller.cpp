@@ -1,8 +1,9 @@
 /**
- * Rogue Reborn Project
- * Team Rogue++
- * 
- * File: mastercontroller.cpp
+ * @file mastercontroller.cpp
+ * @author Team Rogue++
+ * @date November 09, 2016
+ *
+ * @brief Member definitions for the MasterController class
  */ 
 
 #include <iostream>

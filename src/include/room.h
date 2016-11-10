@@ -1,8 +1,9 @@
 /**
- * Rogue Reborn Project
- * Team Rogue++
- * 
- * File: room.h
+ * @file room.h
+ * @author Team Rogue++
+ * @date November 09, 2016
+ *
+ * @brief Member declarations for the Room class
  */ 
 
 #pragma once

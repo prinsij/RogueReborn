@@ -1,15 +1,16 @@
 /**
- * Rogue Reborn Project
- * Team Rogue++
- * 
- * File: tiles.h
+ * @file tiles.h
+ * @author Team Rogue++
+ * @date November 09, 2016
+ *
+ * @brief Member declarations for the Door class
  */ 
 
 #pragma once
 
 #include "terrain.h"
 
-/** Regular dungeon floor. 
+/** Regular dungeon floor.
  * Has full visibility and passability.
  */
 class Floor : public Terrain {

@@ -1,8 +1,9 @@
 /**
- * Rogue Reborn Project
- * Team Rogue++
- * 
- * File: feature.h
+ * @file feature.h
+ * @author Team Rogue++
+ * @date November 09, 2016
+ *
+ * @brief Member declarations for the Feature class
  */ 
 
 #pragma once
@@ -37,7 +38,7 @@ class Feature {
 	private:
 		/** Position of the feature within the level. */
 		Coord location;
-		/** Character representing 
+		/** Character representing
 		 *  the feature in the display.
 		 */
 		char symbol;

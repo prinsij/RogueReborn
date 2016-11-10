@@ -1,8 +1,9 @@
 /**
- * Rogue Reborn Project
- * Team Rogue++
- * 
- * File: goldpile.h
+ * @file goldpile.h
+ * @author Team Rogue++
+ * @date November 09, 2016
+ *
+ * @brief Member declarations for the GoldPile class
  */ 
 
 #pragma once

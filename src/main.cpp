@@ -1,8 +1,9 @@
 /**
- * Rogue Reborn Project
- * Team Rogue++
- * 
- * File: main.cpp
+ * @file main.cpp
+ * @author Team Rogue++
+ * @date November 09, 2016
+ *
+ * @brief Global members
  */ 
 
 #include <iostream>

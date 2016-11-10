@@ -1,8 +1,9 @@
 /**
- * Rogue Reborn Project
- * Team Rogue++
- * 
- * File: helpscreen.cpp
+ * @file helpscreen.cpp
+ * @author Team Rogue++
+ * @date November 09, 2016
+ *
+ * @brief Member definitions for the HelpScreen class
  */ 
 
 #include "include/helpscreen.h"

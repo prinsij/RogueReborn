@@ -1,8 +1,9 @@
 /**
- * Rogue Reborn Project
- * Team Rogue++
- * 
- * File: test.main.cpp
+ * @file test.main.cpp
+ * @author Team Rogue++
+ * @date November 09, 2016
+ *
+ * @brief Global members
  */ 
 
 #pragma once

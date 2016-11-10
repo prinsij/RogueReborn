@@ -1,8 +1,9 @@
 /**
- * Rogue Reborn Project
- * Team Rogue++
- * 
- * File: ripscreen.cpp
+ * @file ripscreen.cpp
+ * @author Team Rogue++
+ * @date November 09, 2016
+ *
+ * @brief Member definitions for the RIPScreen class
  */ 
 
 #include <algorithm>

@@ -1,8 +1,9 @@
 /**
- * Rogue Reborn Project
- * Team Rogue++
- * 
- * File: mob.h
+ * @file mob.h
+ * @author Team Rogue++
+ * @date November 09, 2016
+ *
+ * @brief Member declarations for the Mob class
  */ 
 
 #pragma once
@@ -21,7 +22,7 @@ class Mob {
 	public:
 		/** Constructor used by monsters. */
 		Mob(char, Coord);
-		/** Constructor 
+		/** Constructor
 		 * @see armor
 		 * @see exp
 		 * @see maxHP
@@ -58,7 +59,7 @@ class Mob {
 		 */
 		int getLevel();
 		/** Getter for mob location.
-		 * Can be edited because it returns 
+		 * Can be edited because it returns
 		 * a reference
 		 * @see location
 		 */

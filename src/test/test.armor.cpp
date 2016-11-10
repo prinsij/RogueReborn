@@ -1,8 +1,9 @@
 /**
- * Rogue Reborn Project
- * Team Rogue++
- * 
- * File: test.armor.cpp
+ * @file test.armor.cpp
+ * @author Team Rogue++
+ * @date November 09, 2016
+ *
+ * @brief Global members
  */ 
 
 #pragma once
