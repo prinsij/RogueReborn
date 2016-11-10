@@ -13,7 +13,7 @@
 #include "coord.h"
 #include "item.h"
 
-/** Tuple representing Ring information */
+/** Tuple representing Ring information (<Name>) */
 using RING_TUPLE_TYPE = std::tuple<std::string>;
 
 class Level;

@@ -15,7 +15,7 @@
 #include "item.h"
 #include "mob.h"
 
-/** Tuple representing Potion information */
+/** Tuple representing Potion information (<Name>) */
 using POTION_TUPLE_TYPE = std::tuple<std::string>;
 
 class Level;

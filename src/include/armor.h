@@ -15,7 +15,7 @@
 #include "item.h"
 
 
-/** Tuple representing Armor information */
+/** Tuple representing Armor information (<Name, Rating>)*/
 using ARMOR_TUPLE_TYPE = std::tuple<std::string, int>;
 
 /**

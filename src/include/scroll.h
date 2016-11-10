@@ -14,7 +14,7 @@
 #include "coord.h"
 #include "item.h"
 
-/** Tuple representing Scroll information */
+/** Tuple representing Scroll information (<Name>) */
 using SCROLL_TUPLE_TYPE = std::tuple<std::string>;
 
 class Level;

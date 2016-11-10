@@ -14,7 +14,7 @@
 #include "coord.h"
 #include "item.h"
 
-/** Tuple representing Wand information */
+/** Tuple representing Wand information (<Name>)*/
 using WAND_TUPLE_TYPE = std::tuple<std::string>;
 
 class Level;
