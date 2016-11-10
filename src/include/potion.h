@@ -46,7 +46,7 @@ class Potion : public Item {
 		 *
 		 * @param      mob  Reference to the Mob instance
 		 *
-		 * @return     'true' if the Potion effect was successfully applied; otherwise, 'false'.
+		 * @return     A value reflecting the success of the activation operation.
 		 */
 		bool activate(Mob*);
 

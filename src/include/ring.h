@@ -44,7 +44,7 @@ class Ring : public Item {
 		 *
 		 * @param      level  Reference to the Level instance
 		 *
-		 * @return     'true' if the Ring effect was successfully applied; otherwise, 'false'.
+		 * @return     A value reflecting the success of the activation operation.
 		 */
 		bool activate(Level*);
 
