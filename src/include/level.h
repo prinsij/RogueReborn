@@ -35,15 +35,43 @@ class Level {
 		int getDepth();
 		static Coord getSize() { return Coord(X_SIZE, Y_SIZE); };
 
-		// Add a mob to the level's collection
+		/**
+		 * @brief      Adds a mob to the mobs known by the level
+		 *
+		 * @param      Mob* Pointer to the mob that is to be added
+		 */
 		void registerMob(Mob*);
 
+		/**
+		 * @brief      Removes a mob.
+		 *
+		 * @param      Mob* Pointer to the mob that is to be removed
+		 */
 		void removeMob(Mob*);
 
+		/**
+		 * @brief      Gets all the mobs on the level
+		 *
+		 * @return     The mobs.
+		 */
 		std::vector<Mob*> getMobs();
+
+		/**
+		 * @brief      Returns the mob who's turn to act is next
+		 *
+		 * @return     A mob
+		 */
 		Mob* popTurnClock();
 
 		// move a mob back in the turn clock equal to the amount specified
+		
+
+		/**
+		 * @brief      Moves a mob back in the turn clock equal to the amount specified
+		 *
+		 * @param      Mob* Which mob
+		 * @param      int How far
+		 */
 		void pushMob(Mob*, int);
 
 		//Performs BFS with diagonals, returns deltas
