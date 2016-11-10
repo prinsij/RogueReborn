@@ -16,7 +16,7 @@
 class PlayerChar;
 
 /**
- * Represents a generic Food item.
+ * Represents a Food item.
  */
 class Food : public Item {
 	public:
@@ -29,7 +29,7 @@ class Food : public Item {
 		Food(Coord, Item::Context);
 
 		/**
-		 * @brief      Applies the effect of eating this Food. 
+		 * @brief      Applies the effects derived from eating this Food. 
 		 *
 		 * @param      player  Reference to the PlayerCharacter instance
 		 *
