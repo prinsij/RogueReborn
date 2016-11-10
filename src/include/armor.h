@@ -26,7 +26,7 @@ class Armor : public Item {
 		/**
 		 * @brief      Constructs an Armor instance with a random type.
 		 *
-		 * @param[in]  location  Armor location.
+		 * @param[in]  location  Armor location
 		 */
 		Armor(Coord);
 

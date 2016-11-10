@@ -15,8 +15,25 @@
 
 class PlayerChar;
 
+/**
+ * Represents a generic Food item.
+ */
 class Food : public Item {
 	public:
+		/**
+		 * @brief      Constructs a Food instance.
+		 *
+		 * @param[in]  location  Food location
+		 * @param[in]  context  Food context
+		 */
 		Food(Coord, Item::Context);
+
+		/**
+		 * @brief      Applies the effect of eating this Food. 
+		 *
+		 * @param      player  Reference to the PlayerCharacter instance
+		 *
+		 * @return     'true' if the Food effect was successfully applied; otherwise, 'false'.
+		 */
 		bool activate(PlayerChar*);
 };
