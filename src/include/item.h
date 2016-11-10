@@ -17,6 +17,9 @@
 
 class Level;
 
+/**
+ * Represents a generic item.
+ */
 class Item : public Feature {
 	public:
 		static std::vector<std::string> shuffleNameVector(std::vector<std::string>);

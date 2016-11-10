@@ -20,7 +20,7 @@ using WAND_TUPLE_TYPE = std::tuple<std::string>;
 class Level;
 
 /**
- * Represents a Wand item.
+ * Represents a wand item.
  */
 class Wand : public Item {
 	public:

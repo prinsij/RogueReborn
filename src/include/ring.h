@@ -19,7 +19,7 @@ using RING_TUPLE_TYPE = std::tuple<std::string>;
 class Level;
 
 /**
- * Represents a Ring item.
+ * Represents rings.
  */
 class Ring : public Item {
 	public:

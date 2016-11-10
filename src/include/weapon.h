@@ -20,7 +20,7 @@
 using WEAPON_TUPLE_TYPE = std::tuple<std::string, std::pair<int, int>, bool, bool>;
 
 /**
- * Represents a Weapon item.
+ * Represents weapons.
  */
 class Weapon : public Item {
 	public:

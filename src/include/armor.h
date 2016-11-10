@@ -19,7 +19,7 @@
 using ARMOR_TUPLE_TYPE = std::tuple<std::string, int>;
 
 /**
- * Represents an Armor item.
+ * Represents armor.
  */
 class Armor : public Item {
 	public:

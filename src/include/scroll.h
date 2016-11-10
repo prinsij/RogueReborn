@@ -20,7 +20,7 @@ using SCROLL_TUPLE_TYPE = std::tuple<std::string>;
 class Level;
 
 /**
- * Represents a Scroll item.
+ * Represents scrolls.
  */
 class Scroll : public Item {
 	public:

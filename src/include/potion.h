@@ -21,7 +21,7 @@ using POTION_TUPLE_TYPE = std::tuple<std::string>;
 class Level;
 
 /**
- * Represents a Potion item.
+ * Represents potions.
  */
 class Potion : public Item {
 	public:

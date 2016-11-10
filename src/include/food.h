@@ -16,7 +16,7 @@
 class PlayerChar;
 
 /**
- * Represents a Food item.
+ * Represents food.
  */
 class Food : public Item {
 	public:
