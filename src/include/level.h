@@ -70,14 +70,32 @@ class Level {
 		 * @brief      Moves a mob back in the turn clock equal to the amount specified
 		 *
 		 * @param      Mob* Which mob
-		 * @param      int How far
+		 * @param      int How far to push back in the clock cycle
 		 */
 		void pushMob(Mob*, int);
 
-		//Performs BFS with diagonals, returns deltas
+		/**
+		 * @brief      Performs BFS to get the shortest path from the starting coordinate to the end coordinate. As opposed to bfsPerp, this algorithm is allowed to move in any of the 8 directions.
+		 *
+		 * @param[in]  Coord  Starting point
+		 * @param[in]  Coord  Ending point
+		 *
+		 * @return     A vector of the absolute coordinates of the shortest path, including start and end, starting at the start and moving forwards one unit vector at a time.
+		 * @see bfsPerp
+		 */
 		std::vector<Coord> bfsDiag(Coord, Coord);
 
 		//Performs BFS without diagonals, returns deltas
+
+		/**
+		 * @brief      Performs BFS to get the shortest path from the starting coordinate to the end coordinate. As opposed to bfsDiag, this algorithm is allowed to move only in the 4 cardinal direcitons.
+		 *
+		 * @param[in]  Coord  Starting point
+		 * @param[in]  Coord  Ending point
+		 *
+		 * @return     A vector of the absolute coordinates of the shortest path, including start and end, starting at the start and moving forwards one unit vector at a time.
+		 * @see bfsDiag
+		 */
 		std::vector<Coord> bfsPerp(Coord, Coord);
 
 		//Given a coord, returns coords to which you can move to nearby (3x3 box)
