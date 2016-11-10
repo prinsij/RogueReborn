@@ -17,6 +17,7 @@
 #include "include/globals.h"
 #include "include/mob.h"
 #include "include/monster.h"
+#include "include/random.h"
 
 // Monster Template Values
 std::map<char, MONSTER_TUPLE_TYPE > Monster::templateMap = {
@@ -133,7 +134,7 @@ void Monster::attack(Level* level) {
 }
 
 int Monster::calculateDamage() {
-	std::pair<int, int> damagePair = this->damage[rand() % this->damage.size()];
+	std::pair<int, int> damagePair = this->damage[Generator::intFromRange(0, this->damage.size() - 1)];
 
 	return this->diceSum(damagePair.first, damagePair.second);
 }
@@ -161,10 +162,10 @@ std::vector<char> Monster::getSymbolsForTreasure(int depth) {
 }
 
 void Monster::relocate(Level* level) {
-	if (rand() % 2 == 0) {
+	if (Generator::randBool()) {
 		std::vector<Coord> possibleCoords = level->getAdjPassable(this->location);
 		if (possibleCoords.size()) {
-			this->location = possibleCoords[rand() % possibleCoords.size()];
+			this->location = possibleCoords[Generator::intFromRange(0, possibleCoords.size())];
 		}
 	}
 }
