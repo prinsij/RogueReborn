@@ -17,7 +17,10 @@
 class Amulet : public Item {
 	public:
 		/**
-		 * Constructor that accepts a location and a position context.
+		 * @brief      Constructs an Amulet instance. 
+		 *
+		 * @param[in]  location  Amulet location
+		 * @param[in]  context  Amulet context
 		 */
 		Amulet(Coord, Item::Context);
 };
