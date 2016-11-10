@@ -16,7 +16,7 @@ RE_HEADER_EXTENSION = re.compile(r"\.h$")
 ## C++ header class declaration
 RE_HEADER_CLASS = re.compile(r"class\s+(?P<className>[a-zA-Z]+)\s+(:|{)")
 ## C++ source class declaration 
-RE_SRC_CLASS = re.compile(r"(^|\s)(?P<className>[a-zA-Z]+)::\1")
+RE_SRC_CLASS = re.compile(r"^(?P<className>[a-zA-Z]+)::\1")
 
 ##
 #  @brief      Removes all current 'pragma once' lines and define guards of the given C++ file; inserts a 'pragma once' into the file
@@ -116,22 +116,23 @@ def addHeader(cppFile, content):
 
 	cppName = cppFile[cppFile.rfind("/") + 1:]
 
-	className = None
+	classNames = set()
 	RE_CLASS_SEARCH = RE_HEADER_CLASS if isHeader else RE_SRC_CLASS
 	for line in content:
 		classResult = RE_CLASS_SEARCH.search(line)
 		if classResult:
-			className = classResult.group("className")
-	
+			classNames.add(classResult.group("className").strip())
+	classNames = sorted(list(classNames))
+
 	header = []
 	header.append("/**")
 	header.append(" * @file %s" % cppName)
 	header.append(" * @author Team Rogue++")
 	header.append(" * @date %s" % datetime.datetime.today().strftime('%B %d, %Y'))
 	header.append(" *")
-	if className:
+	if classNames:
 		filePurpose = "declarations" if isHeader else "definitions"
-		header.append(" * @brief Member %s for the %s class" % (filePurpose, className))
+		header.append(" * @brief Member %s for the %s class%s" % (filePurpose, ", ".join(classNames), "es" if len(classNames) > 1 else ""))
 	else:
 		header.append(" * @brief Global members")
 	header.append(" */ ")

@@ -3,7 +3,7 @@
  * @author Team Rogue++
  * @date November 09, 2016
  *
- * @brief Member definitions for the Door class
+ * @brief Member definitions for the Corridor, Door, Floor, Wall classes
  */ 
 
 #include "include/terrain.h"

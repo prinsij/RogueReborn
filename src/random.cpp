@@ -3,7 +3,7 @@
  * @author Team Rogue++
  * @date November 09, 2016
  *
- * @brief Member definitions for the std class
+ * @brief Global members
  */ 
 
 #include <algorithm>

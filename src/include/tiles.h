@@ -3,7 +3,7 @@
  * @author Team Rogue++
  * @date November 09, 2016
  *
- * @brief Member declarations for the Door class
+ * @brief Member declarations for the Corridor, Door, Floor, Wall classes
  */ 
 
 #pragma once
