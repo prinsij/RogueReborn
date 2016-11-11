@@ -27,5 +27,5 @@ class MasterController {
 		/** Current interface state */
 		UIState* currState;
 		/** Max number of frames per second */
-		const int FPS_LIMIT = 20;
+		const int FPS_LIMIT = 60;
 };

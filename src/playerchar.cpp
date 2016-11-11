@@ -151,9 +151,9 @@ int PlayerChar::getSightRadius() {
 }
 
 void PlayerChar::pickupItem(Item* item) {
-	this->inventory.add(*item);
 	item->setContext(Item::INVENTORY);
 	this->appendLog("Picked up " + item->getDisplayName());
+	this->inventory.add(*item);
 }
 
 void PlayerChar::quaff(Potion* potion, Mob* mob) {

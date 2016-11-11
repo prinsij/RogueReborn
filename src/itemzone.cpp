@@ -46,6 +46,7 @@ void ItemZone::add(Item& item) {
 		if (it->second.item->getType() == item.getType()) {
 			it->second.quantity += 1;
 			delete &item;
+			return;
 		}
 	}
 	if (contents.size() >= MAX_SIZE) {
@@ -56,6 +57,7 @@ void ItemZone::add(Item& item) {
 		return;
 	}
 	contents.insert(std::make_pair(key, ItemZone::KeysItem(&item, 1)));
+	return;
 }
 
 char ItemZone::getFreeChar() {

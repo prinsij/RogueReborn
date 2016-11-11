@@ -258,6 +258,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 						player->pickupItem(i);
 						level->removeFeature(feat);
 						search = true;
+						break;
 					}
 					GoldPile* gp = dynamic_cast<GoldPile*>(feat);
 					if (gp != NULL) {
