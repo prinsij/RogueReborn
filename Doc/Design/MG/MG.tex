@@ -94,6 +94,7 @@
 		\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 		\midrule
 		11/01/16 & 0.1 & Added Template\\
+		11/10/16 & 0.2 & Finished part 2\\
 		\bottomrule
 	\end{tabularx}
 \end{table}
@@ -119,7 +120,6 @@ Hello World!
 			\item[\refstepcounter{acnum} \actheacnum \label{acLanguage}:] The language in which the game is presented.
 			\item[\refstepcounter{acnum} \actheacnum \label{acAccessibility}:] Accessibility modifications used to play the game.
 			\item[\refstepcounter{acnum} \actheacnum \label{acItems}:] The items available in the game (i.e. addition of a new potion).
-			\item[\refstepcounter{acnum} \actheacnum \label{acRooms}:] The number of rooms in a dungeon level.
 			\item[\refstepcounter{acnum} \actheacnum \label{acMonsters}:] The number, type, and visualization of monsters.
 		\end{description}
 
@@ -128,9 +128,10 @@ Hello World!
 		The module design should be as general as possible. However, a general system is more complex. Sometimes this complexity is not necessary. Fixing some design decisions at the system architecture stage can simplify the software design. If these decision should later need to be changed, then many parts of the design	will potentially need to be modified. Hence, it is not intended that these decisions will be changed.
 
 		\bigskip\begin{description}
-			\item[\refstepcounter{ucnum} \uctheucnum \label{ucIO}:] Input/Output devices(Input: File and/or Keyboard, Output: File, Memory, and/or Screen).
-			\item[\refstepcounter{ucnum} \uctheucnum \label{ucInput}:] There will always be a source of input data external to the software.
-			\item ...
+			\item[\refstepcounter{ucnum} \uctheucnum \label{ucMasterCtrl}:] The way the game loop handles itself, in the context of in-game entities, state parameters, and high-level flow. Just about every single module in the program will have to change to accommodate for this change.
+			\item[\refstepcounter{ucnum} \uctheucnum \label{ucTerrain}:] The types of terrain in the game, expressed in terms of passability, transparency, and visibility. A change here will also involve a change in Level, LevelGen, and PlayerChar.
+			\item[\refstepcounter{ucnum} \uctheucnum \label{ucCoord}:] The way in which the coordinate system of the game functions. A change here will involve changing just about every single module in the system.
+			\item[\refstepcounter{ucnum} \uctheucnum \label{ucRooms}:] The number of rooms in a dungeon level. Modifying this will involve immersive changes to the Level module, as well as the entire Item chain, and of course LevelGen module.
 		\end{description}
 
 \newSection{Module Hierarchy} \label{SecMH}
