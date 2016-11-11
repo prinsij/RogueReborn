@@ -152,22 +152,29 @@ Hello World!
 			\textbf{Level 1} & \textbf{Level 2}\\
 			\midrule
 
-			{Hardware-Hiding Module} & ~ \\
+			\multirow{2}{0.3\textwidth}{Hardware-Hiding Module}
+			& BasicIO\\
+			& Doryen\\
 			\midrule
 
-			\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & ?\\
-			& ?\\
-			& ?\\
-			& ?\\
-			& ?\\
-			& ?\\
-			& ?\\ 
-			& ?\\
+			\multirow{5}{0.3\textwidth}{Behaviour-Hiding Module}
+			& LevelGen\\
+			& Item\\
+			& Monster\\
+			& RipScreen\\
+			& PlayerChar\\
 			\midrule
 
-			\multirow{3}{0.3\textwidth}{Software Decision Module} & {?}\\
-			& ?\\
-			& ?\\
+			\multirow{9}{0.3\textwidth}{Software Decision Module}
+			& Random\\
+			& UIState\\
+			& Level\\
+			& MasterController\\
+			& Terrain\\
+			& Itemzone\\
+			& Mob\\
+			& Coord\\
+			& Feature\\
 			\bottomrule
 
 		\end{tabular}
@@ -210,7 +217,7 @@ Hello World!
 			\item[Services:]Serves as a layer beneath our application hiding the specifics of the
 			input and output devices such as keystrokes and the monitor. The application uses it
 			to retrieve commands from the user and display the game state.
-			\item[Implemented By:] Libtcod library.
+			\item[Implemented By:]Libtcod library.
 		\end{description}
 
 	\subsection{Behaviour-Hiding Module}
@@ -234,7 +241,7 @@ Hello World!
 			\item[Name:]Doryen.
 			\item[Secrets:]Details of display device and OS window interface.
 			\item[Services:]Provides a virtual console interface to the application. The virtual console is displayed as a window in the host OS. The application uses the interface to display the game state.
-			\item[Implemented By:]Libtcod
+			\item[Implemented By:]Libtcod library.
 		\end{description}
 
 		\bigskip\begin{description}
@@ -334,7 +341,7 @@ Hello World!
 			\item[Name:]NNNNNNNNNNN.
 			\item[Secrets:]Interface to input devices.
 			\item[Services:]Detects keystrokes and provides virtual keycodes to the application. These are then interpreted by the system as commands from the user.
-			\item[Implemented By:] Libtcod
+			\item[Implemented By:]Libtcod library.
 		\end{description}
 
 		\bigskip\begin{description}
