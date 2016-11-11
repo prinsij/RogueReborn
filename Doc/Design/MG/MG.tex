@@ -365,23 +365,35 @@ Hello World!
 	% the table should use mref, the requirements should be named, use something like fref
 	\begin{table}[H]
 		\centering
-		\begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
+		\begin{tabular}{p{0.35\textwidth} p{0.45\textwidth}}
 
 			\toprule
 			\textbf{Req.} & \textbf{Modules}\\
 			\midrule
 
-			R1 & \mref{mHH}, \mref{mInput}, \mref{mParams}, \mref{mControl}\\
-			R2 & \mref{mInput}, \mref{mParams}\\
-			R3 & \mref{mVerify}\\
-			R4 & \mref{mOutput}, \mref{mControl}\\
-			R5 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}, \mref{mSeqDS}, \mref{mSolver}, \mref{mPlot}\\
-			R6 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}, \mref{mSeqDS}, \mref{mSolver}, \mref{mPlot}\\
-			R7 & \mref{mOutput}, \mref{mEnergy}, \mref{mControl}, \mref{mSeqDS}, \mref{mPlot}\\
-			R8 & \mref{mOutput}, \mref{mEnergy}, \mref{mControl}, \mref{mSeqDS}, \mref{mPlot}\\
-			R9 & \mref{mVerifyOut}\\
-			R10 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}\\
-			R11 & \mref{mOutput}, \mref{mODEs}, \mref{mEnergy}, \mref{mControl}\\
+			FR.1, FR.4, FR.7 & MasterController, Coord\\
+			FR.2, FR.3 & RipScreen\\
+			FR.6, FR.8, FR.9, FR.10 & UIState, Doryen, Coord\\
+			FR.11, FR.12 & PlayerChar\\
+			FR.13, FR.14, FR.15 & Feature\\
+			FR.16 & MasterController\\
+			FR.17, FR.18, FR.19, FR.25 & LevelGen, Coord\\
+			FR.20, FR.21, FR.22, FR.24 & Level, Coord\\
+			FR.23 & PlayerChar\\
+			FR.26, FR.27, Fr.28, Fr.29 & PlayerChar\\
+			FR.30, FR.31 & Item\\
+			FR.32, FR.33, FR.34 & Item, PlayerChar\\
+			Fr.35, FR.36 & Monster\\
+			FR.37 & Mob\\
+			FR.38, FR.39 & PlayerChar\\
+			\midrule
+			NFR.1 & Doryen, UIState\\
+			NFR.2 & Fun\\
+			NFR.3 & BasicIO\\
+			NFR.4, NFR.5 & UIState, Doryen\\
+			NFR.7 & MasterController\\
+			NFR.8, NFR.13 & RipScreen\\
+			NFR.9, NFR.12, NFR.15 & External\\
 
 			\bottomrule
 		\end{tabular}
