@@ -176,7 +176,24 @@ Hello World!
 
 \newSection{Connection Between Requirements and Design} \label{SecConnection}
 
-	The design of the system is intended to satisfy the requirements developed in the SRS. In this stage, the system is decomposed into modules. The connection between requirements and modules is listed in Table \ref{TblRT}.
+	%The design of the system is intended to satisfy the requirements developed in the SRS. In this stage, the system is decomposed into modules. The connection between requirements and modules is listed in Table \ref{TblRT}.
+	
+	The relationship between system design and requirements is delicate - while every module may contain one secret, this secret may involve multiple functional/non-functional requirements. The decisions that went into the design of the system were made based on two major factors:
+
+	\begin{itemize}
+		\item Flexibility: Should any feature be decided as non-feasible, out-of-scope, or otherwise unattainable, the system should not collapse due to its lacking.
+		\item Logical partitioning: We tried to keep related logic as close together as possible. One could argue that this was done to adhere with the concept of "one module, one secret", but that in fact is not the case. The OMOS concept is simply a consequence of the duality of "High cohesion, low coupling". This was, succinctly, the deciding factor in our system design stage.
+	\end{itemize}
+
+	The requirements are numerous, and identifying each requirements' correspondence to a module would be quite the bore. Instead, we will look at important requirements and how they interact interestingly with their corresponding modules.\\
+
+	Functional requirement 11 specifies: "The player character shall be able to pass their turn". Had this not been the case, a simple queue could be built to keep track of entity move order and that will be all. But this is not the case, and in fact this also ties along with functional requirement 35, which specifies "Each monster shall be able to calculate a plan of action during their turn." Different actions take different amounts of time, and it would be a poor design decision to assume the opposite. A smart, divisive system was built to take this into account and enable turn-skipping. A primary motive that is enabled by this feature is allowing the player to skip their turn, allowing a nearby monster to make a move, hopefully into the region into which the player can fire off projectiles, like arrows and vials. The module that handles all of this functionality is titled \textit{MasterController}.\\
+
+	Functional requirement 37 specifies: "The player character shall be able to defeat every monster." It may be assumed, at this point, that a monster may be defeated if its health drops below zero. The entire functionality of absorbing player damage and reporting the results is handled by the \textit{Mob} module. Why not \textit{Monster}, you ask? Well, the Monster module is designed to customize monster behavior, such as attack patterns, and combative positioning. The Mob module, on the other hand, provides an interface for movement and entity statistics, which includes hit points.\\
+
+	Finally, we will look at functional requirement 31, which specifies: "Scrolls, rings, and wans shall be usable". This requirement represents one of the most difficult aspects of the game. Every different scroll, ring, and wand has a different functionality. And while all may be used in very similar ways, the core function is vastly different. While a purple wand may zap a goblin out of existence, a topaz ring might cause the player to suddenly begin levitating in the air. Thoroughly inter-connected aspects of the game are affected by items, and they represent a very central aspect of the project. This is why items are given their own module, \textit{Item}, to manage items and shield their detailed functionalities.\\
+
+
 
 \newSection{Module Decomposition} \label{SecMD}
 
