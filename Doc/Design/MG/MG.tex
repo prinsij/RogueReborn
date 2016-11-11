@@ -121,6 +121,7 @@ Hello World!
 			\item[\refstepcounter{acnum} \actheacnum \label{acAccessibility}:] Accessibility modifications used to play the game.
 			\item[\refstepcounter{acnum} \actheacnum \label{acItems}:] The items available in the game (i.e. addition of a new potion).
 			\item[\refstepcounter{acnum} \actheacnum \label{acMonsters}:] The number, type, and visualization of monsters.
+			\item[\refstepcounter{acnum} \actheacnum \label{acVisuals}:] The graphical overlay of the game (Different graphical overlays could be used to alter the images displayed).
 		\end{description}
 
 	\subsection{Unlikely Changes} \label{SecUchange}
@@ -409,19 +410,13 @@ Hello World!
 		\toprule
 		\textbf{AC} & \textbf{Modules}\\
 		\midrule
-
-		\acref{acHardware} & \mref{mHH}\\
-		\acref{acInput} & \mref{mInput}\\
-		\acref{acParams} & \mref{mParams}\\
-		\acref{acVerify} & \mref{mVerify}\\
-		\acref{acOutput} & \mref{mOutput}\\
-		\acref{acVerifyOut} & \mref{mVerifyOut}\\
-		\acref{acODEs} & \mref{mODEs}\\
-		\acref{acEnergy} & \mref{mEnergy}\\
-		\acref{acControl} & \mref{mControl}\\
-		\acref{acSeqDS} & \mref{mSeqDS}\\
-		\acref{acSolver} & \mref{mSolver}\\
-		\acref{acPlot} & \mref{mPlot}\\
+		\acref{acHardware} & BasicIO, External, Random\\
+		\acref{acOs} & BasicIO, External, Doryen\\
+		\acref{acLanguage} & BasicIO, UIState\\
+		\acref{acAccessibility} & UIState, BasicIO\\
+		\acref{acItems} & Item, Feature, PlayerChar, Mob\\
+		\acref{acMonsters} & Monster, Mob, UIState\\
+		\acref{acVisual} & UIState, External\\
 
 		\bottomrule
 	\end{tabular}
