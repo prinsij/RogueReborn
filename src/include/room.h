@@ -13,6 +13,10 @@
 
 class Level;
 
+/**
+ * @brief      Models a room - a rectangular region of which there are (usually) 9 in any given dungeon level. Rooms are connected by tunnels.
+ * @see  Tunnel
+ */
 class Room {
 	public:
 		enum Darkness {DARK, LIT};
@@ -68,7 +72,7 @@ class Room {
 		bool contains(Coord&, int border=0);
 
 		Darkness getDark();
-		
+
 	private:
 		Coord topLeft;
 		Coord bottomRight;
