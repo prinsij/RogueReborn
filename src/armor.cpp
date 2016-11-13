@@ -32,7 +32,7 @@ Armor::Armor(Coord location, Item::Context context, int type)
 	  rating(std::get<1>(Armor::typeVector[type])) {
 		int chance = Generator::intFromRange(1, 100);
 
-                if (chance <= 16) {
+		if (chance <= 16) {
 			this->cursed = true;
 			this->enchantProtection -= Generator::intFromRange(0, 3);
 		} else if (chance <= 33) {

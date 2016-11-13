@@ -113,6 +113,8 @@ Monster::Monster(char symbol, Coord location)
 	maxHP = hp;
 
 	name = std::get<7>(monsterTuple);
+
+	awake = false;
 }
 
 void Monster::attack(Level* level) {

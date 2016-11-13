@@ -97,6 +97,11 @@ class Monster : public Mob {
 		void relocate(Level*);
 
 		/**
+		 * Determines whether or not this monster will perform actions during its turn.
+		 */
+		bool awake;
+
+		/**
 		 * @brief      Monster flags denoting behavioural patterns.
 		 */
 		enum Behaviour {AGGRESSIVE, FLYING, REGENERATIVE, GREEDY, INVISIBLE};
