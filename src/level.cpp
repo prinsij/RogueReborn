@@ -475,6 +475,8 @@ Mob* Level::monsterAt(Coord s){
 	return NULL;
 }
 
+
+
 Level::~Level() {
 	for (Feature* feat : features) {
 		delete feat;
@@ -484,6 +486,30 @@ Level::~Level() {
 		if (pc == NULL) {
 			delete item.mob;
 		}
+	}
+}
+
+std::vector<Coord> Level::getNearestGold(Coord ori) {
+
+	std::vector<std::vector<Coord> > paths;
+
+	uint mindex = 999;
+	uint minlen = 999;
+
+	for (uint i = 0; i < golds.size(); ++i){
+
+		paths.push_back(bfsDiag(ori, golds[i].getLocation()));
+
+		if (paths[i].size() < minlen){
+			minlen = paths[i].size();
+			mindex = i;
+		}
+	}
+
+	if (mindex != 999){
+		return paths[mindex];
+	} else {
+		return {};
 	}
 }
 
