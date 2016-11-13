@@ -46,17 +46,10 @@
 \newcounter{acnum}
 \newcommand{\actheacnum}{AC\theacnum}
 \newcommand{\acref}[1]{AC\ref{#1}}
-%\newcommand{\acref}[1]{A Ref}
 
 \newcounter{ucnum}
 \newcommand{\uctheucnum}{UC\theucnum}
 \newcommand{\uref}[1]{UC\ref{#1}}
-%\newcommand{\ucref}[1]{U Ref}
-
-\newcounter{mnum}
-\newcommand{\mthemnum}{M\themnum}
-\newcommand{\mref}[1]{M\ref{#1}}
-%\newcommand{\mref}[1]{M Ref}
 
 
 % Title Page Elements
@@ -97,6 +90,7 @@
         11/10/16 & 0.2 & Added Anticipated Changes\\
         11/12/16 & 0.3 & Added Module Decomposition\\
         11/12/16 & 0.4 & Added Introduction\\
+        11/12/16 & 0.5 & Added Use Hierarchy\\
         \bottomrule
     \end{tabularx}
 \end{table}
@@ -116,14 +110,14 @@
     \subsection{Document Context}
         The primary purpose of the Module Guide (MG) is to describe, justify, and contextualize the module decomposition of the system.  From a developer perspective, the MG facilitates the detection of overused or purposeless modules and helps identify architectural flaws.  The document also provides a conceptual view of each module and its context in the broader system.\\
 
-        Before the MG is written, the Software Requirements Specification (SRS) document should be completed and thoroughly reviewed by all stakeholder parties.  This will ensure that the selected system design will comply with all compulsory requirements and the chosen module decomposition is appropriately structured.\\
+        Before the MG is written, the Software Requirements Specification (SRS) document should be completed and thoroughly reviewed by all stakeholder parties.  The SRS describes requirements for the software system that the MG should relate to the implemented design.  By completing the SRS beforehand, it is more likely that the selected system design will comply with all compulsory requirements and the chosen module decomposition is appropriately structured.\\
 
-        After the MG is complete, the complementary Module Interface Specification (MIS) can be conceived to refine the interface (external behaviour) of each module.  Together, the MG and MIS are sufficient to allow programmers to concurrently develop the system in a modular fashion.
+        After the MG is complete, the complementary Module Interface Specification (MIS) can be conceived to refine the interface (external behaviour) of each module.  The MG produces a functional overview of each module, while the MIS delves into the actual implementation of the modules.  Together, the MG and MIS are sufficient to allow programmers to concurrently develop the system in a modular fashion.  
     
     \subsection{Design Principles}
-        In an effort to develop code that is robust, maintainable, and more easily verifiable, the Rogue Reborn project attempts to enforce several well-regard design principles.  In particular, the principles of Information Hiding (IH), High Cohesion (HC), and Low Coupling (LC) are expressed consistently throughout the code. \\
+        In an effort to develop code that is robust, maintainable, and more easily verifiable, the Rogue Reborn project attempts to enforce several well-regard design principles.  In particular, the principles of Information Hiding (IH), High Cohesion (HC), and Low Coupling (LC) are consistently expressed throughout the code.\\
 
-        Information Hiding refers to the practice of ``hiding'' the implementation of modules; this is typically accomplished through encapsulation.  As a consequence, developers become more mindful of their assumptions and are able to produce code without dependencies on the specific implementations of functions.  Next, High Cohesion and Low Coupling describe the practice of partitioning code into modules that contain related operations and do not rely heavily on other modules.  Modules that exhibit HC lend themselves to excellent error localization, while module systems that display LC are better suited for testing purposes.  Organizing programs in such a way that emphasizes adaptability and modularity is vital to the success of any long-term project.
+        Information Hiding refers to the practice of concealing the implementation of modules; this is typically accomplished through encapsulation.  Using this approach encourages developers to become more mindful of their assumptions and to produce code that does not depend on the specific implementations of various functions.  Next, High Cohesion and Low Coupling describe the practice of partitioning code into modules that contain related operations and do not rely heavily on other modules.  Modules that exhibit HC lend themselves to excellent error localization, while module systems that display LC are better suited for testing purposes.  Structuring programs to emphasizes adaptability and modularity is vital to the success of any long-term software project.
 
     \subsection{Design Document Structure}
         A brief description of each section in the Module Guide is given below:
@@ -151,6 +145,8 @@
                 \textbf{Acronym} & \textbf{Definition} \\
                 \midrule
                 AC & Anticipated Change\\
+                ASCII & American Standard Code for Information Interchange\\
+                DAG & Directed Acyclic Graph\\
                 FR & Functional Requirement\\
                 GUI & Graphical User Interface\\
                 HC & High Cohesion\\
@@ -163,6 +159,7 @@
                 OMOS & One Module One Secret\\
                 OS & Operating System\\
                 PoC & Proof of Concept\\
+                PRNG & Pseudorandom Number Generator\\ 
                 SRS & Software Requirements Specification\\
                 UC & Unlikely Change\\
             \bottomrule
@@ -182,6 +179,7 @@
                 \textbf{Amulet of Yendor} & Item located on the deepest level of the dungeon; enables the player character to ascend through the levels and complete the game\\
                 \textbf{Encapsulation} & Grouping together of methods and fields\\
                 \textbf{Frame} & An instantaneous ``snapshot'' of the GUI screen\\
+                \textbf{Homomorphism} & A mapping between two mathematical structures\\
                 \textbf{Libtcod} & Graphics library specializing in delivering a roguelike experience\\
                 \textbf{Permadeath} & Feature whereby the death of the player character will conclude the game\\
                 \textbf{Player Character} & User-controlled character in Rogue Reborn\\
@@ -439,10 +437,10 @@
         \label{TblRT}
         \caption{\bf Trace Between Requirements and Modules}
         
-        \def\arraystretch{1.2}
+        \def\arraystretch{1.1}
         \centering
         \bigskip
-        \begin{tabular}{p{0.40\textwidth} p{0.45\textwidth}}
+        \begin{tabular}{p{0.40\textwidth} p{0.60\textwidth}}
 
             \toprule
             \textbf{Requirements} & \textbf{Modules}\\
@@ -481,10 +479,10 @@
     \label{TblACT}
     \caption{\bf Trace Between Anticipated Changes and Modules}
     
-    \def\arraystretch{1.2}
+    \def\arraystretch{1.1}
     \centering
     \bigskip
-    \begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
+    \begin{tabular}{p{0.4\textwidth} p{0.6\textwidth}}
 
         \toprule
         \textbf{AC} & \textbf{Modules}\\
@@ -503,18 +501,19 @@
 
 \newSection{Use Hierarchy Between Modules} \label{SecUse}
 
-    In this section, the uses hierarchy between modules is provided. \citet{Parnas1978} said of two programs A and B that A {\em uses} B if correct execution of B may be necessary for A to complete the task described in its specification. That is, A {\em uses} B if there exist situations in which the correct functioning of A depends upon the availability of a correct implementation of B.  Figure \ref{FigUH} illustrates the use relation between the modules. It can be seen that the graph is a directed acyclic graph (DAG). Each level of the hierarchy offers a testable and usable subset of the system, and modules in the higher level of the hierarchy are essentially simpler because they use modules from the lower levels.
+    Within the software engineering discipline, there exists a widely-accepted belief that all Use Hierarchies must be homomorphic to directed acyclic graphs (DAGs) in order to avoid cyclic dependencies.  However, throughout the development of the Rogue Reborn project, the Rogue++ team discovered that a cyclic use relationship across certain modules enabled an architecture that closely resembled the natural flow of the intended interaction.  Although it would have been possible to correct the situation, the alternative designs would have an adverse effect on the high cohesion (HC) design principle and would sacrifice the maintainability and readability of the code.  As such, the Use Hierarchy drawn in Figure \hyperref[FigUH]{1} is illustrated with a cyclic dependency stemming from the \textit{Item} module.
 
     \begin{figure}[H]
-        \centering
-        %\includegraphics[width=0.7\textwidth]{UsesHierarchy.png}
-        \caption{Use hierarchy among modules}
         \label{FigUH}
+        \caption{\bf Use Hierarchy}
+        \centering
+        \bigskip
+        \includegraphics[width=0.85\textwidth]{./UH.png}
     \end{figure}
 
 \newSection{References} \label{SecRef}
 
-    \bibliographystyle {plainnat}
-    \bibliography {MG}
+    %\bibliographystyle {plainnat}
+    %\bibliography {MG}
 
 \end{document}
