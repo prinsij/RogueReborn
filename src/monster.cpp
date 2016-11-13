@@ -113,17 +113,20 @@ Monster::Monster(char symbol, Coord location)
 	maxHP = hp;
 
 	name = std::get<7>(monsterTuple);
-
+	
 	awake = Generator::randBool();
 }
 
 void Monster::attack(Level* level) {
-	std::cout << "Monster " << this->getName() << " Attack\n";
-
 	PlayerChar* player = level->getPlayer();
 
 	if (this->getLocation().isAdjacentTo(player->getLocation())) {
-			
+		if (Generator::intFromRange(0, 99) <= this->calculateHitChance(player)) {
+			player->appendLog("The " + this->getName() + " hit you");
+			player->hit(calculateDamage());
+		} else {
+			player->appendLog("The " + this->getName() + " missed you");
+		}		
 	}
 }
 
@@ -131,6 +134,14 @@ int Monster::calculateDamage() {
 	std::pair<int, int> damagePair = this->damage[Generator::intFromRange(0, this->damage.size() - 1)];
 
 	return this->diceSum(damagePair.first, damagePair.second);
+}
+
+int Monster::calculateHitChance(PlayerChar* player) {
+	int chance = 40;
+	chance += 3*this->level;
+	chance -= 2*player->getLevel() + 2*player->getDexterity();
+
+	return chance;
 }
 
 int Monster::getCarryChance() {
@@ -156,30 +167,22 @@ std::vector<char> Monster::getSymbolsForTreasure(int depth) {
 }
 
 void Monster::relocate(Level* level) {
-
-	std::vector<Coord> possibleCoords = level->getAdjPassable(this->location);
-	if (possibleCoords.size()) {
-		this->location = possibleCoords[0];
-	}
-
-	/*
 	if (Generator::randBool()) {
 		std::vector<Coord> possibleCoords = level->getAdjPassable(this->location);
 		if (possibleCoords.size()) {
-			this->location = possibleCoords[Generator::intFromRange(0, possibleCoords.size())];
+			this->location = possibleCoords[Generator::intFromRange(0, possibleCoords.size() - 1)];
 		}
 	}
-	*/
 }
 
 int Monster::turn(Level* level) {
 	if (!this->awake)
 		return TURN_TIME;
 
-	std::cout << "Monster " << this->getName() << "'s Turn\n";
+	//std::cout << "Monster " << this->getName() << "'s Turn\n";
 
-	relocate(level);
 	attack(level);
+	relocate(level);
 
 	return TURN_TIME;
 }

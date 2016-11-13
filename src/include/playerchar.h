@@ -135,6 +135,13 @@ class PlayerChar : public Mob {
 		void equipWeapon(Weapon*);
 
 		/**
+		 * @brief	Gets the PlayerChar's dexterity.
+		 *
+		 * @return	The PlayerChar's dexterity.
+		 */
+		int getDexterity();
+
+		/**
 		 * @brief	Gets the PlayerChar's food life.
 		 *
 		 * @return	The PlayerChar's food life.

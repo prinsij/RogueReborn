@@ -71,7 +71,8 @@ char Mob::getSymbol() {
 }
 
 void Mob::hit(int damage) {
-	int deltaHP = std::max(1, damage - this->armor);
+	int effectiveArmor = 11 - this->armor;
+	int deltaHP = std::max(1, damage - effectiveArmor);
 	this->currentHP -= deltaHP;
 
 	if (this->currentHP <= 0) {

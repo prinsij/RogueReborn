@@ -20,7 +20,7 @@
 /** Tuple representing various Monster types (<Armor, Carry Chance, Attacks, XP, Flags, Monster Level, HP, Name, Dungeon Level Range>) */
 using MONSTER_TUPLE_TYPE = std::tuple<int, int, std::vector<std::pair<int, int> >, int, const char*, int, std::pair<int, int>, std::string, std::pair<int, int> >;
 
-//class Level;
+class PlayerChar;
 
 /**
  * Models a monster in the dungeon.
@@ -48,6 +48,15 @@ class Monster : public Mob {
 		 * @return     The computed damage.
 		 */
 		int calculateDamage();
+
+		/**
+		 * @brief	Calculates the hit chance of this Monster.
+		 *
+		 * @param	Reference to the player character
+		 *
+		 * @return	The computed hit chance.
+		 */ 
+		int calculateHitChance(PlayerChar*);
 
 		/**
 		 * @brief      Gets the carry chance of this Monster.

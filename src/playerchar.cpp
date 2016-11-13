@@ -168,6 +168,10 @@ void PlayerChar::equipWeapon(Weapon* weapon) {
 	this->itemWeapon = weapon;
 }
 
+int PlayerChar::getDexterity() {
+	return this->dexterity;
+}
+
 int PlayerChar::getFoodLife() {
 	return this->foodLife;
 }
