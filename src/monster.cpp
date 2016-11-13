@@ -158,8 +158,14 @@ std::vector<char> Monster::getSymbolsForTreasure(int depth) {
 void Monster::relocate(Level* level) {
 
 	//If you are in the same room as the player, go to him
-	if (false){//(level->canSee(this->location, level->getPlayer()->getLocation())){
-		this->location = level->bfsDiag(this->location, level->getPlayer()->getLocation())[1];
+	std::vector<Coord> path = level->bfsDiag(this->location, level->getPlayer()->getLocation());
+
+	//MAGIC NUMBER
+	if (path.size() < 5 || level->canSee(this->location, level->getPlayer()->getLocation())){
+
+		if (level->tileAt(path[1]).isPassable() == Terrain::Passable && !level->monsterAt(path[1])){
+			this->location = path[1];	
+		}
 	}
 
 	//Otherwise wander around aimlessly
@@ -167,8 +173,8 @@ void Monster::relocate(Level* level) {
 
 		std::vector<Coord> possibleCoords = level->getAdjPassable(this->location);
 		if (possibleCoords.size() > 0) {
+
 			Coord newPlace = possibleCoords[Generator::intFromRange(0, possibleCoords.size()-1)];
-			std::cout << "(" << this << ") Moving from " << this->location.toString() << " to " << newPlace.toString() << " (" << (newPlace-this->location).toString() << ")" << std::endl;
 			this->location = newPlace;
 		}
 	}
