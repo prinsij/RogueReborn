@@ -29,7 +29,6 @@ class QuitPrompt2 : public PlayState {
 		QuitPrompt2(PlayerChar* player, Level* level)
 			: PlayState(player, level)
 		{}
-	private:
 		virtual UIState* handleInput(TCOD_key_t key) {
 			if (key.c == 'y' || key.c == 'Y') {
 				return new RIPScreen(player, level, "retired");
@@ -43,6 +42,23 @@ class QuitPrompt2 : public PlayState {
 			PlayState::draw(con);
 			con->print(PROMPTX, PROMPTY, std::string("Do you wish to end your quest now (Yes/No) ?").c_str());
 		}
+};
+
+class QuickDrop : public PlayState {
+	public:
+		QuickDrop(PlayerChar* player, Level* level, Item* item)
+			: PlayState(player, level)
+			, item(item)
+		{}
+		virtual UIState* handleInput(TCOD_key_t key) {
+			item->setContext(Item::FLOOR);
+			player->getInventory().remove(item);
+			item->setLocation(player->getLocation());
+			level->addFeature(item);
+			return new PlayState(player, level);
+		}
+	private:
+		Item* item;
 };
 
 PlayState::PlayState(PlayerChar* play, Level* lvl)
@@ -119,10 +135,6 @@ void PlayState::draw(TCODConsole* con) {
 }
 
 UIState* PlayState::handleInput(TCOD_key_t key) {
-	// control-C overrides all
-	if ((key.rctrl || key.lctrl) && (key.c == 'c' || key.c == 'C')) {
-		return NULL;
-	}
 	// Perform AI turns until it's the player's go
 	while (true) {
 		auto nextUp = level->popTurnClock();
@@ -164,6 +176,11 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 				goto no_drop;
 			}
 		}
+		return new InvScreen(player, level, [] (Item*) {return true;},
+											[] (Item* i, PlayerChar* p, Level* l) {
+													return new QuickDrop(p, l, i);
+												},
+												false);
 	}
 	no_drop:;
 	if (key.c == '<' || key.c == '>') {

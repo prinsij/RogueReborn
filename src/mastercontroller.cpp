@@ -32,8 +32,12 @@ void MasterController::run() {
 	// Limits number of flushes/second so we don't consum 100% cpu
 	TCODSystem::setFps(FPS_LIMIT);
 	//Game loop
-    while (!TCODConsole::isWindowClosed()) {
-        TCOD_key_t key;
+    TCOD_key_t key;
+	while (!TCODConsole::isWindowClosed()) {
+		// control-C overrides all
+		if ((key.rctrl || key.lctrl) && (key.c == 'c' || key.c == 'C')) {
+			break;
+		}
 		auto temp = currState;
 		currState = currState->handleInput(key);
 		// Transition to the next state, cleaning up behind
