@@ -24,71 +24,34 @@
 #include "include/uistate.h"
 #include "libtcod/include/libtcod.hpp"
 
-/* The game can prompt the user for response.
- * This is blocking, but the level view remains.
- * Acts as a sub-uistate internal to playstate,
- * so we don't have to duplicate rendering stuff.
- */
-class Prompt {
+class QuitPrompt2 : public PlayState {
 	public:
-		Prompt(PlayerChar* player, Level* level)
-			: player(player)
-			, level(level)
-		{}
-		virtual ~Prompt() {};
-		/* Q: Why do prompts need arbitrary rendering capabilities
-		 * instead of just drawing a string?
-		 * A: Sometimes the prompt needs to highlight letters to
-		 * indicate the keyboard shortcuts
-		 */
-		virtual void showText(TCODConsole* con, int x, int y) {};
-		// Transitions indicate where the owning PlayState
-		// should transfer control next (could be prompt or uistate)
-		struct Transition {
-			Transition(Prompt* p, UIState* s)
-				: nextPrompt(p)
-				, nextState(s)
-			{}
-			Prompt* nextPrompt;
-			UIState* nextState;
-		};
-		virtual Transition handleInput(TCOD_key_t key) = 0;
-	protected:
-		PlayerChar* player;
-		Level* level;
-};
-
-/* Player can press shift+q to enter a game-quit
- * prompt, which will ask for confirmation, then
- * transition to RIP/score screen.
- */
-class QuitPrompt : public Prompt {
-	public:
-		QuitPrompt(PlayerChar* player, Level* level)
-			: Prompt(player, level)
-		{}
-
-		virtual Transition handleInput(TCOD_key_t key) {
+		QuitPrompt2(PlayerChar* player, Level* level)
+			: PlayState(player, level)
+		{
+			std::cerr << "player: " << player << "\n";
+		}
+	private:
+		virtual UIState* handleInput(TCOD_key_t key) {
+			std::cerr << "player: " << player << "\n";
 			if (key.c == 'y' || key.c == 'Y') {
-				return Transition(NULL, new RIPScreen(player, level, "retired"));
+				return new RIPScreen(player, level, "retired");
 			}
 			if (key.c == 'n' || key.c == 'N') {
-				return Transition(NULL, NULL);
+				return new PlayState(player, level);
 			}
-			return Transition(this, NULL);
+			return this;
 		}
-
-		virtual void showText(TCODConsole* con, int x, int y) {
-			con->print(x, y, std::string("Do you wish to end your quest now (Yes/No) ?").c_str());
+		virtual void draw(TCODConsole* con) {
+			PlayState::draw(con);
+			con->print(PROMPTX, PROMPTY, std::string("Do you wish to end your quest now (Yes/No) ?").c_str());
 		}
 };
 
 PlayState::PlayState(PlayerChar* play, Level* lvl)
 	: player(play)
 	, level(lvl)
-	, prompt(NULL)
 {
-	play->appendLog("Hello " + play->getName() + ". Welcome to the Dungeons of Doom. Type [?] for help.");
 	currRoom = updateMap();
 }
 
@@ -145,11 +108,7 @@ void PlayState::draw(TCODConsole* con) {
 			}
 		}
 	}
-
-	// Display the prompt
-	if (prompt != NULL) {
-		prompt->showText(con, 0, 1);
-	} else if (player->getLog().size() > 0) {
+	if (player->getLog().size() > 0) {
 		con->print(0, 0, player->getLog().back().c_str());
 	}
 	// Display the info bar
@@ -163,17 +122,9 @@ void PlayState::draw(TCODConsole* con) {
 }
 
 UIState* PlayState::handleInput(TCOD_key_t key) {
-	//delegate to the prompt if that's what we're doing
-	if (prompt != NULL) {
-		Prompt::Transition trans = prompt->handleInput(key);
-		if (trans.nextPrompt != prompt) {
-			delete prompt;
-			prompt = trans.nextPrompt;
-		}
-		if (trans.nextState != NULL) {
-			return trans.nextState;
-		}
-		return this;
+	// control-C overrides all
+	if ((key.rctrl || key.lctrl) && (key.c == 'c' || key.c == 'C')) {
+		return NULL;
 	}
 	// Perform AI turns until it's the player's go
 	while (true) {
@@ -188,12 +139,13 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	}
 	// Quitting
 	if (key.c == 'Q') {
-		prompt = new QuitPrompt(player, level);
-		return this;
+		return new QuitPrompt2(player, level);
 	}
+	// view inventory
 	if (key.c == 'i') {
 		return new InvScreen(player, level);
 	}
+	// view help
 	if (key.c == '?') {
 		return new HelpScreen(player, level);
 	}
@@ -203,6 +155,16 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		player->appendLog("You rest briefly");
 		return this;
 	}
+	// drop item
+	if (key.c == 'd') {
+		for (auto feat : level->getFeatures()) {
+			Item* item = dynamic_cast<Item*>(feat);
+			if (item != NULL && item->getLocation() == player->getLocation()) {
+				goto no_drop;
+			}
+		}
+	}
+	no_drop:;
 	if (key.c == '<' || key.c == '>') {
 		for (Feature* feat : level->getFeatures()) {
 			Stairs* stair = dynamic_cast<Stairs*>(feat);
@@ -210,9 +172,9 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 				if ((key.c == '>') == stair->getDirection()) {
 					int currDepth = level->getDepth();
 					delete level;
-					level = new Level(currDepth+1);
+					level = new Level(currDepth+1, player);
 					level->registerMob(player);
-					level->generate(*player);
+					level->generate();
 					currRoom = updateMap();
 					return this;
 				}
@@ -275,8 +237,4 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	return this;
 }
 
-PlayState::~PlayState() {
-	if (prompt != NULL) {
-		delete prompt;
-	}
-}
+PlayState::~PlayState() {}

@@ -13,6 +13,7 @@
 #include "playerchar.h"
 #include "playstate.h"
 #include "uistate.h"
+#include <functional>
 
 /** Interface state for viewing the contents of
  *  the player inventory.
@@ -26,6 +27,7 @@ class InvScreen : public UIState {
 		 * resumes.
 		 */
 		InvScreen(PlayerChar*, Level*);
+		InvScreen(PlayerChar*, Level*, std::function<bool(Item*)>);
 		/** Draw the inventory.
 		 * Shows like-and-stackable items grouped.
 		 * Makes sure to not reveal the true names
@@ -39,4 +41,5 @@ class InvScreen : public UIState {
 		PlayerChar* player;
 		/** Reference to level for when gameplay resumes. */
 		Level* level;
+		std::function<bool(Item*)> filter;
 };

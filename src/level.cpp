@@ -29,9 +29,10 @@
 #include "include/tiles.h"
 #include "include/tunnel.h"
 
-Level::Level(int depth)
+Level::Level(int depth, PlayerChar* player)
 	: size(getSize())
 	, depth(depth)
+	, player(player)
 {
 	for (auto x=0; x < size[0]; x++) {
 		tiles.push_back(std::vector<Terrain>());
@@ -130,7 +131,7 @@ std::vector<Mob*> Level::getMobs() {
 	return result;
 }
 
-void Level::generate(PlayerChar& player) {
+void Level::generate() {
 
 	Generator gen = Generator();
 	Coord maxRoomSize = Coord(size[0]/3, size[1]/3);
@@ -434,6 +435,17 @@ std::vector<Coord> Level::getAdjPassable(Coord ori){
 
 	return sample;
 
+}
+
+bool Level::canSee(Coord a, Coord b){
+
+	for (auto r : rooms){
+		if (r.contains(a) && r.contains(b)){
+			return true;
+		}
+	}
+
+	return false;
 }
 
 Coord Level::throwLocation(Coord start, Coord dir){
