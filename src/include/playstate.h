@@ -13,7 +13,6 @@
 #include "playerchar.h"
 #include "uistate.h"
 
-class Prompt;
 
 /** Primary interface state, showing level, player,
  *  monsters, etc.
@@ -28,17 +27,15 @@ class PlayState : public UIState {
 		virtual void draw(TCODConsole*);
 		/** Handle the various controls. */
 		virtual UIState* handleInput(TCOD_key_t);
-		/** Delete internal components (prompt). */
+		/** Delete internal components. */
 		virtual ~PlayState();
-	private:
+	protected:
+		static const int PROMPTX = 0, PROMPTY = 1;
 		/** reference to player character. */
 		PlayerChar* player;
 		/** Reference to current dungeon level. */
 		Level* level;
-		/** Prompt being shown to the user.
-		 * eg: "Do thing? (Y/N)"
-		 */
-		Prompt* prompt;
+	private:
 		/** Update the portion of the map which has
 		 *  been seen, and return the room which the
 		 *  player character is in, if any.

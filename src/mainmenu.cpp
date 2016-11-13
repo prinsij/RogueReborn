@@ -48,6 +48,7 @@ UIState* MainMenu::handleInput(TCOD_key_t key) {
 			}
 		}
 		L_exit:
+		player->appendLog("Hello " + player->getName() + ". Welcome to the Dungeons of Doom. Type [?] for help.");
 		return new PlayState(player, level);
 	} else if (key.c) {
 		// Append to name if its a valid name character
