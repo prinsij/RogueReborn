@@ -55,25 +55,58 @@ void PlayerChar::appendLog(std::string entry) {
 void PlayerChar::attack(Mob* mob) {
 	std::cout << "PlayerChar Attack\n";
 
-	// TODO
+	if (this->getLocation().isAdjacentTo(mob->getLocation())) {
+		if (Generator::intFromRange(0, 99) <= this->calculateHitChance()) {
+			this->appendLog("You hit " + mob->getName());
 
-	/*
-	std::vector<Coord> possibleCoords = level->getAdjPassable(this->location);
-
-	for (auto coordIt = possibleCoords.begin() ; coordIt != possibleCoords.end() ; coordIt++) {
-		Monster* monster = level->monsterAt(*coordIt);
-		if (monster != NULL) {
-			monster->hit(this->calculateDamage());
-			break;
+			mob->hit(this->calculateDamage());
+		} else {
+			this->appendLog("You miss " + mob->getName());
 		}
 	}
-	*/
 }
 
 int PlayerChar::calculateDamage() {
-	// TODO
+	if (this->itemWeapon == NULL) {
+		return 0;
+	}
 
-	return 20;
+	int damage = 0;
+
+	auto damageTuple = this->itemWeapon->getDamage();
+	damage += Mob::diceSum(std::get<0>(damageTuple), std::get<1>(damageTuple));
+	damage += std::get<2>(damageTuple) * std::get<0>(damageTuple);
+
+
+	// Linear approximation from original Rogue
+	damage += static_cast<int>(this->currentStr*0.3133 - 2.7667);
+
+	int miscDamage = this->level + this->dexterity;
+	if (this->itemRingLeft != NULL) miscDamage--;
+	if (this->itemRingRight != NULL) miscDamage--;
+	damage += (miscDamage + 1)/2;
+
+	return miscDamage;
+}
+
+int PlayerChar::calculateHitChance() {
+	if (this->itemWeapon == NULL) {
+		return 0;
+	}
+
+	int hitChance = 40;
+
+	auto damageTuple = this->itemWeapon->getDamage();
+	int effectiveDamage = std::get<0>(damageTuple) + std::get<2>(damageTuple);
+	hitChance += 3*effectiveDamage;
+
+	hitChance += 2*this->level;
+	hitChance += 2*this->dexterity;
+	
+	if (this->itemRingLeft != NULL) hitChance--;
+	if (this->itemRingRight != NULL) hitChance--;
+
+	return hitChance;
 }
 
 void PlayerChar::collectGold(GoldPile* goldpile) {
@@ -218,6 +251,10 @@ bool PlayerChar::removeWeapon() {
 	this->itemWeapon = NULL;
 
 	return true;
+}
+
+void PlayerChar::setDexterity(int dexterity) {
+	this->dexterity = dexterity;
 }
 
 bool PlayerChar::throwItem(Item* item) {
