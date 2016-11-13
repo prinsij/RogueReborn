@@ -210,9 +210,9 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 				if ((key.c == '>') == stair->getDirection()) {
 					int currDepth = level->getDepth();
 					delete level;
-					level = new Level(currDepth+1);
+					level = new Level(currDepth+1, player);
 					level->registerMob(player);
-					level->generate(*player);
+					level->generate();
 					currRoom = updateMap();
 					return this;
 				}

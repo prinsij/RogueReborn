@@ -164,6 +164,7 @@ std::vector<char> Monster::getSymbolsForTreasure(int depth) {
 }
 
 void Monster::relocate(Level* level) {
+
 	if (Generator::randBool()) {
 		std::vector<Coord> possibleCoords = level->getAdjPassable(this->location);
 		if (possibleCoords.size()) {
