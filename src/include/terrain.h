@@ -5,8 +5,9 @@
 
 class Terrain {
 	public:
-		static enum Passability {Blocked, Passable};
-		static enum Visibility {Blocked, Corridor, Transparent};
+		enum Passability {P_Blocked, Passable};
+		enum Visibility {V_Blocked, Corridor, Transparent};
+		Terrain(char, Visibility, Passability);
 		char getChar();
 		Passability isPassable();
 		Visibility getVisibility();
@@ -14,6 +15,6 @@ class Terrain {
 		char character;
 		Visibility visible;
 		Passability passable;
-}
+};
 
 #endif
