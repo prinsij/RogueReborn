@@ -170,9 +170,14 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	}
 	// drop item
 	if (key.c == 'd') {
+		if (player->getInventory().getSize() <= 0) {
+			player->appendLog("You aren't carrying anything");
+			goto no_drop;
+		}
 		for (auto feat : level->getFeatures()) {
 			Item* item = dynamic_cast<Item*>(feat);
 			if (item != NULL && item->getLocation() == player->getLocation()) {
+				player->appendLog("There is something there already");
 				goto no_drop;
 			}
 		}
