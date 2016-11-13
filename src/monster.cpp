@@ -120,10 +120,11 @@ Monster::Monster(char symbol, Coord location)
 void Monster::attack(Level* level) {
 	std::cout << "Monster " << this->getName() << " Attack\n";
 
-	// TODO Requires PlayerChar
+	PlayerChar* player = level->getPlayer();
 
-	//if (this->getLocation().isAdjacentTo(level->getPlayerChar().getLocation())) {}
-	//
+	if (this->getLocation().isAdjacentTo(player->getLocation())) {
+			
+	}
 }
 
 int Monster::calculateDamage() {

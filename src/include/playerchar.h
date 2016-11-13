@@ -135,6 +135,13 @@ class PlayerChar : public Mob {
 		void equipWeapon(Weapon*);
 
 		/**
+		 * @brief	Gets the PlayerChar's food life.
+		 *
+		 * @return	The PlayerChar's food life.
+		 */ 
+		int getFoodLife();
+
+		/**
 		 * @brief      Gets the PlayerChar's gold total.
 		 *
 		 * @return     The PlayerChar's gold total.
