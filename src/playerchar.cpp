@@ -26,10 +26,13 @@
 
 std::vector<int> PlayerChar::levelExpBounds = {10, 20, 40, 80, 160, 320, 640, 1300, 2600, 5200, 10000, 20000, 40000, 80000, 160000, 320000, 1000000, 3333333, 6666666, 99900000};
 
+std::vector<int> PlayerChar::foodLifeBounds = {300, 150, 20, 0};
+
 PlayerChar::PlayerChar(Coord location, std::string name)
 	: Mob('@', location, name, START_ARMOR, START_EXP, START_HP, START_LEVEL),
 	  currentStr(START_STR),
 	  foodLife(START_FOOD),
+	  foodStatus(PlayerChar::FULL),
 	  gold(START_GOLD),
 	  inventory(ItemZone()),
 	  itemArmor(NULL),
@@ -272,6 +275,46 @@ void PlayerChar::setDexterity(int dexterity) {
 
 void PlayerChar::setFoodLife(int foodLife) {
 	this->foodLife = foodLife;
+	
+	int statusWalk = -1;
+	
+	for (int i = 0 ; i < static_cast<int>(foodLifeBounds.size()) ; i ++) {
+		if (foodLife > foodLifeBounds[i]) {
+			statusWalk = i;
+			break;
+		}
+	}
+
+	auto oldStatus = this->foodStatus;
+	std::string foodMessage = "You feel "; 
+
+	switch(statusWalk) {
+		case 0:
+			this->foodStatus = FoodStates::FULL;
+			foodMessage += "full";
+			break;
+		case 1:
+			this->foodStatus = FoodStates::HUNGRY;
+			foodMessage += "hungry";
+			break;
+		case 2:
+			this->foodStatus = FoodStates::WEAK;
+			foodMessage += "weak";
+			break;
+		case 3:
+			this->foodStatus = FoodStates::FAINT;
+			foodMessage += "like fainting";
+			break;
+		default:
+			this->foodStatus = FoodStates::STARVE;
+			foodMessage = "You have starved to death";
+			this->dead = true;
+			break;
+	}
+
+	if (oldStatus != this->foodStatus) {
+		this->appendLog(foodMessage);
+	}
 }
 
 bool PlayerChar::throwItem(Item* item) {

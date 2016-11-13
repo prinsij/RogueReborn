@@ -280,8 +280,14 @@ class PlayerChar : public Mob {
 		std::vector<std::string>& getLog();
 
 	private:
+		/** Possible food states of the PlayerChar */
+		enum FoodStates {FULL, HUNGRY, WEAK, FAINT, STARVE};
+
 		/** Experience bounds corresponding to each level */
 		static std::vector<int> levelExpBounds;
+
+		/** Food life bounds corresponding to hunger, fainting, etc. */
+		static std::vector<int> foodLifeBounds;
 
 		/** PlayerChar's current strength */
 		int currentStr;
@@ -291,6 +297,9 @@ class PlayerChar : public Mob {
 
 		/** PlayerChar's current food value */
 		int foodLife;
+
+		/** PlayerChar's food status */
+		FoodStates foodStatus;
 
 		/** PlayerChar's current gold quantity */
 		int gold;
