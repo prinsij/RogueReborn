@@ -118,21 +118,12 @@ Monster::Monster(char symbol, Coord location)
 }
 
 void Monster::attack(Level* level) {
-	//std::cout << "Monster " << this->getName() << " Attack\n";
+	std::cout << "Monster " << this->getName() << " Attack\n";
 
-	// TODO
+	// TODO Requires PlayerChar
 
-	/*
-	std::vector<Coord> possibleCoords = level->getAdjPassable(this->location);
-
-	for (auto coordIt = possibleCoords.begin() ; coordIt != possibleCoords.end() ; coordIt++) {
-		PlayerChar* playerChar = level->playerCharAt(*coordIt);
-		if (playerChar != NULL) {
-			playerChar->hit(this->calculateDamage());
-			break;
-		}
-	}
-	*/
+	//if (this->getLocation().isAdjacentTo(level->getPlayerChar().getLocation())) {}
+	//
 }
 
 int Monster::calculateDamage() {
