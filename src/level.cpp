@@ -226,7 +226,8 @@ void Level::generate() {
 	for (int i=0; i < 40; i++) {
 		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
 							  gen.intFromRange(0, Y_SIZE-1));
-		if (tileAt(randPos).isPassable() == Terrain::Passable) {
+		if (tileAt(randPos).isPassable() == Terrain::Passable && !monsterAt(randPos)) {
+			std::cout << "Creating monster at: " << randPos.toString() << std::endl;
 			registerMob(new Monster('D', randPos));
 		}
 	}
