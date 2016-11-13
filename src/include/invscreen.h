@@ -21,13 +21,15 @@
 
 class InvScreen : public UIState {
 	public:
+		typedef std::function<UIState*(Item*, PlayerChar*, Level*)> transFunc;
+		typedef std::function<bool(Item*)> filtFunc;
 		/** Constructor.
 		 * We take the playerchar and level so
 		 * we can restore them once gameplay
 		 * resumes.
+		 * Includes filter for inventory and function for desired return state.
 		 */
-		InvScreen(PlayerChar*, Level*);
-		InvScreen(PlayerChar*, Level*, std::function<bool(Item*)>);
+		InvScreen(PlayerChar*, Level*, filtFunc, transFunc, bool);
 		/** Draw the inventory.
 		 * Shows like-and-stackable items grouped.
 		 * Makes sure to not reveal the true names
@@ -41,5 +43,12 @@ class InvScreen : public UIState {
 		PlayerChar* player;
 		/** Reference to level for when gameplay resumes. */
 		Level* level;
-		std::function<bool(Item*)> filter;
+		/** Filters the contents of inventory (eg only food). 
+		 * True means display, false means don't.
+		 */
+		filtFunc filter;
+		/** Function returning state we should go to after player picks an item. */
+		transFunc transition;
+		/** indicates whether choice is mandatory. */
+		bool escapeable;
 };

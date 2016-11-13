@@ -54,7 +54,8 @@ class ItemZone {
 		 *  destacking if necessary
 		 */
 		bool remove(Item*);
-
+		/** Return struct corresponding to given hotkey. */
+		KeysItem* getItem(char);
 	private:
 		/** Data structure which stores items. */
 		std::map<char, KeysItem> contents;
@@ -66,8 +67,6 @@ class ItemZone {
 		 * @see KEYS
 		 */
 		char getFreeChar();
-		/** Return struct corresponding to given hotkey. */
-		KeysItem* getItem(char);
 		/** Return struct corresponding to given item. */
 		KeysItem* getItem(Item&);
 };

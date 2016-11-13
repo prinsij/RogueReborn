@@ -10,24 +10,25 @@
 #include "include/playerchar.h"
 #include "include/playstate.h"
 #include "libtcod/include/libtcod.hpp"
+#include "include/itemzone.h"
 #include <functional>
 
-InvScreen::InvScreen(PlayerChar* player, Level* level)
-	: player(player)
-	, level(level)
-	, filter([] (Item* item) {return true;})
-{}
-
-
-InvScreen::InvScreen(PlayerChar* player, Level* level, std::function<bool(Item*)> filter)
+InvScreen::InvScreen(PlayerChar* player, Level* level, 
+		filtFunc filter, transFunc trans, bool escapeable)
 	: player(player)
 	, level(level)
 	, filter(filter)
+	, transition(trans)
+	, escapeable(escapeable)
 {}
 
 UIState* InvScreen::handleInput(TCOD_key_t key) {
-	if (key.vk == TCODK_ESCAPE) {
+	if (key.vk == TCODK_ESCAPE && this->escapeable) {
 		return new PlayState(player, level);
+	}
+	ItemZone::KeysItem* item = player->getInventory().getItem(key.c);
+	if (item != NULL && filter(item->item)) {
+		return transition(item->item, player, level);
 	}
 	return this;
 }
