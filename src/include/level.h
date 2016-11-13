@@ -169,6 +169,15 @@ class Level {
 		 */
 		bool canSee(Coord, Coord);
 
+		/**
+		 * @brief      Gets the path to the nearest gold.
+		 *
+		 * @param[in]  Coord Origin to search from
+		 *
+		 * @return     The path to the nearest gold. NULL if there is no gold to find.
+		 */
+		std::vector<Coord> getNearestGold(Coord);
+
 		~Level();
 
 	private:
