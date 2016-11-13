@@ -56,6 +56,7 @@ class ItemZone {
 		bool remove(Item*);
 		/** Return struct corresponding to given hotkey. */
 		KeysItem* getItem(char);
+		int getSize();
 	private:
 		/** Data structure which stores items. */
 		std::map<char, KeysItem> contents;

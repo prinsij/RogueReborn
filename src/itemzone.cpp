@@ -102,3 +102,7 @@ bool ItemZone::remove(Item* item) {
 	}
 	return false;
 }
+
+int ItemZone::getSize() {
+	return contents.size();
+}
