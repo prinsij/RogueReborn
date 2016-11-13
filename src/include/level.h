@@ -27,10 +27,10 @@ class Tunnel;
 
 class Level {
 	public:
-		Level(int);
+		Level(int, PlayerChar*);
 		Terrain& tileAt(Coord);
 		Terrain& operator[](Coord);
-		void generate(PlayerChar&);
+		void generate();
 		bool contains(Coord);
 		int getDepth();
 		static Coord getSize() { return Coord(X_SIZE, Y_SIZE); };
@@ -158,9 +158,21 @@ class Level {
 		 */
 		Mob* monsterAt(Coord);
 
+		/**
+		 * @brief      Determines ability to see each other
+		 *
+		 * @param[in]  Coord A
+		 * @param[in]  Coord B
+		 *
+		 * @return     True if able to see, False otherwise.
+		 */
+		bool canSee(Coord, Coord);
+
 		~Level();
 
 	private:
+
+		PlayerChar* player;
 		
 		/**
 		 * @brief      Store mobs with a notation for how many 'ticks' they are from being the current actor
@@ -240,7 +252,6 @@ class Level {
 		 * The features in the level (i.e. items, stairs, traps, etc.)
 		 */
 		std::vector<Feature*> features;
-
 
 		int genGoldAmount(Generator);
 

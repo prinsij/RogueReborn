@@ -24,6 +24,8 @@
 #include "include/wand.h"
 #include "include/weapon.h"
 
+std::vector<int> PlayerChar::levelExpBounds = {10, 20, 40, 80, 160, 320, 640, 1300, 2600, 5200, 10000, 20000, 40000, 80000, 160000, 320000, 1000000, 3333333, 6666666, 99900000};
+
 PlayerChar::PlayerChar(Coord location, std::string name)
 	: Mob('@', location, name, START_ARMOR, START_EXP, START_HP, START_LEVEL),
 	  currentStr(START_STR),
@@ -35,6 +37,13 @@ PlayerChar::PlayerChar(Coord location, std::string name)
 	  itemRingRight(NULL),
 	  itemWeapon(NULL),
 	  maxStr(START_STR) {}
+
+void PlayerChar::addExp(int exp) {
+	this->exp += exp;
+
+	if (this->level <= static_cast<int>(levelExpBounds.size()) && this->exp >= levelExpBounds[this->level - 1])
+		this->level++;
+}
 
 void PlayerChar::appendLog(std::string entry) {
 	this->log.push_back(entry);

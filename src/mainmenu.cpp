@@ -34,10 +34,12 @@ UIState* MainMenu::handleInput(TCOD_key_t key) {
 		}
 	// If enter we generate the first level and start the game
 	} else if (key.vk == TCODK_ENTER) {
-		Level* level = new Level(0);
+
 		PlayerChar* player = new PlayerChar(Coord(10, 10), nameBuffer);
+		Level* level = new Level(0, player);
 		level->registerMob(player);
-		level->generate(*player);
+		level->generate();
+
 		// Place the player in the upper-left clear spot
 		for (int x=0; x < level->getSize()[0]; x++) {
 			for (int y=0; y < level->getSize()[1]; y++) {
@@ -47,6 +49,7 @@ UIState* MainMenu::handleInput(TCOD_key_t key) {
 				}
 			}
 		}
+		
 		L_exit:
 		player->appendLog("Hello " + player->getName() + ". Welcome to the Dungeons of Doom. Type [?] for help.");
 		return new PlayState(player, level);

@@ -46,6 +46,14 @@ class PlayerChar : public Mob {
 		 */
 		void activateItem(Item*);
 
+
+		/**
+		 * @brief	Adds the given experience to the PlayerChar
+		 *
+		 * @param	exp Experience to be added
+		 */
+		void addExp(int);
+
 		/**
 		 * @brief      Appends the given entry to the log.
 		 *
@@ -237,6 +245,9 @@ class PlayerChar : public Mob {
 		std::vector<std::string>& getLog();
 
 	private:
+		/** Experience bounds corresponding to each level */
+		static std::vector<int> levelExpBounds;
+
 		/** PlayerChar's current strength */
 		int currentStr;
 
