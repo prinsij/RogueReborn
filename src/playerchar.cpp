@@ -60,6 +60,11 @@ void PlayerChar::attack(Mob* mob) {
 			this->appendLog("You hit " + mob->getName());
 
 			mob->hit(this->calculateDamage());
+
+			if (mob->isDead()) {
+				this->appendLog("You have defeated the " + mob->getName());
+				this->addExp(mob->getExperience());
+			}
 		} else {
 			this->appendLog("You miss " + mob->getName());
 		}

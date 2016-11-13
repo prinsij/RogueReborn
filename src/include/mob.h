@@ -77,6 +77,13 @@ class Mob {
 		 * @see currentHP
 		 */
 		void hit(int);
+		
+		/**
+		 * @brief	Determines if this mob is dead
+		 *
+		 * @return	True if this mob is dead, false otherwise
+		 */
+		bool isDead();
 		/** Add current location and param together.
 		 * @see location
 		 */
@@ -107,6 +114,8 @@ class Mob {
 		int armor;
 		/** More hitpoints indicates the mob is healthier */
 		int currentHP;
+		/** Indicates whether or not this mob is dead */
+		bool dead;
 		/** More exp indicates the mob is closer to leveling up. */
 		int exp;
 		/** Higher level characters are more powerful. */

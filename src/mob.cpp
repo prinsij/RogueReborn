@@ -13,13 +13,15 @@
 #include "include/mob.h"
 
 Mob::Mob(char symbol, Coord location)
-	: location(location)
-	, symbol(symbol)
+	: dead(false),
+	  location(location),
+	  symbol(symbol)
 	{}
 
 Mob::Mob(char symbol, Coord location, std::string name, int armor, int exp, int mobHP, int level)
 	: armor(armor),
 	  currentHP(mobHP),
+	  dead(false),
 	  exp(exp),
 	  level(level),
 	  location(location),
@@ -69,10 +71,16 @@ char Mob::getSymbol() {
 }
 
 void Mob::hit(int damage) {
-	// TODO
-
 	int deltaHP = std::max(1, damage - this->armor);
 	this->currentHP -= deltaHP;
+
+	if (this->currentHP <= 0) {
+		this->dead = true;
+	}
+}
+
+bool Mob::isDead() {
+	return this->dead;
 }
 
 void Mob::moveLocation(Coord location) {
