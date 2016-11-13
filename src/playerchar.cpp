@@ -168,6 +168,10 @@ void PlayerChar::equipWeapon(Weapon* weapon) {
 	this->itemWeapon = weapon;
 }
 
+int PlayerChar::getFoodLife() {
+	return this->foodLife;
+}
+
 int PlayerChar::getGold() {
 	return this->gold;
 }
@@ -260,6 +264,10 @@ bool PlayerChar::removeWeapon() {
 
 void PlayerChar::setDexterity(int dexterity) {
 	this->dexterity = dexterity;
+}
+
+void PlayerChar::setFoodLife(int foodLife) {
+	this->foodLife = foodLife;
 }
 
 bool PlayerChar::throwItem(Item* item) {

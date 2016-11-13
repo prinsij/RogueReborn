@@ -135,6 +135,13 @@ class PlayerChar : public Mob {
 		void equipWeapon(Weapon*);
 
 		/**
+		 * @brief	Gets the PlayerChar's food life.
+		 *
+		 * @return	The PlayerChar's food life.
+		 */ 
+		int getFoodLife();
+
+		/**
 		 * @brief      Gets the PlayerChar's gold total.
 		 *
 		 * @return     The PlayerChar's gold total.
@@ -233,6 +240,13 @@ class PlayerChar : public Mob {
 		 * @param	dexterity The PlayerChar's new dexterity
 		 */
 		void setDexterity(int);
+
+		/**
+		 * @brief	Sets the food life of the PlayerChar
+		 *
+		 * @param	foodLife The new food life of the PlayerChar
+		 */
+		void setFoodLife(int);
 
 		/**
 		 * @brief      Attempts to throw the given Item.
