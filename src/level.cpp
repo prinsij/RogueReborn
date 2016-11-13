@@ -30,9 +30,9 @@
 #include "include/tunnel.h"
 
 Level::Level(int depth, PlayerChar* player)
-	: size(getSize())
+	: player(player)
+	, size(getSize())
 	, depth(depth)
-	, player(player)
 {
 	for (auto x=0; x < size[0]; x++) {
 		tiles.push_back(std::vector<Terrain>());
