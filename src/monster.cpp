@@ -114,7 +114,7 @@ Monster::Monster(char symbol, Coord location)
 
 	name = std::get<7>(monsterTuple);
 
-	awake = false;
+	awake = true;
 }
 
 void Monster::attack(Level* level) {
@@ -165,19 +165,26 @@ std::vector<char> Monster::getSymbolsForTreasure(int depth) {
 
 void Monster::relocate(Level* level) {
 
+	std::vector<Coord> possibleCoords = level->getAdjPassable(this->location);
+	if (possibleCoords.size()) {
+		this->location = possibleCoords[0];
+	}
+
+	/*
 	if (Generator::randBool()) {
 		std::vector<Coord> possibleCoords = level->getAdjPassable(this->location);
 		if (possibleCoords.size()) {
 			this->location = possibleCoords[Generator::intFromRange(0, possibleCoords.size())];
 		}
 	}
+	*/
 }
 
 int Monster::turn(Level* level) {
 	if (!this->awake)
 		return TURN_TIME;
 
-	//std::cout << "Monster " << this->getName() << "'s Turn\n";
+	std::cout << "Monster " << this->getName() << "'s Turn\n";
 
 	relocate(level);
 	attack(level);
