@@ -167,7 +167,7 @@ void Monster::relocate(Level* level) {
 
 		std::vector<Coord> possibleCoords = level->getAdjPassable(this->location);
 		if (possibleCoords.size() > 0) {
-			Coord newPlace = possibleCoords[Generator::intFromRange(0, possibleCoords.size())];
+			Coord newPlace = possibleCoords[Generator::intFromRange(0, possibleCoords.size()-1)];
 			std::cout << "(" << this << ") Moving from " << this->location.toString() << " to " << newPlace.toString() << " (" << (newPlace-this->location).toString() << ")" << std::endl;
 			this->location = newPlace;
 		}
