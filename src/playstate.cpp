@@ -163,6 +163,10 @@ void PlayState::draw(TCODConsole* con) {
 }
 
 UIState* PlayState::handleInput(TCOD_key_t key) {
+	// control-C overrides all
+	if ((key.rctrl || key.lctrl) && (key.c == 'c' || key.c == 'C')) {
+		return NULL;
+	}
 	//delegate to the prompt if that's what we're doing
 	if (prompt != NULL) {
 		Prompt::Transition trans = prompt->handleInput(key);
@@ -191,9 +195,11 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		prompt = new QuitPrompt(player, level);
 		return this;
 	}
+	// view inventory
 	if (key.c == 'i') {
 		return new InvScreen(player, level);
 	}
+	// view help
 	if (key.c == '?') {
 		return new HelpScreen(player, level);
 	}
@@ -203,6 +209,16 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		player->appendLog("You rest briefly");
 		return this;
 	}
+	// drop item
+	if (key.c == 'd') {
+		for (auto feat : level->getFeatures()) {
+			Item* item = dynamic_cast<Item*>(feat);
+			if (item != NULL && item->getLocation() == player->getLocation()) {
+				goto no_drop;
+			}
+		}
+	}
+	no_drop:;
 	if (key.c == '<' || key.c == '>') {
 		for (Feature* feat : level->getFeatures()) {
 			Stairs* stair = dynamic_cast<Stairs*>(feat);
