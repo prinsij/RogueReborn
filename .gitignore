@@ -4,15 +4,46 @@
 # Compiled files
 *.exe
 *.o
+*.synctex.gz
+
+.hiddenmv
 
 # Editor files
 *.swp
 
 # General
 *.tmp
+*.log
 
 # CLion stuff (ignore)
 .idea/*
 
+# Score record file
+scores.txt
+
+# Boost
+src/boost_1_62_0/*
+
 # Library files
 src/*.so
+
+*.lof
+*.lot
+*.toc
+*.out
+
+# Doxygen
+src/latex/*
+src/html/*
+
+src/.srcstore/*
+
+# Generated dependency files
+*.depends
+
+# Compiled Python Files
+*.pyc
+
+# Generated doxygen files
+src/html/*
+src/latex/*

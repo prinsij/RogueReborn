@@ -1,0 +1,10 @@
+
+mainbuild:
+  script:
+    - cd src/
+    - make
+    - ./Test.exe > ../Pipeline/TestResults
+    - make clean
+    - cd ../Pipeline/
+    - python check.py
+    - cd ..

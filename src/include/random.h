@@ -1,15 +1,39 @@
+/**
+ * @file random.h
+ * @author Team Rogue++
+ * @date November 09, 2016
+ *
+ * @brief Member declarations for the Generator class
+ */ 
+
+#pragma once
+
 #include <random>
+#include <string>
+#include <vector>
 
-#ifndef RANDOM_H
-#define RANDOM_H
+#include "coord.h"
 
+/** Light wrapper around the std library
+ *  which provides various random generation
+ *  utilities.
+ */
 class Generator {
 	public:
-		Generator();
-		int intFromRange(int, int);
-		double operator()();
+		/** Random integer from range (inclusive). */
+		static int intFromRange(int, int);
+		/** Random double between 0 and 1 (inclusive). */
+		static double rand();
+		/** Random boolean. */
+		static bool randBool();
+		/** Random coord in box deliniated by topleft,
+		 *  bottomright.
+		 */
+		static Coord randPosition(Coord, Coord);
+		/** Randomly shuffle the vector provided */
+		template<typename T>
+		static void shuffle(std::vector<T>*);
 	private:
-		std::mt19937 gen;
+		/** std lib generator (m-twister). */
+		static std::mt19937 gen;
 };
-
-#endif

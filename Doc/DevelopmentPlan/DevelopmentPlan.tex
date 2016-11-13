@@ -2,56 +2,121 @@
 
 \usepackage{booktabs}
 \usepackage{tabularx}
+\usepackage{indentfirst}
+\usepackage{hyperref}
+\usepackage{color}
 
-\title{SE 3XA3: Development Plan\\Title of Project}
+\title{SE 3XA3: Development Plan\\Rogue Reborn}
 
-\author{Team \#, Team Name
-		\\ Student 1 name and macid
-		\\ Student 2 name and macid
-		\\ Student 3 name and macid
+\author{Group \#6, Team Rogue++\\\\
+	\begin{tabular} {l l}
+		Ian Prins & prinsij \\
+		Mikhail Andrenkov & andrem5 \\
+		Or Almog  & almogo
+	\end{tabular}
 }
 
-\date{}
+\date{Friday, September 30, 2016}
 
 \input{../Comments}
 
 \begin{document}
 
-\begin{table}[hp]
-\caption{Revision History} \label{TblRevisionHistory}
-\begin{tabularx}{\textwidth}{llX}
-\toprule
-\textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
-\midrule
-Date1 & Name(s) & Description of changes\\
-Date2 & Name(s) & Description of changes\\
-... & ... & ...\\
-\bottomrule
-\end{tabularx}
+\begin{table}[hp]s
+	\caption{Revision History} \label{TblRevisionHistory}
+	\begin{tabularx}{\textwidth}{llX}
+		\toprule
+		\textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
+		\midrule
+		09/23/2016 & Or & Created outline .tex\\
+		09/25/2016 & Ian & Added Meeting Plan, Team Roles, and Proof of Concept Plan \\
+		09/25/2016 & Mikhail & Added Communication Plan and Technology\\
+		09/26/2016 & Mikhail & Added Git Workflow Plan\\
+		09/30/2016 & Mikhail & Edited and Proofread Document\\
+		09/30/2016 & Or & Added Coding Style \& Project Schedule\\
+		09/30/2016 & Or & Fixed typos\\
+		09/30/2016 & Mikhail & Added More Hyperlinks\\
+		... & ... & ...\\
+		\bottomrule
+	\end{tabularx}
 \end{table}
 
 \newpage
 
 \maketitle
 
-Put your introductory blurb here.
+\textcolor{red}{This text can be in a \textit{Abstract} section - CM} \\
+\indent
+The Rogue Reborn project aims to rewrite the classic video game \textit{Rogue} in a modern programming language using contemporary software development techniques.  The purpose of this document is to outline the development plan of the project.  Included below are the strategies for \hyperref[communication_label]{team coordination} and \hyperref[roles_label]{work partitioning}, details of the \hyperref[tech_label]{technology} and \hyperref[workflow_label]{development process}, and an overview of the \hyperref[schedule_label]{project schedule} including details of the requirements for the \hyperref[poc_label]{proof of concept} deadline.
 
 \section{Team Meeting Plan}
+\label{meeting_label}
+\indent
+Team meetings will be held on a weekly basis in Thode library at 3:30 PM every Wednesday.  These weekly meetings will be chaired by the team leader whose will be responsible for developing and enforcing a rough meeting agenda.  Although this agenda will not be posted, it will be briefly outlined for the participants of the meeting.  In addition, full meeting minutes will not be recorded; however, the meeting scribe will be responsible for recording the outcomes of the meeting discussions.  These transcripts will be posted to the team Git repository.  If a team member cannot attend the meeting, a brief summary of the meeting (including a reference to the Git commit) will be posted to the team Slack channel by the meeting scribe.  Any changes to the meeting format, location, or time will also be posted to the team Slack channel by the meeting chair.
 
 \section{Team Communication Plan}
+\label{communication_label}
+
+\indent
+Team communications will be distributed across several social platforms.  This way, conversations can be grouped together according to the degree of formality and desired visibility.  Specifically, Slack will be used to exchange informal messages for purposes such as conveying meeting times or briefly discussing topics.  Team members will be required to check this service at least once per day in order to facilitate quicker response times and encourage more open communication.  Next, the GitLab ITS will serve as an official means of tracking bugs, reporting issues, and announcing any other code correction requests.  All other communications will be performed in person during the lab sessions as well as the weekly group meeting.  Currently, there is no plan to include any other communication streams as this will most likely dilute the conversations to a point where accessibility and traceability is sacrificed.
 
 \section{Team Member Roles}
+\label{roles_label}
+
+\indent
+As of the initial submission of this document, Mikhail is the team leader.  As such, he will be responsible for chairing the meetings, allocating work across the team, and ensuring that all of the team members are up-to-date with respect to the project status and deadlines.  The other team members will alternate between fulfilling the role of the meeting scribe. Outside of meetings, various team members will assume the roles of experts in the project technology area.  In particular, Mikhail will be the Git and LaTeX expert, Ori will be the testing and Linux environment expert, and Ian will be the C++ and \textit{libtcod} expert (more on this library in the \hyperref[tech_label]{Technology} section).  Expert roles do not constitute work allocations; rather, they assign accountability for certain portions of the project and provide a contact for internal questions related to a specific domain.
 
 \section{Git Workflow Plan}
+\label{workflow_label}
+
+\indent
+To minimize the overhead associated with creating, updating, and managing project files, the Rogue++ team will collaborate using several Git integration flows.  In general, all project source files and documents associated with the main (stable) development branch will be hosted in a central GitLab repository.  Any developers (or distinguished stakeholders) may clone, view, and modify this code, given that their changes do not compromise any tested functionality.  Note that it is still acceptable to commit a change to this branch that is not fully integrated; however, the application must be able to successfully compile and run.  In the event that a prototype demonstration is required, a new branch will be created to host any temporary changes that will not be merged back into the main branch.  This way, developers are free to adapt existing source code in any manner they choose in order to showcase their progress to a stakeholder without violating the integrity of the stable branch.\\
+
+To create a semantic history of the development process, labels will be used extensively throughout the course of the Rogue Reborn project.  This will enable stakeholders to oversee the progress of the project more clearly and developers to gauge their own productivity with greater ease.  Milestones will also be incorporated as a means of measuring the progress of the application against the goals of the stakeholders.  These milestones may also be used internally within the Rogue++ team to coordinate feature implementation or debug deadlines. If done correctly, this system will allow for more efficient communication between the involved parties and improve the visibility of the entire development cycle.
 
 \section{Proof of Concept Demonstration Plan}
+\label{poc_label}
+
+\indent
+To demonstrate the feasibility of the project, a proof of concept (PoC) will be developed. The PoC will demonstrate the following features:
+
+\begin{itemize}
+	\item Basic dungeon generation, including a connected graph of rooms and corridors.
+	\item Rendering the level and any produced menus.
+	\item The start screen and high-score screen.
+	\item Read and written high score file.
+	\item Line of sight and pathfinding implementation.
+	\item Basic movement.
+	\item Implemented but not integrated traps, items, and monsters.
+\end{itemize}
+
+If there are no issues implementing the features above, it shall be assumed that there are no fundamental flaws with the requirements or architectural design of the project.  Several major features of the project have been excluded from this demonstration (advanced item manipulation and traps, hidden passageways, complex monster AI, etc.) because the PoC is otherwise too ambitious.  As long as the underlying code is well-architectured, the more sophisticated features of the application should be able to flow out of the PoC foundation.\\	
+
+On a positive note, it is unlikely that a straight-forward implementation of the PoC features will prove to be unusually difficult.  However, implementing these features in a sufficiently extensible manner (so that they can be reused without readjustment) will undoubtedly be more challenging.  It is also important to realize that the reverse-engineering process of the algorithms for various features from the original source will also incur significant effort.  From a testing perspective, the Rogue++ development team is relatively new to testing frameworks.  As such, writing unit and integration tests may initially take some additional time.  At this point in time, the project is planned to be solely developed in a Linux environment; all of the required library dependencies have been installed and a test application of the game is successfully compiling and on all of the developers' machines.
 
 \section{Technology}
+\label{tech_label}
+
+\indent
+The technology behind the Rogue Reborn project was selected to facilitate a productive development process and a powerful user experience. At its very core, C++ will serve as the primary programming language for this application.  This decision was heavily influenced by the superior performance benefits and community support behind the language, not to mention its prevalence in the professional game developer industry.  Another factor that motivated the use of C++ was its compatibility with \href{http://roguecentral.org/doryen/libtcod/}{\textit{libtcod}}: a lightweight graphics library that offers a simple interface to draw ASCII-style art and collect user input.  For these reasons, the development team believes that developing a C++ project would yield the best experience from both a technical and practical perspective.\\
+
+With respect to the environment of the technology, the Rogue++ team agreed to use Linux as the primary development platform (attempting to achieve cross-platform portability from the start could significantly hinder progress).  Otherwise, every team member is free to use a text editor of their choice: imposing a constraint on an IDE could result in unnecessary complications and may interfere with productivity during the early coding stages.  To gain confidence in the correctness and versatility of the code, the \href{http://www.boost.org/doc/libs/1_54_0/libs/test/doc/html/index.html}{Boost Test} framework will be heavily utilized to perform unit testing across the project.  This library was selected on the merits of its superb documentation, simple approach to test creation, and robust assertion support.  On a final note, the Rogue Reborn documentation will be generated using two tools.  Specifically, all design documentation will be generated using LaTeX, while all source code documentation will be delegated to the Doxygen tool.
 
 \section{Coding Style}
+\label{style_label}
+\textcolor{red}{Consider colouring hyperlinks to aid reader - CM} \\
+\indent
+In any large-scale project, it is vital for all members to be on the same page.  This is especially true for a software project, where every team member must be able to read, understand, and analyze everyone else's code.  The Rogue++ project will be utilizing \href{https://google.github.io/styleguide/cppguide.html}{Google's C++ Style Guide} to format and organize the source code.  Google offers style guides that span dozens of programming languages and are a professional standard used in every corner of the software industry. Despite its excellence, the team will implement one change to the guide.\\
+
+Google's C++ Style Guide calls for inline comments describing classes, functions, methods, and file contents.  While this is a noble goal (and is most definitely necessary), this job has been delegated elsewhere.  As mentioned before, the Rogue++ team will be using the Doxygen tool for documenting the source code structure.  Doxygen will effectively encapsulate the design-documentation sphere. The only real difference this will make is the addition of Doxygen's documentation syntax on top of Google's comment standard.
 
 \section{Project Schedule}
+\label{schedule_label}
 
-Provide a pointer to your Gantt Chart.
+\indent
+The project schedule is found at \href{run:../../ProjectSchedule/Rogue.gan}{this location}.
 
+\section{Project Review}
+
+\textcolor{red}{Fantastic development plan, do not think the lack of comments is from a lack of effort to make them but rather the lack of anything wrong. Keep this up, I am very impressed and excited to see how this project pans out. - CM} \\
 \end{document}

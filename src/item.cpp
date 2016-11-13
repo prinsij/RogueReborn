@@ -1,28 +1,83 @@
+/**
+ * @file item.cpp
+ * @author Team Rogue++
+ * @date November 09, 2016
+ *
+ * @brief Member definitions for the Item class
+ */ 
+
+#include <algorithm>
+#include <map>
+#include <string>
+#include <vector>
+
 #include "include/item.h"
+#include "include/random.h"
 
-Item::Item(Location loc, Identified id, Coord coord, std::string name)
-	: location(loc)
-	, knowledge(id)
-	, coord(coord)
-	, name(name)
-{}
+std::map<std::string, std::map<int, bool> > Item::identified;
 
-Coord Item::getCoord() {
-	return coord;
+std::vector<std::string> Item::shuffleNameVector(std::vector<std::string> nameVector) {
+	std::random_shuffle(nameVector.begin(), nameVector.end());
+	return nameVector;
+};
+
+Item::Item(char symbol, Coord location, Item::Context context, std::string className, std::string name, std::string pseudoName, int type, bool canStack, bool canThrow)
+	: Feature(symbol, location),
+	  canStack(canStack),
+	  canThrow(canThrow),
+	  className(className),
+	  context(context),
+	  name(name),
+	  pseudoName(pseudoName),
+	  type(type) {}
+
+Item::Item(char symbol, Coord location, Item::Context context, std::string className, std::string name, int type, bool canStack, bool canThrow)
+	: Item(symbol, location, context, className, name, name, type, canStack, canThrow) {}
+
+bool Item::operator==(const Item& other) const {
+	return this->name.compare(other.name) == 0;
+}
+
+bool Item::operator<(const Item& other) const {
+	return this->name.compare(other.name) < 0;
+}
+
+Item::Context Item::getContext() {
+	return this->context;
+}
+
+void Item::setContext(Item::Context newContext) {
+	this->context = newContext;
+}
+
+std::string Item::getDisplayName() {
+	if (Item::identified[this->className].find(this->type) == Item::identified[this->className].end()) {
+		return this->pseudoName;
+	} else {
+		return Item::identified[this->className][this->type] ?  this->name : this->pseudoName ;
+	}
 }
 
 std::string Item::getName() {
-	return name;
+	return this->name;
 }
 
-Item::Location Item::getLocation() {
-	return location;
+int Item::getType() {
+	return this->type;
 }
 
-Item::Identified Item::isIdentified() {
-	return knowledge;
+bool Item::isIdentified() {
+	return Item::identified[this->className][this->type];
 }
 
-bool Item::operator==(const Item& other) const {
-	return this == &other;
+bool Item::isStackable() {
+	return this->canStack;
+}
+
+bool Item::isThrowable() {
+	return this->canThrow;
+}
+
+void Item::setIdentified(bool newValue) {
+	Item::identified[this->className][this->type] = newValue;
 }

@@ -1,0 +1,33 @@
+I --> Ian
+O --> Ori
+M --> Mikhail
+
+===============
+Module Guide
+=====
+
+I:
+	S3 Module Hierarchy								2
+	S5 Module Decomposition							6
+
+M:
+	S1 Introduction									4	
+	S7 Use Hierarchy Between Modules				3
+	S* Editing										-
+
+O:
+	S2 Anticipated and Unlikely Changes				3
+	S4 Connection Between Requirements and Design	3
+	S6 Traceability Matrix							2
+
+
+===============
+Module Interface Specification
+=====
+
+All:
+	Doxygen
+	Environment Variables
+
+I:
+	Gantt Chart Update
