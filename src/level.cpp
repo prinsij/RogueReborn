@@ -226,8 +226,10 @@ void Level::generate() {
 	for (int i=0; i < 40; i++) {
 		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
 							  gen.intFromRange(0, Y_SIZE-1));
-		if (tileAt(randPos).isPassable() == Terrain::Passable) {
-			registerMob(new Monster('D', randPos));
+		if (tileAt(randPos).isPassable() == Terrain::Passable && !monsterAt(randPos)) {
+			Mob* m = new Monster('D', randPos);
+			std::cout << "Creating " << m << " at: " << randPos.toString() << std::endl;
+			registerMob(m);
 		}
 	}
 	// Place staircase
@@ -422,7 +424,7 @@ std::vector<Coord> Level::traceBack(Coord end, Coord start){
 	}
 
 	path.push_back(start.copy());
-
+	std::reverse(path.begin(), path.end());
 	return path;
 }
 
@@ -431,8 +433,7 @@ std::vector<Coord> Level::getAdjPassable(Coord ori){
 	std::vector<Coord> sample;
 	for (Coord& ortho : Coord::ORTHO) {
 		Coord adj = ortho + ori;
-		if (contains(adj) && tileAt(adj).isPassable() == Terrain::Passable
-				&& !monsterAt(adj) ) {
+		if (contains(adj) && tileAt(adj).isPassable() == Terrain::Passable && !monsterAt(adj) ) {
 			sample.push_back(adj);
 		}
 	}

@@ -20,22 +20,6 @@
  */
 class ItemZone {
 	public:
-		/** Internal representation of items,
-		 *  helps for stackability tracking.
-		 */
-		struct KeysItem {
-			/** Item this corresponds to. */
-			Item* item;
-			/** Number in this stack (should be only
-			 *  1 stack per ItemZone).
-			 */
-			int quantity;
-			/** Constructor. */
-			KeysItem(Item* item, int quantity)
-				: item(item)
-				, quantity(quantity)
-			{}
-		};
 		/** Constructor for empty container. */
 		ItemZone();
 		/** Access item at index, as if ItemZone
@@ -49,17 +33,18 @@ class ItemZone {
 		/** Check if item with given name is in ItemZone. */
 		bool contains(const std::string& name);
 		/** Return the contents of the zone directly. */
-		std::map<char, KeysItem>& getContents();
+		std::map<char, std::vector<Item*> >& getContents();
 		/** Remove the given item from the zone, potentially
 		 *  destacking if necessary
 		 */
 		bool remove(Item*);
 		/** Return struct corresponding to given hotkey. */
-		KeysItem* getItem(char);
+		std::vector<Item*>* getItem(char);
+		/** Return the number of distinct items. */
 		int getSize();
 	private:
 		/** Data structure which stores items. */
-		std::map<char, KeysItem> contents;
+		std::map<char, std::vector<Item*> > contents;
 		/** Maximum capacity of zone, not counting stacks. */
 		static const int MAX_SIZE = 23;
 		/** List of all allowed hotkeys for items. */
@@ -69,5 +54,5 @@ class ItemZone {
 		 */
 		char getFreeChar();
 		/** Return struct corresponding to given item. */
-		KeysItem* getItem(Item&);
+		std::vector<Item*>* getItem(Item&);
 };

@@ -26,9 +26,9 @@ UIState* InvScreen::handleInput(TCOD_key_t key) {
 	if (key.vk == TCODK_ESCAPE && this->escapeable) {
 		return new PlayState(player, level);
 	}
-	ItemZone::KeysItem* item = player->getInventory().getItem(key.c);
-	if (item != NULL && filter(item->item)) {
-		return transition(item->item, player, level);
+	auto items = player->getInventory().getItem(key.c);
+	if (items != NULL && filter(items->front())) {
+		return transition(items->front(), player, level);
 	}
 	return this;
 }
@@ -36,10 +36,10 @@ UIState* InvScreen::handleInput(TCOD_key_t key) {
 void InvScreen::draw(TCODConsole* con) {
 	int y = 0;
 	for (auto& pair : player->getInventory().getContents()) {
-		if (not filter(pair.second.item)) continue;
+		if (not filter(pair.second.front())) continue;
 		con->print(0, y,
-			(std::string(1, pair.first)+") "+std::to_string(pair.second.quantity)+" "
-			+pair.second.item->getDisplayName()).c_str());
+			(std::string(1, pair.first)+") "+std::to_string(pair.second.size())+" "
+			+pair.second.front()->getDisplayName()).c_str());
 		++y;
 	}
 }
