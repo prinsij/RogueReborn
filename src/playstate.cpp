@@ -28,12 +28,9 @@ class QuitPrompt2 : public PlayState {
 	public:
 		QuitPrompt2(PlayerChar* player, Level* level)
 			: PlayState(player, level)
-		{
-			std::cerr << "player: " << player << "\n";
-		}
+		{}
 	private:
 		virtual UIState* handleInput(TCOD_key_t key) {
-			std::cerr << "player: " << player << "\n";
 			if (key.c == 'y' || key.c == 'Y') {
 				return new RIPScreen(player, level, "retired");
 			}
@@ -143,7 +140,11 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	}
 	// view inventory
 	if (key.c == 'i') {
-		return new InvScreen(player, level);
+		return new InvScreen(player, level, [] (Item*) {return true;},
+											[] (Item*, PlayerChar* p, Level* l) {
+													return new PlayState(p, l);
+												},
+											true);
 	}
 	// view help
 	if (key.c == '?') {

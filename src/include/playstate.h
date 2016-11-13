@@ -46,4 +46,5 @@ class PlayState : public UIState {
 		 * @see updateMap
 		*/
 		Room* currRoom;
+
 };
