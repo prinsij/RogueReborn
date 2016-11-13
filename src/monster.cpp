@@ -173,6 +173,9 @@ void Monster::relocate(Level* level) {
 }
 
 int Monster::turn(Level* level) {
+	if (!this->awake)
+		return TURN_TIME;
+
 	//std::cout << "Monster " << this->getName() << "'s Turn\n";
 
 	relocate(level);
