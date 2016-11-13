@@ -50,6 +50,10 @@ int Level::getDepth() {
 	return depth;
 }
 
+PlayerChar* Level::getPlayer() {
+	return player;
+}
+
 Terrain& Level::operator[](Coord coord) {
 	return tileAt(coord);
 }

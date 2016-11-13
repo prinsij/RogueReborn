@@ -33,6 +33,7 @@ class Level {
 		void generate();
 		bool contains(Coord);
 		int getDepth();
+		PlayerChar* getPlayer();
 		static Coord getSize() { return Coord(X_SIZE, Y_SIZE); };
 
 		/**
