@@ -76,6 +76,13 @@ class PlayerChar : public Mob {
 		int calculateDamage();
 
 		/**
+		 * @brief      Calculates the hit chance of the PlayerChar.
+		 *
+		 * @return     The chance the PlayerChar will hit their target.
+		 */
+		int calculateHitChance();
+
+		/**
 		 * @brief      Adds the gold contained in the given GoldPile to the PlayerChar's gold total. 
 		 *
 		 * @param      goldPile GoldPile to be harvested.
@@ -221,6 +228,13 @@ class PlayerChar : public Mob {
 		bool removeWeapon();
 
 		/**
+		 * @brief	Sets the PlayerChar's dexterity
+		 *
+		 * @param	dexterity The PlayerChar's new dexterity
+		 */
+		void setDexterity(int);
+
+		/**
 		 * @brief      Attempts to throw the given Item.
 		 *
 		 * @return     True if the Item was thrown, False otherwise.
@@ -250,6 +264,9 @@ class PlayerChar : public Mob {
 
 		/** PlayerChar's current strength */
 		int currentStr;
+
+		/** PlayerChar's dexterity (increases hit chance) */
+		int dexterity = 0;
 
 		/** PlayerChar's current food value */
 		int foodLife;
