@@ -113,6 +113,8 @@ Monster::Monster(char symbol, Coord location)
 	maxHP = hp;
 
 	name = std::get<7>(monsterTuple);
+
+	awake = false;
 }
 
 void Monster::attack(Level* level) {
@@ -171,6 +173,9 @@ void Monster::relocate(Level* level) {
 }
 
 int Monster::turn(Level* level) {
+	if (!this->awake)
+		return TURN_TIME;
+
 	//std::cout << "Monster " << this->getName() << "'s Turn\n";
 
 	relocate(level);
