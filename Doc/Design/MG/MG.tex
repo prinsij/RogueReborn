@@ -37,6 +37,7 @@
 
 % Custom Commands
 
+
 \newcommand{\newSection}[1]{
   \newpage
   \section{#1}
@@ -45,12 +46,17 @@
 
 \newcounter{acnum}
 \newcommand{\actheacnum}{AC\theacnum}
-\newcommand{\acref}[1]{AC\ref{#1}}
+\newcommand{\acref}[1]{\hyperref[#1]{AC\ref{#1}}}
 
 \newcounter{ucnum}
 \newcommand{\uctheucnum}{UC\theucnum}
-\newcommand{\uref}[1]{UC\ref{#1}}
+\newcommand{\uref}[1]{\hyperref[#1]{UC\ref{#1}}}
 
+\newcounter{mnum}
+\newcommand{\mhprint}[1]{\addtocounter{mnum}{1} #1 & \textbf{M\themnum}}
+\newcommand{\mdprint}[1]{\addtocounter{mnum}{1} #1 (M\themnum)}
+
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0em}}p{#1}}
 
 % Title Page Elements
 
@@ -65,13 +71,15 @@
   \end{tabular}
 }
 
-\date{Due Friday, November 11\textsuperscript{th}, 2016}
+\date{Due Sunday, November 13\textsuperscript{th}, 2016}
 
 \input{../../Comments}
 
 \begin{document}
 
+
 % Document Summary
+
 
 \maketitle
 
@@ -91,6 +99,7 @@
         11/12/16 & 0.3 & Added Module Decomposition\\
         11/12/16 & 0.4 & Added Introduction\\
         11/12/16 & 0.5 & Added Use Hierarchy\\
+        11/13/16 & 0.6 & Proofread and Editing\\
         \bottomrule
     \end{tabularx}
 \end{table}
@@ -126,7 +135,7 @@
             \item[] \hyperref[SecIntro]{\S1} Overview of the MG document
             \item[] \hyperref[SecChange]{\S2} Comprehensive list of system changes under consideration
             \item[] \hyperref[SecMH]{\S3} Conceptual hierarchy of implemented modules
-            \item[] \hyperref[SecConnection]{\S4} Analysis of the system architecture design with respect to the mandated requirements
+            \item[] \hyperref[SecConnection]{\S4} System design rationale with respect to the mandated requirements
             \item[] \hyperref[SecMD]{\S5} Detailed summary of the module decomposition 
             \item[] \hyperref[SecTM]{\S6} Tabular depiction of the relationships between modules, requirements, and anticipated changes
             \item[] \hyperref[SecUse]{\S7} Illustration of the module functionality dependency graph
@@ -150,6 +159,7 @@
                 FR & Functional Requirement\\
                 GUI & Graphical User Interface\\
                 HC & High Cohesion\\
+                HP & Health Points\\
                 IH & Information Hiding\\
                 LC & Low Coupling\\
                 LoS & Line of Sight\\
@@ -176,11 +186,10 @@
                 \toprule
                 \textbf{Term} & \textbf{Definition}\\
                 \midrule
-                \textbf{Amulet of Yendor} & Item located on the deepest level of the dungeon; enables the player character to ascend through the levels and complete the game\\
-                \textbf{Encapsulation} & Grouping together of methods and fields\\
+                \textbf{Amulet of Yendor} & Item located on the deepest level of the dungeon; enables the player character to ascend back through the levels and complete the game\\
                 \textbf{Frame} & An instantaneous ``snapshot'' of the GUI screen\\
-                \textbf{Homomorphism} & A mapping between two mathematical structures\\
-                \textbf{Libtcod} & Graphics library specializing in delivering a roguelike experience\\
+                \textbf{Health Points} & Quantity that represents the life of an entity; an entity with no life is considered to be dead.\\
+                \textbf{Libtcod} & Graphics library specializing in delivering an authentic roguelike experience\\
                 \textbf{Permadeath} & Feature whereby the death of the player character will conclude the game\\
                 \textbf{Player Character} & User-controlled character in Rogue Reborn\\
                 \textbf{Rogue} & Video game developed for the UNIX terminal in 1980 that initiated the roguelike genre\\
@@ -191,97 +200,94 @@
 
 \newSection{Anticipated and Unlikely Changes} \label{SecChange}
 
-    This section lists possible changes to the system. According to the likeliness of the change, the possible changes are classified into two  categories. Anticipated changes are listed in Section \ref{SecAchange}, and unlikely changes are listed in Section \ref{SecUchange}.
-
     \subsection{Anticipated Changes} \label{SecAchange}
 
-        Anticipated changes are the source of the information that is to be hidden inside the modules. Ideally, changing one of the anticipated changes will only require changing the one module that hides the associated decision. The approach adapted here is called design for change.
+        Anticipated changes (AC) are the source of the information to be hidden inside modules. Ideally, changing one of the anticipated changes will only require changing the one module that hides the associated decision.
 
         \bigskip\begin{description}
             \item[\refstepcounter{acnum} \actheacnum \label{acHardware}:] The specific hardware on which the software is running.
             \item[\refstepcounter{acnum} \actheacnum \label{acOs}:] The operating system on which the program will be executed.
-            \item[\refstepcounter{acnum} \actheacnum \label{acLanguage}:] The language in which the game is presented.
-            \item[\refstepcounter{acnum} \actheacnum \label{acAccessibility}:] Accessibility modifications used to play the game.
-            \item[\refstepcounter{acnum} \actheacnum \label{acItems}:] The items available in the game (i.e. addition of a new potion).
-            \item[\refstepcounter{acnum} \actheacnum \label{acMonsters}:] The number, type, and visualization of monsters.
-            \item[\refstepcounter{acnum} \actheacnum \label{acVisuals}:] The graphical overlay of the game (Different graphical overlays could be used to alter the images displayed).
+            \item[\refstepcounter{acnum} \actheacnum \label{acLanguage}:] The language presented in the GUI.
+            \item[\refstepcounter{acnum} \actheacnum \label{acAccessibility}:] The accessibility modifications used to play the game.
+            \item[\refstepcounter{acnum} \actheacnum \label{acItems}:] The available items in the game (e.g., addition of a new potion).
+            \item[\refstepcounter{acnum} \actheacnum \label{acMonsters}:] The number, type, and visual representation of monsters.
+            \item[\refstepcounter{acnum} \actheacnum \label{acVisuals}:] The graphical overlay of the game (different graphical overlays could be used to alter the displayed images).
         \end{description}
 
     \subsection{Unlikely Changes} \label{SecUchange}
 
-        The module design should be as general as possible. However, a general system is more complex. Sometimes this complexity is not necessary. Fixing some design decisions at the system architecture stage can simplify the software design. If these decision should later need to be changed, then many parts of the design will potentially need to be modified. Hence, it is not intended that these decisions will be changed.
+        Unlikely changes (UC) are design decisions that are deeply rooted in the system architecture and will require significant effort to modify.  As such, it is not intended that the following decision will be changed.
 
         \bigskip\begin{description}
-            \item[\refstepcounter{ucnum} \uctheucnum \label{ucMasterCtrl}:] The way the game loop handles itself, in the context of in-game entities, state parameters, and high-level flow. Just about every single module in the program will have to change to accommodate for this change.
-            \item[\refstepcounter{ucnum} \uctheucnum \label{ucTerrain}:] The types of terrain in the game, expressed in terms of passability, transparency, and visibility. A change here will also involve a change in Level, LevelGen, and PlayerChar.
-            \item[\refstepcounter{ucnum} \uctheucnum \label{ucCoord}:] The way in which the coordinate system of the game functions. A change here will involve changing just about every single module in the system.
-            \item[\refstepcounter{ucnum} \uctheucnum \label{ucRooms}:] The number of rooms in a dungeon level. Modifying this will involve immersive changes to the Level module, as well as the entire Item chain, and of course LevelGen module.
+            \item[\refstepcounter{ucnum} \uctheucnum \label{ucMasterCtrl}:] The structure of the primary game loop in the context of the in-game entities, state parameters, and high-level flow.  Virtually every single module in the program will have to be altered to accommodate this change.
+            \item[\refstepcounter{ucnum} \uctheucnum \label{ucTerrain}:] The types of terrain in the game, expressed in terms of passability, transparency, and visibility. A change here will necessitate mutations in the Level, LevelGen, and PlayerChar code.
+            \item[\refstepcounter{ucnum} \uctheucnum \label{ucCoord}:] The definition of the coordinate system in the game.  Given the degree of code that assumes this system behaves in a particular way, modifying this structure may require plentiful module changes.
+            \item[\refstepcounter{ucnum} \uctheucnum \label{ucRooms}:] The number of rooms in a dungeon level.  Altering this parameter will mandate the need for changes to the Level module, the entire Item chain, and, of course, the LevelGen module.
         \end{description}
 
 \newSection{Module Hierarchy} \label{SecMH}
 
-    Modules are summarized in a hierarchy decomposed by secrets in Table \ref{TblMH}. The modules listed below, which are leaves in the hierarchy tree, are the modules that will actually be implemented.
+    The modules listed below are categorized by secret type and serve as leaves in the hierarchy tree; they will realize a concrete implementation in the Rogue Reborn code.
 
     \begin{table}[h!]
         \caption{\bf Module Hierarchy}
         \label{TblMH}
         \bigskip
         \centering
-        \begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
+        \def\arraystretch{1.2}
+        \begin{tabular}{p{0.3\textwidth} p{0.5\textwidth} R{0.10\textwidth}}
             \toprule
-            \textbf{Level 1} & \textbf{Level 2}\\
+            \textbf{Level 1} & \multicolumn{2}{l}{\textbf{Level 2}}\\
             \midrule
 
             \multirow{2}{0.3\textwidth}{Hardware-Hiding Module}
-            & BasicIO\\
-            & Doryen\\
+            & \mhprint{BasicIO}\\
+            & \mhprint{Doryen}\\
+            & \mhprint{Input Format}\\
             \midrule
 
             \multirow{6}{0.3\textwidth}{Behaviour-Hiding Module}
-            & External\\
-            & Item\\
-            & Level\\
-            & LevelGen\\
-            & MainMenu\\  
-            & Monster\\
-            & PlayerChar\\
-            & RipScreen\\
-            & PlayState\\
-            & UIState\\
+            & \mhprint{External}\\
+            & \mhprint{Item}\\
+            & \mhprint{Level}\\
+            & \mhprint{LevelGen}\\
+            & \mhprint{MainMenu}\\  
+            & \mhprint{Monster}\\
+            & \mhprint{PlayerChar}\\
+            & \mhprint{RipScreen}\\
+            & \mhprint{PlayState}\\
+            & \mhprint{UIState}\\
             \midrule
 
             \multirow{9}{0.3\textwidth}{Software Decision Module}
-            & Coord\\
-            & Feature\\
-            & Itemzone\\          
-            & MasterController\\            
-            & Mob\\
-            & Random\\
-            & Terrain\\
+            & \mhprint{Coord}\\
+            & \mhprint{Feature}\\
+            & \mhprint{ItemZone}\\          
+            & \mhprint{MasterController}\\            
+            & \mhprint{Mob}\\
+            & \mhprint{Random}\\
+            & \mhprint{Terrain}\\
             \bottomrule
-
         \end{tabular}
+         \setcounter{mnum}{0}
     \end{table}
 
 \newSection{Connection Between Requirements and Design} \label{SecConnection}
 
-    %The design of the system is intended to satisfy the requirements developed in the SRS. In this stage, the system is decomposed into modules. The connection between requirements and modules is listed in Table \ref{TblRT}.
-    
-    The relationship between system design and requirements is delicate - while every module may contain one secret, this secret may involve multiple functional/non-functional requirements. The decisions that went into the design of the system were made based on two major factors:
+    The relationship between system design and requirements is delicate: while every module may contain one secret, this secret may involve multiple functional and non-functional requirements.   The decisions that guided the design of the system were influenced by two major factors:
 
-    \begin{itemize}
-        \item Flexibility: Should any feature be decided as non-feasible, out-of-scope, or otherwise unattainable, the system should not collapse due to its lacking.
-        \item Logical partitioning: We tried to keep related logic as close together as possible. One could argue that this was done to adhere with the concept of "one module, one secret", but that in fact is not the case. The OMOS concept is simply a consequence of the duality of "High cohesion, low coupling". This was, succinctly, the deciding factor in our system design stage.
-    \end{itemize}
+    \begin{enumerate}
+        \item \textbf{Flexibility:} If any feature is deemed non-feasible, out-of-scope, or otherwise unattainable, the system should continue to function around this defect.
+        \item \textbf{Logical Partitioning:} Related logic should also be structurally proximate.  Although it can be argued that this approach was motivated by the "one module, one secret" (OMOS) principle, it is actually a consequence of the duality of the high cohesion (HC) and low coupling (LC) principles.
+    \end{enumerate}
 
-    The requirements are numerous, and identifying each requirements' correspondence to a module would be quite the bore. Instead, we will look at important requirements and how they interact interestingly with their corresponding modules.\\
+    Since the mandated requirements are numerous, identifying the correspondence of each requirement is likely to dilute the ensuing discussion.  As such, only a handful of the more interestingly interactions are described below.\\
 
-    Functional requirement 11 specifies: "The player character shall be able to pass their turn". Had this not been the case, a simple queue could be built to keep track of entity move order and that will be all. But this is not the case, and in fact this also ties along with functional requirement 35, which specifies "Each monster shall be able to calculate a plan of action during their turn." Different actions take different amounts of time, and it would be a poor design decision to assume the opposite. A smart, divisive system was built to take this into account and enable turn-skipping. A primary motive that is enabled by this feature is allowing the player to skip their turn, allowing a nearby monster to make a move, hopefully into the region into which the player can fire off projectiles, like arrows and vials. The module that handles all of this functionality is titled \textit{MasterController}.\\
+    Functional requirement (FR) 11 specifies, ``The player character shall be able to pass their turn.''  On a related note, FR 35 states, ``Each monster shall be able to calculate a plan of action during their turn.''  If neither of these requirements were mandated, a simple queue could be implemented to keep track of entity turn priority.  However, given that different actions should occupy different amounts of time, it would a poor design decision to assume that performing a task such as moving to an adjacent tile would result in the same turn delay as reading a scroll.  As a result, a more robust  implementation was constructed to factor the priorities of different actions and enable the turn-skipping feature.  Although this introduced complexity to the code, the requirement was not challenged because players can strategically skip their turns to draw nearby monsters into a more favourable location.\\
 
-    Functional requirement 37 specifies: "The player character shall be able to defeat every monster." It may be assumed, at this point, that a monster may be defeated if its health drops below zero. The entire functionality of absorbing player damage and reporting the results is handled by the \textit{Mob} module. Why not \textit{Monster}, you ask? Well, the Monster module is designed to customize monster behavior, such as attack patterns, and combative positioning. The Mob module, on the other hand, provides an interface for movement and entity statistics, which includes hit points.\\
+    Next, FR 37 comments, ``The player character shall be able to defeat every monster.''  It may be assumed, at this point, that a monster is defeated if its HP drops below zero.  For this FR, the entire functionality of absorbing player damage and reporting the results is handled by the Mob module.  This is deliberately excluded from the Monster module because the Monster module is designed to customize monster behavior, such as attack patterns and combative positioning.  On the other hand, the Mob module offers an interface and implementation for movement and entity statistics such as HP.\\
 
-    Finally, we will look at functional requirement 31, which specifies: "Scrolls, rings, and wans shall be usable". This requirement represents one of the most difficult aspects of the game. Every different scroll, ring, and wand has a different functionality. And while all may be used in very similar ways, the core function is vastly different. While a purple wand may zap a goblin out of existence, a topaz ring might cause the player to suddenly begin levitating in the air. Thoroughly inter-connected aspects of the game are affected by items, and they represent a very central aspect of the project. This is why items are given their own module, \textit{Item}, to manage items and shield their detailed functionalities.\\
-
+    Finally, FR 31 is examined: ``Scrolls, rings, and wands shall be usable.''  This FR represents one of the most difficult aspects of the game; every type of scroll, ring, and wand must provide a different activation effect.  While a purple wand may zap a goblin out of existence, a topaz ring might cause the player to suddenly levitate above the ground.  Clearly, the sheer variety and sophistication of these effects poses an interesting decomposition challenge.  As such, the logical representation of these items is divided into submodules (of the Item module) such as ``Wand'', ``Weapon'', and ``Potion''.  However, given the similarity of their activation sequences, each of these submodules implements an interface from the Item module to enable external modules to use items without needing to consider their functional diversity.
 
 
 \newSection{Module Decomposition} \label{SecMD}
@@ -289,150 +295,153 @@
     \subsection{Hardware Hiding Modules}
 
         \bigskip\begin{description}
-            \item[Name:]BasicIO
-            \item[Secrets:]Input and output devices.
-            \item[Services:]Serves as a layer beneath our application hiding the specifics of the input and output devices such as keystrokes and the monitor. The application uses it to retrieve commands from the user and display the game state.
-            \item[Implemented By:]Libtcod library.
+            \item[Name:] \mdprint{BasicIO}
+            \item[Secrets:]Input and output devices
+            \item[Services:]Serves as a layer beneath the Rogue Reborn application that hides the hardware input and output devices such as keystrokes and the monitor.  The application uses this module to retrieve commands from the user and display the game state.
+            \item[Implemented By:]\it Libtcod
         \end{description}
 
         \bigskip\begin{description}
-            \item[Name:]Doryen
-            \item[Secrets:]Details of display device and OS window interface.
-            \item[Services:]Provides a virtual console interface to the application. The virtual console is displayed as a window in the host OS. The application uses the interface to display the game state.
-            \item[Implemented By:]Libtcod library.
+            \item[Name:]\mdprint{Doryen}
+            \item[Secrets:]Details of display device and OS window interface
+            \item[Services:]Provides a virtual console interface for the application.  The virtual console is displayed as a window in the host OS; Rogue Reborn uses this interface to display the game state.
+            \item[Implemented By:]\it Libtcod
         \end{description}
 
         \bigskip\begin{description}
-            \item[Name:]Input Format
-            \item[Secrets:]Interface to input devices.
-            \item[Services:]Detects keystrokes and provides virtual keycodes to the application. These are then interpreted by the system as commands from the user. As a layer above the BasicIO module, it hides not only the hardware itself, but the design of the device, for example it could allow the use of a touch screen with virtual buttons.
-            \item[Implemented By:]Libtcod library.
+            \item[Name:]\mdprint{Input Format}
+            \item[Secrets:]Interface to input devices
+            \item[Services:]Detects keystrokes and provides virtual keycodes to the application that can later be interpreted by the Rogue Reborn system as commands from the user. Conceptually, this module is a layer above the BasicIO module.  In theory, this module could enable the use of a touch screen with virtual buttons as system inputs.
+            \item[Implemented By:]\it Libtcod
         \end{description}
 
-    \subsection{Behaviour-Hiding Module}
+    \subsection{Behaviour-Hiding Modules}
 
         \bigskip\begin{description}
-            \item[Name:]External
-            \item[Secrets:]The method by which gamestate is translated into display.
-            \item[Services:]All externally visible behavior passes through this module, as it controls the rendering of the game world. Interfaces between the hardware hiding modules by rendering onto them, and the software decision modules by making use of their data structures.
-            \item[Implemented By:]uistate.h
-        \end{description}
-
-        \bigskip\begin{description}
-            \item[Name:]Item
-            \item[Secrets:]Item data structures and behavior.
-            \item[Services:]Provides a consistent interface across all items, shielding the application from the details of the various types' internals. The application can move, activate, destroy, identify, or otherwise manipulate items freely using this module.
-            \item[Implemented By:]item.h
+            \item[Name:]\mdprint{External}
+            \item[Secrets:]Method that translates the gamestate into a display
+            \item[Services:]Controls the rendering of the game world; all externally-visible behaviours pass through this module.  This module also interfaces with the hardware hiding modules through the rendering process as well as the software decision modules by querying their data structures.
+            \item[Implemented By:]\href{run:../../../src/include/uistate.h}{uistate.h}
         \end{description}
 
         \bigskip\begin{description}
-            \item[Name:]Level
-            \item[Secrets:]Data storage format of the dungeon level.
+            \item[Name:]\mdprint{Item}
+            \item[Secrets:]Item data structures and behaviour
+            \item[Services:]Provides a consistent interface across all items, thereby shielding the application from the details of the internal representations.  The broader system is able to move, activate, destroy, identify, and generally manipulate items through using this module.
+            \item[Implemented By:]\href{run:../../../src/include/item.h}{item.h}
+        \end{description}
+
+        \bigskip\begin{description}
+            \item[Name:]\mdprint{Level}
+            \item[Secrets:]Dungeon level data structure
             \item[Services:]Shields the rest of the application from the level data structure, providing methods that conveniently implement the details of operations. This also allows the underlying structures to change freely.
-            \item[Implemented By:]level.h
+            \item[Implemented By:]\href{run:../../../src/include/level.h}{level.h}
         \end{description}
 
         \bigskip\begin{description}
-            \item[Name:]LevelGen
-            \item[Secrets:]Level generation algorithm.
-            \item[Services:]Used by the controller modules to generate levels without requiring them to know the details of the algorithm.
-            \item[Implemented By:]level.h
+            \item[Name:]\mdprint{LevelGen}
+            \item[Secrets:]Level generation algorithm
+            \item[Services:]Generate levels without requiring the controller modules to know the details of the algorithm
+            \item[Implemented By:]\href{run:../../../src/include/level.h}{level.h}
         \end{description}
 
         \bigskip\begin{description}
-            \item[Name:]MainMenu
-            \item[Secrets:]Valid user name enforcement.
-            \item[Services:]Accepts a legal player character name from the keyboard and initializes the player character.
-            \item[Implemented By:]mainmenu.h
+            \item[Name:]\mdprint{MainMenu}
+            \item[Secrets:]Valid user name enforcement
+            \item[Services:]Accepts a legal player character name from the keyboard and initializes the player character entity
+            \item[Implemented By:]\href{run:../../../src/include/mainmenu.h}{mainmenu.h}
         \end{description}
 
         \bigskip\begin{description}
-            \item[Name:]Monster
-            \item[Secrets:]Monster data and algorithms implementing monster behavior.
-            \item[Services:]Customizes the behavior of various monsters to be greedy, fly, be aggressive, regenerate, etc. Also stores the data that defines the various monsters that can be found in the dungeon. eg. a dragon has certain behavior, a name, a certain quantity of hitpoints, etc.
-            \item[Implemented By:]monster.h
+            \item[Name:]\mdprint{Monster}
+            \item[Secrets:]Monster type data structure and behaviour implementation
+            \item[Services:]Customizes the behaviour of various monsters act aggressively towards players, regenerate health, seek gold, etc.  This module also stores the data to define various monster templates (e.g., all dragon share a common behavior pattern, name, HP quantity, etc.)
+            \item[Implemented By:]\href{run:../../../src/include/monster.h}{monster.h}
         \end{description}
 
         \bigskip\begin{description}
-            \item[Name:]PlayState
-            \item[Secrets:]Player character action selection.
-            \item[Services:]Calls the appropriate PlayerChar action methods according to the user's input.  Renders the primary game screen.
-            \item[Implemented By:]playstate.h
+            \item[Name:]\mdprint{PlayerChar}
+            \item[Secrets:]Player character data structure and action implementation
+            \item[Services:]Represents most aspects of the player character, including their inventory, equipped items, actions, and some obscure statistics.
+            \item[Implemented By:]\href{run:../../../src/include/playerchar.h}{playerchar.h}
         \end{description}
 
         \bigskip\begin{description}
-            \item[Name:]RipScreen
-            \item[Secrets:]Scoring and score storage.
-            \item[Services:]Handles reading and writing from the score file, and the contents thereof. The nature and location of the score table is known only to this module.
-            \item[Implemented By:]ripscreen.h
+            \item[Name:]\mdprint{PlayState}
+            \item[Secrets:]Player character action selection
+            \item[Services:]Calls the appropriate PlayerChar action methods according to the user's input.  This module also renders the dungeon-view game screen.
+            \item[Implemented By:]\href{run:../../../src/include/playstate.h}{playstate.h}
         \end{description}
 
         \bigskip\begin{description}
-            \item[Name:]UIState
-            \item[Secrets:]State of game interface.
-            \item[Services:]Layer between the game user and the game world. Handles command interpretation and menu control. Passes user commands to implementing modules.
-            \item[Implemented By:]uistate.h
-        \end{description}
-
-    \subsection{Software Decision Module}
-
-        \bigskip\begin{description}
-            \item[Name:]Coord
-            \item[Secrets:]Coordinate representation and coordinate related behavior
-            \item[Services:]Provides a consistent interface for all other modules to use to communicate about the locations of objects within the level and on the screen. Also implements related algorithms such as the taxicab distance between two coordinates.
-            \item[Implemented By:]coord.h
+            \item[Name:]\mdprint{RipScreen}
+            \item[Secrets:]Score computation and storage
+            \item[Services:]Handles reading and writing from the score record file; the nature and location of the score table is only known to this module.
+            \item[Implemented By:]\href{run:../../../src/include/ripscreen.h}{ripscreen.h}
         \end{description}
 
         \bigskip\begin{description}
-            \item[Name:]Feature
-            \item[Secrets:]Data structures implementing various objects found in the dungeon.
-            \item[Services:]Stores the data for any object found in the dungeon which is not a mob. This includes various objects such as stairs, piles of gold, items, and traps.
-            \item[Implemented By:]feature.h
+            \item[Name:]\mdprint{UIState}
+            \item[Secrets:]State of the game interface
+            \item[Services:]Layer between the game user and the game world.   This module interprets user command, handles menu control, and passes user commands to the corresponding modules.
+            \item[Implemented By:]\href{run:../../../src/include/uistate.h}{uistate.h}
+        \end{description}
+
+    \subsection{Software Decision Modules}
+
+        \bigskip\begin{description}
+            \item[Name:]\mdprint{Coord}
+            \item[Secrets:]Coordinate representation and location-related behavior
+            \item[Services:]Provides a consistent interface for all other modules to use to communicate about the locations of objects within the level and on the screen.  This module also implements related algorithms such as the taxicab (Manhattan) distance between two coordinates ~\citep{Taxicab}.
+            \item[Implemented By:]\href{run:../../../src/include/uistate.h}{coord.h}
         \end{description}
 
         \bigskip\begin{description}
-            \item[Name:]ItemZone
-            \item[Secrets:]Data structures storing items.
-            \item[Services:]Stores items and provides an interface mapping key-codes to specific items. Shields the application from details such as key-code ,and item stacking. 
-            \item[Implemented By:]itemzone.h
+            \item[Name:]\mdprint{Feature}
+            \item[Secrets:]Data structure that supports various dungeon entities.
+            \item[Services:]Stores the data for any dungeon object that is not a derivative of Mob; this includes stairs, piles of gold, items, and traps.
+            \item[Implemented By:]\href{run:../../../src/include/feature.h}{feature.h}
         \end{description}
 
         \bigskip\begin{description}
-            \item[Name:]MasterController
-            \item[Secrets:]Game loop and application context.
-            \item[Services:]Directs the high-level flow of rendering, input-handling, and transitions between lower-level controllers. The flow between uistate.h members is modeled as a finite state machine.
-            \item[Implemented By:]mastercontroller.h
+            \item[Name:]\mdprint{ItemZone}
+            \item[Secrets:]Data structure storing items.
+            \item[Services:]Stores items and provides an interface that maps key-codes to specific items.  This module also shields the application from the key-code intricacies and the item stacking phenomenon. 
+            \item[Implemented By:]\href{run:../../../src/include/itemzone.h}{itemzone.h}
         \end{description}
 
         \bigskip\begin{description}
-            \item[Name:]Mob
-            \item[Secrets:]Internal data structures and behavior of creatures.
-            \item[Services:]Base module for all creatures in the dungeon (including the character). Provides interfaces for movement, combat, and various statistics.
-            \item[Implemented By:]mob.h
-        \end{description}
-
-
-        \bigskip\begin{description}
-            \item[Name:]Random
-            \item[Secrets:]The details of random number generation.
-            \item[Services:]Provides utilities to the rest of the application for the generation of random
-            values. The algorithm used or the state of the PRNG are not exposed.
-            \item[Implemented By:] random.h
+            \item[Name:]\mdprint{MasterController}
+            \item[Secrets:]Game loop and application context
+            \item[Services:]Directs the high-level flow of rendering, input-handling, and transitions between lower-level controllers.
+            \item[Implemented By:]\href{run:../../../src/include/mastercontroller.h}{mastercontroller.h}
         \end{description}
 
         \bigskip\begin{description}
-            \item[Name:]Terrain
-            \item[Secrets:]Data structures of a dungeon tile.
-            \item[Services:]Stores the data for a single dungeon tile. This includes the character representing it, it's passability, transparency, and whether it is mapped.
-            \item[Implemented By:]terrain.h
+            \item[Name:]\mdprint{Mob}
+            \item[Secrets:]Internal data structure and behavior of creatures.
+            \item[Services:]Serves as the base module for all creatures in the dungeon (including the player character).  This module provides interfaces for movement, combat, and various statistics, and also includes several implementations of generic actions.
+            \item[Implemented By:]\href{run:../../../src/include/mob.h}{mob.h}
         \end{description}
 
-\newSection{Traceability Matrix} \label{SecTM}
+        \bigskip\begin{description}
+            \item[Name:]\mdprint{Random}
+            \item[Secrets:]Random number generation details
+            \item[Services:]Generates random numbers as a utility service for the remainder of the application.  The algorithm used and state of the PRNG are not exposed.
+            \item[Implemented By:]\href{run:../../../src/include/random.h}{random.h}
+        \end{description}
 
-    This section shows two traceability matrices: between the modules and the
-    requirements and between the modules and the anticipated changes.
+        \bigskip\begin{description}
+            \item[Name:]\mdprint{BasicIO}
+            \item[Secrets:]Data structure of dungeon tiles
+            \item[Services:]Stores the data for a single dungeon tile, including its symbolic character, passability, transparency, and whether or not it is mapped.
+            \item[Implemented By:]\href{run:../../../src/include/terrain.h}{terrain.h}
+        \end{description}
 
-    % the table should use mref, the requirements should be named, use something like fref
+\newSection{Traceability Matrices} \label{SecTM}
+
+    Two traceability matrices are featured below: one between the modules and the requirements, and another between the modules and the anticipated changes.
+
     \begin{table}[H]
         \label{TblRT}
         \caption{\bf Trace Between Requirements and Modules}
@@ -446,30 +455,30 @@
             \textbf{Requirements} & \textbf{Modules}\\
             \midrule
 
-            FR.1, FR.4, FR.7 & MasterController, Coord\\
-            FR.2, FR.3 & RipScreen\\
-            FR.5 & MainMenu\\
-            FR.6, FR.8, FR.9, FR.10 & UIState, Doryen, Coord, PlayState\\
-            FR.11, FR.12 & PlayerChar\\
-            FR.13, FR.14, FR.15 & Feature\\
-            FR.16 & MasterController\\
-            FR.17, FR.18, FR.19, FR.25 & LevelGen, Coord\\
-            FR.20, FR.21, FR.22, FR.24 & Level, Coord\\
-            FR.23 & PlayerChar\\
-            FR.26, FR.27, FR.28, FR.29 & PlayerChar\\
-            FR.30, FR.31 & Item\\
-            FR.32, FR.33, FR.34 & Item, PlayerChar\\
-            Fr.35, FR.36 & Monster\\
-            FR.37 & Mob\\
-            FR.38, FR.39 & PlayerChar\\
+            FR 1, FR 4, FR 7 & MasterController, Coord\\
+            FR 2, FR 3 & RipScreen\\
+            FR 5 & MainMenu\\
+            FR 6, FR 8, FR 9, FR 10 & UIState, Doryen, Coord, PlayState\\
+            FR 11, FR 12 & PlayerChar\\
+            FR 13, FR 14, FR 15 & Feature\\
+            FR 16 & MasterController\\
+            FR 17, FR 18, FR 19, FR 25 & LevelGen, Coord\\
+            FR 20, FR 21, FR 22, FR 24 & Level, Coord\\
+            FR 23 & PlayerChar\\
+            FR 26, FR 27, FR 28, FR 29 & PlayerChar\\
+            FR 30, FR 31 & Item\\
+            FR 32, FR 33, FR 34 & Item, PlayerChar\\
+            Fr 35, FR 36 & Monster\\
+            FR 37 & Mob\\
+            FR 38, FR 39 & PlayerChar\\
             \midrule
-            NFR.1 & Doryen, UIState, PlayState\\
-            NFR.2 & Fun\\
-            NFR.3 & BasicIO\\
-            NFR.4, NFR.5 & UIState, Doryen, PlayState\\
-            NFR.7 & MasterController\\
-            NFR.8, NFR.13 & RipScreen\\
-            NFR.9, NFR.12, NFR.15 & External\\
+            NFR 1 & Doryen, UIState, PlayState\\
+            NFR 2 & Fun\\
+            NFR 3 & BasicIO\\
+            NFR 4, NFR 5 & UIState, Doryen, PlayState\\
+            NFR 7 & MasterController\\
+            NFR 8, NFR 13 & RipScreen\\
+            NFR 9, NFR 12, NFR 15 & External\\
 
             \bottomrule
         \end{tabular}
@@ -501,7 +510,7 @@
 
 \newSection{Use Hierarchy Between Modules} \label{SecUse}
 
-    Within the software engineering discipline, there exists a widely-accepted belief that all Use Hierarchies must be homomorphic to directed acyclic graphs (DAGs) in order to avoid cyclic dependencies.  However, throughout the development of the Rogue Reborn project, the Rogue++ team discovered that a cyclic use relationship across certain modules enabled an architecture that closely resembled the natural flow of the intended interaction.  Although it would have been possible to correct the situation, the alternative designs would have an adverse effect on the high cohesion (HC) design principle and would sacrifice the maintainability and readability of the code.  As such, the Use Hierarchy drawn in Figure \hyperref[FigUH]{1} is illustrated with a cyclic dependency stemming from the \textit{Item} module.
+    Within the software engineering discipline, there exists a widely-accepted belief that all Use Hierarchies must be homomorphic to directed acyclic graphs (DAGs) in order to avoid cyclic dependencies.  However, throughout the development of the Rogue Reborn project, the Rogue++ team discovered that a cyclic use relationship across certain modules enabled an architecture that closely resembled the natural flow of the intended interaction.  Although it would have been possible to correct the situation, the alternative designs would have an adverse effect on the high cohesion (HC) design principle and would sacrifice the maintainability and readability of the code.  As such, the Use Hierarchy drawn in \hyperref[FigUH]{Figure 1} is illustrated with a cyclic dependency stemming from the Item module.
 
     \begin{figure}[H]
         \label{FigUH}
@@ -513,7 +522,7 @@
 
 \newSection{References} \label{SecRef}
 
-    %\bibliographystyle {plainnat}
-    %\bibliography {MG}
+    \bibliographystyle {plainnat}
+    \bibliography {MG}
 
 \end{document}
