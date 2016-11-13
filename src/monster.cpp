@@ -118,7 +118,7 @@ Monster::Monster(char symbol, Coord location)
 }
 
 void Monster::attack(Level* level) {
-	std::cout << "Monster " << this->getName() << " Attack\n";
+	//std::cout << "Monster " << this->getName() << " Attack\n";
 
 	PlayerChar* player = level->getPlayer();
 
@@ -166,8 +166,10 @@ void Monster::relocate(Level* level) {
 	else {
 
 		std::vector<Coord> possibleCoords = level->getAdjPassable(this->location);
-		if (possibleCoords.size()) {
-			this->location = possibleCoords[Generator::intFromRange(0, possibleCoords.size())];
+		if (possibleCoords.size() > 0) {
+			Coord newPlace = possibleCoords[Generator::intFromRange(0, possibleCoords.size())];
+			std::cout << "(" << this << ") Moving from " << this->location.toString() << " to " << newPlace.toString() << " (" << (newPlace-this->location).toString() << ")" << std::endl;
+			this->location = newPlace;
 		}
 	}
 
@@ -188,7 +190,7 @@ int Monster::turn(Level* level) {
 	relocate(level);
 	attack(level);
 
-	std::cout << this->getName() << " (" << this << ") is at " << location.toString() << std::endl;
+	//std::cout << this->getName() << " (" << this << ") is at " << location.toString() << std::endl;
 
 	return TURN_TIME;
 }

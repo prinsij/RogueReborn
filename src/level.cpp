@@ -227,8 +227,9 @@ void Level::generate() {
 		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
 							  gen.intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable && !monsterAt(randPos)) {
-			std::cout << "Creating monster at: " << randPos.toString() << std::endl;
-			registerMob(new Monster('D', randPos));
+			Mob* m = new Monster('D', randPos);
+			std::cout << "Creating " << m << " at: " << randPos.toString() << std::endl;
+			registerMob(m);
 		}
 	}
 	// Place staircase
