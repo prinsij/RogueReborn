@@ -61,6 +61,59 @@ class QuickDrop : public PlayState {
 		Item* item;
 };
 
+class QuickThrow : public PlayState {
+	public:
+		QuickThrow(PlayerChar* player, Level* level, Item* item, Coord direction)
+			: PlayState(player, level)
+			, item(item)
+			, direction(direction)
+		{}
+		virtual UIState* handleInput(TCOD_key_t key) {
+			item->setContext(Item::FLOOR);
+			player->getInventory().remove(item);
+			item->setLocation(player->getLocation());
+			//Coord newLoc = player->getLocation();
+			level->addFeature(item);
+			return new PlayState(player, level);
+		}
+	private:
+		Item* item;
+		Coord direction;
+};
+
+class ThrowDirectionState : public PlayState {
+	public:
+		ThrowDirectionState(PlayerChar* player, Level* level)
+			: PlayState(player, level)
+		{}
+		virtual void draw(TCODConsole* con) {
+			PlayState::draw(con);
+			con->print(PROMPTX, PROMPTY, std::string("Which direction?").c_str());
+		}
+
+		virtual UIState* handleInput(TCOD_key_t key) {
+			auto direction = Coord(0, 0);
+			if (key.c == TCODK_LEFT) {
+				direction = Coord(-1, 0);
+			} else if (key.c == TCODK_UP) {
+				direction = Coord(0, -1);
+			} else if (key.c == TCODK_RIGHT) {
+				direction = Coord(1, 0);
+			} else if (key.c == TCODK_DOWN) {
+				direction = Coord(0, 1);
+			}
+			if (direction != Coord(0, 0)) {
+				return new InvScreen(player, level, [] (Item* i) {return i->isThrowable();},
+													[&direction] (Item* i, PlayerChar* p, Level* l) {
+														return new QuickThrow(p, l, i, direction);
+													},
+													true);
+
+			}
+			return this;
+		}
+};
+
 PlayState::PlayState(PlayerChar* play, Level* lvl)
 	: player(play)
 	, level(lvl)
@@ -188,6 +241,19 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 												false);
 	}
 	no_drop:;
+	// throw item
+	if (key.c == 't') {
+		bool canThrow = false;
+		for (auto pair : player->getInventory().getContents()) {
+			if (pair.second.front()->isThrowable()) {
+				canThrow = true;
+				break;
+			}
+		}
+		if (not canThrow) {
+			player->appendLog("You have nothing you can throw");
+		}
+	}
 	if (key.c == '<' || key.c == '>') {
 		for (Feature* feat : level->getFeatures()) {
 			Stairs* stair = dynamic_cast<Stairs*>(feat);
