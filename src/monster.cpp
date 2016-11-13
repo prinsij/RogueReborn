@@ -114,7 +114,7 @@ Monster::Monster(char symbol, Coord location)
 
 	name = std::get<7>(monsterTuple);
 
-	awake = true;
+	awake = Generator::randBool();
 }
 
 void Monster::attack(Level* level) {

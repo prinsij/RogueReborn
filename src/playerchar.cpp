@@ -262,6 +262,10 @@ void PlayerChar::setDexterity(int dexterity) {
 	this->dexterity = dexterity;
 }
 
+void PlayerChar::setFoodLife(int foodLife) {
+	this->foodLife = foodLife;
+}
+
 bool PlayerChar::throwItem(Item* item) {
 	if (!item->isThrowable()) return false;
 

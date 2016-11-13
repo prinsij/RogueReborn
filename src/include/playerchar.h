@@ -235,6 +235,13 @@ class PlayerChar : public Mob {
 		void setDexterity(int);
 
 		/**
+		 * @brief	Sets the food life of the PlayerChar
+		 *
+		 * @param	foodLife The new food life of the PlayerChar
+		 */
+		void setFoodLife(int);
+
+		/**
 		 * @brief      Attempts to throw the given Item.
 		 *
 		 * @return     True if the Item was thrown, False otherwise.
