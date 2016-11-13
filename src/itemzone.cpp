@@ -17,14 +17,17 @@ ItemZone::ItemZone() {}
 Item* ItemZone::operator[](int x) {
 	int i = 0;
 	for (auto it=contents.begin(); it != contents.end(); it++) {
-		if (i == x) {
-			return it->second.item;
+		for (auto item : it->second) {
+			if (i == x) {
+				return item;
+			}
+			++i;
 		}
 	}
 	return NULL;
 }
 
-ItemZone::KeysItem* ItemZone::getItem(char symbol) {
+std::vector<Item*>* ItemZone::getItem(char symbol) {
 	auto result = contents.find(symbol);
 	if (result != contents.end()) {
 		return &result->second;
@@ -32,10 +35,12 @@ ItemZone::KeysItem* ItemZone::getItem(char symbol) {
 	return NULL;
 }
 
-ItemZone::KeysItem* ItemZone::getItem(Item& item) {
+std::vector<Item*>* ItemZone::getItem(Item& item) {
 	for (auto it=contents.begin(); it != contents.end(); it++) {
-		if (it->second.item == &item) {
-			return &(it->second);
+		for (auto i : it->second) {
+			if (*i == item) {
+				return &it->second;
+			}
 		}
 	}
 	return NULL;
@@ -43,9 +48,8 @@ ItemZone::KeysItem* ItemZone::getItem(Item& item) {
 
 void ItemZone::add(Item& item) {
 	for (auto it=contents.begin(); it != contents.end(); it++) {
-		if (it->second.item->getType() == item.getType()) {
-			it->second.quantity += 1;
-			delete &item;
+		if (it->second.front()->getName() == item.getName()) {
+			it->second.push_back(&item);
 			return;
 		}
 	}
@@ -56,8 +60,7 @@ void ItemZone::add(Item& item) {
 	if (key == '0') {
 		return;
 	}
-	contents.insert(std::make_pair(key, ItemZone::KeysItem(&item, 1)));
-	return;
+	contents.insert(std::make_pair(key, std::vector<Item*> {&item}));
 }
 
 char ItemZone::getFreeChar() {
@@ -79,25 +82,31 @@ bool ItemZone::contains(Item* item) {
 
 bool ItemZone::contains(const std::string& itemName) {
 	for (auto it=contents.begin(); it != contents.end(); it++) {
-		if (it->second.item->getName() == itemName) {
-			return true;
+		for (auto i : it->second) {
+			if (i->getName() == itemName) {
+				return true;
+			}
 		}
 	}
 	return false;
 }
 
-std::map<char, ItemZone::KeysItem>& ItemZone::getContents() {
+std::map<char, std::vector<Item*> >& ItemZone::getContents() {
 	return contents;
 }
 
 bool ItemZone::remove(Item* item) {
 	for (auto it=contents.begin(); it != contents.end(); it++) {
-		if (it->second.item == item) {
-			it->second.quantity -= 1;
-			if (it->second.quantity <= 0) {
-				contents.erase(it);
+		if (it->second.front()->getName() == item->getName()) {
+			for (auto it2=it->second.begin(); it2 != it->second.end(); it2++) {
+				if (*it2 == item) {
+					it->second.erase(it2);
+					if (it->second.size() == 0) {
+						contents.erase(it);
+					}
+					return true;
+				}
 			}
-			return true;
 		}
 	}
 	return false;

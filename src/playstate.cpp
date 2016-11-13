@@ -72,7 +72,7 @@ class QuickThrow : public PlayState {
 			item->setContext(Item::FLOOR);
 			player->getInventory().remove(item);
 			item->setLocation(player->getLocation());
-			Coord newLoc = player->getLocation();
+			//Coord newLoc = player->getLocation();
 			level->addFeature(item);
 			return new PlayState(player, level);
 		}
@@ -245,7 +245,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	if (key.c == 't') {
 		bool canThrow = false;
 		for (auto pair : player->getInventory().getContents()) {
-			if (pair.second.item->isThrowable()) {
+			if (pair.second.front()->isThrowable()) {
 				canThrow = true;
 				break;
 			}
