@@ -286,6 +286,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		Mob* mob = level->monsterAt(newPos);
 		if (mob != NULL) {
 			player->attack(mob);
+			std::cout << "Attacking...\n";
 			if (mob->isDead()) {
 				level->removeMob(mob);
 				player->appendLog(mob->getName() + " died, horribly");

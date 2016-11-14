@@ -79,7 +79,7 @@ void Mob::hit(int damage) {
 	if (this->currentHP <= 0) {
 		this->dead = true;
 	}
-	std::cout << this->getName() << " now has " << this->currentHP << " health after taking " << deltaHP << " damage\n";
+	std::cout << "'" << this->getName() << "' now has " << this->currentHP << " HP after taking " << deltaHP << " damage.\n";
 }
 
 bool Mob::isDead() {
