@@ -229,6 +229,9 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		//std::cout << "taking turn: " << nextUp->getName() << "\n";
 		// Do AI turn
 		level->pushMob(nextUp, nextUp->turn(level));
+		if (player->isDead()) {
+			return new RIPScreen(player, level, "Killed by a " + nextUp->getName());
+		}
 	}
 	// Quitting
 	if (key.c == 'Q') {
