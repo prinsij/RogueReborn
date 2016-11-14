@@ -76,13 +76,7 @@ class Mob {
 		 *  deal damage.
 		 * @see currentHP
 		 */
-<<<<<<< HEAD
 		virtual void hit(int);
-		
-=======
-		void hit(int);
-
->>>>>>> cdb1cfb0722ce2f90b59a27122f2081c34073b1f
 		/**
 		 * @brief	Determines if this mob is dead
 		 *
