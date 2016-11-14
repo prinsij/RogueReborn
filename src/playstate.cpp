@@ -13,6 +13,8 @@
 
 #include "include/feature.h"
 #include "include/food.h"
+#include "include/potion.h"
+#include "include/weapon.h"
 #include "include/globals.h"
 #include "include/goldpile.h"
 #include "include/helpscreen.h"
@@ -24,6 +26,7 @@
 #include "include/playstate.h"
 #include "include/ripscreen.h"
 #include "include/stairs.h"
+#include "include/trap.h"
 #include "include/uistate.h"
 #include "include/weapon.h"
 #include "libtcod/include/libtcod.hpp"
@@ -132,6 +135,49 @@ class QuickEat : public PlayState {
 		Item* item;
 };
 
+class QuickQuaff : public PlayState {
+	public:
+		QuickQuaff(PlayerChar* player, Level* level, Item* item)
+			: PlayState(player, level)
+			, item(item)
+		{}
+
+		virtual UIState* handleInput(TCOD_key_t key) {
+			auto pot = dynamic_cast<Potion*>(item);
+			if (pot != NULL) {
+				pot->activate(player);
+				player->getInventory().remove(pot);
+				delete pot;
+			} else {
+				assert (false && "tried to quaff non-potion");
+			}
+			return new PlayState(player, level);
+		}
+	private:
+		Item* item;
+};
+
+class QuickWield : public PlayState {
+	public:
+		QuickWield(PlayerChar* player, Level* level, Item* item)
+			: PlayState(player, level)
+			, item(item)
+		{}
+
+		virtual UIState* handleInput(TCOD_key_t key) {
+			Weapon* weap = dynamic_cast<Weapon*>(item);
+			if (weap != NULL) {
+				player->getInventory().remove(weap);
+				player->equipWeapon(weap);
+			} else {
+				assert (false && "tried to equip non-weapon");
+			}
+			return new PlayState(player, level);
+		}
+	private:
+		Item* item;
+};
+
 class ThrowDirectionState : public PlayState {
 	public:
 		ThrowDirectionState(PlayerChar* player, Level* level)
@@ -176,6 +222,7 @@ PlayState::PlayState(PlayerChar* play, Level* lvl)
 }
 
 Room* PlayState::updateMap() {
+
 	for (auto x=-1; x < 2; x++) {
 		for (auto y=-1; y < 2; y++) {
 			(*level)[player->getLocation()+Coord(x,y)].setIsSeen(Terrain::Seen);
@@ -210,7 +257,9 @@ void PlayState::draw(TCODConsole* con) {
 					}
 				}
 				int sightRadius = player->getSightRadius();
-				if (currRoom == NULL || currRoom->getDark() == Room::DARK) {
+				if (currRoom == NULL 
+					|| currRoom->getDark() == Room::DARK
+					|| player->hasCondition(PlayerChar::BLIND)) {
 					sightRadius = 1;
 				}
 				// Previously but not currently seen
@@ -307,6 +356,57 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 												false);
 	}
 	no_drop:;
+	if (key.c == 'q') {
+		bool canQuaff = false;
+		for (auto pair : player->getInventory().getContents()) {
+			Potion* pot = dynamic_cast<Potion*>(pair.second.front());
+			if (pot != NULL) {
+				canQuaff = true;
+				break;
+			}
+		}
+		if (canQuaff) {
+			return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Potion*>(i)!=NULL;},
+												[] (Item* i, PlayerChar* p, Level* l) {
+													return new QuickQuaff(p, l, i);
+												},
+												true);
+		} else {
+			player->appendLog("You have nothing you can drink");
+		}
+	}
+	// wield weapon
+	if (key.c == 'w') {
+		bool canWield = false;
+		for (auto pair : player->getInventory().getContents()) {
+			Weapon* weap = dynamic_cast<Weapon*>(pair.second.front());
+			if (weap != NULL) {
+				canWield = true;
+				break;
+			}
+		}
+		if (canWield) {
+			return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Weapon*>(i)!=NULL;},
+												[] (Item* i, PlayerChar* p, Level* l) {
+													return new QuickWield(p, l, i);
+												},
+												true);
+		} else {
+			player->appendLog("You have nothing you can wield");
+		}
+	}
+	// stow weapon
+	if (key.c == 'S') {
+		auto weap = player->getWeapon();
+		// check for curses TODO
+		if (weap != NULL) {
+			player->appendLog("You stow the " + weap->getDisplayName());
+			player->removeWeapon();
+			player->getInventory().add(*weap);
+		} else {
+			player->appendLog("you are not wielding anything");
+		}
+	}
 	// throw item
 	if (key.c == 't') {
 		bool canThrow = false;
@@ -369,6 +469,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	} else if (key.vk == TCODK_RIGHT) {
 		newPos += Coord(1, 0);
 	}
+
 	if (newPos != player->getLocation() && level->contains(newPos)) {
 		Mob* mob = level->monsterAt(newPos);
 		if (mob != NULL) {
@@ -405,6 +506,18 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 						delete feat;
 						search = true;
 						break;
+					}
+
+					Trap* tr = dynamic_cast<Trap*>(feat);
+					if (tr != NULL){
+						tr->activate(player, level);
+
+						Level* oldLevel = level;
+						level = level->getBro();
+						delete oldLevel;
+
+						currRoom = NULL;
+						currRoom = updateMap();
 					}
 				}
 			} while (search);

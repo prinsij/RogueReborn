@@ -11,13 +11,14 @@
 #include "include/playerchar.h"
 #include "include/random.h"
 #include "include/trap.h"
+#include "include/level.h"
 
 Trap::Trap(Coord location, unsigned char type, bool visible)
 	: Feature('^', location),
 	  type(type),
-	  visible(visible) {}
+	  visible(true) {}
 
-void Trap::activate(Mob* mob) {
+void Trap::activate(Mob* mob, Level* level) {
 	this->visible = true;
 
 	PlayerChar* player = dynamic_cast<PlayerChar*>(mob);
@@ -33,8 +34,15 @@ void Trap::activate(Mob* mob) {
 	if (this->type == 0) {
 		if (!player) return;
 
-		player->appendLog("You fell down a trap");
-		
+		int currDepth = level->getDepth();
+		player->appendLog("You fell down a trap, you are now in level " + std::to_string(currDepth+1));
+
+		Level* l = new Level(currDepth+1, player);
+		l->registerMob(player);
+		l->generate();
+
+		level->setBro(l);
+
 		// TODO
 
 	// Rust Trap

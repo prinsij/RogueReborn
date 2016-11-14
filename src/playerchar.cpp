@@ -205,6 +205,13 @@ void PlayerChar::equipWeapon(Weapon* weapon) {
 	this->itemWeapon = weapon;
 }
 
+Weapon* PlayerChar::getWeapon() {
+	if (itemWeapon != NULL) {
+		std::cout << "PlayerChar stowed weapon " + itemWeapon->getName() << "\n";
+	}
+	return this->itemWeapon;
+}
+
 int PlayerChar::getDexterity() {
 	return this->dexterity;
 }
