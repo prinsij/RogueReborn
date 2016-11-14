@@ -61,14 +61,18 @@ void PlayerChar::attack(Monster* monster) {
 		if (Generator::intFromRange(0, 99) <= this->calculateHitChance(monster)) {
 			this->appendLog("You hit " + monster->getName());
 
-			monster->hit(this->calculateDamage());
+			int damage = this->calculateDamage();
+			if (monster->isAwake()) damage += 4;
+
+			monster->hit(damage);
+			monster->aggrevate();
 
 			if (monster->isDead()) {
 				this->appendLog("You have defeated the " + monster->getName());
 				this->addExp(monster->getExperience());
 			}
 		} else {
-			this->appendLog("You miss " + monster->getName());
+			this->appendLog("You missed");
 		}
 	}
 }

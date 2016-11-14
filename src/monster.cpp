@@ -121,7 +121,6 @@ Monster::Monster(char symbol, Coord location)
 }
 
 void Monster::aggrevate() {
-	std::cout << "Aggrevated!\n";
 	this->awake = true;
 	this->chasing = true;
 }
@@ -134,7 +133,7 @@ void Monster::attack(Level* level) {
 			player->appendLog("The " + this->getName() + " hit you");
 			player->hit(calculateDamage());
 		} else {
-			player->appendLog("The " + this->getName() + " missed you");
+			player->appendLog("The " + this->getName() + " missed");
 		}		
 	}
 }
@@ -181,6 +180,10 @@ bool Monster::hasFlag(Behaviour flag) {
 	return std::find(this->flags.begin(), this->flags.end(), AGGRESSIVE) != this->flags.end();
 }
 
+bool Monster::isAwake() {
+	return this->awake;
+}
+
 void Monster::relocate(Level* level) {
 
 	if (this->chasing) {
@@ -197,7 +200,7 @@ void Monster::relocate(Level* level) {
 		}
 	}
 
-	if (!this->chasing) {
+	if (!this->chasing && Generator::randBool()) {
 		bool moved = false;
 
 		if (this->hasFlag(GREEDY)) {

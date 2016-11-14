@@ -100,7 +100,14 @@ class Monster : public Mob {
 		 * @return	True if this Monster has the behaviour flag, False otherwise.
 		 */  
 		bool hasFlag(Behaviour);
-		
+	
+		/**
+		 * @brief	Gets the Monster awake state.
+		 *
+		 * @return	True if the Monster is awake, False otherwise.
+		 */ 
+		bool isAwake();
+	
 		/**
 		 * @brief      Performs the actions that make up a Monster's turn.
 		 *

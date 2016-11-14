@@ -329,7 +329,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			player->attack((Monster*) mob);
 			if (mob->isDead()) {
 				level->removeMob(mob);
-				player->appendLog(mob->getName() + " died, horribly");
+				player->appendLog("The " + mob->getName() + " died, horribly");
 				delete mob;
 			}
 			level->pushMob(player, TURN_TIME);

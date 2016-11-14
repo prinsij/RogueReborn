@@ -70,9 +70,9 @@ class PlayerChar : public Mob {
 		void attack(Monster*);
 
 		/**
-		 * @brief      Calculates the damage the PlayerChar will inflict.
+		 * @brief	Calculates the damage the PlayerChar will inflict.
 		 *
-		 * @return     The damage to be inflicted.
+		 * @return	The damage to be inflicted.
 		 */
 		int calculateDamage();
 
