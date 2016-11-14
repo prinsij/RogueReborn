@@ -61,3 +61,8 @@ std::tuple<int, int, int> Weapon::getDamage() {
 bool Weapon::isMelee() {
 	return this->melee;
 }
+
+void Weapon::setEnchantments(int enchantHit, int enchantDamage) {
+	this->enchantHit = enchantHit;
+	this->enchantDamage = enchantDamage;
+}

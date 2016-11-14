@@ -121,6 +121,7 @@ Monster::Monster(char symbol, Coord location)
 }
 
 void Monster::aggrevate() {
+	std::cout << "Aggrevated!\n";
 	this->awake = true;
 	this->chasing = true;
 }
