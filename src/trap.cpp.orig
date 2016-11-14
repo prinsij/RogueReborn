@@ -18,9 +18,21 @@ Trap::Trap(Coord location, unsigned char type, bool visible)
 	  type(type),
 	  visible(true) {}
 
-void Trap::activate(Mob* mob, Level* level) {
+<<<<<<< HEAD
+void Trap::activate(Mob* mob) {
 	this->visible = true;
 
+=======
+/*
+		   0 = Door Trap
+		   1 = Rust Trap
+		   2 = Sleep Trap
+		   3 = Bear Trap
+		   4 = Teleport Trap
+		   5 = Dart Trap
+*/
+void Trap::activate(Mob* mob, Level* level) {
+>>>>>>> 08a56ae10a35865a8e4e0318f62ff5d080636940
 	PlayerChar* player = dynamic_cast<PlayerChar*>(mob);
 
 	if (player) {

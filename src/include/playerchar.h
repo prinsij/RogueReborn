@@ -40,7 +40,24 @@ class PlayerChar : public Mob {
 		 */
 		PlayerChar(Coord, std::string);
 
-		enum Condition {BLIND, CONFUSED, DETECT_MONSTER, DETECT_OBJECTS, FAINTING, HALLUCINATING, HASTE, IMMOBILIZED, LEVITATING, RANDOM_TELEPORT, SEE_INVISIBLE, SLEEPING, SUSTAIN_STRENGTH};
+		enum Condition {BLIND, 
+			CONFUSED, 
+			DETECT_MONSTER,
+			DETECT_OBJECTS,
+			DIGESTION,
+			FAINTING,
+			HALLUCINATING,
+			HASTE,
+			IMMOBILIZED,
+			LEVITATING,
+			MAINTAIN_ARMOR,
+			RANDOM_TELEPORTATION,
+			REGENERATION,
+			SEARCH,
+			SEE_INVISIBLE,
+			SLEEPING,
+			STEALTHY,
+			SUSTAIN_STRENGTH};
 
 		/**
 		 * @brief      Activates the provided item
@@ -257,8 +274,9 @@ class PlayerChar : public Mob {
 		 * @brief	Relocates the PlayerChar and updates the food life.
 		 *
 		 * @param	location New PlayerChar location
+		 * @param	level Reference to the current level
 		 */
-		void move(Coord);
+		void move(Coord, Level*);
 
 		/**
 		 * @brief      Attempts to place the provided Item in the PlayerChar's inventory.
@@ -336,6 +354,13 @@ class PlayerChar : public Mob {
 		 * @param	foodLife The new food life of the PlayerChar
 		 */
 		void setFoodLife(int);
+
+		/**
+		 * @brief	Sets the strength of the PlayerChar.
+		 *
+		 * @param	strength The new strength of the PlayerChar
+		 */ 
+		void setStrength(int);
 
 		/**
 		 * @brief      Attempts to throw the given Item.
@@ -421,6 +446,12 @@ class PlayerChar : public Mob {
 
 		/** PlayerChar's maximum strength */
 		int maxStr;
+	
+		/** PlayerChar's move counter */
+		int moves;
+
+		/** Maximum moves value */
+		static const int MOVES_RESET = 99999;
 
 		/** PlayerChar's starting armor rating */
 		static const int START_ARMOR = 1;

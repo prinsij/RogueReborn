@@ -193,6 +193,10 @@ bool Monster::isAwake() {
 	return this->awake;
 }
 
+bool Monster::isVisible() {
+	return this->visible;
+}
+
 void Monster::relocate(Level* level) {
 
 	if (this->chasing) {
@@ -230,6 +234,14 @@ void Monster::relocate(Level* level) {
 			}
 		}
 	}
+}
+
+void Monster::setAwake(bool awake) {
+	this->awake = awake;
+}
+
+void Monster::setVisible(bool visible) {
+	this->visible = visible;
 }
 
 int Monster::turn(Level* level) {

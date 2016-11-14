@@ -125,6 +125,27 @@ class Monster : public Mob {
 		bool isAwake();
 
 		/**
+		 * @brief	Determines whether or not this monster should be visible to the PlayerChar.
+		 *
+		 * @return	True if it is visible, False otherwise.
+		 */ 
+		bool isVisible();
+	
+		/**
+		 * @brief	Sets the Monster awake state.
+		 *
+		 * @param	New awake state
+		 */ 
+		void setAwake(bool);
+
+		/**
+		 * @brief	Sets this Monster's visibility to the given value.
+		 *
+		 * @param	visible New value of Monster's visibility.
+		 */ 
+		void setVisible(bool);
+
+		/**
 		 * @brief      Performs the actions that make up a Monster's turn.
 		 *
 		 * @param      level Reference to the current Level
@@ -171,4 +192,7 @@ class Monster : public Mob {
 		 * Monster behavioural flags.
 		 */
 		std::vector<Behaviour> flags;
+
+		/** Determines whether or not this Monster should be visible to the PlayerChar */
+		bool visible;
 };

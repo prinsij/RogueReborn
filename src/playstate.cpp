@@ -27,6 +27,7 @@
 #include "include/playstate.h"
 #include "include/ripscreen.h"
 #include "include/stairs.h"
+#include "include/trap.h"
 #include "include/uistate.h"
 #include "include/weapon.h"
 #include "libtcod/include/libtcod.hpp"
@@ -222,6 +223,7 @@ PlayState::PlayState(PlayerChar* play, Level* lvl)
 }
 
 Room* PlayState::updateMap() {
+
 	for (auto x=-1; x < 2; x++) {
 		for (auto y=-1; y < 2; y++) {
 			(*level)[player->getLocation()+Coord(x,y)].setIsSeen(Terrain::Seen);
@@ -478,6 +480,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	} else if (key.vk == TCODK_RIGHT) {
 		newPos += Coord(1, 0);
 	}
+
 	if (newPos != player->getLocation() && level->contains(newPos)) {
 		Mob* mob = level->monsterAt(newPos);
 		if (mob != NULL) {
@@ -489,7 +492,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			}
 			level->pushMob(player, TURN_TIME);
 		} else if ((*level)[newPos].isPassable()) {
-			player->move(newPos);
+			player->move(newPos, level);
 			level->pushMob(player, TURN_TIME);
 			//std::cout << "taking turn: " << player->getName() << "\n";
 			currRoom = updateMap();
@@ -514,6 +517,18 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 						delete feat;
 						search = true;
 						break;
+					}
+
+					Trap* tr = dynamic_cast<Trap*>(feat);
+					if (tr != NULL){
+						tr->activate(player, level);
+
+						Level* oldLevel = level;
+						level = level->getBro();
+						delete oldLevel;
+
+						currRoom = NULL;
+						currRoom = updateMap();
 					}
 				}
 			} while (search);
