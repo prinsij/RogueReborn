@@ -59,7 +59,7 @@ void PlayerChar::appendLog(std::string entry) {
 void PlayerChar::attack(Monster* monster) {
 	if (this->getLocation().isAdjacentTo(monster->getLocation())) {
 		if (Generator::intFromRange(0, 99) <= this->calculateHitChance(monster)) {
-			this->appendLog("You hit " + monster->getName());
+			this->appendLog("You hit the " + monster->getName());
 
 			int damage = this->calculateDamage();
 			if (monster->isAwake()) damage += 4;
