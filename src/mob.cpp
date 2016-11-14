@@ -72,7 +72,6 @@ char Mob::getSymbol() {
 }
 
 void Mob::hit(int damage) {
-	std::cout << this->getName() << " originally had " << this->currentHP << " HP\n";
 	int effectiveArmor = 11 - this->armor;
 	int deltaHP = std::max(1, static_cast<int>(damage - (damage * 3.00 * effectiveArmor)/100.00));
 
@@ -81,7 +80,6 @@ void Mob::hit(int damage) {
 	if (this->currentHP <= 0) {
 		this->dead = true;
 	}
-	std::cout << "'" << this->getName() << "' now has " << this->currentHP << " HP after taking " << deltaHP << " damage.\n";
 }
 
 bool Mob::isDead() {

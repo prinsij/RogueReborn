@@ -93,6 +93,20 @@ class PlayerChar : public Mob {
 		void changeCurrentHP(int);
 
 		/**
+		 * @brief	Increases the current strength of the PlayerChar by the passed parameter.
+		 *
+		 * @param	amount Amount to change the current strength.
+		 */
+		void changeCurrentStrength(int);
+
+		/**
+		 * @brief	Increases the maximum stength of the PlayerChar by the passed parameter.
+		 *
+		 * @param	amount Amount to change the maximum strength.
+		 */
+		void changeMaxStrength(int);
+
+		/**
 		 * @brief	Increases the food life of the PlayerChar by the passed parameter.
 		 *
 		 * @param	amount Amount to change the food life.

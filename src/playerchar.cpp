@@ -45,8 +45,15 @@ PlayerChar::PlayerChar(Coord location, std::string name)
 void PlayerChar::addExp(int exp) {
 	this->exp += exp;
 
-	if (this->level <= static_cast<int>(levelExpBounds.size()) && this->exp >= levelExpBounds[this->level - 1])
+	if (this->level <= static_cast<int>(levelExpBounds.size()) && this->exp >= levelExpBounds[this->level - 1]) {
 		this->level++;
+		this->appendLog("Welcome to level " + std::to_string(this->level));
+		std::cout << "PlayerChar is now at level " << this->level << "\n";
+
+		int deltaHP = Generator::intFromRange(3, 9);
+		this->currentHP += deltaHP;
+		this->maxHP += deltaHP;
+	}
 }
 
 void PlayerChar::appendLog(std::string entry) {
@@ -125,6 +132,14 @@ int PlayerChar::calculateHitChance(Monster* monster) {
 
 void PlayerChar::changeCurrentHP(int amount) {
 	this->currentHP += amount;
+}
+
+void PlayerChar::changeCurrentStrength(int amount) {
+	this->currentStr += amount;
+}
+
+void PlayerChar::changeMaxStrength(int amount) {
+	this->maxStr += amount;
 }
 
 void PlayerChar::changeFoodLife(int amount) {
