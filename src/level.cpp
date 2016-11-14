@@ -539,6 +539,14 @@ void Level::addFeature(Feature* feat) {
 
 void Level::placePlayerInStartingPosition() {
 
-	int roomIndex = Generator::intFromRange(0,rooms.size()-1);
+	int roomIndex = 0;
+	int count = 0;
+	
+	do {
+		roomIndex = Generator::intFromRange(0,rooms.size()-1);
+		count++;
+	} while (!rooms[roomIndex].exists() || count < 100);
+
 	player->move(Generator::randPosition(rooms[roomIndex].getPosition1(), rooms[roomIndex].getPosition2()));
+
 }
