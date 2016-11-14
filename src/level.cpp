@@ -275,11 +275,11 @@ void Level::addTunnel(int i, int j, bool* a, bool* b, Generator gen){
 	}
 }
 
-void Level::tryAddPassable(Coord current, std::queue<Coord>& q, Coord target){
+void Level::tryAddPassable(Coord current, std::queue<Coord>& q, Coord target, Coord end){
 
 	if (target[0] > 0 && target[0] < size[0] && target[1] > 0 && target[1] < size[1]){
 
-		if(tiles[target[0]][target[1]].isPassable() == Terrain::Passable && !(tiles[target[0]][target[1]].checked)){
+		if(tiles[target[0]][target[1]].isPassable() == Terrain::Passable && !(tiles[target[0]][target[1]].checked) && ( end == target || !monsterAt(target))){
 
 			Coord c_ = current.copy();
 			Coord p_ = target.copy();
@@ -328,28 +328,28 @@ std::vector<Coord> Level::bfsDiag(Coord start, Coord end){
 		Coord target;
 
 		target = current + Coord(1, 0);
-		tryAddPassable(current, q, target);
+		tryAddPassable(current, q, target, end);
 
 		target = current + Coord(-1, 0);
-		tryAddPassable(current, q, target);
+		tryAddPassable(current, q, target, end);
 
 		target = current + Coord(0, 1);
-		tryAddPassable(current, q, target);
+		tryAddPassable(current, q, target, end);
 
 		target = current + Coord(0, -1);
-		tryAddPassable(current, q, target);
+		tryAddPassable(current, q, target, end);
 
 		target = current + Coord(1, 1);
-		tryAddPassable(current, q, target);
+		tryAddPassable(current, q, target, end);
 
 		target = current + Coord(-1, 1);
-		tryAddPassable(current, q, target);
+		tryAddPassable(current, q, target, end);
 
 		target = current + Coord(1, -1);
-		tryAddPassable(current, q, target);
+		tryAddPassable(current, q, target, end);
 
 		target = current + Coord(-1, -1);
-		tryAddPassable(current, q, target);
+		tryAddPassable(current, q, target, end);
 	}
 
 	std::vector<Coord> path = traceBack(end, start);
@@ -418,7 +418,7 @@ std::vector<Coord> Level::traceBack(Coord end, Coord start){
 		count++;
 
 		if (count == 100 || current == Coord(0,0)){
-			std::cout << "Oops" << std::endl;
+			std::cout << "Oops " << count << std::endl;
 			break;
 		}
 	}

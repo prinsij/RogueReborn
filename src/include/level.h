@@ -279,7 +279,7 @@ class Level {
 		int depth;
 
 		//Try to add a coord to the q
-		void tryAddPassable(Coord, std::queue<Coord>&, Coord);
+		void tryAddPassable(Coord, std::queue<Coord>&, Coord, Coord);
 
 		//Try to add a coord to the q
 		void tryAdd(Coord, std::queue<Coord>&, Coord);

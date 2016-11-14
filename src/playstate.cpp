@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <iostream>
 #include <string>
+#include <assert.h>
 
 #include "include/feature.h"
 #include "include/globals.h"
@@ -67,13 +68,33 @@ class QuickThrow : public PlayState {
 			: PlayState(player, level)
 			, item(item)
 			, direction(direction)
-		{}
+		{
+			assert (direction != Coord(0,0));
+		}
 		virtual UIState* handleInput(TCOD_key_t key) {
-			item->setContext(Item::FLOOR);
 			player->getInventory().remove(item);
-			item->setLocation(player->getLocation());
-			//Coord newLoc = player->getLocation();
-			level->addFeature(item);
+			Coord newLoc = player->getLocation();
+			while (true) {
+				Coord next = newLoc+direction;
+				auto mob = level->monsterAt(next);
+				if (mob != NULL) {
+					mob->hit(20);
+					player->appendLog("The flying " + item->getDisplayName() + " strikes the " + mob->getName());
+					delete item;
+					break;
+				} else if (!level->contains(next)) {
+					delete item;
+					player->appendLog("Somehow you threw that out-of-bounds. Plz tell the devs how");
+					break;
+				} else if ((*level)[next].isPassable() != Terrain::Passable) {
+					player->appendLog("The " + item->getDisplayName() + " clatters off the wall");
+					item->setLocation(newLoc);
+					item->setContext(Item::FLOOR);
+					level->addFeature(item);
+					break;
+				}
+				newLoc += direction;
+			}
 			return new PlayState(player, level);
 		}
 	private:
@@ -93,18 +114,20 @@ class ThrowDirectionState : public PlayState {
 
 		virtual UIState* handleInput(TCOD_key_t key) {
 			auto direction = Coord(0, 0);
-			if (key.c == TCODK_LEFT) {
+			if (key.vk == TCODK_LEFT) {
 				direction = Coord(-1, 0);
-			} else if (key.c == TCODK_UP) {
+			} else if (key.vk == TCODK_UP) {
 				direction = Coord(0, -1);
-			} else if (key.c == TCODK_RIGHT) {
+			} else if (key.vk == TCODK_RIGHT) {
 				direction = Coord(1, 0);
-			} else if (key.c == TCODK_DOWN) {
+			} else if (key.vk == TCODK_DOWN) {
 				direction = Coord(0, 1);
+			} else if (key.vk == TCODK_ESCAPE) {
+				return new PlayState(player, level);
 			}
 			if (direction != Coord(0, 0)) {
 				return new InvScreen(player, level, [] (Item* i) {return i->isThrowable();},
-													[&direction] (Item* i, PlayerChar* p, Level* l) {
+													[=] (Item* i, PlayerChar* p, Level* l) {
 														return new QuickThrow(p, l, i, direction);
 													},
 													true);
@@ -251,9 +274,11 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 				break;
 			}
 		}
-		if (not canThrow) {
+		if (canThrow) {
+			return new ThrowDirectionState(player, level);
+		} else {
 			player->appendLog("You have nothing you can throw");
-		}
+		} 
 	}
 	if (key.c == '<' || key.c == '>') {
 		for (Feature* feat : level->getFeatures()) {
