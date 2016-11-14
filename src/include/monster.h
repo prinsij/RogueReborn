@@ -36,6 +36,17 @@ class Monster : public Mob {
 		Monster(char, Coord);
 
 		/**
+		 * @brief      Monster flags denoting behavioural patterns.
+		 */
+		enum Behaviour {AGGRESSIVE, FLYING, REGENERATIVE, GREEDY, INVISIBLE};
+		
+		/**
+		 * @brief	Aggrevates this monster to attack the player.
+		 *
+		 */
+		void aggrevate();
+
+		/**
 		 * @brief      Attempts to attack a nearby Player Character.
 		 *
 		 * @param      level Reference to the current Level
@@ -83,6 +94,13 @@ class Monster : public Mob {
 		 */
 		std::vector<char> getSymbolsForTreasure(int);
 
+		/*
+		 * @brief	Determines whether or not this Monster has the given behaviour flag.
+		 *
+		 * @return	True if this Monster has the behaviour flag, False otherwise.
+		 */  
+		bool hasFlag(Behaviour);
+		
 		/**
 		 * @brief      Performs the actions that make up a Monster's turn.
 		 *
@@ -106,19 +124,20 @@ class Monster : public Mob {
 		void relocate(Level*);
 
 		/**
-		 * Determines whether or not this monster will perform actions during its turn.
+		 * Determines whether or not this Monster will perform actions during its turn.
 		 */
 		bool awake;
 
-		/**
-		 * @brief      Monster flags denoting behavioural patterns.
-		 */
-		enum Behaviour {AGGRESSIVE, FLYING, REGENERATIVE, GREEDY, INVISIBLE};
 
 		/**
 		 * Chance this Monster is carrying an Item.
 		 */
 		int carryChance;
+
+		/**
+		 * Determines whether or not this Monster is currently chasing the player.
+		 */ 
+		bool chasing;
 
 		/**
 		 * <Dice Rolls, Die Value> pair denoting the damage of this Monster.
