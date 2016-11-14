@@ -1,5 +1,9 @@
 # Module Interface Specification #
 
-Suggest following something like the example used in Lab 11 (Box 3D).
+The folders and files for the MIS.
 
-Use doxygen (or equivalent) to document the interface for your modules.
+<p><br></br></p>
+| File | Description |
+| -------- | ------- |
+| **MIS_HTML.zip** | HTML MIS depiction |
+| **MIS_LaTeX.pdf** | LaTeX MIS document |
