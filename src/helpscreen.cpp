@@ -34,7 +34,7 @@ void HelpScreen::draw(TCODConsole* con) {
 						   "List commands", "List discoveries", "<obj> <hand> Put on ring", "Quit (give up)",
 						   "<hand> Remove ring", "Take off armor", "<obj> Wear armor", "Define [x] key",
 						   "<dir> Identify trap", "Toggle tiles", "Repeat last command", "<obj> Rename object",
-						   "<obj> Drop object", "<obj> Eat food", "Inventory", "Repeat last message",
+						   "<obj> Drop object", "<obj> Eat food", "Inventory", "View previous log",
 						   "<obj> Quaff potion", "<obj> Read scroll", "Search for trap or door",
 						   "<dir> <obj> Throw object", "Show version", "<obj> Wield weapon", "Definable key; see [X]",
 						   "<dir> <obj> Zap wand"};
