@@ -83,7 +83,7 @@ class Monster : public Mob {
 		 *
 		 * @return     Vector of valid Monster symbols.
 		 */
-		std::vector<char> getSymbolsForLevel(int);
+		static std::vector<char> getSymbolsForLevel(int);
 
 		/**
 		 * @brief      Gets the valid Monster symbols for a treasure room based on the current dungeon depth.
@@ -92,7 +92,7 @@ class Monster : public Mob {
 		 *
 		 * @return     Vector of valid Monster symbols.
 		 */
-		std::vector<char> getSymbolsForTreasure(int);
+		static std::vector<char> getSymbolsForTreasure(int);
 
 		/*
 		 * @brief	Determines whether or not this Monster has the given behaviour flag.
