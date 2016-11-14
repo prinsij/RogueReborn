@@ -14,6 +14,7 @@
 #include "include/feature.h"
 #include "include/food.h"
 #include "include/potion.h"
+#include "include/weapon.h"
 #include "include/globals.h"
 #include "include/goldpile.h"
 #include "include/helpscreen.h"
@@ -148,6 +149,27 @@ class QuickQuaff : public PlayState {
 				delete pot;
 			} else {
 				assert (false && "tried to quaff non-potion");
+			}
+			return new PlayState(player, level);
+		}
+	private:
+		Item* item;
+};
+
+class QuickWield : public PlayState {
+	public:
+		QuickWield(PlayerChar* player, Level* level, Item* item)
+			: PlayState(player, level)
+			, item(item)
+		{}
+
+		virtual UIState* handleInput(TCOD_key_t key) {
+			Weapon* weap = dynamic_cast<Weapon*>(item);
+			if (weap != NULL) {
+				player->getInventory().remove(weap);
+				player->equipWeapon(weap);
+			} else {
+				assert (false && "tried to equip non-weapon");
 			}
 			return new PlayState(player, level);
 		}
@@ -347,6 +369,40 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 													return new QuickQuaff(p, l, i);
 												},
 												true);
+		} else {
+			player->appendLog("You have nothing you can drink");
+		}
+	}
+	// wield weapon
+	if (key.c == 'w') {
+		bool canWield = false;
+		for (auto pair : player->getInventory().getContents()) {
+			Weapon* weap = dynamic_cast<Weapon*>(pair.second.front());
+			if (weap != NULL) {
+				canWield = true;
+				break;
+			}
+		}
+		if (canWield) {
+			return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Weapon*>(i)!=NULL;},
+												[] (Item* i, PlayerChar* p, Level* l) {
+													return new QuickWield(p, l, i);
+												},
+												true);
+		} else {
+			player->appendLog("You have nothing you can wield");
+		}
+	}
+	// stow weapon
+	if (key.c == 'S') {
+		auto weap = player->getWeapon();
+		// check for curses TODO
+		if (weap != NULL) {
+			player->appendLog("You stow the " + weap->getDisplayName());
+			player->removeWeapon();
+			player->getInventory().add(*weap);
+		} else {
+			player->appendLog("you are not wielding anything");
 		}
 	}
 	// throw item

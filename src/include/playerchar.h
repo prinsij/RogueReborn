@@ -176,6 +176,13 @@ class PlayerChar : public Mob {
 		void equipWeapon(Weapon*);
 
 		/**
+		 * @brief		Getter for currently equipped weapon.
+		 *
+		 * @param		weapon Weapon player is wielding (maybe none)
+		 */
+		Weapon* getWeapon();
+
+		/**
 		 * @brief	Gets the PlayerChar's dexterity.
 		 *
 		 * @return	The PlayerChar's dexterity.
