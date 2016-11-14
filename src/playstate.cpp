@@ -243,18 +243,22 @@ void PlayState::draw(TCODConsole* con) {
 
 UIState* PlayState::handleInput(TCOD_key_t key) {
 	// Perform AI turns until it's the player's go
+	int numAIGone = 0;
 	while (true) {
 		auto nextUp = level->popTurnClock();
 		if (nextUp == player) {
 			level->pushMob(player, 0);
 			break;
 		}
-		//std::cout << "taking turn: " << nextUp->getName() << "\n";
+		++numAIGone;
 		// Do AI turn
 		level->pushMob(nextUp, nextUp->turn(level));
 		if (player->isDead()) {
 			return new RIPScreen(player, level, "Killed by a " + nextUp->getName());
 		}
+	}
+	if (numAIGone > 0) {
+		player->update();
 	}
 	// Quitting
 	if (key.c == 'Q') {
@@ -405,8 +409,6 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 				}
 			} while (search);
 		}
-
-		player->update();
 	}
 	return this;
 }
