@@ -1,6 +1,6 @@
 # Module Interface Specification #
 
-The folders and files for the MIS.
+The folders and files for the Module Interface Specification (MIS).
 
 <p><br></br></p>
 | File | Description |
