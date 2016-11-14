@@ -566,6 +566,6 @@ void Level::placePlayerInStartingPosition() {
 		count++;
 	} while (!rooms[roomIndex].exists() || count < 100);
 
-	player->move(Generator::randPosition(rooms[roomIndex].getPosition1(), rooms[roomIndex].getPosition2()));
+	player->move(Generator::randPosition(rooms[roomIndex].getPosition1(), rooms[roomIndex].getPosition2()), this);
 
 }
