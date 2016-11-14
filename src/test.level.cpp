@@ -1,19 +1,19 @@
 /**
  * @file test.level.cpp
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Global members
- */
+ */ 
 
 #include <iostream>
 #include <string>
 #include <vector>
 
-#include "test.testable.h"
-#include "include/playerchar.h"
 #include "include/level.h"
+#include "include/playerchar.h"
 #include "include/random.h"
+#include "test.testable.h"
 
 class LevelTest : public Testable {
 	public:
@@ -24,7 +24,7 @@ class LevelTest : public Testable {
 
 		void test(){
 
-			comment("Testing level!");			
+			comment("Testing level!");
 
 			Coord pos  = Coord(0,0);
 			PlayerChar player = PlayerChar(pos, "test");
@@ -48,7 +48,7 @@ class LevelTest : public Testable {
 				int target = Generator::intFromRange(5,30);
 				std::vector<Coord> path = l.bfsPerp(Coord(1,1), Coord(target+1,1));
 
-				
+
 				assert(path.size() == uint(target+1), "BFS perp along a straight horizontal line");
 			}
 
@@ -58,7 +58,7 @@ class LevelTest : public Testable {
 				int target = Generator::intFromRange(5,30);
 				std::vector<Coord> path = l.bfsPerp(Coord(1,1), Coord(1,target+1));
 
-				
+
 				assert(path.size() == uint(target+1), "BFS perp along a straight vertical line");
 			}
 
@@ -68,7 +68,7 @@ class LevelTest : public Testable {
 				int target = Generator::intFromRange(5,30);
 				std::vector<Coord> path = l.bfsPerp(Coord(1,1), Coord(target+1,target+1));
 
-				
+
 				assert(path.size() == uint(2*target+1), "BFS perp along a diagonal line");
 			}
 
@@ -79,7 +79,7 @@ class LevelTest : public Testable {
 				int target = Generator::intFromRange(5,30);
 				std::vector<Coord> path = l.bfsDiag(Coord(1,1), Coord(target+1,1));
 
-				
+
 				assert(path.size() == uint(target+1), "BFS diag along a straight horizontal line");
 			}
 
@@ -89,7 +89,7 @@ class LevelTest : public Testable {
 				int target = Generator::intFromRange(5,30);
 				std::vector<Coord> path = l.bfsDiag(Coord(1,1), Coord(1,target+1));
 
-				
+
 				assert(path.size() == uint(target+1), "BFS diag along a straight vertical line");
 			}
 
@@ -99,12 +99,12 @@ class LevelTest : public Testable {
 				int target = Generator::intFromRange(5,30);
 				std::vector<Coord> path = l.bfsDiag(Coord(1,1), Coord(target+1,target+1));
 
-				
+
 				assert(path.size() == uint(target+1), "BFS diag along a diagonal line");
 			}
 
 			for (auto i = 0; i < RANDOM_TEST_COUNT; i++){
-				assert(l.contains(l.getRandomEmptyPosition()), "Random player position generation");	
+				assert(l.contains(l.getRandomEmptyPosition()), "Random player position generation");
 			}
 
 			for (Coord nearby : l.getAdjPassable(Coord(5,5), true)){

@@ -1,9 +1,9 @@
 /**
  * @file test.testable.h
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
- * @brief Testable class
+ * @brief Member declarations for the Testable class
  */ 
 
 #pragma once

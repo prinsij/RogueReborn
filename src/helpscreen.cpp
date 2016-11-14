@@ -1,7 +1,7 @@
 /**
  * @file helpscreen.cpp
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member definitions for the HelpScreen class
  */ 
@@ -28,7 +28,7 @@ void HelpScreen::draw(TCODConsole* con) {
 	*/
 
 	std::string hotkeys[] = {".", "/", "<", ">",
-							 "?", "P", "Q", "R", "T", "W", 
+							 "?", "P", "Q", "R", "T", "W",
 							 "d", "e", "i", "o", "q", "r", "s", "t",
 							 "w", "S", "Z"};
 	std::string descs[] = {"Rest", "List symbols", "Ascend stairs", "Descend stairs",

@@ -1,12 +1,10 @@
 /**
  * @file test.armor.cpp
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Global members
  */ 
-
-//#pragma once
 
 #include <iostream>
 #include <string>
@@ -20,7 +18,7 @@ class ArmorTest : public Testable {
 		ArmorTest(){}
 
 		void test(){
-			
+
 			comment("Testing armor!");
 
 			assert(true, "");

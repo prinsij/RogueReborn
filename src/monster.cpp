@@ -1,7 +1,7 @@
 /**
  * @file monster.cpp
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member definitions for the Monster class
  */ 
@@ -21,7 +21,7 @@
 #include "include/monster.h"
 #include "include/random.h"
 
-const std::vector<TCODColor> Monster::possibleColors = {TCODColor::lightBlue, TCODColor::red, TCODColor::orange, 
+const std::vector<TCODColor> Monster::possibleColors = {TCODColor::lightBlue, TCODColor::red, TCODColor::orange,
 							TCODColor::green, TCODColor::purple, TCODColor::yellow};
 
 // Monster Template Values
@@ -254,7 +254,7 @@ void Monster::attack(Level* level) {
 	PlayerChar* player = level->getPlayer();
 
 	bool canAttack = this->getLocation().isAdjacentTo(player->getLocation());
-	
+
 	if (this->hasFlag(RANGED)) {
 		canAttack = (this->location[0] == player->getLocation()[0] || this->location[1] == player->getLocation()[1]) && this->location.distanceTo(player->getLocation()) <= 4;
 	}
@@ -265,7 +265,7 @@ void Monster::attack(Level* level) {
 			player->appendLog("The " + this->getName(player) + " hit you");
 			player->hit(calculateDamage());
 
-			if (!player->isDead() && !this->hasFlag(CANCELLED)) {	
+			if (!player->isDead() && !this->hasFlag(CANCELLED)) {
 
 				if (this->hasFlag(CONFUSES)) { this->attackConfuse(player); }
 				else if (this->hasFlag(DRAINS_LIFE)) { this->attackDrainLife(player); }
@@ -368,11 +368,11 @@ void Monster::relocate(Level* level) {
 
 	if (this->chasing) {
 		//If you are in the same room as the player, go to him
-		
+
 		std::vector<Coord> path = {this->location};
 		if (this->location.distanceTo(level->getPlayer()->getLocation()) == 2) {
 			std::vector<Coord> adjacentTiles = level->getAdjPassable(this->location, true);
-			
+
 			for (auto it = adjacentTiles.begin() ; it != adjacentTiles.end() ; it ++) {
 				if (it->distanceTo(level->getPlayer()->getLocation()) == 1) {
 					path.push_back(*it);

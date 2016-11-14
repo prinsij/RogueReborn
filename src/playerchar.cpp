@@ -1,7 +1,7 @@
 /**
  * @file playerchar.cpp
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member definitions for the PlayerChar class
  */ 
@@ -45,7 +45,7 @@ PlayerChar::PlayerChar(Coord location, std::string name)
 	  itemRingRight(NULL),
 	  itemWeapon(NULL),
 	  maxStr(START_STR),
-	  moves(0) 
+	  moves(0)
 {}
 
 void PlayerChar::addExp(int exp) {
@@ -322,9 +322,9 @@ bool PlayerChar::hasCondition(PlayerChar::Condition condition) {
 
 void PlayerChar::hit(int damage) {
 	Mob::hit(damage);
-	
+
 	if (this->currentHP > 0 && !this->hasCondition(MAINTAIN_ARMOR) && Generator::intFromRange(0, 99) <= 10) {
-		this->armor = std::max(1, this->armor - 1); 
+		this->armor = std::max(1, this->armor - 1);
 	}
 }
 
@@ -343,7 +343,7 @@ bool PlayerChar::move(Coord location, Level* level) {
 		this->setLocation(adjacentTiles[Generator::intFromRange(0, adjacentTiles.size() - 1)]);
 		return true;
 	}
-	
+
 	this->setLocation(location);
 
 	// Chance to awaken nearby monsters
@@ -356,7 +356,7 @@ bool PlayerChar::move(Coord location, Level* level) {
 			}
 		}
 
-	}	
+	}
 
 	// Health regeneration
 	if (this->level < 8) {
@@ -433,14 +433,14 @@ void PlayerChar::removeCondition(PlayerChar::Condition condition) {
 		} else if (condition == PlayerChar::LEVITATING) {
 			this->appendLog("You float gently to the ground");
 		}
-	}	
+	}
 
 	this->conditions.erase(condition);
 }
 
 bool PlayerChar::removeRingLeft() {
 	if (this->itemRingLeft == NULL) return false;
-	
+
 	if (this->itemRingLeft->hasEffect(Item::CURSED)) {
 		return false;
 	}
@@ -454,7 +454,7 @@ bool PlayerChar::removeRingLeft() {
 
 bool PlayerChar::removeRingRight() {
 	if (this->itemRingRight == NULL) return false;
-	
+
 	if (this->itemRingRight->hasEffect(Item::CURSED)) {
 		return false;
 	}
@@ -540,7 +540,7 @@ void PlayerChar::setStrength(int strength) {
 
 int PlayerChar::update() {
 	int foodDecrement = -1;
-	
+
 	if (this->itemRingLeft && this->itemRingRight) {
 		foodDecrement = -3;
 	} else if (this->itemRingLeft || this->itemRingRight) {
@@ -568,7 +568,7 @@ int PlayerChar::update() {
 
 				if (Generator::intFromRange(0, 99) <= 40) {
 					this->foodLife ++;
-				} 
+				}
 			}
 		}
 	}

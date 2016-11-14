@@ -1,7 +1,7 @@
 /**
  * @file scroll.cpp
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member definitions for the Scroll class
  */ 
@@ -12,17 +12,17 @@
 
 #include "include/armor.h"
 #include "include/coord.h"
+#include "include/invscreen.h"
 #include "include/item.h"
 #include "include/level.h"
 #include "include/mob.h"
 #include "include/monster.h"
-#include "include/terrain.h"
 #include "include/playerchar.h"
 #include "include/random.h"
 #include "include/ring.h"
-#include "include/uistate.h"
-#include "include/invscreen.h"
 #include "include/scroll.h"
+#include "include/terrain.h"
+#include "include/uistate.h"
 #include "include/weapon.h"
 
 std::vector<SCROLL_TUPLE_TYPE > Scroll::typeVector = {
@@ -91,9 +91,9 @@ std::tuple<bool, UIState*> Scroll::activate(Level* level) {
 		Armor* armor = player->getArmor();
 
 		if (armor == NULL) {
-			player->appendLog("Your acne seems to have disappeared");	
+			player->appendLog("Your acne seems to have disappeared");
 		} else {
-			player->appendLog("Your armor is covered by a shimmering gold shield");	
+			player->appendLog("Your armor is covered by a shimmering gold shield");
 			armor->applyEffect(Item::PROTECTED);
 			armor->removeEffect(Item::CURSED);
 		}
@@ -101,10 +101,10 @@ std::tuple<bool, UIState*> Scroll::activate(Level* level) {
 	// Hold Monster
 	} else if (this->type == 1) {
 		int nearbyMonsters = 0;
-		
+
 		for (Mob* mob : level->getMobs()) {
 			Monster* monster = dynamic_cast<Monster*>(mob);
-			
+
 			if (monster && player->getLocation().distanceTo(monster->getLocation()) <= 8) {
 				nearbyMonsters ++;
 				monster->addFlag(Monster::HELD);
@@ -124,11 +124,11 @@ std::tuple<bool, UIState*> Scroll::activate(Level* level) {
 		Weapon* weapon = player->getWeapon();
 
 		if (weapon == NULL) {
-			player->appendLog("Your hands tingle");	
+			player->appendLog("Your hands tingle");
 		} else {
 			std::string colour = Generator::randBool() ? "red" : "blue";
-			player->appendLog("Your hands glow " + colour + " for a moment");	
-			
+			player->appendLog("Your hands glow " + colour + " for a moment");
+
 			std::pair<int,int> enchantments = weapon->getEnchantments();
 
 			if (Generator::randBool()) {
@@ -146,7 +146,7 @@ std::tuple<bool, UIState*> Scroll::activate(Level* level) {
 		Armor* armor = player->getArmor();
 
 		if (armor == NULL) {
-			player->appendLog("Your skin crawls");	
+			player->appendLog("Your skin crawls");
 		} else {
 			std::string colour = Generator::randBool() ? "red" : "blue";
 			player->appendLog("Your armor glows " + colour + " for a moment");
