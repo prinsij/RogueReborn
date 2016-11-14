@@ -219,6 +219,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	if (key.c == '.') {
 		level->pushMob(player, TURN_TIME);
 		player->appendLog("You rest briefly");
+		player->wait();
 		return this;
 	}
 	// drop item
@@ -284,16 +285,16 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	if (newPos != player->getLocation() && level->contains(newPos)) {
 		Mob* mob = level->monsterAt(newPos);
 		if (mob != NULL) {
-			std::cout << mob->getHP();
-			player->appendLog("attacked " + mob->getName());
-			if (mob->setCurrentHP(mob->getHP()-player->calculateDamage())) {
+			player->attack(mob);
+			std::cout << "Attacking...\n";
+			if (mob->isDead()) {
 				level->removeMob(mob);
 				player->appendLog(mob->getName() + " died, horribly");
 				delete mob;
 			}
 			level->pushMob(player, TURN_TIME);
 		} else if ((*level)[newPos].isPassable()) {
-			player->setLocation(newPos);
+			player->move(newPos);
 			level->pushMob(player, TURN_TIME);
 			//std::cout << "taking turn: " << player->getName() << "\n";
 			currRoom = updateMap();

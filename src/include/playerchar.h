@@ -83,6 +83,13 @@ class PlayerChar : public Mob {
 		int calculateHitChance();
 
 		/**
+		 * @brief	Increases the food life of the PlayerChar by the passed parameter.
+		 *
+		 * @param	amount Amount to change the food life.
+		 */
+		void changeFoodLife(int);
+
+		/**
 		 * @brief      Adds the gold contained in the given GoldPile to the PlayerChar's gold total. 
 		 *
 		 * @param      goldPile GoldPile to be harvested.
@@ -191,6 +198,13 @@ class PlayerChar : public Mob {
 		bool hasAmulet();
 
 		/**
+		 * @brief	Relocates the PlayerChar and updates the food life.
+		 *
+		 * @param	location New PlayerChar location
+		 */ 
+		void move(Coord);
+
+		/**
 		 * @brief      Attempts to place the provided Item in the PlayerChar's inventory.
 		 *
 		 * @param      item Item to be inserted into the PlayerChar's inventory.
@@ -260,7 +274,13 @@ class PlayerChar : public Mob {
 		 *
 		 * @return     True if the Item was thrown, False otherwise.
 		 */
-		bool throwItem(Item*);
+		bool throwItem(Item*);	
+
+		/**
+		 * @brief	Updates the PlayerChar's food life during a wait action.
+		 *
+		 */
+		void wait();
 
 		/**
 		 * @brief      Attempts to spend a charge of the provided Wand.
@@ -280,8 +300,14 @@ class PlayerChar : public Mob {
 		std::vector<std::string>& getLog();
 
 	private:
+		/** Possible food states of the PlayerChar */
+		enum FoodStates {FULL, HUNGRY, WEAK, FAINT, STARVE};
+
 		/** Experience bounds corresponding to each level */
 		static std::vector<int> levelExpBounds;
+
+		/** Food life bounds corresponding to hunger, fainting, etc. */
+		static std::vector<int> foodLifeBounds;
 
 		/** PlayerChar's current strength */
 		int currentStr;
@@ -291,6 +317,9 @@ class PlayerChar : public Mob {
 
 		/** PlayerChar's current food value */
 		int foodLife;
+
+		/** PlayerChar's food status */
+		FoodStates foodStatus;
 
 		/** PlayerChar's current gold quantity */
 		int gold;
