@@ -40,7 +40,7 @@ class PlayerChar : public Mob {
 		 */
 		PlayerChar(Coord, std::string);
 
-		enum Condition {BLIND, CONFUSED, DETECT_MONSTER, DETECT_OBJECTS, FAINTING, HALLUCINATING, HASTE, IMMOBILIZED, LEVITATING, RANDOM_TELEPORT, SEE_INVISIBLE, SUSTAIN_STRENGTH};
+		enum Condition {BLIND, CONFUSED, DETECT_MONSTER, DETECT_OBJECTS, FAINTING, HALLUCINATING, HASTE, IMMOBILIZED, LEVITATING, RANDOM_TELEPORT, SEE_INVISIBLE, SLEEPING, SUSTAIN_STRENGTH};
 
 		/**
 		 * @brief      Activates the provided item
@@ -202,6 +202,13 @@ class PlayerChar : public Mob {
 		 * @return     The PlayerChar's inventory.
 		 */
 		ItemZone& getInventory();
+
+		/**
+		 * @brief		Gets the level of this PlayerChar.
+		 * 
+		 * @return		The level of this PlayerChar.
+		 */
+		int getLevel();
 
 		/**
 		 * @brief      Gets the PlayerChar's strength.

@@ -220,6 +220,10 @@ ItemZone& PlayerChar::getInventory() {
 	return this->inventory;
 }
 
+int PlayerChar::getLevel() {
+	return this->level;
+}
+
 std::vector<std::string>& PlayerChar::getLog() {
 	return this->log;
 }
