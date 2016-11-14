@@ -48,6 +48,9 @@ Weapon::Weapon(Coord location, Item::Context context, int type)
 		if (Generator::randBool()) this->enchantDamage += increment;
 		else this->enchantHit += increment;
 	}
+
+	this->updateName();
+	this->setIdentified(true);
 }
 
 int Weapon::getChance() {
@@ -61,3 +64,18 @@ std::tuple<int, int, int> Weapon::getDamage() {
 bool Weapon::isMelee() {
 	return this->melee;
 }
+
+void Weapon::setEnchantments(int enchantHit, int enchantDamage) {
+	this->enchantHit = enchantHit;
+	this->enchantDamage = enchantDamage;
+	
+	this->updateName();
+}
+
+void Weapon::updateName() {
+	this->name = (this->enchantHit >= 0 ? "+" : "") + std::to_string(this->enchantHit) + "/"
+		+ (this->enchantDamage >= 0 ? "+" : "") + std::to_string(this->enchantDamage) + " "
+		+ std::get<0>(Weapon::typeVector[this->type]);
+}
+
+

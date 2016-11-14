@@ -14,6 +14,7 @@
 #include "include/playerchar.h"
 #include "include/playstate.h"
 #include "include/uistate.h"
+#include "include/weapon.h"
 #include "libtcod/include/libtcod.hpp"
 
 MainMenu::MainMenu()
@@ -36,6 +37,7 @@ UIState* MainMenu::handleInput(TCOD_key_t key) {
 	} else if (key.vk == TCODK_ENTER) {
 
 		PlayerChar* player = new PlayerChar(Coord(10, 10), nameBuffer);
+		setupPlayer(player);
 		Level* level = new Level(0, player);
 		level->registerMob(player);
 		level->generate();
@@ -60,4 +62,13 @@ UIState* MainMenu::handleInput(TCOD_key_t key) {
 		}
 	}
 	return this;
+}
+
+void MainMenu::setupPlayer(PlayerChar* player) {
+	Weapon* weapon = new Weapon(player->getLocation(), Item::Context::INVENTORY, 5);
+	weapon->setEnchantments(1, 1);
+	
+	Item* item = dynamic_cast<Item*> (weapon);
+	player->pickupItem(item);
+	player->equipWeapon(weapon);
 }

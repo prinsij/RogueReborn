@@ -180,6 +180,10 @@ bool Monster::hasFlag(Behaviour flag) {
 	return std::find(this->flags.begin(), this->flags.end(), AGGRESSIVE) != this->flags.end();
 }
 
+bool Monster::isAwake() {
+	return this->awake;
+}
+
 void Monster::relocate(Level* level) {
 
 	if (this->chasing) {
@@ -196,7 +200,7 @@ void Monster::relocate(Level* level) {
 		}
 	}
 
-	if (!this->chasing) {
+	if (!this->chasing && Generator::randBool()) {
 		bool moved = false;
 
 		if (this->hasFlag(GREEDY)) {

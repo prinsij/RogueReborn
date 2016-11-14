@@ -61,14 +61,18 @@ void PlayerChar::attack(Monster* monster) {
 		if (Generator::intFromRange(0, 99) <= this->calculateHitChance(monster)) {
 			this->appendLog("You hit " + monster->getName());
 
-			monster->hit(this->calculateDamage());
+			int damage = this->calculateDamage();
+			if (monster->isAwake()) damage += 4;
+
+			monster->hit(damage);
+			monster->aggrevate();
 
 			if (monster->isDead()) {
 				this->appendLog("You have defeated the " + monster->getName());
 				this->addExp(monster->getExperience());
 			}
 		} else {
-			this->appendLog("You miss " + monster->getName());
+			this->appendLog("You missed the " + monster->getName());
 		}
 	}
 }
@@ -118,6 +122,10 @@ int PlayerChar::calculateHitChance(Monster* monster) {
 	}
 
 	return hitChance;
+}
+
+void PlayerChar::changeCurrentHP(int amount) {
+	this->currentHP += amount;
 }
 
 void PlayerChar::changeFoodLife(int amount) {
@@ -218,6 +226,19 @@ int PlayerChar::getSightRadius() {
 void PlayerChar::move(Coord location) {
 	this->setLocation(location);
 	this->changeFoodLife(-1);
+
+	// Health regeneration
+	if (this->currentHP < this->maxHP) {
+		if (this->level < 8) {
+			if (this->foodLife % (21 - this->level*2) == 0) {
+				this->currentHP++;
+			}
+		} else {
+			if (this->foodLife % 3 == 0) {
+				this->currentHP += Generator::intFromRange(1, this->level - 7);
+			}
+		}
+	}
 }
 
 void PlayerChar::pickupItem(Item* item) {

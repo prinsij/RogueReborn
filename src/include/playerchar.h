@@ -70,9 +70,9 @@ class PlayerChar : public Mob {
 		void attack(Monster*);
 
 		/**
-		 * @brief      Calculates the damage the PlayerChar will inflict.
+		 * @brief	Calculates the damage the PlayerChar will inflict.
 		 *
-		 * @return     The damage to be inflicted.
+		 * @return	The damage to be inflicted.
 		 */
 		int calculateDamage();
 
@@ -84,6 +84,13 @@ class PlayerChar : public Mob {
 		 * @return	The chance the PlayerChar will hit their target.
 		 */
 		int calculateHitChance(Monster*);
+
+		/**
+		 * @brief	Increases the current HP of the PlayerChar by the passed parameter.
+		 *
+		 * @param	amount Amount to change the current HP.
+		 */
+		void changeCurrentHP(int);
 
 		/**
 		 * @brief	Increases the food life of the PlayerChar by the passed parameter.
@@ -294,6 +301,10 @@ class PlayerChar : public Mob {
 		 * @return     True if the operation was successful, False otherwise.
 		 */
 		bool zap(Wand*, Level*);
+
+		/**
+		 * @brief	Updates the PlayerChar's health according to i*/
+		void updateHealthRegen();
 
 		/**
 		 * @brief      Gets the PlayerChar's log.

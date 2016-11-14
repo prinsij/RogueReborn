@@ -61,11 +61,24 @@ class Weapon : public Item {
 		 */
 		bool isMelee();
 
+		/**
+		 * @brief	Sets this Weapon's enchantments.
+		 *
+		 * @param	enchantHit Hit enchantment
+		 * @param	enchantDamage Damage enchantment
+		 */
+		void setEnchantments(int, int);
+
 	private:
 		/**
 		 * Vector of tuples representing different Weapon configurations indexed by type.
 		 */
 		static std::vector<WEAPON_TUPLE_TYPE > typeVector;
+
+		/**
+		 * @brief	Updates this Weapon's name.
+		 */
+		void updateName(); 
 
 		/**
 		 * <Dice Rolls, Dice Value> pair representing the damage output of this Weapon.
