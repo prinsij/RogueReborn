@@ -233,7 +233,9 @@ void PlayState::draw(TCODConsole* con) {
 					}
 				}
 				int sightRadius = player->getSightRadius();
-				if (currRoom == NULL || currRoom->getDark() == Room::DARK) {
+				if (currRoom == NULL 
+					|| currRoom->getDark() == Room::DARK
+					|| player->hasCondition(PlayerChar::BLIND)) {
 					sightRadius = 1;
 				}
 				// Previously but not currently seen
