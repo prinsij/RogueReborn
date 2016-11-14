@@ -23,6 +23,7 @@
 #include "include/ripscreen.h"
 #include "include/stairs.h"
 #include "include/uistate.h"
+#include "include/weapon.h"
 #include "libtcod/include/libtcod.hpp"
 
 class QuitPrompt2 : public PlayState {
@@ -78,7 +79,13 @@ class QuickThrow : public PlayState {
 				Coord next = newLoc+direction;
 				auto mob = level->monsterAt(next);
 				if (mob != NULL) {
-					mob->hit(20);
+					auto weap = dynamic_cast<Weapon*>(item);
+					if (weap != NULL) {
+						auto dmg = weap->getDamage();
+						mob->hit(Generator::nDx(std::get<0>(dmg), std::get<1>(dmg)+std::get<2>(dmg)));
+					} else {
+						mob->hit(Item::BASE_THROW_DMG);
+					}
 					player->appendLog("The flying " + item->getDisplayName() + " strikes the " + mob->getName());
 					delete item;
 					break;
@@ -107,6 +114,7 @@ class ThrowDirectionState : public PlayState {
 		ThrowDirectionState(PlayerChar* player, Level* level)
 			: PlayState(player, level)
 		{}
+
 		virtual void draw(TCODConsole* con) {
 			PlayState::draw(con);
 			con->print(PROMPTX, PROMPTY, std::string("Which direction?").c_str());
@@ -221,6 +229,9 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		//std::cout << "taking turn: " << nextUp->getName() << "\n";
 		// Do AI turn
 		level->pushMob(nextUp, nextUp->turn(level));
+		if (player->isDead()) {
+			return new RIPScreen(player, level, "Killed by a " + nextUp->getName());
+		}
 	}
 	// Quitting
 	if (key.c == 'Q') {

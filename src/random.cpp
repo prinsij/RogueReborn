@@ -35,3 +35,11 @@ template<typename T>
 void Generator::shuffle(std::vector<T>* s) {
 	std::random_shuffle(s->begin(), s->end());
 }
+
+int Generator::nDx(int numDice, int numFaces) {
+	int sum = 0;
+	for (auto i=0; i < numDice; i++) {
+		sum += intFromRange(1, numFaces);
+	}
+	return sum;
+}

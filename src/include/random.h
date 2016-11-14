@@ -33,6 +33,8 @@ class Generator {
 		/** Randomly shuffle the vector provided */
 		template<typename T>
 		static void shuffle(std::vector<T>*);
+		/** Rolls the designated dice and returns sum. */
+		static int nDx(int numDice, int numFaces);
 	private:
 		/** std lib generator (m-twister). */
 		static std::mt19937 gen;
