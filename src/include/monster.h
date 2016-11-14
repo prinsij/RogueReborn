@@ -56,9 +56,11 @@ class Monster : public Mob {
 			HASTED,
 			HELD,
 			INVISIBLE,
+			RANGED,
 			REGENERATIVE,
 			RUSTS,
 			SLOWED,
+			STATIONARY,
 			STINGS };
 
 		/**

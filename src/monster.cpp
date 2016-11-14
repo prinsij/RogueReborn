@@ -32,14 +32,14 @@ std::map<char, MONSTER_TUPLE_TYPE > Monster::templateMap = {
 									  std::make_pair( 1, 6)},  25,    "", 4,std::make_pair( 4,8),      "Centaur",std::make_pair( 7,16)}},
 	{'D', MONSTER_TUPLE_TYPE {-1,100,{std::make_pair( 1, 8),
 									  std::make_pair( 1, 8),
-									  std::make_pair( 3,10)},6800,  "AL",10,std::make_pair(10,8),       "Dragon",std::make_pair(22,30)}},
+									  std::make_pair( 3,10)},6800,  "ALN",10,std::make_pair(10,8),       "Dragon",std::make_pair(22,30)}},
 	{'E', MONSTER_TUPLE_TYPE { 7,  0,{std::make_pair( 1, 2)},   2,   "A", 1,std::make_pair( 1,8),          "Emu",std::make_pair( 1, 7)}},
-	{'F', MONSTER_TUPLE_TYPE { 3,  0,{std::make_pair( 0, 0)},  80,   "A", 8,std::make_pair( 8,8),"Venus Flytrap",std::make_pair(14,23)}},
+	{'F', MONSTER_TUPLE_TYPE { 3,  0,{std::make_pair( 0, 0)},  80,   "ANT", 8,std::make_pair( 8,8),"Venus Flytrap",std::make_pair(14,23)}},
 	{'G', MONSTER_TUPLE_TYPE { 2, 20,{std::make_pair( 4, 3),
 									  std::make_pair( 3, 5),
 									  std::make_pair( 4, 3)},2000, "AFR",13,std::make_pair(13,8),      "Griffin",std::make_pair(17,26)}},
 	{'H', MONSTER_TUPLE_TYPE { 5,  0,{std::make_pair( 1, 8)},   3,   "A", 1,std::make_pair( 1,8),    "Hobgoblin",std::make_pair( 1, 9)}},
-	{'I', MONSTER_TUPLE_TYPE { 9,  0,{std::make_pair( 1, 2)},  15,   "A", 1,std::make_pair( 1,8),  "Ice Monster",std::make_pair( 1,10)}},
+	{'I', MONSTER_TUPLE_TYPE { 9,  0,{std::make_pair( 1, 2)},  15,   "ANZ", 1,std::make_pair( 1,8),  "Ice Monster",std::make_pair( 1,10)}},
 	{'J', MONSTER_TUPLE_TYPE { 6, 70,{std::make_pair( 2,12),
 									  std::make_pair( 2, 4)},4000,    "",15,std::make_pair(15,8),   "Jabberwock",std::make_pair(21,26)}},
 	{'K', MONSTER_TUPLE_TYPE { 7,  0,{std::make_pair( 1, 4)},   1,  "AF", 1,std::make_pair( 1,8),      "Kestral",std::make_pair( 1, 6)}},
@@ -112,17 +112,26 @@ Monster::Monster(char symbol, Coord location)
 			case 'L':
 				flags.insert(FLAMES);
 				break;
+			case 'N':
+				flags.insert(RANGED);
+				break;
 			case 'R':
 				flags.insert(REGENERATIVE);
 				break;
 			case 'S':
 				flags.insert(STINGS);
 				break;
+			case 'T':
+				flags.insert(STATIONARY);
+				break;
 			case 'U':
 				flags.insert(RUSTS);
 				break;
 			case 'V':
 				flags.insert(DROPS_LEVEL);
+				break;
+			case 'Z':
+				flags.insert(FREEZES);
 				break;
 			default:
 				std::cout << "Discovered invalid flag '" << *flagIt << "'";
@@ -244,7 +253,13 @@ void Monster::attackSting(PlayerChar* player) {
 void Monster::attack(Level* level) {
 	PlayerChar* player = level->getPlayer();
 
-	if (this->getLocation().isAdjacentTo(player->getLocation())) {
+	bool canAttack = this->getLocation().isAdjacentTo(player->getLocation());
+	
+	if (this->hasFlag(RANGED)) {
+		canAttack = (this->location[0] == player->getLocation()[0] || this->location[1] == player->getLocation()[1]) && this->location.distanceTo(player->getLocation()) <= 4;
+	}
+
+	if (canAttack) {
 		if (Generator::intFromRange(0, 99) <= this->calculateHitChance(player)) {
 
 			player->appendLog("The " + this->getName(player) + " hit you");
@@ -430,7 +445,9 @@ int Monster::turn(Level* level) {
 				attack(level);
 			}
 
-			relocate(level);
+			if (!this->hasFlag(STATIONARY)) {
+				relocate(level);
+			}
 		}
 	}
 	return this->getDelay();

@@ -346,20 +346,17 @@ bool PlayerChar::move(Coord location, Level* level) {
 	
 	this->setLocation(location);
 
-	std::vector<Coord> adjacentTiles = level->getAdjPassable(location, false);
-
-	// Chance to awaken nearby monsters	
-	for (auto it = adjacentTiles.begin() ; it != adjacentTiles.end() ; it++) {
-		Mob* mob = level->monsterAt(*it);
-		if (mob) {
-			Monster* monster = dynamic_cast<Monster*>(mob);
+	// Chance to awaken nearby monsters
+	for (Mob* mob : level->getMobs()) {
+		Monster* monster = dynamic_cast<Monster*>(mob);
+		if (monster != NULL && this->location.distanceTo(monster->getLocation())) {
 			if (monster && !monster->isAwake()) {
 				int wakePercent = static_cast<int>(45/(3 + (this->hasCondition(STEALTHY) ? 1 : 0)));
 				monster->setAwake(Generator::intFromRange(0,99) <= wakePercent);
 			}
 		}
-	}
-		
+
+	}	
 
 	// Health regeneration
 	if (this->level < 8) {
