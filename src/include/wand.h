@@ -1,7 +1,7 @@
 /**
  * @file wand.h
  * @author Team Rogue++
- * @date November 09, 2016
+ * @date November 13, 2016
  *
  * @brief Member declarations for the Wand class
  */ 
@@ -41,7 +41,7 @@ class Wand : public Item {
 		Wand(Coord, Item::Context, int);
 
 		/**
-		 * @brief      Applies the effects derived from using a zap from this Wand. 
+		 * @brief      Applies the effects derived from using a zap from this Wand.
 		 *
 		 * @param      level  Reference to the Level instance
 		 *

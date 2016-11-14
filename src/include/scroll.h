@@ -1,7 +1,7 @@
 /**
  * @file scroll.h
  * @author Team Rogue++
- * @date November 09, 2016
+ * @date November 13, 2016
  *
  * @brief Member declarations for the Scroll class
  */ 
@@ -48,7 +48,7 @@ class Scroll : public Item {
 		Scroll(Coord, Item::Context, int);
 
 		/**
-		 * @brief      Applies the effects derived from reading this Scroll. 
+		 * @brief      Applies the effects derived from reading this Scroll.
 		 *
 		 * @param      level  Reference to the Level instance
 		 *
@@ -61,7 +61,7 @@ class Scroll : public Item {
 		 * Vector of tuples representing different Scroll configurations indexed by type.
 		 */
 		static std::vector<SCROLL_TUPLE_TYPE > typeVector;
-		
+
 		/**
 		 * Vector of names to be applied to Scrolls that are unidentified indexed by type.
 		 */

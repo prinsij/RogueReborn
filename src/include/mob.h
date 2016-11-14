@@ -1,7 +1,7 @@
 /**
  * @file mob.h
  * @author Team Rogue++
- * @date November 09, 2016
+ * @date November 13, 2016
  *
  * @brief Member declarations for the Mob class
  */ 
@@ -77,7 +77,7 @@ class Mob {
 		 * @see currentHP
 		 */
 		void hit(int);
-		
+
 		/**
 		 * @brief	Determines if this mob is dead
 		 *

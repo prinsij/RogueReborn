@@ -1,7 +1,15 @@
+/**
+ * @file logscreen.cpp
+ * @author Team Rogue++
+ * @date November 13, 2016
+ *
+ * @brief Member definitions for the LogScreen class
+ */ 
+
 #include "include/logscreen.h"
 #include "include/playstate.h"
-#include "libtcod/include/libtcod.hpp"
 #include "include/uistate.h"
+#include "libtcod/include/libtcod.hpp"
 
 LogScreen::LogScreen(PlayerChar* player, Level* level)
 	: UIState()

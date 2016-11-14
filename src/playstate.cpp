@@ -1,31 +1,31 @@
 /**
  * @file playstate.cpp
  * @author Team Rogue++
- * @date November 09, 2016
+ * @date November 13, 2016
  *
  * @brief Member definitions for the PlayState class
  */ 
 
 #include <algorithm>
+#include <assert.h>
 #include <iostream>
 #include <string>
-#include <assert.h>
 
 #include "include/feature.h"
+#include "include/food.h"
 #include "include/globals.h"
 #include "include/goldpile.h"
 #include "include/helpscreen.h"
 #include "include/invscreen.h"
-#include "include/logscreen.h"
 #include "include/item.h"
 #include "include/level.h"
+#include "include/logscreen.h"
 #include "include/playerchar.h"
 #include "include/playstate.h"
 #include "include/ripscreen.h"
 #include "include/stairs.h"
 #include "include/uistate.h"
 #include "include/weapon.h"
-#include "include/food.h"
 #include "libtcod/include/libtcod.hpp"
 
 class QuitPrompt2 : public PlayState {
@@ -316,7 +316,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			return new ThrowDirectionState(player, level);
 		} else {
 			player->appendLog("You have nothing you can throw");
-		} 
+		}
 	}
 	// eat food
 	if (key.c == 'e') {

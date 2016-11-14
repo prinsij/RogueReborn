@@ -1,7 +1,7 @@
 /**
  * @file helpscreen.h
  * @author Team Rogue++
- * @date November 09, 2016
+ * @date November 13, 2016
  *
  * @brief Member declarations for the HelpScreen class
  */ 
@@ -14,7 +14,10 @@
 class PlayerChar;
 class Level;
 
-/** Interface state that shows the various game controls. */
+/** Interface state that shows the various game controls
+  * 
+  * Environment variables: input device (e.g., keyboard) and output device (e.g., monitor) 
+  */
 class HelpScreen : public UIState {
 	public:
 		/** Constructor. */

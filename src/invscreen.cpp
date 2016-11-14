@@ -1,19 +1,20 @@
 /**
  * @file invscreen.cpp
  * @author Team Rogue++
- * @date November 09, 2016
+ * @date November 13, 2016
  *
  * @brief Member definitions for the InvScreen class
  */ 
 
+#include <functional>
+
 #include "include/invscreen.h"
+#include "include/itemzone.h"
 #include "include/playerchar.h"
 #include "include/playstate.h"
 #include "libtcod/include/libtcod.hpp"
-#include "include/itemzone.h"
-#include <functional>
 
-InvScreen::InvScreen(PlayerChar* player, Level* level, 
+InvScreen::InvScreen(PlayerChar* player, Level* level,
 		filtFunc filter, transFunc trans, bool escapeable)
 	: player(player)
 	, level(level)

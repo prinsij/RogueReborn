@@ -1,7 +1,7 @@
 /**
  * @file item.h
  * @author Team Rogue++
- * @date November 09, 2016
+ * @date November 13, 2016
  *
  * @brief Member declarations for the Item class
  */ 
@@ -32,7 +32,7 @@ class Item : public Feature {
 		static std::vector<std::string> shuffleNameVector(std::vector<std::string>);
 
 		/**
-		 * @brief      Placement context of this Item. 
+		 * @brief      Placement context of this Item.
 		 */
 		enum Context {FLOOR, INVENTORY};
 
@@ -49,7 +49,7 @@ class Item : public Feature {
 		 * @param[in]  canThrow  Denotes whether or not this Item can be thrown
 		 */
 		Item(char, Coord, Context, std::string, std::string, int, bool, bool);
-		
+
 		/**
 		 * @brief      Constructs an Item instance.
 		 *
@@ -73,7 +73,7 @@ class Item : public Feature {
 		 * @return     True if this Item is equivalent to the given Item, False otherwise
 		 */
 		bool operator==(const Item&) const;
-		
+
 		/**
 		 * @brief      Item 'less than' comparison definition
 		 *
@@ -94,7 +94,7 @@ class Item : public Feature {
 		 * @brief	Gets the subclass name.
 		 *
 		 * @return	The subclass name.
-		 */ 
+		 */
 		std::string getClassName();
 
 		/**
@@ -110,14 +110,14 @@ class Item : public Feature {
 		 * @return     The display name.
 		 */
 		std::string getDisplayName();
-		
+
 		/**
 		 * @brief      Gets the name.
 		 *
 		 * @return     The name.
 		 */
 		std::string getName();
-		
+
 		/**
 		 * @brief      Gets the type.
 		 *
@@ -165,7 +165,7 @@ class Item : public Feature {
 		 * Denotes whether or not this Item can stack in the inventory.
 		 */
 		bool canStack;
-		
+
 		/**
 		 * Denotes whether or not this Item can be thrown.
 		 */
@@ -175,12 +175,12 @@ class Item : public Feature {
 		 * Name of this Item's subclass.
 		 */
 		std::string className;
-		
+
 		/**
 		 * Context of this Item.
 		 */
 		Context context;
-		
+
 		/**
 		 * Denotes whether or not this Item is cursed.
 		 */

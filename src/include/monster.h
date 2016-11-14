@@ -1,7 +1,7 @@
 /**
  * @file monster.h
  * @author Team Rogue++
- * @date November 09, 2016
+ * @date November 13, 2016
  *
  * @brief Member declarations for the Monster class
  */ 
@@ -32,6 +32,8 @@ class Monster : public Mob {
 		 *
 		 * @param[in]  symbol  Monster symbol
 		 * @param[in]  location  Monster location
+		 *
+		 * @exception  e Illegal argument exception is thrown if an unknown symbol is given
 		 */
 		Monster(char, Coord);
 
@@ -39,7 +41,7 @@ class Monster : public Mob {
 		 * @brief      Monster flags denoting behavioural patterns.
 		 */
 		enum Behaviour {AGGRESSIVE, FLYING, REGENERATIVE, GREEDY, INVISIBLE};
-		
+
 		/**
 		 * @brief	Aggrevates this monster to attack the player.
 		 *
@@ -66,7 +68,7 @@ class Monster : public Mob {
 		 * @param	Reference to the player character
 		 *
 		 * @return	The computed hit chance.
-		 */ 
+		 */
 		int calculateHitChance(PlayerChar*);
 
 		/**
@@ -98,16 +100,16 @@ class Monster : public Mob {
 		 * @brief	Determines whether or not this Monster has the given behaviour flag.
 		 *
 		 * @return	True if this Monster has the behaviour flag, False otherwise.
-		 */  
+		 */
 		bool hasFlag(Behaviour);
-	
+
 		/**
 		 * @brief	Gets the Monster awake state.
 		 *
 		 * @return	True if the Monster is awake, False otherwise.
-		 */ 
+		 */
 		bool isAwake();
-	
+
 		/**
 		 * @brief      Performs the actions that make up a Monster's turn.
 		 *
@@ -143,7 +145,7 @@ class Monster : public Mob {
 
 		/**
 		 * Determines whether or not this Monster is currently chasing the player.
-		 */ 
+		 */
 		bool chasing;
 
 		/**
