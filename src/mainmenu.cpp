@@ -41,18 +41,6 @@ UIState* MainMenu::handleInput(TCOD_key_t key) {
 		Level* level = new Level(0, player);
 		level->registerMob(player);
 		level->generate();
-
-		// Place the player in the upper-left clear spot
-		for (int x=0; x < level->getSize()[0]; x++) {
-			for (int y=0; y < level->getSize()[1]; y++) {
-				if ((*level)[Coord(x,y)].isPassable() == Terrain::Passable) {
-					player->setLocation(Coord(x,y));
-					goto L_exit;
-				}
-			}
-		}
-		
-		L_exit:
 		player->appendLog("Hello " + player->getName() + ". Welcome to the Dungeons of Doom. Type [?] for help.");
 		return new PlayState(player, level);
 	} else if (key.c) {

@@ -278,6 +278,7 @@ void Level::generate() {
 			++i;
 		}
 	}
+	this->randomizePlayerLocation();
 }
 
 void Level::addTunnel(int i, int j, bool* a, bool* b, Generator gen){
@@ -534,4 +535,14 @@ void Level::removeFeature(Feature* feat) {
 
 void Level::addFeature(Feature* feat) {
 	features.push_back(feat);
+}
+
+void Level::randomizePlayerLocation() {
+	Coord newPos;
+	do {
+		newPos = Generator::randPosition(Coord(0,0), Coord(X_SIZE-1, Y_SIZE-1));
+	} while (monsterAt(newPos) != NULL 
+			|| !this->contains(newPos)
+			|| (*this)[newPos].isPassable() != Terrain::Passable);
+	player->setLocation(newPos);
 }

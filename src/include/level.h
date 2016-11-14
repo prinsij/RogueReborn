@@ -178,6 +178,11 @@ class Level {
 		 */
 		std::vector<Coord> getNearestGold(Coord);
 
+		/**
+		 * @brief	Place the player at a random empty position.
+		 */
+		void randomizePlayerLocation();
+
 		~Level();
 
 	private:
