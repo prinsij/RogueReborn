@@ -125,6 +125,11 @@ void Monster::aggrevate() {
 	this->chasing = true;
 }
 
+void Monster::hit(int dmgAmount) {
+	Mob::hit(dmgAmount);
+	this->aggrevate();
+}
+
 void Monster::attack(Level* level) {
 	PlayerChar* player = level->getPlayer();
 

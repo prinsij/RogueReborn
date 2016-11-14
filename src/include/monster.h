@@ -47,6 +47,13 @@ class Monster : public Mob {
 		void aggrevate();
 
 		/**
+		 * @brief	Override mob implementation to aggrevate monster.
+		 * 
+		 * @see		aggrevate
+		 */
+		virtual void hit(int dmgAmount);
+
+		/**
 		 * @brief      Attempts to attack a nearby Player Character.
 		 *
 		 * @param      level Reference to the current Level
