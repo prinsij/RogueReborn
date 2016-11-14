@@ -13,6 +13,7 @@
 
 #include "include/feature.h"
 #include "include/food.h"
+#include "include/potion.h"
 #include "include/globals.h"
 #include "include/goldpile.h"
 #include "include/helpscreen.h"
@@ -125,6 +126,28 @@ class QuickEat : public PlayState {
 				delete food;
 			} else {
 				assert (false && "not eating non-edible");
+			}
+			return new PlayState(player, level);
+		}
+	private:
+		Item* item;
+};
+
+class QuickQuaff : public PlayState {
+	public:
+		QuickQuaff(PlayerChar* player, Level* level, Item* item)
+			: PlayState(player, level)
+			, item(item)
+		{}
+
+		virtual UIState* handleInput(TCOD_key_t key) {
+			auto pot = dynamic_cast<Potion*>(item);
+			if (pot != NULL) {
+				pot->activate(player);
+				player->getInventory().remove(pot);
+				delete pot;
+			} else {
+				assert (false && "tried to quaff non-potion");
 			}
 			return new PlayState(player, level);
 		}
@@ -307,6 +330,23 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 												false);
 	}
 	no_drop:;
+	if (key.c == 'q') {
+		bool canQuaff = false;
+		for (auto pair : player->getInventory().getContents()) {
+			Potion* pot = dynamic_cast<Potion*>(pair.second.front());
+			if (pot != NULL) {
+				canQuaff = true;
+				break;
+			}
+		}
+		if (canQuaff) {
+			return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Potion*>(i)!=NULL;},
+												[] (Item* i, PlayerChar* p, Level* l) {
+													return new QuickQuaff(p, l, i);
+												},
+												true);
+		}
+	}
 	// throw item
 	if (key.c == 't') {
 		bool canThrow = false;
