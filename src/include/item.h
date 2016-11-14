@@ -91,6 +91,13 @@ class Item : public Feature {
 		Context getContext();
 
 		/**
+		 * @brief	Gets the subclass name.
+		 *
+		 * @return	The subclass name.
+		 */ 
+		std::string getClassName();
+
+		/**
 		 * @brief      Sets the context.
 		 *
 		 * @param[in]  context  New Item context

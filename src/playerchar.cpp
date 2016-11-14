@@ -72,7 +72,7 @@ void PlayerChar::attack(Monster* monster) {
 				this->addExp(monster->getExperience());
 			}
 		} else {
-			this->appendLog("You missed");
+			this->appendLog("You missed the " + monster->getName());
 		}
 	}
 }

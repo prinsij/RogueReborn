@@ -42,6 +42,10 @@ bool Item::operator<(const Item& other) const {
 	return this->name.compare(other.name) < 0;
 }
 
+std::string Item::getClassName() {
+	return this->className;
+}
+
 Item::Context Item::getContext() {
 	return this->context;
 }

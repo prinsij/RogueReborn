@@ -133,7 +133,7 @@ void Monster::attack(Level* level) {
 			player->appendLog("The " + this->getName() + " hit you");
 			player->hit(calculateDamage());
 		} else {
-			player->appendLog("The " + this->getName() + " missed");
+			player->appendLog("The " + this->getName() + " missed you");
 		}		
 	}
 }

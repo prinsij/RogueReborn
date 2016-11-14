@@ -76,6 +76,11 @@ class Weapon : public Item {
 		static std::vector<WEAPON_TUPLE_TYPE > typeVector;
 
 		/**
+		 * @brief	Updates this Weapon's name.
+		 */
+		void updateName(); 
+
+		/**
 		 * <Dice Rolls, Dice Value> pair representing the damage output of this Weapon.
 		 */
 		std::pair<int, int> damage;

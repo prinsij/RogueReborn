@@ -37,8 +37,11 @@ void InvScreen::draw(TCODConsole* con) {
 	int y = 0;
 	for (auto& pair : player->getInventory().getContents()) {
 		if (not filter(pair.second.front())) continue;
+		std::string prefix = pair.second.size() > 1
+			? std::to_string(pair.second.size())
+			: "A";
 		con->print(0, y,
-			(std::string(1, pair.first)+") "+std::to_string(pair.second.size())+" "
+			(std::string(1, pair.first)+") "+ prefix + " "
 			+pair.second.front()->getDisplayName()).c_str());
 		++y;
 	}
