@@ -6,14 +6,14 @@
  * @brief Global members
  */ 
 
-#pragma once
+//#pragma once
 
 #include <iostream>
 #include <string>
 #include <vector>
 
 #include "include/armor.h"
-#include "test.testable.cpp"
+#include "test.testable.h"
 
 class ArmorTest : public Testable {
 	public:

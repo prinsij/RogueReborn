@@ -6,13 +6,11 @@
  * @brief Global members
  */
 
-#pragma once
-
 #include <iostream>
 #include <string>
 #include <vector>
 
-#include "test.testable.cpp"
+#include "test.testable.h"
 #include "include/playerchar.h"
 #include "include/level.h"
 #include "include/random.h"

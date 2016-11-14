@@ -6,8 +6,6 @@
  * @brief Global members
  */ 
 
-#pragma once
-
 #include <iostream>
 #include <string>
 #include <vector>
@@ -15,7 +13,7 @@
 #include "test.armor.cpp"
 #include "test.level.cpp"
 #include "test.playerchar.cpp"
-#include "test.testable.cpp"
+#include "test.testable.h"
 
 int main(){
 

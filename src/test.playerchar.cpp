@@ -10,7 +10,7 @@
 #include <string>
 #include <vector>
 
-#include "test.testable.cpp"
+#include "test.testable.h"
 #include "include/playerchar.h"
 #include "include/random.h"
 #include "include/weapon.h"
