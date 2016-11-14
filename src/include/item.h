@@ -146,6 +146,8 @@ class Item : public Feature {
 		 */
 		void setIdentified(bool);
 
+		static const int BASE_THROW_DMG = 10;
+
 	protected:
 		/**
 		 * Identification map of the following form: {Class Name : {Type : Status}}
