@@ -65,7 +65,6 @@ void PlayerChar::attack(Monster* monster) {
 			if (monster->isAwake()) damage += 4;
 
 			monster->hit(damage);
-			monster->aggrevate();
 
 			if (monster->isDead()) {
 				this->appendLog("You have defeated the " + monster->getName());
