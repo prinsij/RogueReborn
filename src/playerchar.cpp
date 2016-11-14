@@ -249,8 +249,12 @@ bool PlayerChar::hasCondition(PlayerChar::Condition condition) {
 }
 
 void PlayerChar::move(Coord location) {
+	if (this->hasCondition(IMMOBILIZED)) {
+		this->appendLog("You are being held");
+		return;
+	}
+
 	this->setLocation(location);
-	this->changeFoodLife(-1);
 
 	// Health regeneration
 	if (this->currentHP < this->maxHP) {
@@ -412,9 +416,13 @@ bool PlayerChar::throwItem(Item* item) {
 }
 
 void PlayerChar::update() {
-
-
 	this->changeFoodLife(-1);
+
+	for (auto it = this->conditions.begin() ; it != this->conditions.end() ; it++) {
+		if (it->second > -1) {
+			it->second--;
+		}
+	}
 }
 
 bool PlayerChar::zap(Wand* wand, Level* level) {
