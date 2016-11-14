@@ -1,7 +1,7 @@
 /**
  * @file mainmenu.cpp
  * @author Team Rogue++
- * @date November 09, 2016
+ * @date November 13, 2016
  *
  * @brief Member definitions for the MainMenu class
  */ 
@@ -55,7 +55,7 @@ UIState* MainMenu::handleInput(TCOD_key_t key) {
 void MainMenu::setupPlayer(PlayerChar* player) {
 	Weapon* weapon = new Weapon(player->getLocation(), Item::Context::INVENTORY, 5);
 	weapon->setEnchantments(1, 1);
-	
+
 	Item* item = dynamic_cast<Item*> (weapon);
 	player->pickupItem(item);
 	player->equipWeapon(weapon);

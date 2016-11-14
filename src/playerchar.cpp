@@ -1,7 +1,7 @@
 /**
  * @file playerchar.cpp
  * @author Team Rogue++
- * @date November 09, 2016
+ * @date November 13, 2016
  *
  * @brief Member definitions for the PlayerChar class
  */ 
@@ -113,7 +113,7 @@ int PlayerChar::calculateHitChance(Monster* monster) {
 
 	hitChance += 2*this->level;
 	hitChance += 2*this->dexterity;
-	
+
 	if (this->itemRingLeft != NULL) hitChance--;
 	if (this->itemRingRight != NULL) hitChance--;
 
@@ -308,9 +308,9 @@ void PlayerChar::setDexterity(int dexterity) {
 
 void PlayerChar::setFoodLife(int foodLife) {
 	this->foodLife = foodLife;
-	
+
 	int statusWalk = -1;
-	
+
 	for (int i = 0 ; i < static_cast<int>(foodLifeBounds.size()) ; i ++) {
 		if (foodLife > foodLifeBounds[i]) {
 			statusWalk = i;
@@ -319,7 +319,7 @@ void PlayerChar::setFoodLife(int foodLife) {
 	}
 
 	auto oldStatus = this->foodStatus;
-	std::string foodMessage = "You feel "; 
+	std::string foodMessage = "You feel ";
 
 	switch(statusWalk) {
 		case 0:
@@ -362,7 +362,7 @@ bool PlayerChar::throwItem(Item* item) {
 }
 
 void PlayerChar::wait() {
-	this->changeFoodLife(-1); 
+	this->changeFoodLife(-1);
 }
 
 bool PlayerChar::zap(Wand* wand, Level* level) {

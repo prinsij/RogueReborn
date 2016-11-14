@@ -1,7 +1,7 @@
 /**
  * @file food.h
  * @author Team Rogue++
- * @date November 09, 2016
+ * @date November 13, 2016
  *
  * @brief Member declarations for the Food class
  */ 
@@ -28,14 +28,14 @@ class Food : public Item {
 		Food(Coord, Item::Context);
 
 		/**
-		 * @brief      Applies the effects derived from eating this Food. 
+		 * @brief      Applies the effects derived from eating this Food.
 		 *
 		 * @param      player  Reference to the PlayerCharacter instance
 		 *
 		 * @return     A value reflecting the success of the activation operation.
 		 */
 		bool activate(PlayerChar*);
-	
+
 	private:
 		/** Lower bound of food effect */
 		int FOOD_LOW = 750;

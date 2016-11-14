@@ -1,7 +1,7 @@
 /**
  * @file playerchar.h
  * @author Team Rogue++
- * @date November 09, 2016
+ * @date November 13, 2016
  *
  * @brief Member declarations for the PlayerChar class
  */ 
@@ -100,7 +100,7 @@ class PlayerChar : public Mob {
 		void changeFoodLife(int);
 
 		/**
-		 * @brief      Adds the gold contained in the given GoldPile to the PlayerChar's gold total. 
+		 * @brief      Adds the gold contained in the given GoldPile to the PlayerChar's gold total.
 		 *
 		 * @param      goldPile GoldPile to be harvested.
 		 */
@@ -162,7 +162,7 @@ class PlayerChar : public Mob {
 		 * @brief	Gets the PlayerChar's food life.
 		 *
 		 * @return	The PlayerChar's food life.
-		 */ 
+		 */
 		int getFoodLife();
 
 		/**
@@ -211,7 +211,7 @@ class PlayerChar : public Mob {
 		 * @brief	Relocates the PlayerChar and updates the food life.
 		 *
 		 * @param	location New PlayerChar location
-		 */ 
+		 */
 		void move(Coord);
 
 		/**
@@ -222,7 +222,7 @@ class PlayerChar : public Mob {
 		void pickupItem(Item*);
 
 		/**
-		 * @brief      Attempts to apply the effects of the provided Potion to the given Mob.  
+		 * @brief      Attempts to apply the effects of the provided Potion to the given Mob.
 		 *
 		 * @param      potion  Potion to be quaffed
 		 * @param      mob Mob to quaff the Potion
@@ -243,7 +243,7 @@ class PlayerChar : public Mob {
 		 * @return     True if the operation was successful, False otherwise.
 		 */
 		bool removeArmor();
-		
+
 		/**
 		 * @brief      Attempts to remove the PlayerChar's equipped left Ring.
 		 *
@@ -284,7 +284,7 @@ class PlayerChar : public Mob {
 		 *
 		 * @return     True if the Item was thrown, False otherwise.
 		 */
-		bool throwItem(Item*);	
+		bool throwItem(Item*);
 
 		/**
 		 * @brief	Updates the PlayerChar's food life during a wait action.

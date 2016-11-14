@@ -1,7 +1,7 @@
 /**
  * @file playstate.h
  * @author Team Rogue++
- * @date November 09, 2016
+ * @date November 13, 2016
  *
  * @brief Member declarations for the PlayState class
  */ 
@@ -12,7 +12,6 @@
 #include "level.h"
 #include "playerchar.h"
 #include "uistate.h"
-
 
 /** Primary interface state, showing level, player,
  *  monsters, etc.

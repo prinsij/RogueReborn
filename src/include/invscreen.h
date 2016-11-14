@@ -1,22 +1,25 @@
 /**
  * @file invscreen.h
  * @author Team Rogue++
- * @date November 09, 2016
+ * @date November 13, 2016
  *
  * @brief Member declarations for the InvScreen class
  */ 
 
 #pragma once
 
+#include <functional>
+
 #include "../libtcod/include/libtcod.hpp"
 #include "level.h"
 #include "playerchar.h"
 #include "playstate.h"
 #include "uistate.h"
-#include <functional>
 
 /** Interface state for viewing the contents of
  *  the player inventory.
+ *
+ * Environment variables: input device (e.g., keyboard) and output device (e.g., monitor) 
  */
 
 class InvScreen : public UIState {
@@ -43,7 +46,7 @@ class InvScreen : public UIState {
 		PlayerChar* player;
 		/** Reference to level for when gameplay resumes. */
 		Level* level;
-		/** Filters the contents of inventory (eg only food). 
+		/** Filters the contents of inventory (eg only food).
 		 * True means display, false means don't.
 		 */
 		filtFunc filter;

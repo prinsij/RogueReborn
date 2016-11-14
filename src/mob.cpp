@@ -1,7 +1,7 @@
 /**
  * @file mob.cpp
  * @author Team Rogue++
- * @date November 09, 2016
+ * @date November 13, 2016
  *
  * @brief Member definitions for the Mob class
  */ 

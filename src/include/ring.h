@@ -1,7 +1,7 @@
 /**
  * @file ring.h
  * @author Team Rogue++
- * @date November 09, 2016
+ * @date November 13, 2016
  *
  * @brief Member declarations for the Ring class
  */ 
@@ -40,7 +40,7 @@ class Ring : public Item {
 		Ring(Coord, Item::Context, int);
 
 		/**
-		 * @brief      Applies the effects derived from equipping this Ring. 
+		 * @brief      Applies the effects derived from equipping this Ring.
 		 *
 		 * @param      level  Reference to the Level instance
 		 *

@@ -1,7 +1,7 @@
 /**
  * @file amulet.h
  * @author Team Rogue++
- * @date November 09, 2016
+ * @date November 13, 2016
  *
  * @brief Member declarations for the Amulet class
  */ 
@@ -17,7 +17,7 @@
 class Amulet : public Item {
 	public:
 		/**
-		 * @brief      Constructs an Amulet instance. 
+		 * @brief      Constructs an Amulet instance.
 		 *
 		 * @param[in]  location  Amulet location
 		 * @param[in]  context  Amulet context

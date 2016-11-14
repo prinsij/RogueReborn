@@ -1,7 +1,7 @@
 /**
  * @file weapon.cpp
  * @author Team Rogue++
- * @date November 09, 2016
+ * @date November 13, 2016
  *
  * @brief Member definitions for the Weapon class
  */ 
@@ -68,7 +68,7 @@ bool Weapon::isMelee() {
 void Weapon::setEnchantments(int enchantHit, int enchantDamage) {
 	this->enchantHit = enchantHit;
 	this->enchantDamage = enchantDamage;
-	
+
 	this->updateName();
 }
 
@@ -77,5 +77,4 @@ void Weapon::updateName() {
 		+ (this->enchantDamage >= 0 ? "+" : "") + std::to_string(this->enchantDamage) + " "
 		+ std::get<0>(Weapon::typeVector[this->type]);
 }
-
 

@@ -1,7 +1,7 @@
 /**
  * @file monster.cpp
  * @author Team Rogue++
- * @date November 09, 2016
+ * @date November 13, 2016
  *
  * @brief Member definitions for the Monster class
  */ 
@@ -139,7 +139,7 @@ void Monster::attack(Level* level) {
 			player->hit(calculateDamage());
 		} else {
 			player->appendLog("The " + this->getName() + " missed you");
-		}		
+		}
 	}
 }
 
@@ -198,7 +198,7 @@ void Monster::relocate(Level* level) {
 		//MAGIC NUMBER
 		if (path.size() < 5 || level->canSee(this->location, level->getPlayer()->getLocation())){
 			if (level->tileAt(path[1]).isPassable() == Terrain::Passable && !level->monsterAt(path[1])){
-				this->location = path[1];	
+				this->location = path[1];
 			}
 		} else {
 			this->chasing = false;

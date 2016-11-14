@@ -1,7 +1,7 @@
 /**
  * @file ripscreen.h
  * @author Team Rogue++
- * @date November 09, 2016
+ * @date November 13, 2016
  *
  * @brief Member declarations for the RIPScreen class
  */ 
@@ -22,6 +22,8 @@ struct ScoreItem;
 
 /** Interface state for post-death/retirement,
  *  looking at the high-score table.
+ *  
+ * Environment variables: input device (e.g., keyboard), monitor, and the file system 
  */
 class RIPScreen : public UIState {
 	public:

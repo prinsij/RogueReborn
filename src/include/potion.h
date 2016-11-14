@@ -1,7 +1,7 @@
 /**
  * @file potion.h
  * @author Team Rogue++
- * @date November 09, 2016
+ * @date November 13, 2016
  *
  * @brief Member declarations for the Potion class
  */ 
@@ -42,7 +42,7 @@ class Potion : public Item {
 		Potion(Coord, Item::Context, int);
 
 		/**
-		 * @brief      Applies the effects derived from quaffing this Potion. 
+		 * @brief      Applies the effects derived from quaffing this Potion.
 		 *
 		 * @param      mob  Reference to the Mob instance
 		 *

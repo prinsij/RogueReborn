@@ -1,7 +1,7 @@
 /**
- * @file helpscreen.h
+ * @file logscreen.h
  * @author Team Rogue++
- * @date November 09, 2016
+ * @date November 13, 2016
  *
  * @brief Member declarations for the LogScreen class
  */ 
@@ -14,6 +14,11 @@
 class PlayerChar;
 class Level;
 
+/**
+ * Controls the display of the event log.
+ * 
+ * Environment variables: input device (e.g., keyboard) and output device (e.g., monitor)  
+ */
 class LogScreen : public UIState {
 	public:
 		/** Constructor, takes info so we can return to regular

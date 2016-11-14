@@ -1,7 +1,7 @@
 /**
  * @file level.cpp
  * @author Team Rogue++
- * @date November 09, 2016
+ * @date November 13, 2016
  *
  * @brief Member definitions for the Level class
  */ 
@@ -16,6 +16,7 @@
 
 #include "include/coord.h"
 #include "include/feature.h"
+#include "include/food.h"
 #include "include/goldpile.h"
 #include "include/level.h"
 #include "include/mob.h"
@@ -28,7 +29,6 @@
 #include "include/terrain.h"
 #include "include/tiles.h"
 #include "include/tunnel.h"
-#include "include/food.h"
 
 Level::Level(int depth, PlayerChar* player)
 	: player(player)
@@ -230,7 +230,7 @@ void Level::generate() {
 		if (tileAt(randPos).isPassable() == Terrain::Passable && !monsterAt(randPos)) {
 			std::vector<char> monsterSymbols = Monster::getSymbolsForLevel(depth);
 			char monsterSymbol = monsterSymbols[Generator::intFromRange(0, monsterSymbols.size() - 1)];
-	
+
 			Mob* m = new Monster(monsterSymbol, randPos);
 			std::cout << "Creating " << m->getName() << " at: " << randPos.toString() << std::endl;
 			registerMob(m);

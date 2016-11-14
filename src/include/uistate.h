@@ -1,7 +1,7 @@
 /**
  * @file uistate.h
  * @author Team Rogue++
- * @date November 09, 2016
+ * @date November 13, 2016
  *
  * @brief Member declarations for the UIState class
  */ 
@@ -13,6 +13,8 @@
 /** Class modeling a state of the game interface.
  * Game transitions between these states like a
  * finite state machine.
+ * 
+ * Environment variables: input device (e.g., keyboard) and output device (e.g., monitor) 
  */
 class UIState {
 	public:

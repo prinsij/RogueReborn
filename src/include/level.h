@@ -1,7 +1,7 @@
 /**
  * @file level.h
  * @author Team Rogue++
- * @date November 09, 2016
+ * @date November 13, 2016
  *
  * @brief Member declarations for the Level class
  */ 
@@ -65,7 +65,7 @@ class Level {
 		Mob* popTurnClock();
 
 		// move a mob back in the turn clock equal to the amount specified
-		
+
 
 		/**
 		 * @brief      Moves a mob back in the turn clock equal to the amount specified
@@ -100,7 +100,7 @@ class Level {
 		std::vector<Coord> bfsPerp(Coord, Coord);
 
 		//Given a coord, returns coords to which you can move to nearby (3x3 box)
-		
+
 		/**
 		 * @brief      Gets the coordinates to which one can move to from a given source (3x3 box)
 		 *
@@ -111,7 +111,7 @@ class Level {
 		std::vector<Coord> getAdjPassable(Coord);
 
 		//Given a start and a delta direction, returns a coord of where something thrown would land
-		
+
 		/**
 		 * @brief      Given a start and a delta direction, returns the position of where something thrown would land
 		 *
@@ -188,7 +188,7 @@ class Level {
 	private:
 
 		PlayerChar* player;
-		
+
 		/**
 		 * @brief      Store mobs with a notation for how many 'ticks' they are from being the current actor
 		 */

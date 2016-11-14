@@ -1,7 +1,7 @@
 /**
  * @file mob.h
  * @author Team Rogue++
- * @date November 09, 2016
+ * @date November 13, 2016
  *
  * @brief Member declarations for the Mob class
  */ 
@@ -76,8 +76,13 @@ class Mob {
 		 *  deal damage.
 		 * @see currentHP
 		 */
+<<<<<<< HEAD
 		virtual void hit(int);
 		
+=======
+		void hit(int);
+
+>>>>>>> cdb1cfb0722ce2f90b59a27122f2081c34073b1f
 		/**
 		 * @brief	Determines if this mob is dead
 		 *

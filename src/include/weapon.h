@@ -1,7 +1,7 @@
 /**
  * @file weapon.h
  * @author Team Rogue++
- * @date November 09, 2016
+ * @date November 13, 2016
  *
  * @brief Member declarations for the Weapon class
  */ 
@@ -14,7 +14,7 @@
 #include "coord.h"
 #include "item.h"
 
-/** 
+/**
  * Tuple representing Weapon information (<Name, Damage, Melee, Stackable>)
  */
 using WEAPON_TUPLE_TYPE = std::tuple<std::string, std::pair<int, int>, bool, bool>;
@@ -78,7 +78,7 @@ class Weapon : public Item {
 		/**
 		 * @brief	Updates this Weapon's name.
 		 */
-		void updateName(); 
+		void updateName();
 
 		/**
 		 * <Dice Rolls, Dice Value> pair representing the damage output of this Weapon.
