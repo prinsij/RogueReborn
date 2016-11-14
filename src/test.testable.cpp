@@ -18,17 +18,20 @@ class Testable {
 		virtual void test() = 0;
 
 		void assert(bool condition, std::string comment) {
-			if (condition){
-				std::cout << "0 Test " << std::to_string(++count) << " success: " << comment << std::endl;
+			if (condition && !onlyShowFailures){
+				std::cout << "TESTER 0 Test " << std::to_string(++count) << " success: " << comment << std::endl;
 			} else {
-				std::cout << "1 Test " << std::to_string(++count) << " FAILURE (" << comment << ")" << std::endl;
+				std::cout << "TESTER 1 Test " << std::to_string(++count) << " FAILURE: " << comment << std::endl;
 			}
 		}
 
 		void comment(std::string comment){
-			std::cout << "# " << comment << std::endl;
+			if (!onlyShowFailures){
+				std::cout << "TESTER # " << comment << std::endl;
+			}
 		}
 
 	private:
 		int count = 0;
+		bool onlyShowFailures = false;
 };

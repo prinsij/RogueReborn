@@ -87,9 +87,14 @@ std::string Coord::toString() const{
 	return std::to_string(x) + ", " + std::to_string(y);
 }
 
-int Coord::distanceTo(const Coord& other) const {
-	return std::abs(x - other.x) + std::abs(y - other.y);
+int Coord::distanceTo(const Coord& other, bool taxicab) const {
+	if (taxicab) {
+		return std::abs(x - other.x) + std::abs(y - other.y);
+	} else {
+		return std::max(std::abs(x - other.x), std::abs(y - other.y));
+	}
 }
+
 
 bool Coord::isAdjacentTo(const Coord& other) const {
 	return (std::abs(this->x - other.x) + std::abs(this->y - other.y)) <= 1;
