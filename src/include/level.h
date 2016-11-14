@@ -181,7 +181,7 @@ class Level {
 		/**
 		 * @brief	Place the player at a random empty position.
 		 */
-		void randomizePlayerLocation();
+		void placePlayerInStartingPosition();
 
 		~Level();
 
