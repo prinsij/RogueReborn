@@ -25,6 +25,7 @@
 #include "include/stairs.h"
 #include "include/uistate.h"
 #include "include/weapon.h"
+#include "include/food.h"
 #include "libtcod/include/libtcod.hpp"
 
 class QuitPrompt2 : public PlayState {
@@ -108,6 +109,27 @@ class QuickThrow : public PlayState {
 	private:
 		Item* item;
 		Coord direction;
+};
+
+class QuickEat : public PlayState {
+	public:
+		QuickEat(PlayerChar* player, Level* level, Item* item)
+			: PlayState(player, level)
+			, item(item)
+		{}
+
+		virtual UIState* handleInput(TCOD_key_t key) {
+			auto food = dynamic_cast<Food*>(item);
+			if (food != NULL) {
+				player->eat(food);
+				delete food;
+			} else {
+				assert (false && "not eating non-edible");
+			}
+			return new PlayState(player, level);
+		}
+	private:
+		Item* item;
 };
 
 class ThrowDirectionState : public PlayState {
@@ -295,6 +317,26 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		} else {
 			player->appendLog("You have nothing you can throw");
 		} 
+	}
+	// eat food
+	if (key.c == 'e') {
+		bool canEat = false;
+		for (auto pair : player->getInventory().getContents()) {
+			auto food = dynamic_cast<Food*>(pair.second.front());
+			if (food != NULL) {
+				canEat = true;
+				break;
+			}
+		}
+		if (canEat) {
+			return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Food*>(i) != NULL;},
+												[] (Item* i, PlayerChar* p, Level* l) {
+													return new QuickEat(p, l, i);
+												},
+												true);
+		} else {
+			player->appendLog("You have nothing you can eat");
+		}
 	}
 	if (key.c == '<' || key.c == '>') {
 		for (Feature* feat : level->getFeatures()) {

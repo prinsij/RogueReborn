@@ -28,6 +28,7 @@
 #include "include/terrain.h"
 #include "include/tiles.h"
 #include "include/tunnel.h"
+#include "include/food.h"
 
 Level::Level(int depth, PlayerChar* player)
 	: player(player)
@@ -265,6 +266,15 @@ void Level::generate() {
 							  gen.intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
 			features.push_back(new Potion(randPos));
+			++i;
+		}
+	}
+	i = 0;
+	while (i < 15) {
+		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
+							  gen.intFromRange(0, Y_SIZE-1));
+		if (tileAt(randPos).isPassable() == Terrain::Passable) {
+			features.push_back(new Food(randPos, Item::FLOOR));
 			++i;
 		}
 	}
