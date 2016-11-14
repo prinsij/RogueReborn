@@ -157,6 +157,8 @@ int Monster::getCarryChance() {
 }
 
 std::vector<char> Monster::getSymbolsForLevel(int depth) {
+	depth += 1;
+
 	std::vector<char> symbols;
 
 	for (auto monsterIt = Monster::templateMap.begin() ; monsterIt != Monster::templateMap.end() ; monsterIt++) {
@@ -179,25 +181,40 @@ bool Monster::hasFlag(Behaviour flag) {
 }
 
 void Monster::relocate(Level* level) {
-	//If you are in the same room as the player, go to him
-	std::vector<Coord> path = level->bfsDiag(this->location, level->getPlayer()->getLocation());
 
-	//MAGIC NUMBER
-	if (path.size() < 5 || level->canSee(this->location, level->getPlayer()->getLocation())){
+	if (this->chasing) {
+		//If you are in the same room as the player, go to him
+		std::vector<Coord> path = level->bfsDiag(this->location, level->getPlayer()->getLocation());
 
-		if (level->tileAt(path[1]).isPassable() == Terrain::Passable && !level->monsterAt(path[1])){
-			this->location = path[1];	
+		//MAGIC NUMBER
+		if (path.size() < 5 || level->canSee(this->location, level->getPlayer()->getLocation())){
+			if (level->tileAt(path[1]).isPassable() == Terrain::Passable && !level->monsterAt(path[1])){
+				this->location = path[1];	
+			}
+		} else {
+			this->chasing = false;
 		}
 	}
 
-	//Otherwise wander around aimlessly
-	else {
+	if (!this->chasing) {
+		bool moved = false;
 
-		std::vector<Coord> possibleCoords = level->getAdjPassable(this->location);
-		if (possibleCoords.size() > 0) {
+		if (this->hasFlag(GREEDY)) {
+			std::vector<Coord> nextLocation = level->getNearestGold(this->location);
 
-			Coord newPlace = possibleCoords[Generator::intFromRange(0, possibleCoords.size()-1)];
-			this->location = newPlace;
+			if (nextLocation.size() > 1) {
+				this->setLocation(nextLocation[1]);
+				moved = true;
+			}
+		}
+
+		if (!moved) {
+			// Wander around aimlessly
+			std::vector<Coord> possibleCoords = level->getAdjPassable(this->location);
+			if (possibleCoords.size()) {
+				Coord newPlace = possibleCoords[Generator::intFromRange(0, possibleCoords.size()-1)];
+				this->location = newPlace;
+			}
 		}
 	}
 }

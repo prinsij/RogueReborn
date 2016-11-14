@@ -227,8 +227,11 @@ void Level::generate() {
 		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
 							  gen.intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable && !monsterAt(randPos)) {
-			Mob* m = new Monster('D', randPos);
-			std::cout << "Creating " << m << " at: " << randPos.toString() << std::endl;
+			std::vector<char> monsterSymbols = Monster::getSymbolsForLevel(depth);
+			char monsterSymbol = monsterSymbols[Generator::intFromRange(0, monsterSymbols.size() - 1)];
+	
+			Mob* m = new Monster(monsterSymbol, randPos);
+			std::cout << "Creating " << m->getName() << " at: " << randPos.toString() << std::endl;
 			registerMob(m);
 		}
 	}
