@@ -13,6 +13,8 @@
 
 #include "include/feature.h"
 #include "include/food.h"
+#include "include/potion.h"
+#include "include/weapon.h"
 #include "include/globals.h"
 #include "include/goldpile.h"
 #include "include/helpscreen.h"
@@ -133,6 +135,49 @@ class QuickEat : public PlayState {
 		Item* item;
 };
 
+class QuickQuaff : public PlayState {
+	public:
+		QuickQuaff(PlayerChar* player, Level* level, Item* item)
+			: PlayState(player, level)
+			, item(item)
+		{}
+
+		virtual UIState* handleInput(TCOD_key_t key) {
+			auto pot = dynamic_cast<Potion*>(item);
+			if (pot != NULL) {
+				pot->activate(player);
+				player->getInventory().remove(pot);
+				delete pot;
+			} else {
+				assert (false && "tried to quaff non-potion");
+			}
+			return new PlayState(player, level);
+		}
+	private:
+		Item* item;
+};
+
+class QuickWield : public PlayState {
+	public:
+		QuickWield(PlayerChar* player, Level* level, Item* item)
+			: PlayState(player, level)
+			, item(item)
+		{}
+
+		virtual UIState* handleInput(TCOD_key_t key) {
+			Weapon* weap = dynamic_cast<Weapon*>(item);
+			if (weap != NULL) {
+				player->getInventory().remove(weap);
+				player->equipWeapon(weap);
+			} else {
+				assert (false && "tried to equip non-weapon");
+			}
+			return new PlayState(player, level);
+		}
+	private:
+		Item* item;
+};
+
 class ThrowDirectionState : public PlayState {
 	public:
 		ThrowDirectionState(PlayerChar* player, Level* level)
@@ -212,7 +257,9 @@ void PlayState::draw(TCODConsole* con) {
 					}
 				}
 				int sightRadius = player->getSightRadius();
-				if (currRoom == NULL || currRoom->getDark() == Room::DARK) {
+				if (currRoom == NULL 
+					|| currRoom->getDark() == Room::DARK
+					|| player->hasCondition(PlayerChar::BLIND)) {
 					sightRadius = 1;
 				}
 				// Previously but not currently seen
@@ -309,6 +356,57 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 												false);
 	}
 	no_drop:;
+	if (key.c == 'q') {
+		bool canQuaff = false;
+		for (auto pair : player->getInventory().getContents()) {
+			Potion* pot = dynamic_cast<Potion*>(pair.second.front());
+			if (pot != NULL) {
+				canQuaff = true;
+				break;
+			}
+		}
+		if (canQuaff) {
+			return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Potion*>(i)!=NULL;},
+												[] (Item* i, PlayerChar* p, Level* l) {
+													return new QuickQuaff(p, l, i);
+												},
+												true);
+		} else {
+			player->appendLog("You have nothing you can drink");
+		}
+	}
+	// wield weapon
+	if (key.c == 'w') {
+		bool canWield = false;
+		for (auto pair : player->getInventory().getContents()) {
+			Weapon* weap = dynamic_cast<Weapon*>(pair.second.front());
+			if (weap != NULL) {
+				canWield = true;
+				break;
+			}
+		}
+		if (canWield) {
+			return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Weapon*>(i)!=NULL;},
+												[] (Item* i, PlayerChar* p, Level* l) {
+													return new QuickWield(p, l, i);
+												},
+												true);
+		} else {
+			player->appendLog("You have nothing you can wield");
+		}
+	}
+	// stow weapon
+	if (key.c == 'S') {
+		auto weap = player->getWeapon();
+		// check for curses TODO
+		if (weap != NULL) {
+			player->appendLog("You stow the " + weap->getDisplayName());
+			player->removeWeapon();
+			player->getInventory().add(*weap);
+		} else {
+			player->appendLog("you are not wielding anything");
+		}
+	}
 	// throw item
 	if (key.c == 't') {
 		bool canThrow = false;
