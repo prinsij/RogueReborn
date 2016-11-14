@@ -1,10 +1,10 @@
 # Module Guide
 
-The folders and files for the module guide.
+The folders and files for the Module Guide (MG).
 
 <p><br></br></p>
 | File | Description |
 | -------- | ------- |
 | **MG.pdf** | Official Module Guide (MG) document |
-| MG.tex | TeX file which generates the Module Guide PDF |
-| MG.bib | Bibliography information for the Module Guide |
+| MG.tex | TeX file which generates the MG PDF |
+| MG.bib | Bibliography information for the MG |
