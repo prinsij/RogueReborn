@@ -17,6 +17,7 @@
 #include "include/item.h"
 #include "include/level.h"
 #include "include/mob.h"
+#include "include/monster.h"
 #include "include/playerchar.h"
 #include "include/potion.h"
 #include "include/ring.h"
@@ -55,19 +56,19 @@ void PlayerChar::appendLog(std::string entry) {
 	}
 }
 
-void PlayerChar::attack(Mob* mob) {
-	if (this->getLocation().isAdjacentTo(mob->getLocation())) {
-		if (Generator::intFromRange(0, 99) <= this->calculateHitChance()) {
-			this->appendLog("You hit " + mob->getName());
+void PlayerChar::attack(Monster* monster) {
+	if (this->getLocation().isAdjacentTo(monster->getLocation())) {
+		if (Generator::intFromRange(0, 99) <= this->calculateHitChance(monster)) {
+			this->appendLog("You hit " + monster->getName());
 
-			mob->hit(this->calculateDamage());
+			monster->hit(this->calculateDamage());
 
-			if (mob->isDead()) {
-				this->appendLog("You have defeated the " + mob->getName());
-				this->addExp(mob->getExperience());
+			if (monster->isDead()) {
+				this->appendLog("You have defeated the " + monster->getName());
+				this->addExp(monster->getExperience());
 			}
 		} else {
-			this->appendLog("You miss " + mob->getName());
+			this->appendLog("You miss " + monster->getName());
 		}
 	}
 }
@@ -95,7 +96,7 @@ int PlayerChar::calculateDamage() {
 	return miscDamage;
 }
 
-int PlayerChar::calculateHitChance() {
+int PlayerChar::calculateHitChance(Monster* monster) {
 	if (this->itemWeapon == NULL) {
 		return 0;
 	}
@@ -111,6 +112,10 @@ int PlayerChar::calculateHitChance() {
 	
 	if (this->itemRingLeft != NULL) hitChance--;
 	if (this->itemRingRight != NULL) hitChance--;
+
+	if (monster->hasFlag(Monster::FLYING)) {
+		hitChance -= 20;
+	}
 
 	return hitChance;
 }

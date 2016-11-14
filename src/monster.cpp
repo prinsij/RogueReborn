@@ -114,7 +114,15 @@ Monster::Monster(char symbol, Coord location)
 
 	name = std::get<7>(monsterTuple);
 
-	awake = true;//Generator::randBool();
+	awake = Generator::randBool();
+	//awake = true;
+
+	chasing = false;
+}
+
+void Monster::aggrevate() {
+	this->awake = true;
+	this->chasing = true;
 }
 
 void Monster::attack(Level* level) {
@@ -166,6 +174,10 @@ std::vector<char> Monster::getSymbolsForTreasure(int depth) {
 	return getSymbolsForLevel(depth);
 }
 
+bool Monster::hasFlag(Behaviour flag) {
+	return std::find(this->flags.begin(), this->flags.end(), AGGRESSIVE) != this->flags.end();
+}
+
 void Monster::relocate(Level* level) {
 	//If you are in the same room as the player, go to him
 	std::vector<Coord> path = level->bfsDiag(this->location, level->getPlayer()->getLocation());
@@ -191,13 +203,20 @@ void Monster::relocate(Level* level) {
 }
 
 int Monster::turn(Level* level) {
-	if (!this->awake)
-		return TURN_TIME;
+	if (this->awake) {
+		if (!this->chasing && this->hasFlag(AGGRESSIVE) && level->canSee(this->getLocation(), level->getPlayer()->getLocation())) {
+			this->chasing = true;
+		}
 
-	attack(level);
-	relocate(level);
+		if (this->chasing) {
+			attack(level);
+		}
 
-	//std::cout << this->getName() << " (" << this << ") is at " << location.toString() << std::endl;
+		relocate(level);
+
+		//std::cout << this->getName() << " (" << this << ") is at " << location.toString() << std::endl;
+
+	}
 
 	return TURN_TIME;
 }

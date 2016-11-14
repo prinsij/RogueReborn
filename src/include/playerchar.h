@@ -25,6 +25,7 @@ class Armor;
 class Wand;
 class Scroll;
 class Potion;
+class Monster;
 
 /**
  * @brief      Models the user-controlled player character.
@@ -64,9 +65,9 @@ class PlayerChar : public Mob {
 		/**
 		 * @brief      Attacks the given Mob.
 		 *
-		 * @param      mob  Mob to be attacked.
+		 * @param      monster  Monster to be attacked.
 		 */
-		void attack(Mob*);
+		void attack(Monster*);
 
 		/**
 		 * @brief      Calculates the damage the PlayerChar will inflict.
@@ -76,11 +77,13 @@ class PlayerChar : public Mob {
 		int calculateDamage();
 
 		/**
-		 * @brief      Calculates the hit chance of the PlayerChar.
+		 * @brief	Calculates the hit chance of the PlayerChar.
 		 *
-		 * @return     The chance the PlayerChar will hit their target.
+		 * @param	monster Moster to be hit
+		 *
+		 * @return	The chance the PlayerChar will hit their target.
 		 */
-		int calculateHitChance();
+		int calculateHitChance(Monster*);
 
 		/**
 		 * @brief	Increases the food life of the PlayerChar by the passed parameter.
