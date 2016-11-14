@@ -83,6 +83,13 @@ class PlayerChar : public Mob {
 		int calculateHitChance();
 
 		/**
+		 * @brief	Increases the food life of the PlayerChar by the passed parameter.
+		 *
+		 * @param	amount Amount to change the food life.
+		 */
+		void changeFoodLife(int);
+
+		/**
 		 * @brief      Adds the gold contained in the given GoldPile to the PlayerChar's gold total. 
 		 *
 		 * @param      goldPile GoldPile to be harvested.
@@ -191,6 +198,13 @@ class PlayerChar : public Mob {
 		bool hasAmulet();
 
 		/**
+		 * @brief	Relocates the PlayerChar and updates the food life.
+		 *
+		 * @param	location New PlayerChar location
+		 */ 
+		void move(Coord);
+
+		/**
 		 * @brief      Attempts to place the provided Item in the PlayerChar's inventory.
 		 *
 		 * @param      item Item to be inserted into the PlayerChar's inventory.
@@ -260,7 +274,13 @@ class PlayerChar : public Mob {
 		 *
 		 * @return     True if the Item was thrown, False otherwise.
 		 */
-		bool throwItem(Item*);
+		bool throwItem(Item*);	
+
+		/**
+		 * @brief	Updates the PlayerChar's food life during a wait action.
+		 *
+		 */
+		void wait();
 
 		/**
 		 * @brief      Attempts to spend a charge of the provided Wand.

@@ -56,8 +56,6 @@ void PlayerChar::appendLog(std::string entry) {
 }
 
 void PlayerChar::attack(Mob* mob) {
-	std::cout << "PlayerChar Attack\n";
-
 	if (this->getLocation().isAdjacentTo(mob->getLocation())) {
 		if (Generator::intFromRange(0, 99) <= this->calculateHitChance()) {
 			this->appendLog("You hit " + mob->getName());
@@ -115,6 +113,10 @@ int PlayerChar::calculateHitChance() {
 	if (this->itemRingRight != NULL) hitChance--;
 
 	return hitChance;
+}
+
+void PlayerChar::changeFoodLife(int amount) {
+	this->setFoodLife(this->foodLife + amount);
 }
 
 void PlayerChar::collectGold(GoldPile* goldpile) {
@@ -206,6 +208,11 @@ bool PlayerChar::hasAmulet() {
 
 int PlayerChar::getSightRadius() {
  	return PlayerChar::SIGHT_RADIUS;
+}
+
+void PlayerChar::move(Coord location) {
+	this->setLocation(location);
+	this->changeFoodLife(-1);
 }
 
 void PlayerChar::pickupItem(Item* item) {
@@ -313,6 +320,7 @@ void PlayerChar::setFoodLife(int foodLife) {
 	}
 
 	if (oldStatus != this->foodStatus) {
+		std::cout << "New Food Message: " << foodMessage << std::endl;
 		this->appendLog(foodMessage);
 	}
 }
@@ -325,6 +333,10 @@ bool PlayerChar::throwItem(Item* item) {
 	// TODO
 
 	return true;
+}
+
+void PlayerChar::wait() {
+	this->changeFoodLife(-1); 
 }
 
 bool PlayerChar::zap(Wand* wand, Level* level) {
