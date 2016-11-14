@@ -6,4 +6,4 @@ The folders and files for this folder are as follows:
 | File | Description |
 | -------- | ------- |
 | **MG/** | Module Guide (MG) directory |
-| **MIS/** | Module Interface Specification (MIS) document |
+| **MIS/** | Module Interface Specification (MIS) directory |
