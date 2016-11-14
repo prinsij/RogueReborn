@@ -32,6 +32,8 @@ Armor::Armor(Coord location, Item::Context context, int type)
 	  rating(std::get<1>(Armor::typeVector[type])) {
 		int chance = Generator::intFromRange(1, 100);
 
+		this->enchantProtection = 0;
+
 		if (chance <= 16) {
 			this->applyEffect(Item::CURSED);
 			this->enchantProtection -= Generator::intFromRange(0, 3);
