@@ -16,6 +16,7 @@
 #include "include/goldpile.h"
 #include "include/helpscreen.h"
 #include "include/invscreen.h"
+#include "include/logscreen.h"
 #include "include/item.h"
 #include "include/level.h"
 #include "include/playerchar.h"
@@ -248,6 +249,10 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	// view help
 	if (key.c == '?') {
 		return new HelpScreen(player, level);
+	}
+	// view log
+	if (key.c == 'o') {
+		return new LogScreen(player, level);
 	}
 	// Rest action
 	if (key.c == '.') {
