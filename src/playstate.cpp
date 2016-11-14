@@ -380,7 +380,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			}
 			level->pushMob(player, TURN_TIME);
 		} else if ((*level)[newPos].isPassable()) {
-			player->move(newPos);
+			player->move(newPos, level);
 			level->pushMob(player, TURN_TIME);
 			//std::cout << "taking turn: " << player->getName() << "\n";
 			currRoom = updateMap();

@@ -42,7 +42,8 @@ PlayerChar::PlayerChar(Coord location, std::string name)
 	  itemRingLeft(NULL),
 	  itemRingRight(NULL),
 	  itemWeapon(NULL),
-	  maxStr(START_STR) {}
+	  maxStr(START_STR),
+	  moves(0) {}
 
 void PlayerChar::addExp(int exp) {
 	this->exp += exp;
@@ -248,7 +249,7 @@ bool PlayerChar::hasCondition(PlayerChar::Condition condition) {
 	return this->conditions.find(condition) != this->conditions.end();
 }
 
-void PlayerChar::move(Coord location) {
+void PlayerChar::move(Coord location, Level* level) {
 	if (this->hasCondition(IMMOBILIZED)) {
 		this->appendLog("You are being held");
 		return;
@@ -256,16 +257,34 @@ void PlayerChar::move(Coord location) {
 
 	this->setLocation(location);
 
+	std::vector<Coord> adjacentTiles = level->getAdjPassable(location);
+
+	// Chance to awaken nearby monsters	
+	for (auto it = adjacentTiles.begin() ; it != adjacentTiles.end() ; it++) {
+		Mob* mob = level->monsterAt(*it);
+		if (mob) {
+			Monster* monster = dynamic_cast<Monster*>(mob);
+
+			if (monster && !monster->isAwake()) {
+				float wakePercent = 45/(3 + (this->hasCondition(STEALTHY) ? 1 : 0));
+				monster->setAwake(Generator::intFromRange(0,99) <= wakePercent);
+			}
+		}
+	}
+		
+
 	// Health regeneration
-	if (this->currentHP < this->maxHP) {
-		if (this->level < 8) {
-			if (this->foodLife % (21 - this->level*2) == 0) {
-				this->currentHP++;
-			}
-		} else {
-			if (this->foodLife % 3 == 0) {
-				this->currentHP += Generator::intFromRange(1, this->level - 7);
-			}
+	if (this->level < 8) {
+		if (this->moves % (21 - this->level*2) == 0) {
+			this->currentHP += this->hasCondition(REGENERATION) ? 2 : 1;
+			this->currentHP = std::min(this->currentHP, this->maxHP);
+		}
+	} else {
+		if (this->moves % 3 == 0) {
+			int upperLimit = this->level - 7;
+			if (this->hasCondition(REGENERATION)) upperLimit ++;
+			this->currentHP += Generator::intFromRange(1, upperLimit);
+			this->currentHP = std::min(this->currentHP, this->maxHP);
 		}
 	}
 }
@@ -405,6 +424,10 @@ void PlayerChar::setFoodLife(int foodLife) {
 	}
 }
 
+void PlayerChar::setStrength(int strength) {
+	this->currentStr = strength;
+}
+
 bool PlayerChar::throwItem(Item* item) {
 	if (!item->isThrowable()) return false;
 
@@ -416,7 +439,16 @@ bool PlayerChar::throwItem(Item* item) {
 }
 
 void PlayerChar::update() {
-	this->changeFoodLife(-1);
+	int foodDecrement = -1;
+	
+	if (this->itemRingLeft && this->itemRingRight) {
+		foodDecrement = -3;
+	} else if (this->itemRingLeft || this->itemRingRight) {
+		foodDecrement = -2;
+	}
+
+	this->changeFoodLife(this->hasCondition(DIGESTION) ? 0 : foodDecrement);
+	this->moves = (this->moves + 1) % MOVES_RESET;
 
 	for (auto it = this->conditions.begin() ; it != this->conditions.end() ; it++) {
 		if (it->second > -1) {

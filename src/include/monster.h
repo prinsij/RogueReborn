@@ -125,6 +125,13 @@ class Monster : public Mob {
 		bool isAwake();
 
 		/**
+		 * @brief	Sets the Monster awake state.
+		 *
+		 * @param	New awake state
+		 */ 
+		void setAwake(bool);
+
+		/**
 		 * @brief      Performs the actions that make up a Monster's turn.
 		 *
 		 * @param      level Reference to the current Level

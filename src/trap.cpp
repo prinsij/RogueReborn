@@ -17,15 +17,9 @@ Trap::Trap(Coord location, unsigned char type, bool visible)
 	  type(type),
 	  visible(visible) {}
 
-/*
-		   0 = Door Trap
-		   1 = Rust Trap
-		   2 = Sleep Trap
-		   3 = Bear Trap
-		   4 = Teleport Trap
-		   5 = Dart Trap
-*/
 void Trap::activate(Mob* mob) {
+	this->visible = true;
+
 	PlayerChar* player = dynamic_cast<PlayerChar*>(mob);
 
 	if (player) {

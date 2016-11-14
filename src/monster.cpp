@@ -232,6 +232,10 @@ void Monster::relocate(Level* level) {
 	}
 }
 
+void Monster::setAwake(bool awake) {
+	this->awake = awake;
+}
+
 int Monster::turn(Level* level) {
 	if (this->awake) {
 		if (!this->chasing && this->hasFlag(AGGRESSIVE) && level->canSee(this->getLocation(), level->getPlayer()->getLocation())) {

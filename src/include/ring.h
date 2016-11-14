@@ -58,4 +58,7 @@ class Ring : public Item {
 		 * Vector of names to be applied to Rings that are unidentified indexed by type.
 		 */
 		static std::vector<std::string> nameVector;
+
+		/** Arbitrary value for determining dexterity and cursedness */
+		int ringValue;
 };
