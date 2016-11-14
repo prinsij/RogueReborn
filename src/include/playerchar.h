@@ -40,7 +40,7 @@ class PlayerChar : public Mob {
 		 */
 		PlayerChar(Coord, std::string);
 
-		enum Condition {BLIND, CONFUSED, HALLUCINATING, IMMOBILIZED, FAINTING, RANDOM_TELEPORT};
+		enum Condition {BLIND, CONFUSED, DETECT_MONSTER, DETECT_OBJECTS, FAINTING, HALLUCINATING, HASTE, IMMOBILIZED, LEVITATING, RANDOM_TELEPORT, SEE_INVISIBLE, SUSTAIN_STRENGTH};
 
 		/**
 		 * @brief      Activates the provided item
@@ -260,6 +260,11 @@ class PlayerChar : public Mob {
 		 * @param      mob Mob to quaff the Potion
 		 */
 		void quaff(Potion*, Mob*);
+
+		/**
+		 * @brief Increments the PlayerChar's level.
+		 */
+		void raiseLevel();
 
 		/**
 		 * @brief      Attempts to read the given Scroll.

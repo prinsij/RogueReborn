@@ -48,13 +48,7 @@ void PlayerChar::addExp(int exp) {
 	this->exp += exp;
 
 	if (this->level <= static_cast<int>(levelExpBounds.size()) && this->exp >= levelExpBounds[this->level - 1]) {
-		this->level++;
-		this->appendLog("Welcome to level " + std::to_string(this->level));
-		std::cout << "PlayerChar is now at level " << this->level << "\n";
-
-		int deltaHP = Generator::intFromRange(3, 9);
-		this->currentHP += deltaHP;
-		this->maxHP += deltaHP;
+		this->raiseLevel();
 	}
 }
 
@@ -281,6 +275,19 @@ void PlayerChar::quaff(Potion* potion, Mob* mob) {
 	this->inventory.remove(potion);
 }
 
+void PlayerChar::raiseLevel() {
+	if (this->level <= static_cast<int>(levelExpBounds.size())) {
+		this->exp = levelExpBounds[this->level - 1];
+		this->level++;
+		this->appendLog("Welcome to level " + std::to_string(this->level));
+		std::cout << "PlayerChar is now at level " << this->level << "\n";
+
+		int deltaHP = Generator::intFromRange(3, 9);
+		this->currentHP += deltaHP;
+		this->maxHP += deltaHP;
+	}
+}
+
 void PlayerChar::read(Scroll* scroll, Level* level) {
 	std::cout << "PlayerChar Read Scroll " << scroll->getName() << "\n";
 
@@ -300,6 +307,14 @@ bool PlayerChar::removeArmor() {
 }
 
 void PlayerChar::removeCondition(PlayerChar::Condition condition) {
+	if (this->hasCondition(condition)) {
+		if (condition == PlayerChar::BLIND) {
+			this->appendLog("The veil of darkness lifts");
+		} else if (condition == PlayerChar::HALLUCINATING) {
+			this->appendLog("Everything looks SO boring now");
+		}
+	}	
+
 	this->conditions.erase(condition);
 }
 
