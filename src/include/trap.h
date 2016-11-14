@@ -12,6 +12,7 @@
 
 #include "coord.h"
 #include "feature.h"
+#include "level.h"
 
 class Mob;
 
@@ -27,7 +28,7 @@ class Trap : public Feature {
 		 */
 		Trap(Coord location, unsigned char type, bool visible);
 		/** Trigger the trap on the given mob. */
-		void activate(Mob*);
+		void activate(Mob*, Level*);
 	private:
 		/** Type of the trap.
 		   0 = Door Trap

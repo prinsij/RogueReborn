@@ -28,6 +28,7 @@
 #include "include/stairs.h"
 #include "include/terrain.h"
 #include "include/tiles.h"
+#include "include/trap.h"
 #include "include/tunnel.h"
 
 Level::Level(int depth, PlayerChar* player)
@@ -274,11 +275,21 @@ void Level::generate() {
 		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
 							  gen.intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
+			features.push_back(new Trap(randPos, 0, true));
+			++i;
+		}
+	}
+	i = 0;
+	while (i < 15) {
+		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
+							  gen.intFromRange(0, Y_SIZE-1));
+		if (tileAt(randPos).isPassable() == Terrain::Passable) {
 			features.push_back(new Food(randPos, Item::FLOOR));
 			++i;
 		}
 	}
 	this->placePlayerInStartingPosition();
+	this->brother = this;
 }
 
 void Level::addTunnel(int i, int j, bool* a, bool* b, Generator gen){
@@ -287,6 +298,14 @@ void Level::addTunnel(int i, int j, bool* a, bool* b, Generator gen){
 		*b = true;
 		tunnels.push_back(Tunnel(&rooms[i], &rooms[j], gen));
 	}
+}
+
+Level* Level::getBro(){
+	return this->brother;
+}
+
+void Level::setBro(Level* l){
+	this->brother = l;
 }
 
 void Level::tryAddPassable(Coord current, std::queue<Coord>& q, Coord target, Coord end){
@@ -541,7 +560,7 @@ void Level::placePlayerInStartingPosition() {
 
 	int roomIndex = 0;
 	int count = 0;
-	
+
 	do {
 		roomIndex = Generator::intFromRange(0,rooms.size()-1);
 		count++;

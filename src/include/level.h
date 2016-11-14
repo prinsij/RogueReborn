@@ -20,6 +20,7 @@
 #include "room.h"
 #include "terrain.h"
 #include "tunnel.h"
+#include "trap.h"
 
 class Room;
 
@@ -183,9 +184,14 @@ class Level {
 		 */
 		void placePlayerInStartingPosition();
 
+		Level* getBro();
+		void setBro(Level*);
+
 		~Level();
 
 	private:
+
+		Level* brother;
 
 		PlayerChar* player;
 
