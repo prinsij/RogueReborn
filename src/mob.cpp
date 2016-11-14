@@ -7,6 +7,7 @@
  */ 
 
 #include <cmath>
+#include <iostream>
 #include <string>
 
 #include "include/coord.h"
@@ -71,12 +72,14 @@ char Mob::getSymbol() {
 }
 
 void Mob::hit(int damage) {
-	int deltaHP = std::max(1, damage - this->armor);
+	int effectiveArmor = 11 - this->armor;
+	int deltaHP = std::max(1, damage - effectiveArmor);
 	this->currentHP -= deltaHP;
 
 	if (this->currentHP <= 0) {
 		this->dead = true;
 	}
+	std::cout << "'" << this->getName() << "' now has " << this->currentHP << " HP after taking " << deltaHP << " damage.\n";
 }
 
 bool Mob::isDead() {
