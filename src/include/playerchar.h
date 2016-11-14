@@ -40,6 +40,8 @@ class PlayerChar : public Mob {
 		 */
 		PlayerChar(Coord, std::string);
 
+		enum Condition {BLIND, CONFUSED, HALLUCINATING, IMMOBILIZED, FAINTING, RANDOM_TELEPORT};
+
 		/**
 		 * @brief      Activates the provided item
 		 *
@@ -61,6 +63,14 @@ class PlayerChar : public Mob {
 		 * @param[in]  entry  Entry to be appended to the log.
 		 */
 		void appendLog(std::string);
+
+		/**
+		 * @brief Applies the given condition to the PlayerChar for the provided number of turns.
+		 * 
+		 * @param condition State to be applied to the player
+		 * @param turns Number of turns the condition should last (-1 for continuous)
+		 */
+		void applyCondition(Condition, int);
 
 		/**
 		 * @brief      Attacks the given Mob.
@@ -222,6 +232,14 @@ class PlayerChar : public Mob {
 		bool hasAmulet();
 
 		/**
+		 * @brief Determines whether or not this PlayerChar is affected by the given condition.
+		 * 
+		 * @param  condition Condition to check
+		 * @return True if PlayerChar is currently affected by condition, False otherwise.
+		 */
+		bool hasCondition(Condition);
+
+		/**
 		 * @brief	Relocates the PlayerChar and updates the food life.
 		 *
 		 * @param	location New PlayerChar location
@@ -257,6 +275,13 @@ class PlayerChar : public Mob {
 		 * @return     True if the operation was successful, False otherwise.
 		 */
 		bool removeArmor();
+
+		/**
+		 * @brief	Removes the given condition from the PlayerChar. 
+		 * 
+		 * @param	condition Condition to remove
+		 */
+		void removeCondition(Condition);
 
 		/**
 		 * @brief      Attempts to remove the PlayerChar's equipped left Ring.
@@ -301,10 +326,9 @@ class PlayerChar : public Mob {
 		bool throwItem(Item*);
 
 		/**
-		 * @brief	Updates the PlayerChar's food life during a wait action.
-		 *
+		 * @brief	Updates the PlayerChar's state.
 		 */
-		void wait();
+		void update();
 
 		/**
 		 * @brief      Attempts to spend a charge of the provided Wand.
@@ -330,6 +354,9 @@ class PlayerChar : public Mob {
 	private:
 		/** Possible food states of the PlayerChar */
 		enum FoodStates {FULL, HUNGRY, WEAK, FAINT, STARVE};
+
+		/** Current conditions acting upon the player (<Condition, Steps Left>) */
+		static std::map<Condition, int> conditions;
 
 		/** Experience bounds corresponding to each level */
 		static std::vector<int> levelExpBounds;

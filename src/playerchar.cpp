@@ -25,6 +25,8 @@
 #include "include/wand.h"
 #include "include/weapon.h"
 
+std::map<PlayerChar::Condition, int> PlayerChar::conditions = {};
+
 std::vector<int> PlayerChar::levelExpBounds = {10, 20, 40, 80, 160, 320, 640, 1300, 2600, 5200, 10000, 20000, 40000, 80000, 160000, 320000, 1000000, 3333333, 6666666, 99900000};
 
 std::vector<int> PlayerChar::foodLifeBounds = {300, 150, 20, 0};
@@ -61,6 +63,14 @@ void PlayerChar::appendLog(std::string entry) {
 	if (this->log.size() > MAX_LOG) {
 		this->log.erase(this->log.begin());
 	}
+}
+
+void PlayerChar::applyCondition(PlayerChar::Condition condition, int turns) {
+	if (this->conditions.find(condition) == this->conditions.end()) {
+		this->conditions[condition] = turns;
+	} else if (this->conditions[condition] > -1) {
+		this->conditions[condition] += turns;
+	}  
 }
 
 void PlayerChar::attack(Monster* monster) {
@@ -228,13 +238,16 @@ int PlayerChar::getMaxStrength() {
 	return this->maxStr;
 }
 
+int PlayerChar::getSightRadius() {
+ 	return PlayerChar::SIGHT_RADIUS;
+}
+
 bool PlayerChar::hasAmulet() {
 	return this->inventory.contains("The Amulet of Yendor");
 }
 
-
-int PlayerChar::getSightRadius() {
- 	return PlayerChar::SIGHT_RADIUS;
+bool PlayerChar::hasCondition(PlayerChar::Condition condition) {
+	return this->conditions.find(condition) != this->conditions.end();
 }
 
 void PlayerChar::move(Coord location) {
@@ -284,6 +297,10 @@ bool PlayerChar::removeArmor() {
 	this->itemArmor = NULL;
 
 	return true;
+}
+
+void PlayerChar::removeCondition(PlayerChar::Condition condition) {
+	this->conditions.erase(condition);
 }
 
 bool PlayerChar::removeRingLeft() {
@@ -375,7 +392,9 @@ bool PlayerChar::throwItem(Item* item) {
 	return true;
 }
 
-void PlayerChar::wait() {
+void PlayerChar::update() {
+
+
 	this->changeFoodLife(-1);
 }
 

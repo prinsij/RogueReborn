@@ -79,6 +79,13 @@ class Monster : public Mob {
 		int calculateHitChance(PlayerChar*);
 
 		/**
+		 * @brief Returns the effective armor of this Monster.
+		 * 
+		 * @return The effective armor of this Monster.
+		 */
+		int getArmor();
+
+		/**
 		 * @brief      Gets the carry chance of this Monster.
 		 *
 		 * @return     The carry chance of this Monster.

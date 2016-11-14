@@ -280,7 +280,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	if (key.c == '.') {
 		level->pushMob(player, TURN_TIME);
 		player->appendLog("You rest briefly");
-		player->wait();
+		player->update();
 		return this;
 	}
 	// drop item
@@ -405,6 +405,8 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 				}
 			} while (search);
 		}
+
+		player->update();
 	}
 	return this;
 }

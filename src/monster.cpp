@@ -157,6 +157,10 @@ int Monster::calculateHitChance(PlayerChar* player) {
 	return chance;
 }
 
+int Monster::getArmor() {
+	return 11 - this->armor;
+}
+
 int Monster::getCarryChance() {
 	return this->carryChance;
 }
