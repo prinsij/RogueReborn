@@ -124,6 +124,10 @@ int PlayerChar::calculateHitChance(Monster* monster) {
 	return hitChance;
 }
 
+void PlayerChar::changeCurrentHP(int amount) {
+	this->currentHP += amount;
+}
+
 void PlayerChar::changeFoodLife(int amount) {
 	this->setFoodLife(this->foodLife + amount);
 }
@@ -222,6 +226,19 @@ int PlayerChar::getSightRadius() {
 void PlayerChar::move(Coord location) {
 	this->setLocation(location);
 	this->changeFoodLife(-1);
+
+	// Health regeneration
+	if (this->currentHP < this->maxHP) {
+		if (this->level < 8) {
+			if (this->foodLife % (21 - this->level*2) == 0) {
+				this->currentHP++;
+			}
+		} else {
+			if (this->foodLife % 3 == 0) {
+				this->currentHP += Generator::intFromRange(1, this->level - 7);
+			}
+		}
+	}
 }
 
 void PlayerChar::pickupItem(Item* item) {

@@ -86,6 +86,13 @@ class PlayerChar : public Mob {
 		int calculateHitChance(Monster*);
 
 		/**
+		 * @brief	Increases the current HP of the PlayerChar by the passed parameter.
+		 *
+		 * @param	amount Amount to change the current HP.
+		 */
+		void changeCurrentHP(int);
+
+		/**
 		 * @brief	Increases the food life of the PlayerChar by the passed parameter.
 		 *
 		 * @param	amount Amount to change the food life.
@@ -294,6 +301,10 @@ class PlayerChar : public Mob {
 		 * @return     True if the operation was successful, False otherwise.
 		 */
 		bool zap(Wand*, Level*);
+
+		/**
+		 * @brief	Updates the PlayerChar's health according to i*/
+		void updateHealthRegen();
 
 		/**
 		 * @brief      Gets the PlayerChar's log.
