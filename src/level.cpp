@@ -606,3 +606,11 @@ void Level::placePlayerInStartingPosition() {
 	player->move(Generator::randPosition(rooms[roomIndex].getPosition1(), rooms[roomIndex].getPosition2()), this);
 
 }
+
+Coord Level::getRandomEmptyPosition() {
+	Coord result;
+	do {
+		result = Generator::randPosition(Coord(0,0), Coord(X_SIZE-1, Y_SIZE-1));
+	} while (tileAt(result).isPassable() != Terrain::Passable || monsterAt(result) != NULL);
+	return result;
+}
