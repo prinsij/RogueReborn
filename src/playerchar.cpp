@@ -75,8 +75,8 @@ void PlayerChar::attack(Monster* monster) {
 			this->appendLog("You hit the " + monster->getName());
 
 			int damage = this->calculateDamage();
-			if (!monster->isAwake()) damage += 4;
-			else if (monster->hasFlag(Monster::FROZEN)) damage += 2;
+			if (!monster->isAwake()) damage += 2;
+			else if (monster->hasFlag(Monster::FROZEN)) damage += 1;
 
 			monster->hit(damage);
 
@@ -103,18 +103,18 @@ int PlayerChar::calculateDamage() {
 
 	auto damageTuple = this->itemWeapon->getDamage();
 	damage += Mob::diceSum(std::get<0>(damageTuple), std::get<1>(damageTuple));
-	damage += std::get<2>(damageTuple) * std::get<0>(damageTuple);
-
+	//damage += std::get<2>(damageTuple) * std::get<0>(damageTuple);
+	damage += std::get<2>(damageTuple);
 
 	// Linear approximation from original Rogue
-	damage += static_cast<int>(this->currentStr*0.3133 - 2.7667);
+	damage += static_cast<int>(this->currentStr*0.3133 - 2.7667)/2;
 
 	int miscDamage = this->level + this->dexterity;
 	if (this->itemRingLeft != NULL) miscDamage--;
 	if (this->itemRingRight != NULL) miscDamage--;
 	damage += (miscDamage + 1)/2;
 
-	return miscDamage;
+	return damage;
 }
 
 int PlayerChar::calculateHitChance(Monster* monster) {
@@ -301,14 +301,9 @@ bool PlayerChar::hasCondition(PlayerChar::Condition condition) {
 }
 
 void PlayerChar::hit(int damage) {
-	int effectiveArmor = this->getArmorRating();
-	int deltaHP = std::max(1, static_cast<int>(damage - (damage * 3.00 * effectiveArmor)/100.00));
-
-	this->currentHP -= deltaHP;
-
-	if (this->currentHP <= 0) {
-		this->dead = true;
-	} else if (!this->hasCondition(MAINTAIN_ARMOR) && Generator::intFromRange(0, 99) <= 10) {
+	Mob::hit(damage);
+	
+	if (this->currentHP > 0 && !this->hasCondition(MAINTAIN_ARMOR) && Generator::intFromRange(0, 99) <= 10) {
 		this->armor = std::max(1, this->armor - 1); 
 	}
 }
@@ -328,7 +323,7 @@ bool PlayerChar::move(Coord location, Level* level) {
 		this->setLocation(adjacentTiles[Generator::intFromRange(0, adjacentTiles.size() - 1)]);
 		return true;
 	}
-
+	
 	this->setLocation(location);
 
 	std::vector<Coord> adjacentTiles = level->getAdjPassable(location);
@@ -388,13 +383,6 @@ void PlayerChar::raiseLevel() {
 		this->currentHP += deltaHP;
 		this->maxHP += deltaHP;
 	}
-}
-
-void PlayerChar::read(Scroll* scroll, Level* level) {
-	std::cout << "# PlayerChar Read Scroll " << scroll->getName() << "\n";
-
-	scroll->activate(level);
-	this->inventory.remove(scroll);
 }
 
 bool PlayerChar::removeArmor() {

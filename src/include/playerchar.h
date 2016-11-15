@@ -351,14 +351,6 @@ class PlayerChar : public Mob {
 		void raiseLevel();
 
 		/**
-		 * @brief      Attempts to read the given Scroll.
-		 *
-		 * @param      scroll  Scroll to be read
-		 * @param      level Reference to the current Level
-		 */
-		void read(Scroll*, Level*);
-
-		/**
 		 * @brief      Attempts to remove the PlayerChar's equipped Armor.
 		 *
 		 * @return     True if the operation was successful, False otherwise.

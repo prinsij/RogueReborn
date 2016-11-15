@@ -15,12 +15,13 @@
 #include "libtcod/include/libtcod.hpp"
 
 InvScreen::InvScreen(PlayerChar* player, Level* level,
-		filtFunc filter, transFunc trans, bool escapeable)
+		filtFunc filter, transFunc trans, bool escapeable, std::string prompt)
 	: player(player)
 	, level(level)
 	, filter(filter)
 	, transition(trans)
 	, escapeable(escapeable)
+	, prompt(prompt)
 {}
 
 UIState* InvScreen::handleInput(TCOD_key_t key) {
@@ -46,4 +47,5 @@ void InvScreen::draw(TCODConsole* con) {
 			+pair.second.front()->getDisplayName()).c_str());
 		++y;
 	}
+	con->print(1, y+2, prompt.c_str());
 }

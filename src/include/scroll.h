@@ -13,6 +13,7 @@
 
 #include "coord.h"
 #include "item.h"
+#include "uistate.h"
 
 /** Tuple representing Scroll information (<Name>) */
 using SCROLL_TUPLE_TYPE = std::tuple<std::string>;
@@ -54,7 +55,7 @@ class Scroll : public Item {
 		 *
 		 * @return     A value reflecting the success of the activation operation.
 		 */
-		bool activate(Level*);
+		std::tuple<bool, UIState*> activate(Level*);
 
 	private:
 		/**
