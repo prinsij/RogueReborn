@@ -55,6 +55,10 @@ bool Wand::activate(Level* level, Mob* mob) {
 	Monster* monster = dynamic_cast<Monster*>(mob); 
 
 	this->charges--;
+	
+	if (monster == NULL) {
+		return false;
+	}
 
 	// Teleport Away
 	if (this->type == 0) {
