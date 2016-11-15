@@ -14,9 +14,9 @@
 #include "include/level.h"
 
 Trap::Trap(Coord location, unsigned char type, bool visible)
-	: Feature('^', location),
-	  type(type),
-	  visible(true) {}
+	: Feature('^', location, visible)
+	, type(type)
+ {}
 
 void Trap::activate(Mob* mob, Level* level) {
 	this->visible = true;

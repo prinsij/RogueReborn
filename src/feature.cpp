@@ -9,12 +9,18 @@
 #include "include/coord.h"
 #include "include/feature.h"
 
-Feature::Feature(char symbol, Coord location)
-	: location(location),
-	  symbol(symbol) {}
+Feature::Feature(char symbol, Coord location, bool visible)
+	: location(location)
+	, symbol(symbol) 
+	, visible(visible)
+{}
 
 char Feature::getSymbol() {
 	return this->symbol;
+}
+
+bool Feature::getVisible() {
+	return this->visible;
 }
 
 Coord Feature::getLocation() {

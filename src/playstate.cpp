@@ -261,7 +261,7 @@ void PlayState::draw(TCODConsole* con) {
 				con->putChar(scrPos[0], scrPos[1], terrain.getSymbol());
 				bool hasFeat = false;
 				for (Feature* feat : level->getFeatures()) {
-					if (feat->getLocation() == mapPos) {
+					if (feat->getLocation() == mapPos && feat->getVisible()) {
 						con->putChar(scrPos[0], scrPos[1], feat->getSymbol());
 						hasFeat = true;
 					}
