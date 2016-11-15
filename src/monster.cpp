@@ -21,6 +21,9 @@
 #include "include/monster.h"
 #include "include/random.h"
 
+const std::vector<TCODColor> Monster::possibleColors = {TCODColor::lightBlue, TCODColor::red, TCODColor::orange, 
+							TCODColor::green, TCODColor::purple, TCODColor::yellow};
+
 // Monster Template Values
 std::map<char, MONSTER_TUPLE_TYPE > Monster::templateMap = {
 	{'A', MONSTER_TUPLE_TYPE { 2,  0,{std::make_pair( 0, 0)},  20,  "AU", 5,std::make_pair( 5,8),      "Aquator",std::make_pair( 8,17)}},
@@ -134,6 +137,8 @@ Monster::Monster(char symbol, Coord location)
 	name = std::get<7>(monsterTuple);
 
 	awake = Generator::randBool();
+
+	setFColor(possibleColors[Generator::intFromRange(0, possibleColors.size()-1)]);
 }
 
 void Monster::addFlag(Monster::Behaviour flag) {

@@ -14,6 +14,7 @@
 
 #include "include/item.h"
 #include "include/random.h"
+#include "include/feature.h"
 
 std::map<std::string, std::map<int, bool> > Item::identified;
 
@@ -23,7 +24,7 @@ std::vector<std::string> Item::shuffleNameVector(std::vector<std::string> nameVe
 };
 
 Item::Item(char symbol, Coord location, Item::Context context, std::string className, std::string name, std::string pseudoName, int type, bool canStack, bool canThrow)
-	: Feature(symbol, location),
+	: Feature(symbol, location, true, Feature::possibleColors[Generator::intFromRange(0, Feature::possibleColors.size()-1)]),
 	  canStack(canStack),
 	  canThrow(canThrow),
 	  className(className),
@@ -102,3 +103,4 @@ void Item::removeEffect(Item::Effect effect) {
 void Item::setIdentified(bool newValue) {
 	Item::identified[this->className][this->type] = newValue;
 }
+

@@ -16,10 +16,11 @@
 Mob::Mob(char symbol, Coord location)
 	: dead(false),
 	  location(location),
+	  fcolor(TCODColor::white),
 	  symbol(symbol)
 	{}
 
-Mob::Mob(char symbol, Coord location, std::string name, int armor, int exp, int mobHP, int level)
+Mob::Mob(char symbol, Coord location, std::string name, int armor, int exp, int mobHP, int level, TCODColor color)
 	: armor(armor),
 	  currentHP(mobHP),
 	  dead(false),
@@ -28,7 +29,9 @@ Mob::Mob(char symbol, Coord location, std::string name, int armor, int exp, int 
 	  location(location),
 	  maxHP(mobHP),
 	  name(name),
-	  symbol(symbol) {}
+	  fcolor(color),
+	  symbol(symbol)
+{}
 
 int Mob::diceSum(int rolls, int faces) {
 	int sum = 0;
@@ -69,6 +72,14 @@ std::string Mob::getName() {
 
 char Mob::getSymbol() {
 	return symbol;
+}
+
+TCODColor Mob::getFColor() {
+	return fcolor;
+}
+
+void Mob::setFColor(TCODColor newcol) {
+	this->fcolor = newcol;
 }
 
 void Mob::hit(int damage) {

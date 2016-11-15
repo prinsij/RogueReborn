@@ -110,6 +110,7 @@ class QuickZap : public PlayState {
 				auto mob = level->monsterAt(next);
 				if (mob != NULL) {
 					wand->activate(level, mob);
+					player->appendLog("You zap with the " + wand->getName());
 					if (wand->getCharges() <= 0) {
 						player->getInventory().remove(wand);
 						player->appendLog("Drained of magic, the wand crumbles to dust");
@@ -291,15 +292,17 @@ void PlayState::draw(TCODConsole* con) {
 				auto scrPos = mapPos.asScreen();
 				Terrain& terrain = (*level)[mapPos];
 				con->putChar(scrPos[0], scrPos[1], terrain.getSymbol());
-				bool hasFeat = false;
+				Feature* featAt = NULL;
 				for (Feature* feat : level->getFeatures()) {
 					if (feat->getLocation() == mapPos && feat->getVisible()) {
 						con->putChar(scrPos[0], scrPos[1], feat->getSymbol());
-						hasFeat = true;
+						featAt = feat;
 					}
 				}
-				if (!hasFeat) {
+				if (featAt == NULL) {
 					con->setCharForeground(scrPos[0], scrPos[1], terrain.getColor());
+				} else {
+					con->setCharForeground(scrPos[0], scrPos[1], featAt->getFColor());
 				}
 				// Previously but not currently seen
 				if (mapPos.distanceTo(player->getLocation()) > 1
@@ -311,6 +314,7 @@ void PlayState::draw(TCODConsole* con) {
  						for (Mob* mob : level->getMobs()) {
  							if (mob->getLocation() == mapPos) {
  								con->putChar(scrPos[0], scrPos[1], HALLUC_CHARS[hallucChar]);
+								con->setCharForeground(scrPos[0], scrPos[1], mob->getFColor());
  								hallucChar = hallucChar < HALLUC_CHARS.size() ? hallucChar+1 : 0;
  							}
  						}
@@ -324,6 +328,7 @@ void PlayState::draw(TCODConsole* con) {
 
  							if (mob->getLocation() == mapPos) {
  								con->putChar(scrPos[0], scrPos[1], mob->getSymbol());
+								con->setCharForeground(scrPos[0], scrPos[1], mob->getFColor());
  							}
 						}
 					}
@@ -471,6 +476,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		return attemptUse<Potion>("You have nothing you can quaff", 
 						[] (Item* i) {return dynamic_cast<Potion*>(i)!=NULL;},
 						[temp_p, temp_l] (Potion* p) {
+							temp_p->appendLog("You drink the " + p->getName());
 							p->activate(temp_p);
 							return new PlayState(temp_p, temp_l);
 						});
@@ -482,6 +488,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		return attemptUse<Scroll>("You have nothing you can read",
 						[] (Item* i) {return dynamic_cast<Scroll*>(i)!=NULL;},
 						[temp_l, temp_p] (Scroll* s) {
+							temp_p->appendLog("You read the " + s->getName());
 							return std::get<1>(s->activate(temp_l));
 						});
 	}
@@ -497,6 +504,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 																		[p, l] (Weapon* w) {
 																			p->equipWeapon(w);
 																			p->getInventory().remove(w);
+																			p->appendLog("You wield the " + w->getName());
 																			return new PlayState(p, l);
 																		}, false);
 											},

@@ -9,6 +9,8 @@
 #pragma once
 
 #include "coord.h"
+#include "../libtcod/include/libtcod.hpp"
+#include <vector>
 
 /** Models a 'thing' in the dungeon
  *  that has position and may be visible.
@@ -20,7 +22,7 @@
 class Feature {
 	public:
 		/** Constructor for symbol, location. */
-		Feature(char, Coord, bool visible=true);
+		Feature(char, Coord, bool visible=true, TCODColor fcolor=TCODColor::white);
 		/** Getter for symbol.
 		 * @see symbol
 		 */
@@ -44,6 +46,12 @@ class Feature {
 		 * @see location
 		 */
 		void setLocation(Coord);
+		/**
+		 * @brief	Getter for the foreground color.
+		 * @see		fcolor
+		 * @return	Foreground color of the feature.
+		 */
+		TCODColor getFColor();
 		/** Destructor. */
 		virtual ~Feature();
 	private:
@@ -56,4 +64,9 @@ class Feature {
 	protected:
 		/** Whether the feature is visible to the player. */
 		bool visible;
+		/** Foreground color the feature. */
+		TCODColor fcolor;
+		/** Set of possible colors for randomly colored features. */
+		const static std::vector<TCODColor> possibleColors;
+
 };
