@@ -251,7 +251,7 @@ int PlayerChar::getGold() {
 }
 
 float PlayerChar::getSearchChance() {
-	return SEARCH_CHANCE;
+	return SEARCH_CHANCE + (this->hasCondition(SEARCH) ? SEARCH_CHANCE : 0);
 }
 
 int PlayerChar::getSearchRadius() {
