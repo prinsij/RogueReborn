@@ -16,6 +16,7 @@
 #include "include/food.h"
 #include "include/potion.h"
 #include "include/weapon.h"
+#include "include/armor.h"
 #include "include/scroll.h"
 #include "include/globals.h"
 #include "include/goldpile.h"
@@ -177,6 +178,27 @@ class QuickWield : public PlayState {
 				player->equipWeapon(weap);
 			} else {
 				assert (false && "tried to equip non-weapon");
+			}
+			return new PlayState(player, level);
+		}
+	private:
+		Item* item;
+};
+
+class QuickWear : public PlayState {
+	public:
+		QuickWear(PlayerChar* player, Level* level, Item* item)
+			: PlayState(player, level)
+			, item(item)
+		{}
+
+		virtual UIState* handleInput(TCOD_key_t key) {
+			auto armor = dynamic_cast<Armor*>(item);
+			if (armor != NULL) {
+				player->getInventory().remove(armor);
+				player->equipArmor(armor);
+			} else {
+				assert (false && "tried to wear non-armor");
 			}
 			return new PlayState(player, level);
 		}
@@ -428,24 +450,35 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	}
 	// wield weapon
 	if (key.c == 'w') {
-		bool canWield = false;
 		for (auto pair : player->getInventory().getContents()) {
 			Weapon* weap = dynamic_cast<Weapon*>(pair.second.front());
 			if (weap != NULL) {
-				canWield = true;
-				break;
+				level->pushMob(player, TURN_TIME);
+				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Weapon*>(i)!=NULL;},
+													[] (Item* i, PlayerChar* p, Level* l) {
+														return new QuickWield(p, l, i);
+													},
+													true);
 			}
 		}
-		if (canWield) {
-			level->pushMob(player, TURN_TIME);
-			return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Weapon*>(i)!=NULL;},
-												[] (Item* i, PlayerChar* p, Level* l) {
-													return new QuickWield(p, l, i);
-												},
-												true);
-		} else {
-			player->appendLog("You have nothing you can wield");
+		player->appendLog("You have nothing you can wield");
+		return this;
+	}
+	// Wear armor
+	if (key.c == 'W') {
+		for (auto pair : player->getInventory().getContents()) {
+			Armor* armor = dynamic_cast<Armor*>(pair.second.front());
+			if (armor != NULL) {
+				level->pushMob(player, TURN_TIME);
+				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Armor*>(i)!=NULL;},
+													[] (Item* i, PlayerChar* p, Level* l) {
+														return new QuickWear(p, l, i);
+													},
+													true);
+			}
 		}
+		player->appendLog("You have nothing you can wear");
+		return this;
 	}
 	// stow weapon
 	if (key.c == 'S') {

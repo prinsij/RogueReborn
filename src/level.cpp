@@ -16,6 +16,7 @@
 
 #include "include/coord.h"
 #include "include/feature.h"
+#include "include/armor.h"
 #include "include/food.h"
 #include "include/goldpile.h"
 #include "include/level.h"
@@ -285,6 +286,15 @@ void Level::generate() {
 							  gen.intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
 			features.push_back(new Food(randPos, Item::FLOOR));
+			++i;
+		}
+	}
+	i = 0;
+	while (i < 15) {
+		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
+							  gen.intFromRange(0, Y_SIZE-1));
+		if (tileAt(randPos).isPassable() == Terrain::Passable) {
+			features.push_back(new Armor(randPos));
 			++i;
 		}
 	}
