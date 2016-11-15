@@ -17,6 +17,7 @@
 #include "include/coord.h"
 #include "include/feature.h"
 #include "include/armor.h"
+#include "include/scroll.h"
 #include "include/food.h"
 #include "include/wand.h"
 #include "include/ring.h"
@@ -331,6 +332,15 @@ void Level::generate() {
 							  gen.intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
 			features.push_back(new Wand(randPos));
+			++i;
+		}
+	}
+	i = 0;
+	while (i < 15) {
+		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
+							  gen.intFromRange(0, Y_SIZE-1));
+		if (tileAt(randPos).isPassable() == Terrain::Passable) {
+			features.push_back(new Scroll(randPos));
 			++i;
 		}
 	}
