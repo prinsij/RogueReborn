@@ -74,7 +74,7 @@ void PlayerChar::applyCondition(PlayerChar::Condition condition, int turns) {
 void PlayerChar::attack(Monster* monster) {
 	if (this->getLocation().isAdjacentTo(monster->getLocation())) {
 		if (Generator::intFromRange(0, 99) <= this->calculateHitChance(monster)) {
-			this->appendLog("You hit the " + monster->getName());
+			this->appendLog("You hit the " + monster->getName(this));
 
 			int damage = this->calculateDamage();
 			if (!monster->isAwake()) damage += 2;
@@ -83,7 +83,7 @@ void PlayerChar::attack(Monster* monster) {
 			monster->hit(damage);
 
 			if (monster->isDead()) {
-				this->appendLog("You have defeated the " + monster->getName());
+				this->appendLog("You have defeated the " + monster->getName(this));
 				this->addExp(monster->getExperience());
 			}
 
@@ -91,7 +91,7 @@ void PlayerChar::attack(Monster* monster) {
 				monster->addFlag(Monster::CONFUSED);
 			}
 		} else {
-			this->appendLog("You missed the " + monster->getName());
+			this->appendLog("You missed the " + monster->getName(this));
 		}
 	}
 }
