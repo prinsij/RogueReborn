@@ -44,11 +44,14 @@ class Monster : public Mob {
 		enum Behaviour {
 			AGGRESSIVE,
 			CANCELLED,
+			CONFUSED,
 			CONFUSES,
+			DRAINS_LIFE,
 			DROPS_LEVEL,
 			FLAMES,
 			FLYING,
 			FREEZES,
+			FROZEN,
 			GREEDY,
 			HASTED,
 			INVISIBLE,
@@ -65,17 +68,17 @@ class Monster : public Mob {
 		void addFlag(Monster::Behaviour);
 
 		/**
+		 * @brief      Freezes the Monster for the given number of turns.
+		 *
+		 * @param[in]  turns Number of turns to freeze the Monster
+		 */
+		void addFrozenTurns(int);
+
+		/**
 		 * @brief	Aggrevates this monster to attack the player.
 		 *
 		 */
 		void aggrevate();
-
-		/**
-		 * @brief	Override mob implementation to aggrevate monster.
-		 * 
-		 * @see		aggrevate
-		 */
-		virtual void hit(int dmgAmount);
 
 		/**
 		 * @brief      Attempts to attack a nearby Player Character.
@@ -83,6 +86,55 @@ class Monster : public Mob {
 		 * @param      level Reference to the current Level
 		 */
 		void attack(Level*);
+
+		/**
+		 * @brief      Confuse Monster attack
+		 *
+		 * @param      player Reference to the PlayerChar
+		 */
+		void attackConfuse(PlayerChar*);
+
+		/**
+		 * @brief      Drain life Monster attack
+		 *
+		 * @param      player Reference to the PlayerChar
+		 */
+		void attackDrainLife(PlayerChar*);
+
+		/**
+		 * @brief      Drop level Monster attack
+		 *
+		 * @param      player Reference to the PlayerChar
+		 */
+		void attackDropLevel(PlayerChar*);
+
+		/**
+		 * @brief      Freezes Monster attack
+		 *
+		 * @param      player Reference to the PlayerChar
+		 */
+		void attackFreeze(PlayerChar*);
+
+		/**
+		 * @brief      Gold steal Monster attack
+		 *
+		 * @param      player Reference to the PlayerChar
+		 */
+		void attackGold(PlayerChar*);
+
+		/**
+		 * @brief      Rust Monster attack
+		 *
+		 * @param      player Reference to the PlayerChar
+		 */
+		void attackRust(PlayerChar*);
+
+		/**
+		 * @brief      Sting Monster attack
+		 *
+		 * @param      player Reference to the PlayerChar
+		 */
+		void attackSting(PlayerChar*);
 
 		/**
 		 * @brief      Calculates the damage of this Monster.
@@ -115,6 +167,13 @@ class Monster : public Mob {
 		int getCarryChance();
 
 		/**
+		 * @brief      Returns this Monster's turn delay
+		 *
+		 * @return     The delay.
+		 */
+		int getDelay();
+
+		/**
 		 * @brief      Gets the valid Monster symbols based on the current dungeon depth.
 		 *
 		 * @param[in]  depth Current dungeon depth
@@ -138,6 +197,13 @@ class Monster : public Mob {
 		 * @return	True if this Monster has the behaviour flag, False otherwise.
 		 */
 		bool hasFlag(Behaviour);
+
+		/**
+		 * @brief	Override mob implementation to aggrevate monster.
+		 * 
+		 * @see		aggrevate
+		 */
+		virtual void hit(int dmgAmount);
 
 		/**
 		 * @brief	Gets the Monster awake state.
@@ -201,7 +267,6 @@ class Monster : public Mob {
 		 */
 		bool awake;
 
-
 		/**
 		 * Chance this Monster is carrying an Item.
 		 */
@@ -221,6 +286,11 @@ class Monster : public Mob {
 		 * Monster behavioural flags.
 		 */
 		std::set<Behaviour> flags;
+
+		/**
+		 * Number of turns this Monster is frozen.
+		 */
+		int frozenTurns;
 
 		/** Determines whether or not this Monster should be visible to the PlayerChar */
 		bool visible;
