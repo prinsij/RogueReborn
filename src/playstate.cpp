@@ -353,6 +353,16 @@ UIState* PlayState::attemptUse(std::string error, std::function<bool(Item*)> fil
 }
 
 UIState* PlayState::handleInput(TCOD_key_t key) {
+	auto mobs = level->getMobs();
+	for (auto it=mobs.begin(); it != mobs.end(); ++it) {
+		if ((*it)->isDead()) {
+			if (*it == player) {
+				return new RIPScreen(player, level, "Unknown");
+			}
+			player->appendLog("The " + (*it)->getName() + " dies, horribly");
+			level->removeMob(*it);
+		}
+	}
 	// Perform AI turns until it's the player's go
 	int numAIGone = 0;
 	while (true) {
