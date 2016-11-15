@@ -37,6 +37,8 @@ class Level {
 		PlayerChar* getPlayer();
 		static Coord getSize() { return Coord(X_SIZE, Y_SIZE); };
 
+		void clear();
+
 		/**
 		 * @brief      Adds a mob to the mobs known by the level
 		 *

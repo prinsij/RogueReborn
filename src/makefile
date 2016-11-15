@@ -4,9 +4,9 @@ LDFLAGS =
 TARGET = RogueReborn.exe
 TESTTARGET = Test.exe
 
-SRCS=amulet.cpp armor.cpp coord.cpp feature.cpp food.cpp goldpile.cpp helpscreen.cpp invscreen.cpp item.cpp itemzone.cpp level.cpp mainmenu.cpp mastercontroller.cpp mob.cpp monster.cpp playerchar.cpp playstate.cpp potion.cpp random.cpp ring.cpp ripscreen.cpp room.cpp scroll.cpp stairs.cpp terrain.cpp tiles.cpp trap.cpp tunnel.cpp uistate.cpp wand.cpp weapon.cpp logscreen.cpp
-SRCSMAIN=main.cpp
-TESTSRCS=test/test.armor.cpp test/test.main.cpp test/test.testable.cpp test/test.level.cpp
+SRCSNOMAIN=amulet.cpp armor.cpp coord.cpp feature.cpp food.cpp goldpile.cpp helpscreen.cpp invscreen.cpp item.cpp itemzone.cpp level.cpp mainmenu.cpp mastercontroller.cpp mob.cpp monster.cpp playerchar.cpp playstate.cpp potion.cpp random.cpp ring.cpp ripscreen.cpp room.cpp scroll.cpp stairs.cpp terrain.cpp tiles.cpp trap.cpp tunnel.cpp uistate.cpp wand.cpp weapon.cpp logscreen.cpp
+SRCS=$(SRCSNOMAIN) main.cpp
+TESTSRCS=$(SRCSNOMAIN) test/test.armor.cpp test/test.main.cpp test/test.testable.cpp test/test.level.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 DEPS = $(SRCS:.cpp=.depends)
@@ -20,11 +20,11 @@ all: $(TARGET) $(TESTTARGET)
 
 $(TARGET): $(OBJS)
 	@cp -n ./libtcod/*.so .
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(SRCSMAIN) $(OBJS) *.so -o $(TARGET)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(OBJS) *.so -o $(TARGET)
 
 $(TESTTARGET): $(TESTOBJS)
 	@cp -n ./libtcod/*.so .
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(TESTOBJS) $(OBJS) *.so -o $(TESTTARGET)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(TESTOBJS) *.so -o $(TESTTARGET)
 
 .cpp.o:
 	$(CXX) $(CXXFLAGS) -c $< -o $@
