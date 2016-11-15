@@ -14,6 +14,7 @@
 #include <string>
 
 #include "include/playerchar.h"
+#include "include/random.h"
 #include "include/ripscreen.h"
 #include "libtcod/include/libtcod.hpp"
 
@@ -93,16 +94,79 @@ RIPScreen::RIPScreen(PlayerChar* player,
 	delete level;
 	std::sort(scores.begin(), scores.end());
 	std::reverse(scores.begin(), scores.end());
+
+	leaves = "";
+	flowers = "";
+
+	// Leaves
+	for (int x = 40 - GRAVE_WIDTH/2 - 2 ; x <= 40 + GRAVE_WIDTH/2 + 2 ; x ++) {
+		int rng = Generator::intFromRange(0, 5);
+		std::string symbol = "";
+		if (rng == 0) symbol = ")";
+		else if (rng == 1) symbol = "(";
+		else if (rng == 2) symbol = "/";
+		else if (rng == 3) symbol = "\\";
+		else symbol = "+";
+
+		leaves += symbol;
+	}
+	
+	// Flowers
+	for (int x = 40 - GRAVE_WIDTH/2 - 2 ; x <= 40 + GRAVE_WIDTH/2 + 2 ; x ++) {
+		if (Generator::intFromRange(0, 99) <= 15) {
+			flowers += "*";
+		} else {
+			flowers += " ";
+		}
+	}
+
 }
 
 void RIPScreen::draw(TCODConsole* con) {
-	int y = 1;
+	con->print(40 - GRAVE_WIDTH/2 - 2, 13, leaves.c_str());
+	con->print(40 - GRAVE_WIDTH/2 - 2, 12, flowers.c_str());
+	
+	// Top
+	for (int x = 40 - GRAVE_WIDTH/2 + 2 ; x <= 40 + GRAVE_WIDTH/2 - 2 ; x ++) {
+		con->print(x, 1, "_");
+	}
+
+	// Diagonal
+	for (int x = 0 ; x < 3 ; x ++) {
+		con->print(40 - GRAVE_WIDTH/2 + 1 - x, x + 2, "/");
+		con->print(40 + GRAVE_WIDTH/2 - 1 + x, x + 2, "\\");
+	}
+
+	// Sides
+	for (int i = 5 ; i < 13 ; i ++) {
+		con->print(40 - GRAVE_WIDTH/2 - 1, i, "|");
+		con->print(40 + GRAVE_WIDTH/2 + 1, i, "|");
+	}
+
+	// Bottom
+	for (int x = 0 ; x < 10 ; x ++) {
+		con->print(40 - GRAVE_WIDTH/2 - 3 - x, 13, "_");
+		con->print(40 + GRAVE_WIDTH/2 + 3 + x, 13, "_");
+	}
+
+	std::string name = player->getName();
+	if (static_cast<int>(name.length()) > GRAVE_WIDTH - 1) {
+		name = name.substr(0, GRAVE_WIDTH - 4) + "...";
+	}
+
+	con->print(39, 3, "RIP");
+	con->print(40 - name.length()/2, 6, name.c_str());
+
+	int y = 16;
+	int maxY = y + 10;
 	for (ScoreItem item : scores) {
 		con->print(0, y, (std::to_string(item.gold) + ":" + item.name + " " + item.death
 					+ " on level " + std::to_string(item.depth)).c_str());
 		y++;
+
+		if (y == maxY) break;
 	}
-	con->print(0, 0, std::string("rip").c_str());
+	
 }
 
 UIState* RIPScreen::handleInput(TCOD_key_t key) {
