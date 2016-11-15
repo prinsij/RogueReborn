@@ -19,7 +19,7 @@ Trap::Trap(Coord location, unsigned char type, bool visible)
 	, type(type)
  {}
 
-void Trap::activate(Mob* mob, Level* level) {
+Level* Trap::activate(Mob* mob, Level* level) {
 	this->visible = true;
 
 	PlayerChar* player = dynamic_cast<PlayerChar*>(mob);
@@ -27,13 +27,13 @@ void Trap::activate(Mob* mob, Level* level) {
 	if (player) {
 		if (Generator::intFromRange(0,99) <= player->getLevel() + player->getDexterity()) {
 			player->appendLog("The trap failed");
-			return;
+			return level;
 		}
 	}
 
 	// Door Trap
 	if (this->type == 0) {
-		if (!player || player->hasCondition(PlayerChar::LEVITATING)) return;
+		if (!player || player->hasCondition(PlayerChar::LEVITATING)) return level;
 
 		int currDepth = level->getDepth();
 		player->appendLog("You fell down a trap, you are now in level " + std::to_string(currDepth+1));
@@ -41,9 +41,7 @@ void Trap::activate(Mob* mob, Level* level) {
 		Level* l = new Level(currDepth+1, player);
 		l->registerMob(player);
 		l->generate();
-
-		level->setBro(l);
-
+		return l;
 		// TODO
 
 	// Rust Trap
@@ -55,7 +53,7 @@ void Trap::activate(Mob* mob, Level* level) {
 
 			Armor* armor = player->getArmor();
 
-			if (armor == NULL || armor->getRating() == 1) return;
+			if (armor == NULL || armor->getRating() == 1) return level;
 	
 			if (!player->hasCondition(PlayerChar::MAINTAIN_ARMOR) && !armor->hasEffect(Item::PROTECTED)) {
 				armor->setEnchantment(armor->getEnchantment() - 1);
@@ -64,14 +62,14 @@ void Trap::activate(Mob* mob, Level* level) {
 
 	// Sleep Trap
 	} else if (this->type == 2) {
-		if (!player) return;
+		if (!player) return level;
 
 		player->appendLog("A strange white mist envelops you and you fall asleep");
 		player->applyCondition(PlayerChar::SLEEPING, Generator::intFromRange(2, 5));
 
 	// Bear Trap
 	} else if (this->type == 3) {
-		if (!player || player->hasCondition(PlayerChar::LEVITATING)) return;
+		if (!player || player->hasCondition(PlayerChar::LEVITATING)) return level;
 
 		player->appendLog("You are caught in a bear trap");
 		player->applyCondition(PlayerChar::IMMOBILIZED, Generator::intFromRange(4, 7));
@@ -98,5 +96,5 @@ void Trap::activate(Mob* mob, Level* level) {
 			}
 		}
 	}
-
+	return level;
 }

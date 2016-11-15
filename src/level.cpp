@@ -33,6 +33,7 @@
 #include "include/trap.h"
 #include "include/tunnel.h"
 
+
 Level::Level(int depth, PlayerChar* player)
 	: player(player)
 	, size(getSize())
@@ -309,7 +310,6 @@ void Level::generate() {
 		}
 	}
 	this->placePlayerInStartingPosition();
-	this->brother = this;
 }
 
 void Level::addTunnel(int i, int j, bool* a, bool* b, Generator gen){
@@ -318,14 +318,6 @@ void Level::addTunnel(int i, int j, bool* a, bool* b, Generator gen){
 		*b = true;
 		tunnels.push_back(Tunnel(&rooms[i], &rooms[j], gen));
 	}
-}
-
-Level* Level::getBro(){
-	return this->brother;
-}
-
-void Level::setBro(Level* l){
-	this->brother = l;
 }
 
 void Level::tryAddPassable(Coord current, std::queue<Coord>& q, Coord target, Coord end){
