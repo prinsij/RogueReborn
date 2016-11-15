@@ -18,6 +18,7 @@
 using WAND_TUPLE_TYPE = std::tuple<std::string>;
 
 class Level;
+class Mob;
 
 /**
  * Represents a wand item.
@@ -44,10 +45,11 @@ class Wand : public Item {
 		 * @brief      Applies the effects derived from using a zap from this Wand.
 		 *
 		 * @param      level  Reference to the Level instance
+		 * @param      mob Mob to target (NULL for no hit target)
 		 *
 		 * @return     A value reflecting the success of the activation operation.
 		 */
-		bool activate(Level*);
+		bool activate(Level*, Mob*);
 
 		/**
 		 * @brief      Gets the charges.

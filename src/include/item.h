@@ -9,6 +9,7 @@
 #pragma once
 
 #include <map>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -35,6 +36,8 @@ class Item : public Feature {
 		 * @brief      Placement context of this Item.
 		 */
 		enum Context {FLOOR, INVENTORY};
+
+		enum Effect {CURSED, PROTECTED};
 
 		/**
 		 * @brief      Constructs an Item instance.
@@ -84,6 +87,13 @@ class Item : public Feature {
 		bool operator<(const Item&) const;
 
 		/**
+		 * @brief      Applies the given effect to the Item.
+		 *
+		 * @param[in]  effect Effect to be applied
+		 */
+		virtual void applyEffect(Effect);
+
+		/**
 		 * @brief      Gets the context.
 		 *
 		 * @return     The context.
@@ -96,6 +106,29 @@ class Item : public Feature {
 		 * @return	The subclass name.
 		 */
 		std::string getClassName();
+
+		/**
+		 * @brief      Determines if it the Item has the provided effect.
+		 *
+		 * @param[in]  effect Effect to be checked
+		 *
+		 * @return     True if the Item has the given effect, False otherwise.
+		 */
+		bool hasEffect(Effect);
+
+		/**
+		 * @brief      Determines if this Item is cursed.
+		 *
+		 * @return     True if cursed, False otherwise.
+		 */
+		bool isCursed();
+
+		/**
+		 * @brief      Removes the given effect from the Item.
+		 * 
+		 * param[in]   effect Effect to be removed
+		 */
+		virtual void removeEffect(Effect);
 
 		/**
 		 * @brief      Sets the context.
@@ -162,6 +195,11 @@ class Item : public Feature {
 		static std::map<std::string, std::map<int, bool> > identified;
 
 		/**
+		 * Effects applied to the Item.
+		 */
+		std::set<Effect> effects;
+
+		/**
 		 * Denotes whether or not this Item can stack in the inventory.
 		 */
 		bool canStack;
@@ -180,11 +218,6 @@ class Item : public Feature {
 		 * Context of this Item.
 		 */
 		Context context;
-
-		/**
-		 * Denotes whether or not this Item is cursed.
-		 */
-		bool cursed;
 
 		/**
 		 * Name of this Item.

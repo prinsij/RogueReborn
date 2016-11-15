@@ -39,7 +39,7 @@ Weapon::Weapon(Coord location, Item::Context context, int type)
 
 	if (chance <= 16) {
 		increment = -1;
-		this->cursed = true;
+		this->applyEffect(Item::CURSED);
 	} else if (chance <= 32) {
 		increment = 1;
 	}
@@ -59,6 +59,10 @@ int Weapon::getChance() {
 
 std::tuple<int, int, int> Weapon::getDamage() {
 	return std::make_tuple(this->damage.first, this->damage.second, this->enchantDamage);
+}
+
+std::pair<int,int> Weapon::getEnchantments() {
+	return std::make_pair(this->enchantHit, this->enchantDamage);
 }
 
 bool Weapon::isMelee() {

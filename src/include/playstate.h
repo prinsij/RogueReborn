@@ -12,6 +12,7 @@
 #include "level.h"
 #include "playerchar.h"
 #include "uistate.h"
+#include <functional>
 
 /** Primary interface state, showing level, player,
  *  monsters, etc.
@@ -45,5 +46,12 @@ class PlayState : public UIState {
 		 * @see updateMap
 		*/
 		Room* currRoom;
+
+		/** Combines similar functionality for quaff,
+		 *  read, etc.
+		 */
+		template<typename T>
+		UIState* attemptUse(std::string, std::function<bool(Item*)>,
+							std::function<void(T*)>);
 
 };

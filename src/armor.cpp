@@ -33,13 +33,21 @@ Armor::Armor(Coord location, Item::Context context, int type)
 		int chance = Generator::intFromRange(1, 100);
 
 		if (chance <= 16) {
-			this->cursed = true;
+			this->applyEffect(Item::CURSED);
 			this->enchantProtection -= Generator::intFromRange(0, 3);
 		} else if (chance <= 33) {
 			this->enchantProtection += Generator::intFromRange(0, 3);
 		}
 	}
 
+int Armor::getEnchantment() {
+	return this->enchantProtection;
+}
+
 int Armor::getRating() {
 	return this->rating + this->enchantProtection;
+}
+
+void Armor::setEnchantment(int enchantProtection) {
+	this->enchantProtection = enchantProtection;
 }

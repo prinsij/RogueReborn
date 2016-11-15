@@ -41,13 +41,14 @@ class PlayerChar : public Mob {
 		PlayerChar(Coord, std::string);
 
 		enum Condition {BLIND, 
-			CONFUSED, 
+			CONFUSED,
+			CONFUSE_MONSTER,
 			DETECT_MONSTER,
 			DETECT_OBJECTS,
 			DIGESTION,
 			FAINTING,
 			HALLUCINATING,
-			HASTE,
+			HASTED,
 			IMMOBILIZED,
 			LEVITATING,
 			MAINTAIN_ARMOR,
@@ -56,6 +57,7 @@ class PlayerChar : public Mob {
 			SEARCH,
 			SEE_INVISIBLE,
 			SLEEPING,
+			SLOWED,
 			STEALTHY,
 			SUSTAIN_STRENGTH};
 
@@ -158,6 +160,11 @@ class PlayerChar : public Mob {
 		bool dropItem(Item*, Level*);
 
 		/**
+		 * @brief      Decrements the level of the PlayerChar.
+		 */
+		void dropLevel();
+
+		/**
 		 * @brief      Attempts to eat the given Food.
 		 *
 		 * @param      food Food to be eaten.
@@ -193,11 +200,11 @@ class PlayerChar : public Mob {
 		void equipWeapon(Weapon*);
 
 		/**
-		 * @brief		Getter for currently equipped weapon.
+		 * @brief      Gets the equipped armor.
 		 *
-		 * @param		weapon Weapon player is wielding (maybe none)
+		 * @return     The armor the PlayerChar is wearing.
 		 */
-		Weapon* getWeapon();
+		Armor* getArmor();
 
 		/**
 		 * @brief	Gets the PlayerChar's dexterity.
@@ -205,6 +212,30 @@ class PlayerChar : public Mob {
 		 * @return	The PlayerChar's dexterity.
 		 */
 		int getDexterity();
+
+		/**
+		 * @brief      Gets the PlayerChar's turn delay.
+		 *
+		 * @return     The turn delay.
+		 */
+		int getDelay();
+		 
+		/*
+		 * @brief	Gets the PlayerChar's chance to reveal secrets.
+		 * @see		SEARCH_CHANCE
+		 *
+		 * @return	The chance out of 1 to reveal a secret when searching.
+		 */
+		float getSearchChance();
+
+		/**
+		 * @brief	Gets the PlayerChar's search radius.
+		 * see		SEARCH_RADIUS
+		 *
+		 * @return	Distance (taxicab) in which the player will
+		 *			spot secrets when searching.
+		 */
+		int getSearchRadius();
 
 		/**
 		 * @brief	Gets the PlayerChar's food life.
@@ -235,6 +266,13 @@ class PlayerChar : public Mob {
 		int getLevel();
 
 		/**
+		 * @brief      Gets the references to the equipped Rings.
+		 *
+		 * @return     The references to the Rings.
+		 */
+		std::pair<Ring*, Ring*> getRings();
+
+		/**
 		 * @brief      Gets the PlayerChar's strength.
 		 *
 		 * @return     The PlayerChar's strength.
@@ -256,6 +294,13 @@ class PlayerChar : public Mob {
 		int getSightRadius();
 
 		/**
+		 * @brief		Getter for currently equipped weapon.
+		 *
+		 * @param		weapon Weapon player is wielding (maybe none)
+		 */
+		Weapon* getWeapon();
+
+		/**
 		 * @brief      Determines whether or not PlayerChar has the Amulet of Yendor.
 		 *
 		 * @return     True if PlayerChar has the Amulet, False otherwise.
@@ -271,12 +316,19 @@ class PlayerChar : public Mob {
 		bool hasCondition(Condition);
 
 		/**
+		 * @brief      Inflicts HP loss to this PlayerChar based on the given damage.  
+		 *
+		 * @param[in]  damage Baseline damage to be inflicted
+		 */
+		void hit(int);
+
+		/**
 		 * @brief	Relocates the PlayerChar and updates the food life.
 		 *
 		 * @param	location New PlayerChar location
 		 * @param	level Reference to the current level
 		 */
-		void move(Coord, Level*);
+		bool move(Coord, Level*);
 
 		/**
 		 * @brief      Attempts to place the provided Item in the PlayerChar's inventory.
@@ -356,6 +408,13 @@ class PlayerChar : public Mob {
 		void setFoodLife(int);
 
 		/**
+		 * @brief      Sets the gold.
+		 *
+		 * @param[in]  gold	New amount of gold
+		 */
+		void setGold(int);
+
+		/**
 		 * @brief	Sets the strength of the PlayerChar.
 		 *
 		 * @param	strength The new strength of the PlayerChar
@@ -372,7 +431,7 @@ class PlayerChar : public Mob {
 		/**
 		 * @brief	Updates the PlayerChar's state.
 		 */
-		void update();
+		int update();
 
 		/**
 		 * @brief      Attempts to spend a charge of the provided Wand.
@@ -476,4 +535,14 @@ class PlayerChar : public Mob {
 
 		/** PlayerChar's starting food value */
 		static const int START_FOOD = 1250;
+
+		/** Chance in to discover a nearby secret 
+		 *  with a search (out of 1).
+		 */
+		static constexpr float SEARCH_CHANCE = .4;
+		
+		/** Distance (taxicab) the player searches
+		 *  when looking for secrets.
+		 */
+		static constexpr int SEARCH_RADIUS = 2;
 };

@@ -9,6 +9,7 @@
 #pragma once
 
 #include "coord.h"
+#include "../libtcod/include/libtcod.hpp"
 
 /** Represents a tile in the dungeon. */
 class Terrain {
@@ -23,6 +24,8 @@ class Terrain {
 		enum Mapped {Seen, UnSeen};
 		/** Constructor. */
 		Terrain(char, Visibility, Passability);
+		/** Alternative constructor for tiles with a specific color. */
+		Terrain(char, Visibility, Passability, TCODColor);
 		/** Getter for character.
 		 * @see character
 		 */
@@ -31,6 +34,10 @@ class Terrain {
 		 * @see passable
 		 */
 		Passability isPassable();
+		/** Getter for foreground color.
+		 * @see color
+		 */
+		TCODColor getColor();
 		/** Getter for seen.
 		 * @see seen
 		 */
@@ -60,4 +67,6 @@ class Terrain {
 		Passability passable;
 		/** Whether the tile has been seen by the player. */
 		Mapped seen;
+		/** Color the tile will be displayed with (foreground). */
+		TCODColor color;
 };

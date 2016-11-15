@@ -13,10 +13,23 @@ Terrain::Terrain(char character, Terrain::Visibility vis, Terrain::Passability p
 	, visible(vis)
 	, passable(pass)
 	, seen(UnSeen)
+	, color(TCODColor::white)
+{}
+
+Terrain::Terrain(char character, Terrain::Visibility vis, Terrain::Passability pass, TCODColor col)
+	: character(character)
+	, visible(vis)
+	, passable(pass)
+	, seen(UnSeen)
+	, color(col)
 {}
 
 char Terrain::getSymbol() {
 	return character;
+}
+
+TCODColor Terrain::getColor() {
+	return color;
 }
 
 Terrain::Visibility Terrain::getVisibility() {

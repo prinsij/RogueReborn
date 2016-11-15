@@ -14,6 +14,7 @@
 #include "include/armor.h"
 #include "include/coord.h"
 #include "include/food.h"
+#include "include/globals.h"
 #include "include/item.h"
 #include "include/level.h"
 #include "include/mob.h"
@@ -65,7 +66,7 @@ void PlayerChar::applyCondition(PlayerChar::Condition condition, int turns) {
 		this->conditions[condition] = turns;
 	} else if (this->conditions[condition] > -1) {
 		this->conditions[condition] += turns;
-	}  
+	} 
 }
 
 void PlayerChar::attack(Monster* monster) {
@@ -74,13 +75,18 @@ void PlayerChar::attack(Monster* monster) {
 			this->appendLog("You hit the " + monster->getName());
 
 			int damage = this->calculateDamage();
-			if (monster->isAwake()) damage += 4;
+			if (!monster->isAwake()) damage += 4;
+			else if (monster->hasFlag(Monster::FROZEN)) damage += 2;
 
 			monster->hit(damage);
 
 			if (monster->isDead()) {
 				this->appendLog("You have defeated the " + monster->getName());
 				this->addExp(monster->getExperience());
+			}
+
+			if (this->hasCondition(CONFUSE_MONSTER)) {
+				monster->addFlag(Monster::CONFUSED);
 			}
 		} else {
 			this->appendLog("You missed the " + monster->getName());
@@ -173,6 +179,17 @@ bool PlayerChar::dropItem(Item* item, Level* level) {
 	return true;
 }
 
+void PlayerChar::dropLevel() {
+	this->exp = levelExpBounds[this->level - 2];
+	this->level--;
+	this->appendLog("Welcome to level " + std::to_string(this->level));
+	std::cout << "PlayerChar is now at level " << this->level << "\n";
+
+	int deltaHP = Generator::intFromRange(3, 9);
+	this->maxHP -= deltaHP;
+	this->currentHP = std::min(this->currentHP - deltaHP, this->maxHP);
+}
+
 void PlayerChar::eat(Food* food) {
 	std::cout << "PlayerChar Ate " << food->getName() << "\n";
 
@@ -205,11 +222,18 @@ void PlayerChar::equipWeapon(Weapon* weapon) {
 	this->itemWeapon = weapon;
 }
 
-Weapon* PlayerChar::getWeapon() {
-	if (itemWeapon != NULL) {
-		std::cout << "PlayerChar stowed weapon " + itemWeapon->getName() << "\n";
+Armor* PlayerChar::getArmor() {
+	return this->itemArmor;
+}
+
+int PlayerChar::getDelay() {
+	if (this->hasCondition(SLOWED) || this->hasCondition(FAINTING)) {
+		return SLOW_TIME;
+	} else if (this->hasCondition(HASTED)) {
+		return FAST_TIME;
+	} else {
+		return TURN_TIME;
 	}
-	return this->itemWeapon;
 }
 
 int PlayerChar::getDexterity() {
@@ -224,6 +248,14 @@ int PlayerChar::getGold() {
 	return this->gold;
 }
 
+float PlayerChar::getSearchChance() {
+	return SEARCH_CHANCE;
+}
+
+int PlayerChar::getSearchRadius() {
+	return SEARCH_RADIUS;
+}
+
 ItemZone& PlayerChar::getInventory() {
 	return this->inventory;
 }
@@ -235,6 +267,11 @@ int PlayerChar::getLevel() {
 std::vector<std::string>& PlayerChar::getLog() {
 	return this->log;
 }
+
+std::pair<Ring*, Ring*> PlayerChar::getRings() {
+	return std::make_pair(this->itemRingLeft, this->itemRingRight);
+}
+
 
 int PlayerChar::getStrength() {
 	return this->currentStr;
@@ -248,6 +285,13 @@ int PlayerChar::getSightRadius() {
  	return PlayerChar::SIGHT_RADIUS;
 }
 
+Weapon* PlayerChar::getWeapon() {
+	if (itemWeapon != NULL) {
+		std::cout << "PlayerChar stowed weapon " + itemWeapon->getName() << "\n";
+	}
+	return this->itemWeapon;
+}
+
 bool PlayerChar::hasAmulet() {
 	return this->inventory.contains("The Amulet of Yendor");
 }
@@ -256,10 +300,34 @@ bool PlayerChar::hasCondition(PlayerChar::Condition condition) {
 	return this->conditions.find(condition) != this->conditions.end();
 }
 
-void PlayerChar::move(Coord location, Level* level) {
+void PlayerChar::hit(int damage) {
+	int effectiveArmor = this->getArmorRating();
+	int deltaHP = std::max(1, static_cast<int>(damage - (damage * 3.00 * effectiveArmor)/100.00));
+
+	this->currentHP -= deltaHP;
+
+	if (this->currentHP <= 0) {
+		this->dead = true;
+	} else if (!this->hasCondition(MAINTAIN_ARMOR) && Generator::intFromRange(0, 99) <= 10) {
+		this->armor = std::max(1, this->armor - 1); 
+	}
+}
+
+bool PlayerChar::move(Coord location, Level* level) {
 	if (this->hasCondition(IMMOBILIZED)) {
 		this->appendLog("You are being held");
-		return;
+		return false;
+	} else if (this->hasCondition(RANDOM_TELEPORTATION) && this->moves % 80 == 0) {
+		// TODO
+		
+		return true;
+	}
+
+	// Confusion
+	if (this->hasCondition(CONFUSED)) {
+		std::vector<Coord> adjacentTiles = level->getAdjPassable(location);
+		this->setLocation(adjacentTiles[Generator::intFromRange(0, adjacentTiles.size() - 1)]);
+		return true;
 	}
 
 	this->setLocation(location);
@@ -271,9 +339,8 @@ void PlayerChar::move(Coord location, Level* level) {
 		Mob* mob = level->monsterAt(*it);
 		if (mob) {
 			Monster* monster = dynamic_cast<Monster*>(mob);
-
 			if (monster && !monster->isAwake()) {
-				float wakePercent = 45/(3 + (this->hasCondition(STEALTHY) ? 1 : 0));
+				int wakePercent = static_cast<int>(45/(3 + (this->hasCondition(STEALTHY) ? 1 : 0)));
 				monster->setAwake(Generator::intFromRange(0,99) <= wakePercent);
 			}
 		}
@@ -294,6 +361,8 @@ void PlayerChar::move(Coord location, Level* level) {
 			this->currentHP = std::min(this->currentHP, this->maxHP);
 		}
 	}
+
+	return true;
 }
 
 void PlayerChar::pickupItem(Item* item) {
@@ -346,6 +415,10 @@ void PlayerChar::removeCondition(PlayerChar::Condition condition) {
 			this->appendLog("The veil of darkness lifts");
 		} else if (condition == PlayerChar::HALLUCINATING) {
 			this->appendLog("Everything looks SO boring now");
+		} else if (condition == PlayerChar::FAINTING) {
+			this->appendLog("You can move again");
+		} else if (condition == PlayerChar::LEVITATING) {
+			this->appendLog("You float gently to the ground");
 		}
 	}	
 
@@ -431,6 +504,10 @@ void PlayerChar::setFoodLife(int foodLife) {
 	}
 }
 
+void PlayerChar::setGold(int gold) {
+	this->gold = gold;
+}
+
 void PlayerChar::setStrength(int strength) {
 	this->currentStr = strength;
 }
@@ -445,7 +522,7 @@ bool PlayerChar::throwItem(Item* item) {
 	return true;
 }
 
-void PlayerChar::update() {
+int PlayerChar::update() {
 	int foodDecrement = -1;
 	
 	if (this->itemRingLeft && this->itemRingRight) {
@@ -461,7 +538,26 @@ void PlayerChar::update() {
 		if (it->second > -1) {
 			it->second--;
 		}
+
+		if (it->second == 0) {
+			this->removeCondition(it->first);
+		}
 	}
+
+	if (!this->isDead() && !this->hasCondition(SLEEPING)) {
+		if (this->foodStatus == FoodStates::FAINT) {
+			if (Generator::intFromRange(0, 20 - this->foodLife) > 0) {
+				this->appendLog("You feel very weak.  You faint from the lack of food");
+				this->applyCondition(FAINTING, 1);
+
+				if (Generator::intFromRange(0, 99) <= 40) {
+					this->foodLife ++;
+				} 
+			}
+		}
+	}
+
+	return this->getDelay();
 }
 
 bool PlayerChar::zap(Wand* wand, Level* level) {
@@ -469,9 +565,8 @@ bool PlayerChar::zap(Wand* wand, Level* level) {
 
 	std::cout << "PlayerChar Zapped with Wand " << wand->getName() << "\n";
 
-	wand->activate(level);
-
 	// TODO
+	// Mob* mob = ...
 
-	return true;
+	return wand->activate(level, NULL);
 }

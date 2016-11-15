@@ -16,7 +16,10 @@
 #include "include/food.h"
 #include "include/potion.h"
 #include "include/weapon.h"
+#include "include/armor.h"
+#include "include/scroll.h"
 #include "include/globals.h"
+#include "include/ring.h"
 #include "include/goldpile.h"
 #include "include/helpscreen.h"
 #include "include/invscreen.h"
@@ -52,21 +55,36 @@ class QuitPrompt2 : public PlayState {
 		}
 };
 
-class QuickDrop : public PlayState {
+class RingRemovePrompt : public PlayState {
 	public:
-		QuickDrop(PlayerChar* player, Level* level, Item* item)
+		RingRemovePrompt(PlayerChar* player, Level* level)
 			: PlayState(player, level)
-			, item(item)
 		{}
+
 		virtual UIState* handleInput(TCOD_key_t key) {
-			item->setContext(Item::FLOOR);
-			player->getInventory().remove(item);
-			item->setLocation(player->getLocation());
-			level->addFeature(item);
-			return new PlayState(player, level);
+			if (key.c == 'r' || key.c == 'R') {
+				auto ring = player->getRings().second;
+				if (player->removeRingRight()) {
+					player->getInventory().add(*ring);
+					player->appendLog("You take off the " + ring->getDisplayName());
+				}
+				return new PlayState(player, level);
+			}
+			if (key.c == 'l' || key.c == 'L') {
+				auto ring = player->getRings().first;
+				if (player->removeRingLeft()) {
+					player->getInventory().add(*ring);
+					player->appendLog("You take off the " + ring->getDisplayName());
+				}
+				return new PlayState(player, level);
+			}
+			return this;
 		}
-	private:
-		Item* item;
+
+		virtual void draw(TCODConsole* con) {
+			PlayState::draw(con);
+			con->print(PROMPTX, PROMPTY, std::string("Which ring to remove (R/L) ?").c_str());
+		}
 };
 
 class QuickThrow : public PlayState {
@@ -115,68 +133,32 @@ class QuickThrow : public PlayState {
 		Coord direction;
 };
 
-class QuickEat : public PlayState {
+template<typename T>
+class QuickUse : public PlayState {
 	public:
-		QuickEat(PlayerChar* player, Level* level, Item* item)
+		QuickUse<T>(PlayerChar* player, Level* level, Item* item,
+					std::function<void(T*)> makeUseOf, bool del=true)
 			: PlayState(player, level)
 			, item(item)
+			, makeUseOf(makeUseOf)
+			, deleteAfter(del)
 		{}
 
 		virtual UIState* handleInput(TCOD_key_t key) {
-			auto food = dynamic_cast<Food*>(item);
-			if (food != NULL) {
-				player->eat(food);
-				delete food;
+			T* usable = dynamic_cast<T*>(item);
+			if (usable != NULL) {
+				makeUseOf(usable);
+				player->getInventory().remove(usable);
+				if (deleteAfter) delete usable;
 			} else {
-				assert (false && "not eating non-edible");
+				assert (false && "attempted to activate non-activatable");
 			}
 			return new PlayState(player, level);
 		}
 	private:
 		Item* item;
-};
-
-class QuickQuaff : public PlayState {
-	public:
-		QuickQuaff(PlayerChar* player, Level* level, Item* item)
-			: PlayState(player, level)
-			, item(item)
-		{}
-
-		virtual UIState* handleInput(TCOD_key_t key) {
-			auto pot = dynamic_cast<Potion*>(item);
-			if (pot != NULL) {
-				pot->activate(player);
-				player->getInventory().remove(pot);
-				delete pot;
-			} else {
-				assert (false && "tried to quaff non-potion");
-			}
-			return new PlayState(player, level);
-		}
-	private:
-		Item* item;
-};
-
-class QuickWield : public PlayState {
-	public:
-		QuickWield(PlayerChar* player, Level* level, Item* item)
-			: PlayState(player, level)
-			, item(item)
-		{}
-
-		virtual UIState* handleInput(TCOD_key_t key) {
-			Weapon* weap = dynamic_cast<Weapon*>(item);
-			if (weap != NULL) {
-				player->getInventory().remove(weap);
-				player->equipWeapon(weap);
-			} else {
-				assert (false && "tried to equip non-weapon");
-			}
-			return new PlayState(player, level);
-		}
-	private:
-		Item* item;
+		std::function<void(T*)> makeUseOf;
+		bool deleteAfter;
 };
 
 class ThrowDirectionState : public PlayState {
@@ -218,70 +200,78 @@ class ThrowDirectionState : public PlayState {
 PlayState::PlayState(PlayerChar* play, Level* lvl)
 	: player(play)
 	, level(lvl)
+	, currRoom(NULL)
 {
 	currRoom = updateMap();
 }
 
 Room* PlayState::updateMap() {
-
 	for (auto x=-1; x < 2; x++) {
 		for (auto y=-1; y < 2; y++) {
 			(*level)[player->getLocation()+Coord(x,y)].setIsSeen(Terrain::Seen);
 		}
 	}
+	Room* result = NULL;
 	for (auto& room : level->getRooms()) {
 		if (room.contains(player->getLocation(), 1)) {
-			for (auto x=room.getPosition1()[0]-1; x < room.getPosition2()[0]+2; x++) {
-				for (auto y=room.getPosition1()[1]-1; y < room.getPosition2()[1]+2; y++) {
-					(*level)[Coord(x,y)].setIsSeen(Terrain::Seen);
-				}
-			}
-			// rooms can't overlap
-			return &room;
+			result = &room;
 		}
 	}
-	return NULL;
+	bool blinded = (result == NULL 
+ 		|| result->getDark() == Room::DARK
+ 		|| player->hasCondition(PlayerChar::BLIND));
+	if (!blinded) {
+		for (auto x=result->getPosition1()[0]-1; x < result->getPosition2()[0]+2; x++) {
+			for (auto y=result->getPosition1()[1]-1; y < result->getPosition2()[1]+2; y++) {
+				(*level)[Coord(x,y)].setIsSeen(Terrain::Seen);
+			}
+		}
+	}
+	return result;
 }
 
 void PlayState::draw(TCODConsole* con) {
 	// Draw terrain
-	int sightRadius = player->getSightRadius();
-	if (currRoom == NULL 
-		|| currRoom->getDark() == Room::DARK
-		|| player->hasCondition(PlayerChar::BLIND)) {
-		sightRadius = 1;
-	}
-	unsigned int hallucChar = time(NULL) % HALLUC_CHARS.size();
+	bool blinded = currRoom == NULL 
+ 		|| currRoom->getDark() == Room::DARK
+ 		|| player->hasCondition(PlayerChar::BLIND);
+ 	unsigned int hallucChar = time(NULL) % HALLUC_CHARS.size();
 	for (auto x=0; x < level->getSize()[0]; x++) {
 		for (auto y=0; y < level->getSize()[1]; y++) {
 			auto mapPos = Coord(x, y);
 			Terrain& ter = (*level)[mapPos];
 			if (ter.isSeen() == Terrain::Seen) {
 				auto scrPos = mapPos.asScreen();
-				con->putChar(scrPos[0], scrPos[1], (*level)[mapPos].getSymbol());
+				Terrain& terrain = (*level)[mapPos];
+				con->putChar(scrPos[0], scrPos[1], terrain.getSymbol());
+				bool hasFeat = false;
 				for (Feature* feat : level->getFeatures()) {
-					if (feat->getLocation() == mapPos) {
+					if (feat->getLocation() == mapPos && feat->getVisible()) {
 						con->putChar(scrPos[0], scrPos[1], feat->getSymbol());
+						hasFeat = true;
 					}
 				}
+				if (!hasFeat) {
+					con->setCharForeground(scrPos[0], scrPos[1], terrain.getColor());
+				}
 				// Previously but not currently seen
-				if (mapPos.distanceTo(player->getLocation()) > sightRadius &&
-					(currRoom == NULL || !currRoom->contains(mapPos, 1))) {
-					con->setCharForeground(scrPos[0], scrPos[1], TCODColor::grey);
+				if (mapPos.distanceTo(player->getLocation()) > 1
+						&& (blinded || currRoom == NULL || !currRoom->contains(mapPos, 1))) {
+					con->setCharForeground(scrPos[0], scrPos[1], terrain.getColor()*.5);
 				// Currently in view
 				} else {
 					if (player->hasCondition(PlayerChar::HALLUCINATING)) {
-						for (Mob* mob : level->getMobs()) {
-							if (mob->getLocation() == mapPos) {
-								con->putChar(scrPos[0], scrPos[1], HALLUC_CHARS[hallucChar]);
-								hallucChar = hallucChar < HALLUC_CHARS.size() ? hallucChar+1 : 0;
-							}
-						}
-					} else {
-						for (Mob* mob : level->getMobs()) {
-							if (mob->getLocation() == mapPos) {
-								con->putChar(scrPos[0], scrPos[1], mob->getSymbol());
-							}
+ 						for (Mob* mob : level->getMobs()) {
+ 							if (mob->getLocation() == mapPos) {
+ 								con->putChar(scrPos[0], scrPos[1], HALLUC_CHARS[hallucChar]);
+ 								hallucChar = hallucChar < HALLUC_CHARS.size() ? hallucChar+1 : 0;
+ 							}
+ 						}
+ 					} else {
+ 						for (Mob* mob : level->getMobs()) {
+ 							if (mob->getLocation() == mapPos) {
+ 								con->putChar(scrPos[0], scrPos[1], mob->getSymbol());
+ 							}
 						}
 					}
 				}
@@ -298,7 +288,24 @@ void PlayState::draw(TCODConsole* con) {
 	"  Hits:"+std::to_string(player->getHP())+"("+std::to_string(player->getMaxHP())+")"+
 	"  Str:"+std::to_string(player->getStrength())+"("+std::to_string(player->getMaxStrength())+")"+
 	"  Gold:"+std::to_string(player->getGold())+
-	"  Armor:"+std::to_string(player->getArmor())).c_str());
+	"  Armor:"+std::to_string(player->getArmorRating())).c_str());
+}
+
+template<typename T>
+UIState* PlayState::attemptUse(std::string error, std::function<bool(Item*)> filter, 
+								std::function<void(T*)> makeUseOf) {
+	for (auto pair : player->getInventory().getContents()) {
+		if (filter(pair.second.front())) {
+			level->pushMob(player, TURN_TIME);
+			return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<T*>(i)!=NULL;},
+											[makeUseOf] (Item* i, PlayerChar* p, Level* l) {
+												return new QuickUse<T>(p, l, i, makeUseOf);
+											},
+											true);
+		}
+	}
+	player->appendLog(error);
+	return this;
 }
 
 UIState* PlayState::handleInput(TCOD_key_t key) {
@@ -347,6 +354,20 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		player->update();
 		return this;
 	}
+	if (key.c == 's') {
+		level->pushMob(player, TURN_TIME);
+		player->appendLog("You search your surroundings for traps");
+		for (Feature* feat : level->getFeatures()) {
+			if (!feat->getVisible()
+					&& player->getLocation().distanceTo(feat->getLocation())
+					   < player->getSearchRadius()
+					&& Generator::rand() <= player->getSearchChance()) {
+				feat->setVisible(true);
+				player->appendLog("You uncover a secret");
+			}
+		}
+		return this;
+	}
 	// drop item
 	if (key.c == 'd') {
 		if (player->getInventory().getSize() <= 0) {
@@ -360,50 +381,155 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 				goto no_drop;
 			}
 		}
+		level->pushMob(player, TURN_TIME);
 		return new InvScreen(player, level, [] (Item*) {return true;},
 											[] (Item* i, PlayerChar* p, Level* l) {
-													return new QuickDrop(p, l, i);
-												},
-												false);
-	}
-	no_drop:;
-	if (key.c == 'q') {
-		bool canQuaff = false;
-		for (auto pair : player->getInventory().getContents()) {
-			Potion* pot = dynamic_cast<Potion*>(pair.second.front());
-			if (pot != NULL) {
-				canQuaff = true;
-				break;
-			}
-		}
-		if (canQuaff) {
-			return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Potion*>(i)!=NULL;},
-												[] (Item* i, PlayerChar* p, Level* l) {
-													return new QuickQuaff(p, l, i);
+												return new QuickUse<Item>(p, l, i,
+													[p, l] (Item* i) {
+														i->setContext(Item::FLOOR);
+														p->getInventory().remove(i);
+														i->setLocation(p->getLocation());
+														l->addFeature(i);
+													}, 
+													false);
 												},
 												true);
-		} else {
-			player->appendLog("You have nothing you can drink");
-		}
+	}
+	no_drop:;
+	// Quaff
+	if (key.c == 'q') {
+		auto temp = player;
+		return attemptUse<Potion>("You have nothing you can quaff", 
+						[] (Item* i) {return dynamic_cast<Potion*>(i)!=NULL;},
+						[temp] (Potion* p) {p->activate(temp);});
+	}
+	// Read scroll
+	if (key.c == 'r') {
+		auto temp = level;
+		return attemptUse<Scroll>("You have nothing you can read",
+						[] (Item* i) {return dynamic_cast<Scroll*>(i)!=NULL;},
+						[temp] (Scroll* s) {s->activate(temp);});
 	}
 	// wield weapon
 	if (key.c == 'w') {
-		bool canWield = false;
 		for (auto pair : player->getInventory().getContents()) {
 			Weapon* weap = dynamic_cast<Weapon*>(pair.second.front());
 			if (weap != NULL) {
-				canWield = true;
-				break;
+				level->pushMob(player, TURN_TIME);
+				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Weapon*>(i)!=NULL;},
+											[] (Item* i, PlayerChar* p, Level* l) {
+												return new QuickUse<Weapon>(p, l, i, 
+																		[p] (Weapon* w) {
+																			p->equipWeapon(w);
+																			p->getInventory().remove(w);
+																		}, false);
+											},
+											true);
 			}
 		}
-		if (canWield) {
-			return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Weapon*>(i)!=NULL;},
-												[] (Item* i, PlayerChar* p, Level* l) {
-													return new QuickWield(p, l, i);
-												},
-												true);
+		player->appendLog("You have nothing you can wield");
+		return this;
+	}
+	// Wear armor
+	if (key.c == 'W') {
+		for (auto pair : player->getInventory().getContents()) {
+			Armor* armor = dynamic_cast<Armor*>(pair.second.front());
+			if (armor != NULL) {
+				level->pushMob(player, TURN_TIME);
+				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Armor*>(i)!=NULL;},
+											[] (Item* i, PlayerChar* p, Level* l) {
+												return new QuickUse<Armor>(p, l, i, 
+																		[p] (Armor* a) {
+																			p->equipArmor(a);
+																			p->getInventory().remove(a);
+																		}, false);
+											},
+											true);
+			}
+		}
+		player->appendLog("You have nothing you can wear");
+		return this;
+	}
+	// Take off armor
+	if (key.c == 'T') {
+		auto armor = player->getArmor();
+		// check for curses TODO
+		if (armor != NULL) {
+			level->pushMob(player, TURN_TIME);
+			if (player->removeArmor()) {
+				player->getInventory().add(*armor);
+				player->appendLog("You take off the " + armor->getDisplayName());
+			} else {
+				player->appendLog("You cannot remove the " + armor->getDisplayName());
+			}
+			return this;
 		} else {
-			player->appendLog("You have nothing you can wield");
+			player->appendLog("you are not wielding anything");
+		}
+	}
+	// Remove ring
+	if (key.c == 'R') {
+		auto rings = player->getRings();
+		if (rings.first == NULL && rings.second == NULL) {
+			player->appendLog("You are not wearing any rings");
+			return this;
+		}
+		level->pushMob(player, TURN_TIME);
+		if (rings.first == NULL) {
+			auto ring = rings.second;
+			if (player->removeRingRight()) {
+				player->getInventory().add(*ring);
+				player->appendLog("You take off the " + ring->getDisplayName());
+			}
+		} else if (rings.second == NULL) {
+			auto ring = rings.first;
+			if (player->removeRingLeft()) {
+				player->getInventory().add(*ring);
+				player->appendLog("You take off the " + ring->getDisplayName());
+			}
+		} else {
+			return new RingRemovePrompt(player, level);
+		}
+	}
+	if (key.c == 'P') {
+		auto rings = player->getRings();
+		if (rings.first != NULL && rings.second != NULL) {
+			player->appendLog("You have no more fingers");
+			return this;
+		} else {
+			bool hasRing = false;
+			for (auto pair : player->getInventory().getContents()) {
+				Ring* ring = dynamic_cast<Ring*>(pair.second.front());
+				if (ring != NULL) {
+					hasRing = true;
+				}
+			}
+			if (!hasRing) {
+				player->appendLog("You have nothing to put on your finger(s)");
+				return this;
+			}
+			level->pushMob(player, TURN_TIME);
+			if (rings.first == NULL) {
+				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Ring*>(i)!=NULL;},
+											[] (Item* i, PlayerChar* p, Level* l) {
+												return new QuickUse<Ring>(p, l, i, 
+																		[p] (Ring* r) {
+																			p->equipRingLeft(r);
+																			p->getInventory().remove(r);
+																		}, false);
+											},
+											true);
+			} else {
+				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Ring*>(i)!=NULL;},
+											[] (Item* i, PlayerChar* p, Level* l) {
+												return new QuickUse<Ring>(p, l, i, 
+																		[p] (Ring* r) {
+																			p->equipRingRight(r);
+																			p->getInventory().remove(r);
+																		}, false);
+											},
+											true);
+			}
 		}
 	}
 	// stow weapon
@@ -411,9 +537,14 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		auto weap = player->getWeapon();
 		// check for curses TODO
 		if (weap != NULL) {
-			player->appendLog("You stow the " + weap->getDisplayName());
-			player->removeWeapon();
-			player->getInventory().add(*weap);
+			level->pushMob(player, TURN_TIME);
+			if (player->removeWeapon()) {
+				player->getInventory().add(*weap);
+				player->appendLog("You stow the " + weap->getDisplayName());
+			} else {
+				player->appendLog("You cannot loosen your grip on the " + weap->getDisplayName());
+			}
+			return this;
 		} else {
 			player->appendLog("you are not wielding anything");
 		}
@@ -428,6 +559,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			}
 		}
 		if (canThrow) {
+			level->pushMob(player, TURN_TIME);
 			return new ThrowDirectionState(player, level);
 		} else {
 			player->appendLog("You have nothing you can throw");
@@ -435,23 +567,10 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	}
 	// eat food
 	if (key.c == 'e') {
-		bool canEat = false;
-		for (auto pair : player->getInventory().getContents()) {
-			auto food = dynamic_cast<Food*>(pair.second.front());
-			if (food != NULL) {
-				canEat = true;
-				break;
-			}
-		}
-		if (canEat) {
-			return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Food*>(i) != NULL;},
-												[] (Item* i, PlayerChar* p, Level* l) {
-													return new QuickEat(p, l, i);
-												},
-												true);
-		} else {
-			player->appendLog("You have nothing you can eat");
-		}
+		auto temp = player;
+		return attemptUse<Food>("You have nothing you can eat",
+						[] (Item* i) {return dynamic_cast<Food*>(i)!=NULL;},
+						[temp] (Food* f) {temp->eat(f);});
 	}
 	if (key.c == '<' || key.c == '>') {
 		for (Feature* feat : level->getFeatures()) {

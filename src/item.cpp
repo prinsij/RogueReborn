@@ -8,6 +8,7 @@
 
 #include <algorithm>
 #include <map>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -42,12 +43,24 @@ bool Item::operator<(const Item& other) const {
 	return this->name.compare(other.name) < 0;
 }
 
+void Item::applyEffect(Item::Effect effect) {
+	this->effects.insert(effect);
+}
+
 std::string Item::getClassName() {
 	return this->className;
 }
 
 Item::Context Item::getContext() {
 	return this->context;
+}
+
+bool Item::hasEffect(Item::Effect effect) {
+	return this->effects.find(effect) != this->effects.end();
+}
+
+bool Item::isCursed() {
+	return this->hasEffect(Item::CURSED);
 }
 
 void Item::setContext(Item::Context newContext) {
@@ -80,6 +93,10 @@ bool Item::isStackable() {
 
 bool Item::isThrowable() {
 	return this->canThrow;
+}
+
+void Item::removeEffect(Item::Effect effect) {
+	this->effects.erase(effect);
 }
 
 void Item::setIdentified(bool newValue) {

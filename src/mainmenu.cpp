@@ -15,6 +15,8 @@
 #include "include/playstate.h"
 #include "include/uistate.h"
 #include "include/weapon.h"
+#include "include/food.h"
+#include "include/potion.h"
 #include "libtcod/include/libtcod.hpp"
 
 MainMenu::MainMenu()
@@ -55,8 +57,10 @@ UIState* MainMenu::handleInput(TCOD_key_t key) {
 void MainMenu::setupPlayer(PlayerChar* player) {
 	Weapon* weapon = new Weapon(player->getLocation(), Item::Context::INVENTORY, 5);
 	weapon->setEnchantments(1, 1);
-
-	Item* item = dynamic_cast<Item*> (weapon);
-	player->pickupItem(item);
+	player->pickupItem(weapon);
 	player->equipWeapon(weapon);
+	player->getInventory().remove(weapon);
+	player->pickupItem(new Food(Coord(0,0), Item::Context::INVENTORY));
+	player->pickupItem(new Food(Coord(0,0), Item::Context::INVENTORY));
+	player->pickupItem(new Potion(Coord(0,0)));
 }

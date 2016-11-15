@@ -6,6 +6,7 @@
  * @brief Member definitions for the Trap class
  */ 
 
+#include "include/armor.h"
 #include "include/coord.h"
 #include "include/feature.h"
 #include "include/playerchar.h"
@@ -14,9 +15,9 @@
 #include "include/level.h"
 
 Trap::Trap(Coord location, unsigned char type, bool visible)
-	: Feature('^', location),
-	  type(type),
-	  visible(true) {}
+	: Feature('^', location, visible)
+	, type(type)
+ {}
 
 void Trap::activate(Mob* mob, Level* level) {
 	this->visible = true;
@@ -32,7 +33,7 @@ void Trap::activate(Mob* mob, Level* level) {
 
 	// Door Trap
 	if (this->type == 0) {
-		if (!player) return;
+		if (!player || player->hasCondition(PlayerChar::LEVITATING)) return;
 
 		int currDepth = level->getDepth();
 		player->appendLog("You fell down a trap, you are now in level " + std::to_string(currDepth+1));
@@ -52,7 +53,13 @@ void Trap::activate(Mob* mob, Level* level) {
 		if (player) {
 			player->appendLog("A gush of water hits you on the head");
 
-			// TODO
+			Armor* armor = player->getArmor();
+
+			if (armor == NULL || armor->getRating() == 1) return;
+	
+			if (!player->hasCondition(PlayerChar::MAINTAIN_ARMOR) && !armor->hasEffect(Item::PROTECTED)) {
+				armor->setEnchantment(armor->getEnchantment() - 1);
+			}
 		}
 
 	// Sleep Trap
@@ -64,7 +71,7 @@ void Trap::activate(Mob* mob, Level* level) {
 
 	// Bear Trap
 	} else if (this->type == 3) {
-		if (!player) return;
+		if (!player || player->hasCondition(PlayerChar::LEVITATING)) return;
 
 		player->appendLog("You are caught in a bear trap");
 		player->applyCondition(PlayerChar::IMMOBILIZED, Generator::intFromRange(4, 7));

@@ -16,6 +16,7 @@
 
 #include "include/coord.h"
 #include "include/feature.h"
+#include "include/armor.h"
 #include "include/food.h"
 #include "include/ring.h"
 #include "include/goldpile.h"
@@ -276,7 +277,7 @@ void Level::generate() {
 		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
 							  gen.intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
-			features.push_back(new Trap(randPos, 0, true));
+			features.push_back(new Trap(randPos, 0, false));
 			++i;
 		}
 	}
@@ -296,7 +297,16 @@ void Level::generate() {
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
 			features.push_back(new Ring(randPos));
 			++i;
-		}	
+		}
+	}
+	i = 0;
+	while (i < 15) {
+		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
+							  gen.intFromRange(0, Y_SIZE-1));
+		if (tileAt(randPos).isPassable() == Terrain::Passable) {
+			features.push_back(new Armor(randPos));
+			++i;
+		}
 	}
 	this->placePlayerInStartingPosition();
 	this->brother = this;
