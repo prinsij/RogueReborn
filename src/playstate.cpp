@@ -161,10 +161,11 @@ class QuickUse : public PlayState {
 		bool deleteAfter;
 };
 
-class ThrowDirectionState : public PlayState {
+class DirectionPrompt : public PlayState {
 	public:
-		ThrowDirectionState(PlayerChar* player, Level* level)
+		DirectionPrompt(PlayerChar* player, Level* level, std::function<UIState*(Coord)> makeUseOf)
 			: PlayState(player, level)
+			, makeUseOf(makeUseOf)
 		{}
 
 		virtual void draw(TCODConsole* con) {
@@ -186,15 +187,14 @@ class ThrowDirectionState : public PlayState {
 				return new PlayState(player, level);
 			}
 			if (direction != Coord(0, 0)) {
-				return new InvScreen(player, level, [] (Item* i) {return i->isThrowable();},
-													[=] (Item* i, PlayerChar* p, Level* l) {
-														return new QuickThrow(p, l, i, direction);
-													},
-													true);
+				return makeUseOf(direction);
+				;
 
 			}
 			return this;
 		}
+	private:
+		std::function<UIState*(Coord)> makeUseOf;
 };
 
 PlayState::PlayState(PlayerChar* play, Level* lvl)
@@ -560,7 +560,15 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		}
 		if (canThrow) {
 			level->pushMob(player, TURN_TIME);
-			return new ThrowDirectionState(player, level);
+			auto temp_p = player;
+			auto temp_l = level;
+			return new DirectionPrompt(player, level, [temp_p, temp_l] (Coord direction) {
+				return new InvScreen(temp_p, temp_l, [] (Item* i) {return i->isThrowable();},
+																	[direction] (Item* i, PlayerChar* p, Level* l) {
+																		return new QuickThrow(p, l, i, direction);
+																	},
+																	true);
+				});
 		} else {
 			player->appendLog("You have nothing you can throw");
 		}
