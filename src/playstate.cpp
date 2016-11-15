@@ -19,6 +19,7 @@
 #include "include/armor.h"
 #include "include/scroll.h"
 #include "include/globals.h"
+#include "include/ring.h"
 #include "include/goldpile.h"
 #include "include/helpscreen.h"
 #include "include/invscreen.h"
@@ -51,6 +52,38 @@ class QuitPrompt2 : public PlayState {
 		virtual void draw(TCODConsole* con) {
 			PlayState::draw(con);
 			con->print(PROMPTX, PROMPTY, std::string("Do you wish to end your quest now (Yes/No) ?").c_str());
+		}
+};
+
+class RingRemovePrompt : public PlayState {
+	public:
+		RingRemovePrompt(PlayerChar* player, Level* level)
+			: PlayState(player, level)
+		{}
+
+		virtual UIState* handleInput(TCOD_key_t key) {
+			if (key.c == 'r' || key.c == 'R') {
+				auto ring = player->getRings().second;
+				if (player->removeRingRight()) {
+					player->getInventory().add(*ring);
+					player->appendLog("You take off the " + ring->getDisplayName());
+				}
+				return new PlayState(player, level);
+			}
+			if (key.c == 'l' || key.c == 'L') {
+				auto ring = player->getRings().first;
+				if (player->removeRingLeft()) {
+					player->getInventory().add(*ring);
+					player->appendLog("You take off the " + ring->getDisplayName());
+				}
+				return new PlayState(player, level);
+			}
+			return this;
+		}
+
+		virtual void draw(TCODConsole* con) {
+			PlayState::draw(con);
+			con->print(PROMPTX, PROMPTY, std::string("Which ring to remove (R/L) ?").c_str());
 		}
 };
 
@@ -496,6 +529,31 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		} else {
 			player->appendLog("you are not wielding anything");
 		}
+	}
+	// Remove ring
+	if (key.c == 'R') {
+		auto rings = player->getRings();
+		if (rings.first == NULL && rings.second == NULL) {
+			player->appendLog("You are not wearing any rings");
+		} else {
+			level->pushMob(player, TURN_TIME);
+			if (rings.first == NULL) {
+				auto ring = rings.second;
+				if (player->removeRingRight()) {
+					player->getInventory().add(*ring);
+					player->appendLog("You take off the " + ring->getDisplayName());
+				}
+			} else if (rings.second == NULL) {
+				auto ring = rings.first;
+				if (player->removeRingLeft()) {
+					player->getInventory().add(*ring);
+					player->appendLog("You take off the " + ring->getDisplayName());
+				}
+			} else {
+				return new RingRemovePrompt(player, level);
+			}
+		}
+		return this;
 	}
 	// stow weapon
 	if (key.c == 'S') {
