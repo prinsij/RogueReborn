@@ -10,6 +10,7 @@
 #include <assert.h>
 #include <iostream>
 #include <string>
+#include <time.h>
 
 #include "include/feature.h"
 #include "include/food.h"
@@ -244,6 +245,13 @@ Room* PlayState::updateMap() {
 
 void PlayState::draw(TCODConsole* con) {
 	// Draw terrain
+	int sightRadius = player->getSightRadius();
+ 	if (currRoom == NULL 
+ 		|| currRoom->getDark() == Room::DARK
+ 		|| player->hasCondition(PlayerChar::BLIND)) {
+ 		sightRadius = 1;
+ 	}
+ 	unsigned int hallucChar = time(NULL) % HALLUC_CHARS.size();
 	for (auto x=0; x < level->getSize()[0]; x++) {
 		for (auto y=0; y < level->getSize()[1]; y++) {
 			auto mapPos = Coord(x, y);
@@ -268,9 +276,18 @@ void PlayState::draw(TCODConsole* con) {
 					con->setCharForeground(scrPos[0], scrPos[1], TCODColor::grey);
 				// Currently in view
 				} else {
-					for (Mob* mob : level->getMobs()) {
-						if (mob->getLocation() == mapPos) {
-							con->putChar(scrPos[0], scrPos[1], mob->getSymbol());
+					if (player->hasCondition(PlayerChar::HALLUCINATING)) {
+ 						for (Mob* mob : level->getMobs()) {
+ 							if (mob->getLocation() == mapPos) {
+ 								con->putChar(scrPos[0], scrPos[1], HALLUC_CHARS[hallucChar]);
+ 								hallucChar = hallucChar < HALLUC_CHARS.size() ? hallucChar+1 : 0;
+ 							}
+ 						}
+ 					} else {
+ 						for (Mob* mob : level->getMobs()) {
+ 							if (mob->getLocation() == mapPos) {
+ 								con->putChar(scrPos[0], scrPos[1], mob->getSymbol());
+ 							}
 						}
 					}
 				}
