@@ -44,9 +44,18 @@ class Ring : public Item {
 		 *
 		 * @param      level  Reference to the Level instance
 		 *
-		 * @return     A value reflecting the success of the activation operation.
+		 * @return	True if the operation was successful, False otherwise. 
 		 */
 		bool activate(Level*);
+
+		/**
+		 * @brief	Deactivates this Ring's effects on the PlayerChar.
+		 *
+		 * @param	player Reference to the player
+		 *
+		 * @return	True if the operation was successful, False otherwise.
+		 */ 
+		bool deactivate(PlayerChar*);
 
 	private:
 		/**

@@ -112,3 +112,53 @@ bool Ring::activate(Level* level) {
 
 	return true;
 }
+
+bool Ring::deactivate(PlayerChar* player) {
+	// Stealth
+	if (this->type == 0) {
+		player->removeCondition(PlayerChar::STEALTHY);
+
+	// Teleportation
+	} else if (this->type == 1) {
+		player->removeCondition(PlayerChar::RANDOM_TELEPORTATION);
+
+	// Regeneration
+	} else if (this->type == 2) {
+		player->removeCondition(PlayerChar::REGENERATION);
+
+	// Slow Digestion
+	} else if (this->type == 3) {
+		player->removeCondition(PlayerChar::DIGESTION);
+
+	// Add Strength
+	} else if (this->type == 4) {
+		int newStrength = std::min(player->getMaxStrength(), player->getStrength() - this->ringValue);
+		newStrength = std::max(newStrength, 1);
+		player->setStrength(newStrength);	
+
+	// Sustain Strength
+	} else if (this->type == 5) {
+		player->removeCondition(PlayerChar::SUSTAIN_STRENGTH);
+
+	// Dexterity
+	} else if (this->type == 6) {
+		player->setDexterity(player->getDexterity() - this->ringValue);	
+
+	// Adornment
+	} else if (this->type == 7) {
+
+	// See Invisible
+	} else if (this->type == 8) {
+		player->removeCondition(PlayerChar::SEE_INVISIBLE);
+
+	// Maintain Armor
+	} else if (this->type == 9) {
+		player->removeCondition(PlayerChar::MAINTAIN_ARMOR);
+
+	// Searching
+	} else if (this->type == 10) {
+		player->removeCondition(PlayerChar::SEARCH);
+	}
+
+	return true;
+}

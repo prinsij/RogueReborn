@@ -67,8 +67,10 @@ void PlayerChar::applyCondition(PlayerChar::Condition condition, int turns) {
 	if (this->conditions.find(condition) == this->conditions.end()) {
 		this->conditions[condition] = turns;
 	} else if (this->conditions[condition] > -1) {
-		this->conditions[condition] += turns;
-	} 
+		if (turns < 0) {
+			this->conditions[condition] += turns;
+		}
+	}
 }
 
 void PlayerChar::attack(Monster* monster) {
@@ -403,6 +405,11 @@ bool PlayerChar::removeArmor() {
 }
 
 void PlayerChar::removeCondition(PlayerChar::Condition condition) {
+	if (this->conditions[condition] < -1) {
+		this->conditions[condition] ++;
+		return;
+	}
+
 	if (this->hasCondition(condition)) {
 		if (condition == PlayerChar::BLIND) {
 			this->appendLog("The veil of darkness lifts");
@@ -426,6 +433,7 @@ bool PlayerChar::removeRingLeft() {
 	}
 	std::cout << "# PlayerChar Removed Left Ring " << this->itemRingLeft->getName() << "\n";
 
+	this->itemRingLeft->deactivate(this);
 	this->itemRingLeft = NULL;
 
 	return true;
@@ -440,6 +448,7 @@ bool PlayerChar::removeRingRight() {
 
 	std::cout << "# PlayerChar Removed Right Ring " << this->itemRingRight->getName() << "\n";
 
+	this->itemRingRight->deactivate(this);
 	this->itemRingRight = NULL;
 
 	return true;
