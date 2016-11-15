@@ -70,6 +70,8 @@ class RingRemovePrompt : public PlayState {
 				if (player->removeRingRight()) {
 					player->getInventory().add(*ring);
 					player->appendLog("You take off the " + ring->getDisplayName());
+				} else {
+					player->appendLog("The " + ring->getDisplayName() + " tightens its grip on your finger");
 				}
 				return new PlayState(player, level);
 			}
@@ -78,6 +80,8 @@ class RingRemovePrompt : public PlayState {
 				if (player->removeRingLeft()) {
 					player->getInventory().add(*ring);
 					player->appendLog("You take off the " + ring->getDisplayName());
+				} else {
+					player->appendLog("The " + ring->getDisplayName() + " tightens its grip on your finger");
 				}
 				return new PlayState(player, level);
 			}
@@ -551,6 +555,8 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			if (player->removeArmor()) {
 				player->getInventory().add(*armor);
 				player->appendLog("You take off the " + armor->getDisplayName());
+			} else {
+				player->appendLog("You cannot remove the " + armor->getDisplayName());
 			}
 			return this;
 		} else {
@@ -570,12 +576,16 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			if (player->removeRingRight()) {
 				player->getInventory().add(*ring);
 				player->appendLog("You take off the " + ring->getDisplayName());
+			} else {
+				player->appendLog("The " + ring->getDisplayName() + " tightens its grip on your finger");
 			}
 		} else if (rings.second == NULL) {
 			auto ring = rings.first;
 			if (player->removeRingLeft()) {
 				player->getInventory().add(*ring);
 				player->appendLog("You take off the " + ring->getDisplayName());
+			} else {
+				player->appendLog("The " + ring->getDisplayName() + " tightens its grip on your finger");
 			}
 		} else {
 			return new RingRemovePrompt(player, level);
@@ -635,6 +645,8 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			if (player->removeWeapon()) {
 				player->getInventory().add(*weap);
 				player->appendLog("You stow the " + weap->getDisplayName());
+			} else {
+				player->appendLog("You cannot loosen your grip on the " + weap->getDisplayName());
 			}
 			return this;
 		} else {
