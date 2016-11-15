@@ -6,8 +6,7 @@ TESTTARGET = Test.exe
 
 SRCS=amulet.cpp armor.cpp coord.cpp feature.cpp food.cpp goldpile.cpp helpscreen.cpp invscreen.cpp item.cpp itemzone.cpp level.cpp mainmenu.cpp mastercontroller.cpp mob.cpp monster.cpp playerchar.cpp playstate.cpp potion.cpp random.cpp ring.cpp ripscreen.cpp room.cpp scroll.cpp stairs.cpp terrain.cpp tiles.cpp trap.cpp tunnel.cpp uistate.cpp wand.cpp weapon.cpp logscreen.cpp
 SRCSMAIN=main.cpp
-
-TESTSRCS=test/test.armor.cpp test/test.main.cpp test/test.testable.cpp 
+TESTSRCS=test/test.armor.cpp test/test.main.cpp test/test.testable.cpp test/test.level.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 DEPS = $(SRCS:.cpp=.depends)

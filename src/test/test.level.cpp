@@ -6,8 +6,6 @@
  * @brief Global members
  */ 
 
-#pragma once
-
 #include <iostream>
 #include <string>
 #include <vector>
@@ -18,19 +16,20 @@
 
 class LevelTest : public Testable {
 	public:
-		LevelTest(){
-			std::cout << "# Creating level test" << std::endl;
-		}
+		LevelTest(){}
 
-		bool test(){
-			std::cout << "# Testing level!" << std::endl;
+		void test(){
+
+			comment("Testing level!");			
 
 			Coord pos  = Coord(0,0);
-
 			PlayerChar player = PlayerChar(pos, "test");
-
 			Level l = Level(1, &player);
+			Level* lp = &l;
 
-			return true;
+			assert(lp != nullptr, "Level pointer not null");
+
+			assert(true, "wow!");
+
 		}
 };
