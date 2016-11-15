@@ -221,6 +221,14 @@ int PlayerChar::getGold() {
 	return this->gold;
 }
 
+float PlayerChar::getSearchChance() {
+	return SEARCH_CHANCE;
+}
+
+int PlayerChar::getSearchRadius() {
+	return SEARCH_RADIUS;
+}
+
 ItemZone& PlayerChar::getInventory() {
 	return this->inventory;
 }

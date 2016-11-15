@@ -36,6 +36,13 @@ class Feature {
 		 * @see visible
 		 */
 		bool getVisible();
+		/** Setter for visibility.
+		 * @see visible
+		 */
+		void setVisible(bool);
+		/** Setter for location.
+		 * @see location
+		 */
 		void setLocation(Coord);
 		/** Destructor. */
 		virtual ~Feature();

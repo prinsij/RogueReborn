@@ -208,6 +208,23 @@ class PlayerChar : public Mob {
 		int getDexterity();
 
 		/**
+		 * @brief	Gets the PlayerChar's chance to reveal secrets.
+		 * @see		SEARCH_CHANCE
+		 *
+		 * @return	The chance out of 1 to reveal a secret when searching.
+		 */
+		float getSearchChance();
+
+		/**
+		 * @brief	Gets the PlayerChar's search radius.
+		 * see		SEARCH_RADIUS
+		 *
+		 * @return	Distance (taxicab) in which the player will
+		 *			spot secrets when searching.
+		 */
+		int getSearchRadius();
+
+		/**
 		 * @brief	Gets the PlayerChar's food life.
 		 *
 		 * @return	The PlayerChar's food life.
@@ -491,4 +508,14 @@ class PlayerChar : public Mob {
 
 		/** PlayerChar's starting food value */
 		static const int START_FOOD = 1250;
+
+		/** Chance in to discover a nearby secret 
+		 *  with a search (out of 1).
+		 */
+		static constexpr float SEARCH_CHANCE = .4;
+		
+		/** Distance (taxicab) the player searches
+		 *  when looking for secrets.
+		 */
+		static constexpr int SEARCH_RADIUS = 2;
 };

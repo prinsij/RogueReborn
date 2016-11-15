@@ -275,7 +275,7 @@ void Level::generate() {
 		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
 							  gen.intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
-			features.push_back(new Trap(randPos, 0, true));
+			features.push_back(new Trap(randPos, 0, false));
 			++i;
 		}
 	}

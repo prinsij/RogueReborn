@@ -352,6 +352,20 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		player->update();
 		return this;
 	}
+	if (key.c == 's') {
+		level->pushMob(player, TURN_TIME);
+		player->appendLog("You search your surroundings for traps");
+		for (Feature* feat : level->getFeatures()) {
+			if (!feat->getVisible()
+					&& player->getLocation().distanceTo(feat->getLocation())
+					   < player->getSearchRadius()
+					&& Generator::rand() <= player->getSearchChance()) {
+				feat->setVisible(true);
+				player->appendLog("You uncover a secret");
+			}
+		}
+		return this;
+	}
 	// drop item
 	if (key.c == 'd') {
 		if (player->getInventory().getSize() <= 0) {
@@ -365,6 +379,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 				goto no_drop;
 			}
 		}
+		level->pushMob(player, TURN_TIME);
 		return new InvScreen(player, level, [] (Item*) {return true;},
 											[] (Item* i, PlayerChar* p, Level* l) {
 													return new QuickDrop(p, l, i);
@@ -382,6 +397,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			}
 		}
 		if (canQuaff) {
+			level->pushMob(player, TURN_TIME);
 			return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Potion*>(i)!=NULL;},
 												[] (Item* i, PlayerChar* p, Level* l) {
 													return new QuickQuaff(p, l, i);
@@ -402,6 +418,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			}
 		}
 		if (canWield) {
+			level->pushMob(player, TURN_TIME);
 			return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Weapon*>(i)!=NULL;},
 												[] (Item* i, PlayerChar* p, Level* l) {
 													return new QuickWield(p, l, i);
@@ -416,9 +433,11 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		auto weap = player->getWeapon();
 		// check for curses TODO
 		if (weap != NULL) {
+			level->pushMob(player, TURN_TIME);
 			player->appendLog("You stow the " + weap->getDisplayName());
 			player->removeWeapon();
 			player->getInventory().add(*weap);
+			return this;
 		} else {
 			player->appendLog("you are not wielding anything");
 		}
@@ -433,6 +452,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			}
 		}
 		if (canThrow) {
+			level->pushMob(player, TURN_TIME);
 			return new ThrowDirectionState(player, level);
 		} else {
 			player->appendLog("You have nothing you can throw");
@@ -449,6 +469,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			}
 		}
 		if (canEat) {
+			level->pushMob(player, TURN_TIME);
 			return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Food*>(i) != NULL;},
 												[] (Item* i, PlayerChar* p, Level* l) {
 													return new QuickEat(p, l, i);

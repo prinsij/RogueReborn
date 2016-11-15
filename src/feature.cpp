@@ -23,6 +23,10 @@ bool Feature::getVisible() {
 	return this->visible;
 }
 
+void Feature::setVisible(bool newvis) {
+	this->visible = newvis;
+}
+
 Coord Feature::getLocation() {
 	return this->location;
 }
