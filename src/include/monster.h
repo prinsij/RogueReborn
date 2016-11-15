@@ -83,7 +83,7 @@ class Monster : public Mob {
 		 * 
 		 * @return The effective armor of this Monster.
 		 */
-		int getArmor();
+		int getArmorRating();
 
 		/**
 		 * @brief      Gets the carry chance of this Monster.

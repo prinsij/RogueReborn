@@ -39,11 +39,25 @@ class Armor : public Item {
 		Armor(Coord, Item::Context, int);
 
 		/**
+		 * @brief      Gets the enchantment.
+		 *
+		 * @return     The enchantment.
+		 */
+		int getEnchantment();
+
+		/**
 		 * @brief      Gets the rating.
 		 *
 		 * @return     The rating.
 		 */
 		int getRating();
+
+		/**
+		 * @brief      Sets this Armor's enchantment.
+		 *
+		 * @param[in]  enchantment New enchantment for this Armor.
+		 */
+		void setEnchantment(int);
 
 	private:
 		/**

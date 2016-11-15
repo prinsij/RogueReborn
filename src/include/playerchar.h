@@ -41,7 +41,8 @@ class PlayerChar : public Mob {
 		PlayerChar(Coord, std::string);
 
 		enum Condition {BLIND, 
-			CONFUSED, 
+			CONFUSED,
+			CONFUSE_MONSTER,
 			DETECT_MONSTER,
 			DETECT_OBJECTS,
 			DIGESTION,
@@ -193,11 +194,11 @@ class PlayerChar : public Mob {
 		void equipWeapon(Weapon*);
 
 		/**
-		 * @brief		Getter for currently equipped weapon.
+		 * @brief      Gets the equipped armor.
 		 *
-		 * @param		weapon Weapon player is wielding (maybe none)
+		 * @return     The armor the PlayerChar is wearing.
 		 */
-		Weapon* getWeapon();
+		Armor* getArmor();
 
 		/**
 		 * @brief	Gets the PlayerChar's dexterity.
@@ -235,6 +236,13 @@ class PlayerChar : public Mob {
 		int getLevel();
 
 		/**
+		 * @brief      Gets the references to the equipped Rings.
+		 *
+		 * @return     The references to the Rings.
+		 */
+		std::pair<Ring*, Ring*> getRings();
+
+		/**
 		 * @brief      Gets the PlayerChar's strength.
 		 *
 		 * @return     The PlayerChar's strength.
@@ -254,6 +262,13 @@ class PlayerChar : public Mob {
 		 * @return     The PlayerChar's sight radius.
 		 */
 		int getSightRadius();
+
+		/**
+		 * @brief		Getter for currently equipped weapon.
+		 *
+		 * @param		weapon Weapon player is wielding (maybe none)
+		 */
+		Weapon* getWeapon();
 
 		/**
 		 * @brief      Determines whether or not PlayerChar has the Amulet of Yendor.

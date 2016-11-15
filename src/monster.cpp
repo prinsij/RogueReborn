@@ -157,7 +157,7 @@ int Monster::calculateHitChance(PlayerChar* player) {
 	return chance;
 }
 
-int Monster::getArmor() {
+int Monster::getArmorRating() {
 	return 11 - this->armor;
 }
 
@@ -186,7 +186,7 @@ std::vector<char> Monster::getSymbolsForTreasure(int depth) {
 }
 
 bool Monster::hasFlag(Behaviour flag) {
-	return std::find(this->flags.begin(), this->flags.end(), AGGRESSIVE) != this->flags.end();
+	return std::find(this->flags.begin(), this->flags.end(), flag) != this->flags.end();
 }
 
 bool Monster::isAwake() {
@@ -194,7 +194,7 @@ bool Monster::isAwake() {
 }
 
 bool Monster::isVisible() {
-	return this->visible;
+	return this->hasFlag(INVISIBLE);
 }
 
 void Monster::relocate(Level* level) {

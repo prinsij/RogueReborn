@@ -10,10 +10,15 @@
 #include <string>
 #include <vector>
 
+#include "include/armor.h"
 #include "include/coord.h"
 #include "include/item.h"
+#include "include/level.h"
+#include "include/playerchar.h"
 #include "include/random.h"
+#include "include/ring.h"
 #include "include/scroll.h"
+#include "include/weapon.h"
 
 std::vector<SCROLL_TUPLE_TYPE > Scroll::typeVector = {
 	SCROLL_TUPLE_TYPE {"Scroll of Protect Armor"},
@@ -70,7 +75,117 @@ Scroll::Scroll(Coord location, Item::Context context, int type)
 	: Item('?', location, context, "Scroll", std::get<0>(Scroll::typeVector[type]), Scroll::nameVector[type], type, true, true) {}
 
 bool Scroll::activate(Level* level) {
-	// TODO
+	this->setIdentified(true);
+
+	PlayerChar* player = level->getPlayer();
+
+	// Protect Armor
+	if (this->type == 0) {
+		Armor* armor = player->getArmor();
+
+		if (armor == NULL) {
+			player->appendLog("Your acne seems to have disappeared");	
+		} else {
+			player->appendLog("Your armor is covered by a shimmering gold shield");	
+			armor->applyEffect(Item::PROTECTED);
+			armor->removeEffect(Item::CURSED);
+		}
+
+	// Hold Monster
+	} else if (this->type == 1) {
+		// TODO
+
+	// Enchant Weapon
+	} else if (this->type == 2) {
+		Weapon* weapon = player->getWeapon();
+
+		if (weapon == NULL) {
+			player->appendLog("Your hands tingle");	
+		} else {
+			std::string colour = Generator::randBool() ? "red" : "blue";
+			player->appendLog("Your hands glow " + colour + " for a moment");	
+			
+			std::pair<int,int> enchantments = weapon->getEnchantments();
+
+			if (Generator::randBool()) {
+				enchantments.first++;
+			} else {
+				enchantments.second++;
+			}
+
+			weapon->setEnchantments(enchantments.first, enchantments.second);
+			weapon->removeEffect(Item::CURSED);
+		}
+
+	// Enchant Armor
+	} else if (this->type == 3) {
+		Armor* armor = player->getArmor();
+
+		if (armor == NULL) {
+			player->appendLog("Your skin crawls");	
+		} else {
+			std::string colour = Generator::randBool() ? "red" : "blue";
+			player->appendLog("Your armor glows " + colour + " for a moment");
+
+			armor->setEnchantment(armor->getEnchantment() + 1);
+			armor->removeEffect(Item::CURSED);
+		}
+
+	// Identify
+	} else if (this->type == 4) {
+		player->appendLog("This is a scroll of identify");
+		// TODO
+
+	// Teleportation
+	} else if (this->type == 5) {
+		// TODO
+
+	// Sleep
+	} else if (this->type == 6) {
+		player->appendLog("Your fall asleep");
+		player->applyCondition(PlayerChar::SLEEPING, Generator::intFromRange(2, 5));
+
+	// Scare Monster
+	} else if (this->type == 7) {
+		player->appendLog("You hear a maniacal laughter in the distance");
+
+	// Remove Curse
+	} else if (this->type == 8) {
+		player->appendLog(player->hasCondition(PlayerChar::HALLUCINATING) ?
+			"You feel in touch with the universal oneness" :
+			"You feel as though someone is watching over you");
+
+		Armor* armor = player->getArmor();
+		Weapon* weapon = player->getWeapon();
+		std::pair<Ring*, Ring*> rings = player->getRings();
+
+		if (armor != NULL) armor->removeEffect(Item::CURSED);
+		if (weapon != NULL) weapon->removeEffect(Item::CURSED);
+		if (rings.first != NULL) rings.first->removeEffect(Item::CURSED);
+		if (rings.second != NULL) rings.second->removeEffect(Item::CURSED);
+
+	// Create Monster
+	} else if (this->type == 9) {
+		player->appendLog("You hear a faint cry of anguish in the distance");
+		// TODO
+
+	// Aggravate Monster
+	} else if (this->type == 10) {
+		player->appendLog("You hear a high pitched humming noise");
+		// TODO
+
+	// Magic Mapping
+	} else if (this->type == 11) {
+		player->appendLog("This scroll seems to have a map on it");
+		// TODO
+
+	// Confuse Monster
+	} else if (this->type == 12) {
+		std::string colour = Generator::randBool() ? "red" : "blue";
+		player->appendLog("Your armor glows " + colour + " for a moment");
+
+		player->applyCondition(PlayerChar::CONFUSE_MONSTER, -1);
+	}
 
 	return true;
 }

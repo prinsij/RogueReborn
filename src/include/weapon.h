@@ -55,6 +55,13 @@ class Weapon : public Item {
 		std::tuple<int, int, int> getDamage();
 
 		/**
+		 * @brief      Gets the enchantments.
+		 *
+		 * @return     The enchantments.
+		 */
+		std::pair<int,int> getEnchantments();
+
+		/**
 		 * @brief      Determines if this Weapon is a melee weapon.
 		 *
 		 * @return     True if melee, False otherwise.

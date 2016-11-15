@@ -103,7 +103,7 @@ bool Potion::activate(Mob* mob) {
 			ratio = std::max(static_cast<float>(0.33), ratio);
 			if (difference == 1) ratio *= 2;
 				int deltaHP = static_cast<int>(ratio*(mob->getMaxHP() - mob->getHP()));
-				mob->setCurrentHP(std::max(mob->getHP() + deltaHP, mob->getMaxHP()));
+				mob->setCurrentHP(std::min(mob->getHP() + deltaHP, mob->getMaxHP()));
 			}
 
 	// Poison

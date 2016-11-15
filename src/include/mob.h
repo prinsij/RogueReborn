@@ -41,7 +41,7 @@ class Mob {
 		/** Getter for armor.
 		 * @see armor
 		 */
-		virtual int getArmor();
+		virtual int getArmorRating();
 		/** Getter for XP.
 		 * @see exp
 		 */

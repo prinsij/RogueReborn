@@ -205,11 +205,8 @@ void PlayerChar::equipWeapon(Weapon* weapon) {
 	this->itemWeapon = weapon;
 }
 
-Weapon* PlayerChar::getWeapon() {
-	if (itemWeapon != NULL) {
-		std::cout << "PlayerChar stowed weapon " + itemWeapon->getName() << "\n";
-	}
-	return this->itemWeapon;
+Armor* PlayerChar::getArmor() {
+	return this->itemArmor;
 }
 
 int PlayerChar::getDexterity() {
@@ -236,6 +233,11 @@ std::vector<std::string>& PlayerChar::getLog() {
 	return this->log;
 }
 
+std::pair<Ring*, Ring*> PlayerChar::getRings() {
+	return std::make_pair(this->itemRingLeft, this->itemRingRight);
+}
+
+
 int PlayerChar::getStrength() {
 	return this->currentStr;
 }
@@ -246,6 +248,13 @@ int PlayerChar::getMaxStrength() {
 
 int PlayerChar::getSightRadius() {
  	return PlayerChar::SIGHT_RADIUS;
+}
+
+Weapon* PlayerChar::getWeapon() {
+	if (itemWeapon != NULL) {
+		std::cout << "PlayerChar stowed weapon " + itemWeapon->getName() << "\n";
+	}
+	return this->itemWeapon;
 }
 
 bool PlayerChar::hasAmulet() {
@@ -271,9 +280,8 @@ void PlayerChar::move(Coord location, Level* level) {
 		Mob* mob = level->monsterAt(*it);
 		if (mob) {
 			Monster* monster = dynamic_cast<Monster*>(mob);
-
 			if (monster && !monster->isAwake()) {
-				float wakePercent = 45/(3 + (this->hasCondition(STEALTHY) ? 1 : 0));
+				int wakePercent = static_cast<int>(45/(3 + (this->hasCondition(STEALTHY) ? 1 : 0)));
 				monster->setAwake(Generator::intFromRange(0,99) <= wakePercent);
 			}
 		}

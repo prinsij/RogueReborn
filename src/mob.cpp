@@ -39,7 +39,7 @@ int Mob::diceSum(int rolls, int faces) {
 	return sum;
 }
 
-int Mob::getArmor() {
+int Mob::getArmorRating() {
 	return armor;
 }
 
@@ -72,7 +72,7 @@ char Mob::getSymbol() {
 }
 
 void Mob::hit(int damage) {
-	int effectiveArmor = this->getArmor();
+	int effectiveArmor = this->getArmorRating();
 	int deltaHP = std::max(1, static_cast<int>(damage - (damage * 3.00 * effectiveArmor)/100.00));
 
 	this->currentHP -= deltaHP;
