@@ -16,6 +16,7 @@
 #include "include/food.h"
 #include "include/potion.h"
 #include "include/weapon.h"
+#include "include/scroll.h"
 #include "include/globals.h"
 #include "include/goldpile.h"
 #include "include/helpscreen.h"
@@ -136,26 +137,30 @@ class QuickEat : public PlayState {
 		Item* item;
 };
 
-class QuickQuaff : public PlayState {
+template<typename T>
+class QuickUse : public PlayState {
 	public:
-		QuickQuaff(PlayerChar* player, Level* level, Item* item)
+		QuickUse<T>(PlayerChar* player, Level* level, Item* item,
+					std::function<void(T*)> makeUseOf)
 			: PlayState(player, level)
 			, item(item)
+			, makeUseOf(makeUseOf)
 		{}
 
 		virtual UIState* handleInput(TCOD_key_t key) {
-			auto pot = dynamic_cast<Potion*>(item);
-			if (pot != NULL) {
-				pot->activate(player);
-				player->getInventory().remove(pot);
-				delete pot;
+			T* usable = dynamic_cast<T*>(item);
+			if (usable != NULL) {
+				makeUseOf(usable);
+				player->getInventory().remove(usable);
+				delete usable;
 			} else {
-				assert (false && "tried to quaff non-potion");
+				assert (false && "attempted to activate non-activatable");
 			}
 			return new PlayState(player, level);
 		}
 	private:
 		Item* item;
+		std::function<void(T*)> makeUseOf;
 };
 
 class QuickWield : public PlayState {
@@ -306,6 +311,23 @@ void PlayState::draw(TCODConsole* con) {
 	"  Armor:"+std::to_string(player->getArmorRating())).c_str());
 }
 
+template<typename T>
+UIState* PlayState::attemptUse(std::string error, std::function<bool(Item*)> filter, 
+								std::function<void(T*)> makeUseOf) {
+	for (auto pair : player->getInventory().getContents()) {
+		if (filter(pair.second.front())) {
+			level->pushMob(player, TURN_TIME);
+			return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<T*>(i)!=NULL;},
+											[makeUseOf] (Item* i, PlayerChar* p, Level* l) {
+												return new QuickUse<T>(p, l, i, makeUseOf);
+											},
+											true);
+		}
+	}
+	player->appendLog(error);
+	return this;
+}
+
 UIState* PlayState::handleInput(TCOD_key_t key) {
 	// Perform AI turns until it's the player's go
 	int numAIGone = 0;
@@ -387,25 +409,19 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 												false);
 	}
 	no_drop:;
+	// Quaff
 	if (key.c == 'q') {
-		bool canQuaff = false;
-		for (auto pair : player->getInventory().getContents()) {
-			Potion* pot = dynamic_cast<Potion*>(pair.second.front());
-			if (pot != NULL) {
-				canQuaff = true;
-				break;
-			}
-		}
-		if (canQuaff) {
-			level->pushMob(player, TURN_TIME);
-			return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Potion*>(i)!=NULL;},
-												[] (Item* i, PlayerChar* p, Level* l) {
-													return new QuickQuaff(p, l, i);
-												},
-												true);
-		} else {
-			player->appendLog("You have nothing you can drink");
-		}
+		auto temp = player;
+		return attemptUse<Potion>("You have nothing you can quaff", 
+						[] (Item* i) {return dynamic_cast<Potion*>(i)!=NULL;},
+						[temp] (Potion* p) {p->activate(temp);});
+	}
+	// Read scroll
+	if (key.c == 'r') {
+		auto temp = level;
+		return attemptUse<Scroll>("You have nothing you can read",
+						[] (Item* i) {return dynamic_cast<Scroll*>(i)!=NULL;},
+						[temp] (Scroll* s) {s->activate(temp);});
 	}
 	// wield weapon
 	if (key.c == 'w') {
@@ -460,24 +476,10 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	}
 	// eat food
 	if (key.c == 'e') {
-		bool canEat = false;
-		for (auto pair : player->getInventory().getContents()) {
-			auto food = dynamic_cast<Food*>(pair.second.front());
-			if (food != NULL) {
-				canEat = true;
-				break;
-			}
-		}
-		if (canEat) {
-			level->pushMob(player, TURN_TIME);
-			return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Food*>(i) != NULL;},
-												[] (Item* i, PlayerChar* p, Level* l) {
-													return new QuickEat(p, l, i);
-												},
-												true);
-		} else {
-			player->appendLog("You have nothing you can eat");
-		}
+		auto temp = player;
+		return attemptUse<Food>("You have nothing you can eat",
+						[] (Item* i) {return dynamic_cast<Food*>(i)!=NULL;},
+						[temp] (Food* f) {temp->eat(f);});
 	}
 	if (key.c == '<' || key.c == '>') {
 		for (Feature* feat : level->getFeatures()) {
