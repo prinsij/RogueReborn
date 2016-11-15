@@ -48,6 +48,21 @@ Level::Level(int depth, PlayerChar* player)
 	}
 }
 
+void Level::clear(){
+
+	for (auto i = 0; i < size[0]; i++){
+		tiles[i].clear();
+	}
+	tiles.clear();
+
+	for (auto x=0; x < size[0]; x++) {
+		tiles.push_back(std::vector<Terrain>());
+		for (auto y=0; y < size[1]; y++) {
+			tiles[x].push_back(Floor());
+		}
+	}
+}
+
 std::vector<Feature*>& Level::getFeatures() {
 	return features;
 }
