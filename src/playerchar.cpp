@@ -542,16 +542,6 @@ void PlayerChar::setStrength(int strength) {
 	this->currentStr = strength;
 }
 
-bool PlayerChar::throwItem(Item* item) {
-	if (!item->isThrowable()) return false;
-
-	std::cout << "# PlayerChar Threw " << item->getName() << "\n";
-
-	// TODO
-
-	return true;
-}
-
 int PlayerChar::update() {
 	int foodDecrement = -1;
 	
@@ -588,15 +578,4 @@ int PlayerChar::update() {
 	}
 
 	return this->getDelay();
-}
-
-bool PlayerChar::zap(Wand* wand, Level* level) {
-	if (wand->getCharges() == 0) return false;
-
-	std::cout << "# PlayerChar Zapped with Wand " << wand->getName() << "\n";
-
-	// TODO
-	// Mob* mob = ...
-
-	return wand->activate(level, NULL);
 }

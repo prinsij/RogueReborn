@@ -421,26 +421,11 @@ class PlayerChar : public Mob {
 		void setStrength(int);
 
 		/**
-		 * @brief      Attempts to throw the given Item.
+		 * @brief	Updates this Player's states
 		 *
-		 * @return     True if the Item was thrown, False otherwise.
-		 */
-		bool throwItem(Item*);
-
-		/**
-		 * @brief	Updates the PlayerChar's state.
-		 */
+		 * @return	The turn delay.
+		 */ 
 		int update();
-
-		/**
-		 * @brief      Attempts to spend a charge of the provided Wand.
-		 *
-		 * @param      wand  Wand to be used
-		 * @param      level Reference to the current Level
-		 *
-		 * @return     True if the operation was successful, False otherwise.
-		 */
-		bool zap(Wand*, Level*);
 
 		/**
 		 * @brief	Updates the PlayerChar's health according to i*/

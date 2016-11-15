@@ -100,7 +100,24 @@ std::tuple<bool, UIState*> Scroll::activate(Level* level) {
 
 	// Hold Monster
 	} else if (this->type == 1) {
-		// TODO
+		int nearbyMonsters = 0;
+		
+		for (Mob* mob : level->getMobs()) {
+			Monster* monster = dynamic_cast<Monster*>(mob);
+			
+			if (monster && player->getLocation().distanceTo(monster->getLocation()) <= 8) {
+				nearbyMonsters ++;
+				monster->addFlag(Monster::HELD);
+			}
+		}
+
+		if (nearbyMonsters == 0) {
+			player->appendLog("You feel a strange sense of loss");
+		} else if (nearbyMonsters == 1) {
+			player->appendLog("The monster freezes");
+		} else {
+			player->appendLog("The monsters around you freeze");
+		}
 
 	// Enchant Weapon
 	} else if (this->type == 2) {

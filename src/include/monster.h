@@ -54,6 +54,7 @@ class Monster : public Mob {
 			FROZEN,
 			GREEDY,
 			HASTED,
+			HELD,
 			INVISIBLE,
 			REGENERATIVE,
 			RUSTS,
