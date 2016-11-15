@@ -472,25 +472,65 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		auto rings = player->getRings();
 		if (rings.first == NULL && rings.second == NULL) {
 			player->appendLog("You are not wearing any rings");
+			return this;
+		}
+		level->pushMob(player, TURN_TIME);
+		if (rings.first == NULL) {
+			auto ring = rings.second;
+			if (player->removeRingRight()) {
+				player->getInventory().add(*ring);
+				player->appendLog("You take off the " + ring->getDisplayName());
+			}
+		} else if (rings.second == NULL) {
+			auto ring = rings.first;
+			if (player->removeRingLeft()) {
+				player->getInventory().add(*ring);
+				player->appendLog("You take off the " + ring->getDisplayName());
+			}
 		} else {
+			return new RingRemovePrompt(player, level);
+		}
+	}
+	if (key.c == 'P') {
+		auto rings = player->getRings();
+		if (rings.first != NULL && rings.second != NULL) {
+			player->appendLog("You have no more fingers");
+			return this;
+		} else {
+			bool hasRing = false;
+			for (auto pair : player->getInventory().getContents()) {
+				Ring* ring = dynamic_cast<Ring*>(pair.second.front());
+				if (ring != NULL) {
+					hasRing = true;
+				}
+			}
+			if (!hasRing) {
+				player->appendLog("You have nothing to put on your finger(s)");
+				return this;
+			}
 			level->pushMob(player, TURN_TIME);
 			if (rings.first == NULL) {
-				auto ring = rings.second;
-				if (player->removeRingRight()) {
-					player->getInventory().add(*ring);
-					player->appendLog("You take off the " + ring->getDisplayName());
-				}
-			} else if (rings.second == NULL) {
-				auto ring = rings.first;
-				if (player->removeRingLeft()) {
-					player->getInventory().add(*ring);
-					player->appendLog("You take off the " + ring->getDisplayName());
-				}
+				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Ring*>(i)!=NULL;},
+											[] (Item* i, PlayerChar* p, Level* l) {
+												return new QuickUse<Ring>(p, l, i, 
+																		[p] (Ring* r) {
+																			p->equipRingLeft(r);
+																			p->getInventory().remove(r);
+																		}, false);
+											},
+											true);
 			} else {
-				return new RingRemovePrompt(player, level);
+				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Ring*>(i)!=NULL;},
+											[] (Item* i, PlayerChar* p, Level* l) {
+												return new QuickUse<Ring>(p, l, i, 
+																		[p] (Ring* r) {
+																			p->equipRingRight(r);
+																			p->getInventory().remove(r);
+																		}, false);
+											},
+											true);
 			}
 		}
-		return this;
 	}
 	// stow weapon
 	if (key.c == 'S') {
