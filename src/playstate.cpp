@@ -223,31 +223,34 @@ class ThrowDirectionState : public PlayState {
 PlayState::PlayState(PlayerChar* play, Level* lvl)
 	: player(play)
 	, level(lvl)
+	, currRoom(NULL)
 {
 	currRoom = updateMap();
 }
 
 Room* PlayState::updateMap() {
-
 	for (auto x=-1; x < 2; x++) {
 		for (auto y=-1; y < 2; y++) {
 			(*level)[player->getLocation()+Coord(x,y)].setIsSeen(Terrain::Seen);
 		}
 	}
+	Room* result = NULL;
 	for (auto& room : level->getRooms()) {
 		if (room.contains(player->getLocation(), 1)) {
-			if (!player->hasCondition(PlayerChar::BLIND)) {
-				for (auto x=room.getPosition1()[0]-1; x < room.getPosition2()[0]+2; x++) {
-					for (auto y=room.getPosition1()[1]-1; y < room.getPosition2()[1]+2; y++) {
-						(*level)[Coord(x,y)].setIsSeen(Terrain::Seen);
-					}
-				}
-			}
-			// rooms can't overlap
-			return &room;
+			result = &room;
 		}
 	}
-	return NULL;
+	bool blinded = (result == NULL 
+ 		|| result->getDark() == Room::DARK
+ 		|| player->hasCondition(PlayerChar::BLIND));
+	if (!blinded) {
+		for (auto x=result->getPosition1()[0]-1; x < result->getPosition2()[0]+2; x++) {
+			for (auto y=result->getPosition1()[1]-1; y < result->getPosition2()[1]+2; y++) {
+				(*level)[Coord(x,y)].setIsSeen(Terrain::Seen);
+			}
+		}
+	}
+	return result;
 }
 
 void PlayState::draw(TCODConsole* con) {
