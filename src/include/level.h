@@ -184,14 +184,9 @@ class Level {
 		 */
 		void placePlayerInStartingPosition();
 
-		Level* getBro();
-		void setBro(Level*);
-
 		~Level();
 
 	private:
-
-		Level* brother;
 
 		PlayerChar* player;
 
@@ -222,12 +217,12 @@ class Level {
 		/**
 		 * The chance of generating gold
 		 */
-		const double GOLD_CHANCE = .333;
+		static constexpr double GOLD_CHANCE = .333;
 
 		/**
 		 * The chance of a room being an actual room instead of just a passageway
 		 */
-		const double ROOM_EXIST_CHANCE = 0.9;
+		static constexpr double ROOM_EXIST_CHANCE = 0.9;
 
 		/**
 		 * Minimum number of tiles padding each room (essentially half of the minimum number of tiles between rooms)

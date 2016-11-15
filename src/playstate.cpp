@@ -442,6 +442,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 																		[p] (Armor* a) {
 																			p->equipArmor(a);
 																			p->getInventory().remove(a);
+																			p->appendLog("You put on the " + a->getDisplayName());
 																		}, false);
 											},
 											true);
@@ -515,6 +516,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 												return new QuickUse<Ring>(p, l, i, 
 																		[p] (Ring* r) {
 																			p->equipRingLeft(r);
+																			p->appendLog("You put on the " + r->getDisplayName());
 																			p->getInventory().remove(r);
 																		}, false);
 											},
@@ -525,6 +527,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 												return new QuickUse<Ring>(p, l, i, 
 																		[p] (Ring* r) {
 																			p->equipRingRight(r);
+																			p->appendLog("You put on the " + r->getDisplayName());
 																			p->getInventory().remove(r);
 																		}, false);
 											},
@@ -648,14 +651,14 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 
 					Trap* tr = dynamic_cast<Trap*>(feat);
 					if (tr != NULL){
-						tr->activate(player, level);
-
-						Level* oldLevel = level;
-						level = level->getBro();
-						delete oldLevel;
-
-						currRoom = NULL;
-						currRoom = updateMap();
+						auto next = tr->activate(player, level);
+						if (next != level) {
+							delete level;
+							level = next;
+							currRoom = NULL;
+							currRoom = updateMap();
+							return this;
+						}
 					}
 				}
 			} while (search);

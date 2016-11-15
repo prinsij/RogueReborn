@@ -18,6 +18,7 @@
 #include "include/feature.h"
 #include "include/armor.h"
 #include "include/food.h"
+#include "include/ring.h"
 #include "include/goldpile.h"
 #include "include/level.h"
 #include "include/mob.h"
@@ -31,6 +32,7 @@
 #include "include/tiles.h"
 #include "include/trap.h"
 #include "include/tunnel.h"
+
 
 Level::Level(int depth, PlayerChar* player)
 	: player(player)
@@ -294,12 +296,20 @@ void Level::generate() {
 		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
 							  gen.intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
+			features.push_back(new Ring(randPos));
+			++i;
+		}
+	}
+	i = 0;
+	while (i < 15) {
+		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
+							  gen.intFromRange(0, Y_SIZE-1));
+		if (tileAt(randPos).isPassable() == Terrain::Passable) {
 			features.push_back(new Armor(randPos));
 			++i;
 		}
 	}
 	this->placePlayerInStartingPosition();
-	this->brother = this;
 }
 
 void Level::addTunnel(int i, int j, bool* a, bool* b, Generator gen){
@@ -308,14 +318,6 @@ void Level::addTunnel(int i, int j, bool* a, bool* b, Generator gen){
 		*b = true;
 		tunnels.push_back(Tunnel(&rooms[i], &rooms[j], gen));
 	}
-}
-
-Level* Level::getBro(){
-	return this->brother;
-}
-
-void Level::setBro(Level* l){
-	this->brother = l;
 }
 
 void Level::tryAddPassable(Coord current, std::queue<Coord>& q, Coord target, Coord end){

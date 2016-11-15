@@ -27,8 +27,11 @@ class Trap : public Feature {
 		 * @param visible Whether the trap is revealed
 		 */
 		Trap(Coord location, unsigned char type, bool visible);
-		/** Trigger the trap on the given mob. */
-		void activate(Mob*, Level*);
+		/** Trigger the trap on the given mob. 
+		 * Return the next level if a pitfall, otherwise
+		 * return the given level.
+		 */
+		Level* activate(Mob*, Level*);
 	private:
 		/** Type of the trap.
 		   0 = Door Trap
