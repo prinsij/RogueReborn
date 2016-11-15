@@ -18,6 +18,7 @@
 #include "include/weapon.h"
 #include "include/armor.h"
 #include "include/scroll.h"
+#include "include/wand.h"
 #include "include/globals.h"
 #include "include/ring.h"
 #include "include/goldpile.h"
@@ -85,6 +86,49 @@ class RingRemovePrompt : public PlayState {
 			PlayState::draw(con);
 			con->print(PROMPTX, PROMPTY, std::string("Which ring to remove (R/L) ?").c_str());
 		}
+};
+
+class QuickZap : public PlayState {
+	public:
+		QuickZap(PlayerChar* player, Level* level, Item* item, Coord direction)
+			: PlayState(player, level)
+			, wand(dynamic_cast<Wand*>(item))
+			, direction(direction)
+		{
+			assert (direction != Coord(0,0));
+		}
+		virtual UIState* handleInput(TCOD_key_t key) {
+			if (wand == NULL) {
+				assert (false && "tried to zap non-wand");
+				return new PlayState(player, level);
+			}
+			Coord newLoc = player->getLocation();
+			while (true) {
+				Coord next = newLoc+direction;
+				auto mob = level->monsterAt(next);
+				if (mob != NULL) {
+					wand->activate(level, mob);
+					if (wand->getCharges() <= 0) {
+						player->getInventory().remove(wand);
+						player->appendLog("Drained of magic, the wand crumbles to dust");
+						delete wand;
+					}
+					break;
+				} else if (!level->contains(next)) {
+					assert(false && "zapped out of bounds somehow");
+					break;
+				} else if ((*level)[next].isPassable() != Terrain::Passable) {
+					wand->activate(level, NULL);
+					player->appendLog("The wand charge fizzles against a wall");
+					break;
+				}
+				newLoc += direction;
+			}
+			return new PlayState(player, level);
+		}
+	private:
+		Wand* wand;
+		Coord direction;
 };
 
 class QuickThrow : public PlayState {
@@ -554,27 +598,41 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	}
 	// throw item
 	if (key.c == 't') {
-		bool canThrow = false;
 		for (auto pair : player->getInventory().getContents()) {
 			if (pair.second.front()->isThrowable()) {
-				canThrow = true;
-				break;
+				level->pushMob(player, TURN_TIME);
+				auto temp_p = player;
+				auto temp_l = level;
+				return new DirectionPrompt(player, level, [temp_p, temp_l] (Coord direction) {
+					return new InvScreen(temp_p, temp_l, [] (Item* i) {return i->isThrowable();},
+														[direction] (Item* i, PlayerChar* p, Level* l) {
+															return new QuickThrow(p, l, i, direction);
+														},
+														true);
+				});
 			}
 		}
-		if (canThrow) {
-			level->pushMob(player, TURN_TIME);
-			auto temp_p = player;
-			auto temp_l = level;
-			return new DirectionPrompt(player, level, [temp_p, temp_l] (Coord direction) {
-				return new InvScreen(temp_p, temp_l, [] (Item* i) {return i->isThrowable();},
+		player->appendLog("You have nothing you can throw");
+		return this;
+	}
+	if (key.c == 'Z') {
+		auto temp_p = player;
+		auto temp_l = level;
+		for (auto pair : player->getInventory().getContents()) {
+			if (dynamic_cast<Wand*>(pair.second.front())!=NULL) {
+				return new DirectionPrompt(player, level,
+											[temp_p, temp_l] (Coord direction) {
+												return new InvScreen(temp_p, temp_l, [] (Item* i) {return dynamic_cast<Wand*>(i)!=NULL;},
 																	[direction] (Item* i, PlayerChar* p, Level* l) {
-																		return new QuickThrow(p, l, i, direction);
+																		return new QuickZap(p, l, i, direction);
 																	},
 																	true);
-				});
-		} else {
-			player->appendLog("You have nothing you can throw");
+												});
+			}
 		}
+		player->appendLog("You have nothing with which to zap");
+		return this;
+																						
 	}
 	// eat food
 	if (key.c == 'e') {
