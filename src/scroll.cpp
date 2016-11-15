@@ -14,6 +14,7 @@
 #include "include/coord.h"
 #include "include/item.h"
 #include "include/level.h"
+#include "include/terrain.h"
 #include "include/playerchar.h"
 #include "include/random.h"
 #include "include/ring.h"
@@ -177,7 +178,11 @@ bool Scroll::activate(Level* level) {
 	// Magic Mapping
 	} else if (this->type == 11) {
 		player->appendLog("This scroll seems to have a map on it");
-		// TODO
+		for (auto x=0; x < level->getSize()[0]; ++x) {
+			for (auto y=0; y < level->getSize()[1]; ++y) {
+				level->tileAt(Coord(x,y)).setIsSeen(Terrain::Seen);
+			}
+		}
 
 	// Confuse Monster
 	} else if (this->type == 12) {
