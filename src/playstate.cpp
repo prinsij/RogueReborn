@@ -23,6 +23,7 @@
 #include "include/ring.h"
 #include "include/goldpile.h"
 #include "include/helpscreen.h"
+#include "include/symbolscreen.h"
 #include "include/invscreen.h"
 #include "include/item.h"
 #include "include/level.h"
@@ -396,6 +397,10 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	// view help
 	if (key.c == '?') {
 		return new HelpScreen(player, level);
+	}
+	// view symbol explanations
+	if (key.c == '/') {
+		return new SymbolScreen(player, level);
 	}
 	// view log
 	if (key.c == 'o') {

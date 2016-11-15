@@ -404,3 +404,15 @@ int Monster::turn(Level* level) {
 	}
 	return this->getDelay();
 }
+
+Monster* Monster::randomMonster() {
+	char kind = 'k';
+	int i = 1;
+	for (auto pair : templateMap) {
+		if (Generator::intFromRange(0, i-1) == 0) {
+			kind = pair.first;
+		}
+		++i;
+	}
+	return new Monster(kind, Coord(0,0));
+}
