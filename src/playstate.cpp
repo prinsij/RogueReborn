@@ -551,8 +551,6 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			if (player->removeArmor()) {
 				player->getInventory().add(*armor);
 				player->appendLog("You take off the " + armor->getDisplayName());
-			} else {
-				player->appendLog("You cannot remove the " + armor->getDisplayName());
 			}
 			return this;
 		} else {
@@ -637,8 +635,6 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			if (player->removeWeapon()) {
 				player->getInventory().add(*weap);
 				player->appendLog("You stow the " + weap->getDisplayName());
-			} else {
-				player->appendLog("You cannot loosen your grip on the " + weap->getDisplayName());
 			}
 			return this;
 		} else {
