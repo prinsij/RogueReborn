@@ -345,12 +345,15 @@ void PlayState::draw(TCODConsole* con) {
 	}
 	// Display the info bar
 	const int y = Coord(0, level->getSize()[1]).asScreen()[1]+1;
+	std::string starveStr = player->getFoodStatus();
 	con->print(0, y, (
 	"Level:"+std::to_string(player->getLevel())+
 	"  Hits:"+std::to_string(player->getHP())+"("+std::to_string(player->getMaxHP())+")"+
 	"  Str:"+std::to_string(player->getStrength())+"("+std::to_string(player->getMaxStrength())+")"+
 	"  Gold:"+std::to_string(player->getGold())+
-	"  Armor:"+std::to_string(player->getArmorRating())).c_str());
+	"  Armor:"+std::to_string(player->getArmorRating())+
+	"     "+starveStr
+	).c_str());
 }
 
 template<typename T>
