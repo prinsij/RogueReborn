@@ -401,6 +401,7 @@ void Monster::setVisible(bool visible) {
 }
 
 int Monster::turn(Level* level) {
+	std::cout << "WTF\n";
 	if (this->awake) {
 		if (this->hasFlag(FROZEN)) {
 			if (--this->frozenTurns == 0) {

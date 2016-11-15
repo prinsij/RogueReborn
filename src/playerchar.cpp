@@ -250,6 +250,21 @@ int PlayerChar::getFoodLife() {
 	return this->foodLife;
 }
 
+std::string PlayerChar::getFoodStatus() {
+	switch(this->foodStatus) {
+		case FoodStates::FULL:
+			return NULL;
+		case 1:
+			return "Hungry";
+		case 2:
+			return "Weak";
+		case 3:
+			return "Fainting";
+		default:
+			return "Starving";
+	}
+}
+
 int PlayerChar::getGold() {
 	return this->gold;
 }

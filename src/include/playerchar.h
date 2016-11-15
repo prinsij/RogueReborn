@@ -245,6 +245,13 @@ class PlayerChar : public Mob {
 		int getFoodLife();
 
 		/**
+		 * @brief	Gets the PlayerChar's food status
+		 *
+		 * @return	This PlayerChar's food status (NULL is full)
+		 */
+		std::string getFoodStatus();
+
+		/**
 		 * @brief      Gets the PlayerChar's gold total.
 		 *
 		 * @return     The PlayerChar's gold total.
