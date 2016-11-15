@@ -20,3 +20,5 @@ const int NAME_LENGTH = 10;
 const std::string VALID_NAME =   "abcdefghijklmnopqrstuvwxyz _ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const std::string HALLUC_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const int TURN_TIME = 50;
+const int SLOW_TIME = 25;
+const int FAST_TIME = 100;

@@ -14,6 +14,7 @@
 #include <string>
 #include <vector>
 
+#include "include/armor.h"
 #include "include/coord.h"
 #include "include/globals.h"
 #include "include/mob.h"
@@ -67,7 +68,9 @@ std::map<char, MONSTER_TUPLE_TYPE > Monster::templateMap = {
 };
 
 Monster::Monster(char symbol, Coord location)
-	: Mob(symbol, location) {
+	: Mob(symbol, location),
+	  chasing(false),
+	  frozenTurns(0) {
 	auto monsterIt = Monster::templateMap.find(symbol);
 
 	if (monsterIt == Monster::templateMap.end()) {
@@ -114,6 +117,8 @@ Monster::Monster(char symbol, Coord location)
 		flags.insert(CONFUSES);
 	} else if (symbol == 'R') {
 		flags.insert(STINGS);
+	} else if (symbol == 'V') {
+		flags.insert(DRAINS_LIFE);
 	} else if (symbol == 'W') {
 		flags.insert(DROPS_LEVEL);
 	} 
@@ -127,13 +132,14 @@ Monster::Monster(char symbol, Coord location)
 	name = std::get<7>(monsterTuple);
 
 	awake = Generator::randBool();
-	//awake = true;
-
-	chasing = false;
 }
 
 void Monster::addFlag(Monster::Behaviour flag) {
 	this->flags.insert(flag);
+}
+
+void Monster::addFrozenTurns(int turns) {
+	this->frozenTurns += turns;
 }
 
 void Monster::aggrevate() {
@@ -141,9 +147,91 @@ void Monster::aggrevate() {
 	this->chasing = true;
 }
 
-void Monster::hit(int dmgAmount) {
-	Mob::hit(dmgAmount);
-	this->aggrevate();
+void Monster::attackConfuse(PlayerChar* player) {
+	if (Generator::intFromRange(0, 99) <= 55) {
+			player->applyCondition(PlayerChar::CONFUSED, Generator::intFromRange(12, 22));
+			player->appendLog("The gaze of the " + this->getName() + " confused you");
+	}
+}
+
+
+void Monster::attackDrainLife(PlayerChar* player) {
+	if (Generator::intFromRange(0, 99) <= 60 || player->getMaxHP() <= 30 || player->getHP() < 10) return;
+
+	int selection = Generator::intFromRange(1, 3);
+
+	if (selection != 2 || !player->hasCondition(PlayerChar::SUSTAIN_STRENGTH)) {
+		player->appendLog("You feel weaker");
+	}
+
+	if (selection != 2) {
+		player->setMaxHP(player->getMaxHP() - 1);
+		player->setCurrentHP(player->getHP() - 1);
+	}
+
+	if (selection != 1 && !player->hasCondition(PlayerChar::SUSTAIN_STRENGTH)) {
+		int deltaStrength = Generator::randBool() ? 2 : 1;
+		player->setStrength(std::max(1, player->getStrength() - deltaStrength));
+	}
+}
+
+
+void Monster::attackDropLevel(PlayerChar* player) {
+	if (Generator::intFromRange(0, 99) <= 80 || player->getLevel() <= 5) return;
+
+	player->dropLevel();
+}
+
+
+void Monster::attackFreeze(PlayerChar* player) {
+	int freezePercent = 99;
+
+	if (Generator::intFromRange(0, 99) <= 12) return;
+
+	freezePercent -= player->getStrength()*3/2;
+	freezePercent -= 4*(player->getLevel() + player->getDexterity());
+	freezePercent -= player->getArmorRating()*5;
+	freezePercent -= player->getMaxHP()/3;
+
+	if (freezePercent > 10) {
+		player->applyCondition(PlayerChar::SLEEPING, Generator::intFromRange(4, 8));
+		player->appendLog("You are frozen");
+	}
+}
+
+void Monster::attackGold(PlayerChar* player) {
+	if (player->getGold() <= 0 || Generator::intFromRange(0, 99) <= 10) return;
+
+	int stealAmount = std::min(player->getGold(), Generator::intFromRange(10 * player->getLevel(), 30 * player->getLevel()));
+
+	player->setGold(player->getGold() - stealAmount);
+	player->appendLog("You purse feels lighter");
+
+	// TODO
+}
+
+
+void Monster::attackRust(PlayerChar* player) {
+	Armor* armor = player->getArmor();
+
+	if (armor == NULL || armor->getRating() == 1) return;
+
+	if (!player->hasCondition(PlayerChar::MAINTAIN_ARMOR) && !armor->hasEffect(Item::PROTECTED)) {
+		armor->setEnchantment(armor->getEnchantment() - 1);
+		player->appendLog("Your armor weakens");
+	}
+}
+
+
+void Monster::attackSting(PlayerChar* player) {
+	if (player->getStrength() <= 3 || player->hasCondition(PlayerChar::SUSTAIN_STRENGTH)) return;
+
+	int stingChance = 70 - 6 * player->getArmorRating();
+
+	if (Generator::intFromRange(0, 99) <= stingChance) {
+		player->appendLog("The " + this->getName() + "'s bite has weakened you");
+		player->setStrength(player->getStrength() - 1);
+	}
 }
 
 void Monster::attack(Level* level) {
@@ -151,8 +239,20 @@ void Monster::attack(Level* level) {
 
 	if (this->getLocation().isAdjacentTo(player->getLocation())) {
 		if (Generator::intFromRange(0, 99) <= this->calculateHitChance(player)) {
+
 			player->appendLog("The " + this->getName() + " hit you");
 			player->hit(calculateDamage());
+
+			if (!player->isDead()) {	
+
+				if (this->hasFlag(CONFUSES)) { this->attackConfuse(player); }
+				else if (this->hasFlag(DRAINS_LIFE)) { this->attackDrainLife(player); }
+				else if (this->hasFlag(DROPS_LEVEL)) { this->attackDropLevel(player); }
+				else if (this->hasFlag(FREEZES)) { this->attackFreeze(player); }
+				else if (this->hasFlag(GREEDY)) { this->attackGold(player); }
+				else if (this->hasFlag(RUSTS)) { this->attackRust(player); }
+				else if (this->hasFlag(STINGS)) { this->attackSting(player); }
+			}
 		} else {
 			player->appendLog("The " + this->getName() + " missed you");
 		}
@@ -181,6 +281,16 @@ int Monster::getCarryChance() {
 	return this->carryChance;
 }
 
+int Monster::getDelay() {
+	if (this->hasFlag(SLOWED)) {
+		return SLOW_TIME;
+	} else if (this->hasFlag(HASTED)) {
+		return FAST_TIME;
+	} else {
+		return TURN_TIME;
+	}
+}
+
 std::vector<char> Monster::getSymbolsForLevel(int depth) {
 	depth += 1;
 
@@ -205,6 +315,11 @@ bool Monster::hasFlag(Behaviour flag) {
 	return this->flags.find(flag) != this->flags.end();
 }
 
+void Monster::hit(int dmgAmount) {
+	Mob::hit(dmgAmount);
+	this->aggrevate();
+}
+
 bool Monster::isAwake() {
 	return this->awake;
 }
@@ -214,6 +329,11 @@ bool Monster::isVisible() {
 }
 
 void Monster::relocate(Level* level) {
+	if (this->hasFlag(CONFUSED) && Generator::randBool()) {
+		std::vector<Coord> adjacentTiles = level->getAdjPassable(location);
+		this->location = adjacentTiles[Generator::intFromRange(0, adjacentTiles.size() - 1)];
+		return;
+	}
 
 	if (this->chasing) {
 		//If you are in the same room as the player, go to him
@@ -229,7 +349,7 @@ void Monster::relocate(Level* level) {
 		}
 	}
 
-	if (!this->chasing && Generator::randBool()) {
+	if (!this->chasing && Generator::intFromRange(0,99) <= 33) {
 		bool moved = false;
 
 		if (this->hasFlag(GREEDY)) {
@@ -266,19 +386,21 @@ void Monster::setVisible(bool visible) {
 
 int Monster::turn(Level* level) {
 	if (this->awake) {
-		if (!this->chasing && this->hasFlag(AGGRESSIVE) && level->canSee(this->getLocation(), level->getPlayer()->getLocation())) {
-			this->chasing = true;
+		if (this->hasFlag(FROZEN)) {
+			if (--this->frozenTurns == 0) {
+				this->removeFlag(FROZEN);
+			}
+		} else {
+			if (!this->chasing && this->hasFlag(AGGRESSIVE) && level->canSee(this->getLocation(), level->getPlayer()->getLocation())) {
+				this->chasing = true;
+			}
+
+			if (this->chasing) {
+				attack(level);
+			}
+
+			relocate(level);
 		}
-
-		if (this->chasing) {
-			attack(level);
-		}
-
-		relocate(level);
-
-		//std::cout << this->getName() << " (" << this << ") is at " << location.toString() << std::endl;
-
 	}
-
-	return TURN_TIME;
+	return this->getDelay();
 }

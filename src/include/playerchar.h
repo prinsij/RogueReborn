@@ -48,7 +48,7 @@ class PlayerChar : public Mob {
 			DIGESTION,
 			FAINTING,
 			HALLUCINATING,
-			HASTE,
+			HASTED,
 			IMMOBILIZED,
 			LEVITATING,
 			MAINTAIN_ARMOR,
@@ -57,6 +57,7 @@ class PlayerChar : public Mob {
 			SEARCH,
 			SEE_INVISIBLE,
 			SLEEPING,
+			SLOWED,
 			STEALTHY,
 			SUSTAIN_STRENGTH};
 
@@ -159,6 +160,11 @@ class PlayerChar : public Mob {
 		bool dropItem(Item*, Level*);
 
 		/**
+		 * @brief      Decrements the level of the PlayerChar.
+		 */
+		void dropLevel();
+
+		/**
 		 * @brief      Attempts to eat the given Food.
 		 *
 		 * @param      food Food to be eaten.
@@ -206,6 +212,13 @@ class PlayerChar : public Mob {
 		 * @return	The PlayerChar's dexterity.
 		 */
 		int getDexterity();
+
+		/**
+		 * @brief      Gets the PlayerChar's turn delay.
+		 *
+		 * @return     The turn delay.
+		 */
+		int getDelay();
 
 		/**
 		 * @brief	Gets the PlayerChar's food life.
@@ -286,12 +299,19 @@ class PlayerChar : public Mob {
 		bool hasCondition(Condition);
 
 		/**
+		 * @brief      Inflicts HP loss to this PlayerChar based on the given damage.  
+		 *
+		 * @param[in]  damage Baseline damage to be inflicted
+		 */
+		void hit(int);
+
+		/**
 		 * @brief	Relocates the PlayerChar and updates the food life.
 		 *
 		 * @param	location New PlayerChar location
 		 * @param	level Reference to the current level
 		 */
-		void move(Coord, Level*);
+		bool move(Coord, Level*);
 
 		/**
 		 * @brief      Attempts to place the provided Item in the PlayerChar's inventory.
@@ -371,6 +391,13 @@ class PlayerChar : public Mob {
 		void setFoodLife(int);
 
 		/**
+		 * @brief      Sets the gold.
+		 *
+		 * @param[in]  gold	New amount of gold
+		 */
+		void setGold(int);
+
+		/**
 		 * @brief	Sets the strength of the PlayerChar.
 		 *
 		 * @param	strength The new strength of the PlayerChar
@@ -387,7 +414,7 @@ class PlayerChar : public Mob {
 		/**
 		 * @brief	Updates the PlayerChar's state.
 		 */
-		void update();
+		int update();
 
 		/**
 		 * @brief      Attempts to spend a charge of the provided Wand.

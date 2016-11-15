@@ -42,6 +42,14 @@ class Mob {
 		 * @see armor
 		 */
 		virtual int getArmorRating();
+
+		/**
+		 * @brief      Returns this Mob's turn delay
+		 *
+		 * @return     The delay.
+		 */
+		virtual int getDelay() = 0;
+
 		/** Getter for XP.
 		 * @see exp
 		 */

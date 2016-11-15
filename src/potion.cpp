@@ -184,7 +184,7 @@ bool Potion::activate(Mob* mob) {
 
 		player->appendLog("You feel yourself moving much faster");
 
-		player->applyCondition(PlayerChar::HASTE, Generator::intFromRange(11, 21));
+		player->applyCondition(PlayerChar::HASTED, Generator::intFromRange(11, 21));
 	
 	// See Invisible
 	} else if (this->type == 13) {
