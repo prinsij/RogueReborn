@@ -76,9 +76,8 @@ bool Wand::activate(Level* level, Mob* mob) {
 
 	// Invisibility
 	} else if (this->type == 2) {
-		// Find Monster
-		// TODO
-
+		player->appendLog("The " + monster->getName() + " vanishes before your eyes");
+		monster->addFlag(Monster::INVISIBLE);
 	// Polymorph
 	} else if (this->type == 3) {
 		auto newMonster = Monster::randomMonster();

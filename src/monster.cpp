@@ -250,7 +250,7 @@ void Monster::attack(Level* level) {
 			player->appendLog("The " + this->getName() + " hit you");
 			player->hit(calculateDamage());
 
-			if (!player->isDead()) {	
+			if (!player->isDead() && !this->hasFlag(CANCELLED)) {	
 
 				if (this->hasFlag(CONFUSES)) { this->attackConfuse(player); }
 				else if (this->hasFlag(DRAINS_LIFE)) { this->attackDrainLife(player); }
