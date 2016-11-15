@@ -10,6 +10,7 @@
 #include <cmath>
 #include <iostream>
 #include <map>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -81,31 +82,42 @@ Monster::Monster(char symbol, Coord location)
 	exp = std::get<3>(monsterTuple);
 
 	std::string flagString = std::get<4>(monsterTuple);
-	std::vector<Behaviour> flagVector;
 
 	for (auto flagIt = flagString.begin() ; flagIt != flagString.end() ; flagIt++) {
 		switch (*flagIt) {
 			case 'A':
-				flagVector.push_back(AGGRESSIVE);
+				flags.insert(AGGRESSIVE);
 				break;
 			case 'F':
-				flagVector.push_back(FLYING);
+				flags.insert(FLYING);
 				break;
 			case 'G':
-				flagVector.push_back(GREEDY);
+				flags.insert(GREEDY);
 				break;
 			case 'I':
-				flagVector.push_back(INVISIBLE);
+				flags.insert(INVISIBLE);
 				break;
 			case 'R':
-				flagVector.push_back(REGENERATIVE);
+				flags.insert(REGENERATIVE);
 				break;
 			default:
 				std::cout << "Discovered invalid flag '" << *flagIt << "'";
 		}
 	}
 
-	flags = flagVector;
+	// Special properties
+	if (symbol == 'A') {
+		flags.insert(RUSTS);
+	} else if (symbol == 'D') {
+		flags.insert(FLAMES);
+	} else if (symbol == 'M') {
+		flags.insert(CONFUSES);
+	} else if (symbol == 'R') {
+		flags.insert(STINGS);
+	} else if (symbol == 'W') {
+		flags.insert(DROPS_LEVEL);
+	} 
+
 	level = std::get<5>(monsterTuple);
 
 	int hp = std::get<6>(monsterTuple).first + diceSum(1, std::get<6>(monsterTuple).second) - 1;
@@ -118,6 +130,10 @@ Monster::Monster(char symbol, Coord location)
 	//awake = true;
 
 	chasing = false;
+}
+
+void Monster::addFlag(Monster::Behaviour flag) {
+	this->flags.insert(flag);
 }
 
 void Monster::aggrevate() {
@@ -186,7 +202,7 @@ std::vector<char> Monster::getSymbolsForTreasure(int depth) {
 }
 
 bool Monster::hasFlag(Behaviour flag) {
-	return std::find(this->flags.begin(), this->flags.end(), flag) != this->flags.end();
+	return this->flags.find(flag) != this->flags.end();
 }
 
 bool Monster::isAwake() {
@@ -234,6 +250,10 @@ void Monster::relocate(Level* level) {
 			}
 		}
 	}
+}
+
+void Monster::removeFlag(Monster::Behaviour flag) {
+	this->flags.erase(flag);
 }
 
 void Monster::setAwake(bool awake) {

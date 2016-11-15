@@ -485,9 +485,8 @@ bool PlayerChar::zap(Wand* wand, Level* level) {
 
 	std::cout << "PlayerChar Zapped with Wand " << wand->getName() << "\n";
 
-	wand->activate(level);
-
 	// TODO
+	// Mob* mob = ...
 
-	return true;
+	return wand->activate(level, NULL);
 }
