@@ -337,7 +337,7 @@ bool Monster::isVisible() {
 
 void Monster::relocate(Level* level) {
 	if (this->hasFlag(CONFUSED) && Generator::randBool()) {
-		std::vector<Coord> adjacentTiles = level->getAdjPassable(location);
+		std::vector<Coord> adjacentTiles = level->getAdjPassable(location, true);
 		this->location = adjacentTiles[Generator::intFromRange(0, adjacentTiles.size() - 1)];
 		return;
 	}
@@ -370,7 +370,7 @@ void Monster::relocate(Level* level) {
 
 		if (!moved) {
 			// Wander around aimlessly
-			std::vector<Coord> possibleCoords = level->getAdjPassable(this->location);
+			std::vector<Coord> possibleCoords = level->getAdjPassable(this->location, true);
 			if (possibleCoords.size()) {
 				Coord newPlace = possibleCoords[Generator::intFromRange(0, possibleCoords.size()-1)];
 				this->location = newPlace;

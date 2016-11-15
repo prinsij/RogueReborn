@@ -107,7 +107,7 @@ class LevelTest : public Testable {
 				assert(l.contains(l.getRandomEmptyPosition()), "Random player position generation");	
 			}
 
-			for (Coord nearby : l.getAdjPassable(Coord(5,5))){
+			for (Coord nearby : l.getAdjPassable(Coord(5,5), true)){
 
 				std::vector<Coord> path = l.bfsDiag(nearby, Coord(5,5));
 				assert(path.size() == uint(2), "Distance to nearby is 1");

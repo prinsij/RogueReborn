@@ -108,10 +108,11 @@ class Level {
 		 * @brief      Gets the coordinates to which one can move to from a given source (3x3 box)
 		 *
 		 * @param  Coord  Coordinate to check from
+		 * @param  noMonster True if tiles with Monsters should be excluded
 		 *
 		 * @return     A vector of coordinates onto which you can move.
 		 */
-		std::vector<Coord> getAdjPassable(Coord);
+		std::vector<Coord> getAdjPassable(Coord, bool);
 
 		//Given a start and a delta direction, returns a coord of where something thrown would land
 

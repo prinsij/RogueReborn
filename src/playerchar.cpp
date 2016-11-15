@@ -321,14 +321,14 @@ bool PlayerChar::move(Coord location, Level* level) {
 
 	// Confusion
 	if (this->hasCondition(CONFUSED)) {
-		std::vector<Coord> adjacentTiles = level->getAdjPassable(location);
+		std::vector<Coord> adjacentTiles = level->getAdjPassable(location, true);
 		this->setLocation(adjacentTiles[Generator::intFromRange(0, adjacentTiles.size() - 1)]);
 		return true;
 	}
 	
 	this->setLocation(location);
 
-	std::vector<Coord> adjacentTiles = level->getAdjPassable(location);
+	std::vector<Coord> adjacentTiles = level->getAdjPassable(location, false);
 
 	// Chance to awaken nearby monsters	
 	for (auto it = adjacentTiles.begin() ; it != adjacentTiles.end() ; it++) {
