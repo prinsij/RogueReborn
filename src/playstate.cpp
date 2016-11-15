@@ -660,7 +660,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		for (Feature* feat : level->getFeatures()) {
 			Stairs* stair = dynamic_cast<Stairs*>(feat);
 			if (stair != NULL) {
-				if ((key.c == '>') == stair->getDirection()) {
+				if ((key.c == '>') && stair->getDirection()) {
 					int currDepth = level->getDepth();
 					delete level;
 					level = new Level(currDepth+1, player);
@@ -668,6 +668,22 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 					level->generate();
 					currRoom = updateMap();
 					return this;
+				} else if (key.c == '<') {
+					if (!stair->getDirection() && player->hasAmulet()) {
+						int currDepth = level->getDepth();
+						if (currDepth == 0) {
+							return new RIPScreen(player, level, VICTORY_STR);
+						} else {
+							delete level;
+							level = new Level(currDepth-1, player);
+							level->registerMob(player);
+							level->generate();
+							currRoom = updateMap();
+							return this;
+						}
+					} else {
+						player->appendLog("Some magical force prevents your passage upward.");
+					}
 				}
 			}
 		}

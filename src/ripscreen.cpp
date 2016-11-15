@@ -16,6 +16,7 @@
 #include "include/playerchar.h"
 #include "include/random.h"
 #include "include/ripscreen.h"
+#include "include/globals.h"
 #include "libtcod/include/libtcod.hpp"
 
 struct ScoreItem {
@@ -69,7 +70,9 @@ struct ScoreItem {
 RIPScreen::RIPScreen(PlayerChar* player,
 					 Level* level, std::string reason)
 	: player(player)
+	, wasVictory(reason == VICTORY_STR)
 {
+
 	std::ifstream scoreFile(SCORE_FILE);
 	std::string line;
 	if (scoreFile.is_open()) {
@@ -84,7 +87,7 @@ RIPScreen::RIPScreen(PlayerChar* player,
 	} else {
 		std::cerr << "could not open " << SCORE_FILE << "\n";
 	}
-	scores.push_back(ScoreItem(player->getGold(), level->getDepth(), player->getName(), reason));
+	scores.push_back(ScoreItem(player->getGold()+1000*(int)wasVictory, level->getDepth(), player->getName(), reason));
 	// create if not exist, otherwise append
 	std::ofstream outStream(SCORE_FILE, std::ios::app | std::ios::out);
 	if (outStream.is_open()) {
@@ -123,50 +126,56 @@ RIPScreen::RIPScreen(PlayerChar* player,
 }
 
 void RIPScreen::draw(TCODConsole* con) {
-	con->print(40 - GRAVE_WIDTH/2 - 2, 13, leaves.c_str());
-	con->print(40 - GRAVE_WIDTH/2 - 2, 12, flowers.c_str());
+	if (!wasVictory) {
+		con->print(40 - GRAVE_WIDTH/2 - 2, 13, leaves.c_str());
+		con->print(40 - GRAVE_WIDTH/2 - 2, 12, flowers.c_str());
 	
-	// Top
-	for (int x = 40 - GRAVE_WIDTH/2 + 2 ; x <= 40 + GRAVE_WIDTH/2 - 2 ; x ++) {
-		con->print(x, 1, "_");
+		// Top
+		for (int x = 40 - GRAVE_WIDTH/2 + 2 ; x <= 40 + GRAVE_WIDTH/2 - 2 ; x ++) {
+			con->print(x, 1, "_");
+		}
+		
+		// Diagonal
+		for (int x = 0 ; x < 3 ; x ++) {
+			con->print(40 - GRAVE_WIDTH/2 + 1 - x, x + 2, "/");
+			con->print(40 + GRAVE_WIDTH/2 - 1 + x, x + 2, "\\");
+		}
+	
+		// Sides
+		for (int i = 5 ; i < 13 ; i ++) {
+			con->print(40 - GRAVE_WIDTH/2 - 1, i, "|");
+			con->print(40 + GRAVE_WIDTH/2 + 1, i, "|");
+		}
+	
+		// Bottom
+		for (int x = 0 ; x < 10 ; x ++) {
+			con->print(40 - GRAVE_WIDTH/2 - 3 - x, 13, "_");
+			con->print(40 + GRAVE_WIDTH/2 + 3 + x, 13, "_");
+		}
+	
+		std::string name = player->getName();
+		if (static_cast<int>(name.length()) > GRAVE_WIDTH - 1) {
+			name = name.substr(0, GRAVE_WIDTH - 4) + "...";
+		}
+	
+		con->print(39, 3, "RIP");
+		con->print(40 - name.length()/2, 6, name.c_str());
 	}
-
-	// Diagonal
-	for (int x = 0 ; x < 3 ; x ++) {
-		con->print(40 - GRAVE_WIDTH/2 + 1 - x, x + 2, "/");
-		con->print(40 + GRAVE_WIDTH/2 - 1 + x, x + 2, "\\");
-	}
-
-	// Sides
-	for (int i = 5 ; i < 13 ; i ++) {
-		con->print(40 - GRAVE_WIDTH/2 - 1, i, "|");
-		con->print(40 + GRAVE_WIDTH/2 + 1, i, "|");
-	}
-
-	// Bottom
-	for (int x = 0 ; x < 10 ; x ++) {
-		con->print(40 - GRAVE_WIDTH/2 - 3 - x, 13, "_");
-		con->print(40 + GRAVE_WIDTH/2 + 3 + x, 13, "_");
-	}
-
-	std::string name = player->getName();
-	if (static_cast<int>(name.length()) > GRAVE_WIDTH - 1) {
-		name = name.substr(0, GRAVE_WIDTH - 4) + "...";
-	}
-
-	con->print(39, 3, "RIP");
-	con->print(40 - name.length()/2, 6, name.c_str());
 
 	int y = 16;
-	int maxY = y + 10;
+	int maxY = 16 + 2*10;
+	int x = con->getWidth()/2;
 	for (ScoreItem item : scores) {
-		con->print(0, y, (std::to_string(item.gold) + ":" + item.name + " " + item.death
+		con->printEx(x, y, TCOD_BKGND_DEFAULT, TCOD_CENTER, (std::to_string(item.gold) + ":" + item.name + " " + item.death
 					+ " on level " + std::to_string(item.depth)).c_str());
-		y++;
+		y += 2;
 
 		if (y == maxY) break;
 	}
-	
+
+	if (wasVictory) {
+		con->printEx(x, 8, TCOD_BKGND_DEFAULT, TCOD_CENTER, "You Win!");
+	}
 }
 
 UIState* RIPScreen::handleInput(TCOD_key_t key) {

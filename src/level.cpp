@@ -15,25 +15,27 @@
 #include <vector>
 
 #include "include/coord.h"
-#include "include/feature.h"
 #include "include/armor.h"
-#include "include/scroll.h"
+#include "include/feature.h"
 #include "include/food.h"
-#include "include/wand.h"
-#include "include/ring.h"
 #include "include/goldpile.h"
+#include "include/globals.h"
 #include "include/level.h"
 #include "include/mob.h"
 #include "include/monster.h"
 #include "include/playerchar.h"
 #include "include/potion.h"
 #include "include/random.h"
+#include "include/ring.h"
 #include "include/room.h"
+#include "include/scroll.h"
 #include "include/stairs.h"
 #include "include/terrain.h"
 #include "include/tiles.h"
 #include "include/trap.h"
 #include "include/tunnel.h"
+#include "include/wand.h"
+#include "include/amulet.h"
 
 
 Level::Level(int depth, PlayerChar* player)
@@ -264,11 +266,26 @@ void Level::generate() {
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
 			for (Room& r : rooms) {
 				if (r.contains(randPos)) {
-					features.push_back(new Stairs(randPos, true));
+					features.push_back(new Stairs(randPos, !(depth == NUM_LEVELS || player->hasAmulet())));
 					goto stair_exit;
 				}
 			}
 		}
+	}
+	if (depth == NUM_LEVELS) {
+		Coord randPos;
+		do {
+			try_again:;
+			randPos = Coord(gen.intFromRange(0, X_SIZE-1),
+							  gen.intFromRange(0, Y_SIZE-1));
+			for (auto feat : features) {
+				if (feat->getLocation() == randPos) {
+					goto try_again;
+				}
+			}
+		} while (tileAt(randPos).isPassable() != Terrain::Passable);
+		features.push_back(new Amulet(randPos, Item::FLOOR));
+		
 	}
 	stair_exit:;
 	// Place gold
