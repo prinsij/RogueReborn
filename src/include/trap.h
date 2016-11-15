@@ -39,6 +39,4 @@ class Trap : public Feature {
 		   5 = Dart Trap
 		*/
 		unsigned char type;
-		/** Whether the trap is revealed. */
-		bool visible;
 };

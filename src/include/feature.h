@@ -20,7 +20,7 @@
 class Feature {
 	public:
 		/** Constructor for symbol, location. */
-		Feature(char, Coord);
+		Feature(char, Coord, bool visible=true);
 		/** Getter for symbol.
 		 * @see symbol
 		 */
@@ -32,6 +32,10 @@ class Feature {
 		/** Setter for location.
 		 * @see location
 		 */
+		/** Getter for visibility.
+		 * @see visible
+		 */
+		bool getVisible();
 		void setLocation(Coord);
 		/** Destructor. */
 		virtual ~Feature();
@@ -42,4 +46,7 @@ class Feature {
 		 *  the feature in the display.
 		 */
 		char symbol;
+	protected:
+		/** Whether the feature is visible to the player. */
+		bool visible;
 };

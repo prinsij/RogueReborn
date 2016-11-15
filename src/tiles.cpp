@@ -8,9 +8,10 @@
 
 #include "include/terrain.h"
 #include "include/tiles.h"
+#include "libtcod/include/libtcod.hpp"
 
 Floor::Floor()
-	: Terrain(' ', Terrain::Transparent, Terrain::Passable)
+	: Terrain('.', Terrain::Transparent, Terrain::Passable, TCODColor::darkGrey)
 {}
 
 Wall::Wall()
