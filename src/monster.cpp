@@ -353,7 +353,13 @@ void Monster::relocate(Level* level) {
 
 	if (this->chasing) {
 		//If you are in the same room as the player, go to him
-		std::vector<Coord> path = level->bfsDiag(this->location, level->getPlayer()->getLocation());
+		
+		std::vector<Coord> path;
+		if (this->location.distanceTo(level->getPlayer()->getLocation()) == 2) {
+			path = level->bfsPerp(this->location, level->getPlayer()->getLocation());
+		} else {
+			path = level->bfsDiag(this->location, level->getPlayer()->getLocation());
+		}
 
 		//MAGIC NUMBER
 		if (path.size() < 5 || level->canSee(this->location, level->getPlayer()->getLocation())){
