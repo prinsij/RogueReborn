@@ -42,11 +42,11 @@ class Ring : public Item {
 		/**
 		 * @brief      Applies the effects derived from equipping this Ring.
 		 *
-		 * @param      level  Reference to the Level instance
+		 * @param      player  Reference to the PlayerChar instance
 		 *
 		 * @return	True if the operation was successful, False otherwise. 
 		 */
-		bool activate(Level*);
+		bool activate(PlayerChar*);
 
 		/**
 		 * @brief	Deactivates this Ring's effects on the PlayerChar.

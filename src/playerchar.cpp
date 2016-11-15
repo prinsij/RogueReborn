@@ -211,12 +211,14 @@ void PlayerChar::equipArmor(Armor* armor) {
 void PlayerChar::equipRingLeft(Ring* ring) {
 	std::cout << "# PlayerChar Equipped Left Ring " << ring->getName() << "\n";
 
+	ring->activate(this);
 	this->itemRingLeft = ring;
 }
 
 void PlayerChar::equipRingRight(Ring* ring) {
 	std::cout << "# PlayerChar Equipped Right Ring " << ring->getName() << "\n";
 
+	ring->activate(this);
 	this->itemRingRight = ring;
 }
 

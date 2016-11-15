@@ -44,7 +44,7 @@ Ring::Ring(Coord location, Item::Context context, int type)
 	: Item('=', location, context, "Ring", std::get<0>(Ring::typeVector[type]), Ring::nameVector[type], type, true, true),
 	  ringValue(Generator::intFromRange(-2, 2)) {}
 
-bool Ring::activate(Level* level) {
+bool Ring::activate(PlayerChar* player) {
 	this->setIdentified(true);
 
 	bool cursed = false;
@@ -53,8 +53,6 @@ bool Ring::activate(Level* level) {
 		cursed = true;
 		this->applyEffect(Item::Effect::CURSED);
 	}
-
-	PlayerChar* player = level->getPlayer();
 
 	// Stealth
 	if (this->type == 0) {
