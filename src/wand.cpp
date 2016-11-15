@@ -62,10 +62,16 @@ bool Wand::activate(Level* level, Mob* mob) {
 
 	// Teleport Away
 	if (this->type == 0) {
-		// TODO
+		player->appendLog("The " + monster->getName() + " is whisked away");
+		Coord newLoc;
+		do {
+			newLoc = level->getRandomEmptyPosition();
+		} while (newLoc.distanceTo(player->getLocation()) < 20);
+		monster->setLocation(newLoc);
 
 	// Slow Monster
 	} else if (this->type == 1) {
+		player->appendLog("The " + monster->getName() + " appears lethargic");
 		monster->addFlag(Monster::SLOWED);
 
 	// Invisibility
@@ -79,10 +85,12 @@ bool Wand::activate(Level* level, Mob* mob) {
 
 	// Haste Monster
 	} else if (this->type == 4) {
+		player->appendLog("The " + monster->getName() + " appear energized");
 		monster->addFlag(Monster::HASTED);
 
 	// Magic Missile
 	} else if (this->type == 5) {
+		player->appendLog("A bolt of pure energy darts from the staff, striking the " + monster->getName());
 		monster->hit(player->calculateDamage());
 
 	// Cancellation
@@ -95,6 +103,7 @@ bool Wand::activate(Level* level, Mob* mob) {
 
 	// Drain Life
 	} else if (this->type == 8) {
+		player->appendLog("Tendrils of purple energy sicken the " + monster->getName());
 		int monsterDamage = player->getHP()/3;
 		player->setCurrentHP((player->getHP() + 1)/2);
 		monster->hit(monsterDamage);
