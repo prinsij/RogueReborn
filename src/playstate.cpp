@@ -392,8 +392,14 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			return new RIPScreen(player, level, "Killed by a " + nextUp->getName());
 		}
 	}
+	int turnTime = 0;
 	if (numAIGone > 0) {
-		player->update();
+		turnTime = player->update();
+	}
+	// Skip the player's turn if they are sleeping
+	if (player->hasCondition(PlayerChar::SLEEPING)) {
+		level->pushMob(player, turnTime);
+		return this;
 	}
 	// Quitting
 	if (key.c == 'Q') {
@@ -421,13 +427,13 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	}
 	// Rest action
 	if (key.c == '.') {
-		level->pushMob(player, TURN_TIME);
+		level->pushMob(player, turnTime);
 		player->appendLog("You rest briefly");
 		player->update();
 		return this;
 	}
 	if (key.c == 's') {
-		level->pushMob(player, TURN_TIME);
+		level->pushMob(player, turnTime);
 		player->appendLog("You search your surroundings for traps");
 		for (Feature* feat : level->getFeatures()) {
 			if (!feat->getVisible()
@@ -453,7 +459,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 				goto no_drop;
 			}
 		}
-		level->pushMob(player, TURN_TIME);
+		level->pushMob(player, turnTime);
 		return new InvScreen(player, level, [] (Item*) {return true;},
 											[] (Item* i, PlayerChar* p, Level* l) {
 												return new QuickUse<Item>(p, l, i,
@@ -497,7 +503,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		for (auto pair : player->getInventory().getContents()) {
 			Weapon* weap = dynamic_cast<Weapon*>(pair.second.front());
 			if (weap != NULL) {
-				level->pushMob(player, TURN_TIME);
+				level->pushMob(player, turnTime);
 				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Weapon*>(i)!=NULL;},
 											[] (Item* i, PlayerChar* p, Level* l) {
 												return new QuickUse<Weapon>(p, l, i, 
@@ -519,7 +525,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		for (auto pair : player->getInventory().getContents()) {
 			Armor* armor = dynamic_cast<Armor*>(pair.second.front());
 			if (armor != NULL) {
-				level->pushMob(player, TURN_TIME);
+				level->pushMob(player, turnTime);
 				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Armor*>(i)!=NULL;},
 											[] (Item* i, PlayerChar* p, Level* l) {
 												return new QuickUse<Armor>(p, l, i, 
@@ -541,7 +547,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		auto armor = player->getArmor();
 		// check for curses TODO
 		if (armor != NULL) {
-			level->pushMob(player, TURN_TIME);
+			level->pushMob(player, turnTime);
 			if (player->removeArmor()) {
 				player->getInventory().add(*armor);
 				player->appendLog("You take off the " + armor->getDisplayName());
@@ -560,7 +566,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			player->appendLog("You are not wearing any rings");
 			return this;
 		}
-		level->pushMob(player, TURN_TIME);
+		level->pushMob(player, turnTime);
 		if (rings.first == NULL) {
 			auto ring = rings.second;
 			if (player->removeRingRight()) {
@@ -594,7 +600,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 				player->appendLog("You have nothing to put on your finger(s)");
 				return this;
 			}
-			level->pushMob(player, TURN_TIME);
+			level->pushMob(player, turnTime);
 			if (rings.first == NULL) {
 				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Ring*>(i)!=NULL;},
 											[] (Item* i, PlayerChar* p, Level* l) {
@@ -627,7 +633,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		auto weap = player->getWeapon();
 		// check for curses TODO
 		if (weap != NULL) {
-			level->pushMob(player, TURN_TIME);
+			level->pushMob(player, turnTime);
 			if (player->removeWeapon()) {
 				player->getInventory().add(*weap);
 				player->appendLog("You stow the " + weap->getDisplayName());
@@ -643,7 +649,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	if (key.c == 't') {
 		for (auto pair : player->getInventory().getContents()) {
 			if (pair.second.front()->isThrowable()) {
-				level->pushMob(player, TURN_TIME);
+				level->pushMob(player, turnTime);
 				auto temp_p = player;
 				auto temp_l = level;
 				return new DirectionPrompt(player, level, [temp_p, temp_l] (Coord direction) {
@@ -722,14 +728,22 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	}
 	//Arrow controls
 	auto newPos = player->getLocation().copy();
-	if (key.vk == TCODK_UP) {
+	if (key.vk == TCODK_UP || key.c == 'k') {
 		newPos -= Coord(0, 1);
-	} else if (key.vk == TCODK_DOWN) {
+	} else if (key.vk == TCODK_DOWN || key.c == 'j') {
 		newPos += Coord(0, 1);
-	} else if (key.vk == TCODK_LEFT) {
+	} else if (key.vk == TCODK_LEFT || key.c == 'h') {
 		newPos -= Coord(1, 0);
-	} else if (key.vk == TCODK_RIGHT) {
+	} else if (key.vk == TCODK_RIGHT || key.c == 'l') {
 		newPos += Coord(1, 0);
+	} else if (key.c == 'y') {
+		newPos += Coord(-1, -1);
+	} else if (key.c == 'u') {
+		newPos += Coord(1, -1);
+	} else if (key.c == 'n') {
+		newPos += Coord(1, 1);
+	} else if (key.c == 'b') {
+		newPos += Coord(-1, 1);
 	}
 
 	if (newPos != player->getLocation() && level->contains(newPos)) {
@@ -741,11 +755,10 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 				player->appendLog("The " + mob->getName() + " died, horribly");
 				delete mob;
 			}
-			level->pushMob(player, TURN_TIME);
+			level->pushMob(player, turnTime);
 		} else if ((*level)[newPos].isPassable()) {
 			player->move(newPos, level);
-			level->pushMob(player, TURN_TIME);
-			//std::cout << "taking turn: " << player->getName() << "\n";
+			level->pushMob(player, turnTime);
 			currRoom = updateMap();
 			bool search;
 			do {
