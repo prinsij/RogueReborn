@@ -184,6 +184,15 @@ class Level {
 		 */
 		void placePlayerInStartingPosition();
 
+		/**
+		 * @brief	Return a random coord within the level,
+		 *			with no features or mobs.
+		 *
+		 * @return	A random coord within the level,
+		 *			with no features or mobs.
+		 */
+		Coord getRandomEmptyPosition();
+
 		~Level();
 
 	private:
