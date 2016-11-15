@@ -231,9 +231,11 @@ Room* PlayState::updateMap() {
 	}
 	for (auto& room : level->getRooms()) {
 		if (room.contains(player->getLocation(), 1)) {
-			for (auto x=room.getPosition1()[0]-1; x < room.getPosition2()[0]+2; x++) {
-				for (auto y=room.getPosition1()[1]-1; y < room.getPosition2()[1]+2; y++) {
-					(*level)[Coord(x,y)].setIsSeen(Terrain::Seen);
+			if (!player->hasCondition(PlayerChar::BLIND)) {
+				for (auto x=room.getPosition1()[0]-1; x < room.getPosition2()[0]+2; x++) {
+					for (auto y=room.getPosition1()[1]-1; y < room.getPosition2()[1]+2; y++) {
+						(*level)[Coord(x,y)].setIsSeen(Terrain::Seen);
+					}
 				}
 			}
 			// rooms can't overlap
@@ -245,12 +247,9 @@ Room* PlayState::updateMap() {
 
 void PlayState::draw(TCODConsole* con) {
 	// Draw terrain
-	int sightRadius = player->getSightRadius();
- 	if (currRoom == NULL 
+	bool blinded = currRoom == NULL 
  		|| currRoom->getDark() == Room::DARK
- 		|| player->hasCondition(PlayerChar::BLIND)) {
- 		sightRadius = 1;
- 	}
+ 		|| player->hasCondition(PlayerChar::BLIND);
  	unsigned int hallucChar = time(NULL) % HALLUC_CHARS.size();
 	for (auto x=0; x < level->getSize()[0]; x++) {
 		for (auto y=0; y < level->getSize()[1]; y++) {
@@ -258,22 +257,22 @@ void PlayState::draw(TCODConsole* con) {
 			Terrain& ter = (*level)[mapPos];
 			if (ter.isSeen() == Terrain::Seen) {
 				auto scrPos = mapPos.asScreen();
-				con->putChar(scrPos[0], scrPos[1], (*level)[mapPos].getSymbol());
+				Terrain& terrain = (*level)[mapPos];
+				con->putChar(scrPos[0], scrPos[1], terrain.getSymbol());
+				bool hasFeat = false;
 				for (Feature* feat : level->getFeatures()) {
 					if (feat->getLocation() == mapPos) {
 						con->putChar(scrPos[0], scrPos[1], feat->getSymbol());
+						hasFeat = true;
 					}
 				}
-				int sightRadius = player->getSightRadius();
-				if (currRoom == NULL 
-					|| currRoom->getDark() == Room::DARK
-					|| player->hasCondition(PlayerChar::BLIND)) {
-					sightRadius = 1;
+				if (!hasFeat) {
+					con->setCharForeground(scrPos[0], scrPos[1], terrain.getColor());
 				}
 				// Previously but not currently seen
-				if (mapPos.distanceTo(player->getLocation()) > sightRadius &&
-					(currRoom == NULL || !currRoom->contains(mapPos, 1))) {
-					con->setCharForeground(scrPos[0], scrPos[1], TCODColor::grey);
+				if (mapPos.distanceTo(player->getLocation()) > 1
+						&& (blinded || currRoom == NULL || !currRoom->contains(mapPos, 1))) {
+					con->setCharForeground(scrPos[0], scrPos[1], terrain.getColor()*.5);
 				// Currently in view
 				} else {
 					if (player->hasCondition(PlayerChar::HALLUCINATING)) {
