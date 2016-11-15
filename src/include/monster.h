@@ -9,6 +9,7 @@
 #pragma once
 
 #include <map>
+#include <set>
 #include <string>
 #include <tuple>
 #include <vector>
@@ -40,7 +41,28 @@ class Monster : public Mob {
 		/**
 		 * @brief      Monster flags denoting behavioural patterns.
 		 */
-		enum Behaviour {AGGRESSIVE, FLYING, REGENERATIVE, GREEDY, INVISIBLE};
+		enum Behaviour {
+			AGGRESSIVE,
+			CANCELLED,
+			CONFUSES,
+			DROPS_LEVEL,
+			FLAMES,
+			FLYING,
+			FREEZES,
+			GREEDY,
+			HASTED,
+			INVISIBLE,
+			REGENERATIVE,
+			RUSTS,
+			SLOWED,
+			STINGS };
+
+		/**
+		 * @brief      Adds a flag to this Monster.
+		 *
+		 * @param[in]  flag Flag to add to this Monster.
+		 */
+		void addFlag(Monster::Behaviour);
 
 		/**
 		 * @brief	Aggrevates this monster to attack the player.
@@ -130,6 +152,13 @@ class Monster : public Mob {
 		 * @return	True if it is visible, False otherwise.
 		 */ 
 		bool isVisible();
+
+		/**
+		 * @brief      Removes a flag from the Monster.
+		 *
+		 * param[in]	flag Flag to remove from this Monster.   
+		 */
+		void removeFlag(Monster::Behaviour);
 	
 		/**
 		 * @brief	Sets the Monster awake state.
@@ -191,7 +220,7 @@ class Monster : public Mob {
 		/**
 		 * Monster behavioural flags.
 		 */
-		std::vector<Behaviour> flags;
+		std::set<Behaviour> flags;
 
 		/** Determines whether or not this Monster should be visible to the PlayerChar */
 		bool visible;
