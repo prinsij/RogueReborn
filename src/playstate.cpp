@@ -480,15 +480,35 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		player->appendLog("You have nothing you can wear");
 		return this;
 	}
+	// Take off armor
+	if (key.c == 'T') {
+		auto armor = player->getArmor();
+		// check for curses TODO
+		if (armor != NULL) {
+			level->pushMob(player, TURN_TIME);
+			if (player->removeArmor()) {
+				player->getInventory().add(*armor);
+				player->appendLog("You take off the " + armor->getDisplayName());
+			} else {
+				player->appendLog("You cannot remove the " + armor->getDisplayName());
+			}
+			return this;
+		} else {
+			player->appendLog("you are not wielding anything");
+		}
+	}
 	// stow weapon
 	if (key.c == 'S') {
 		auto weap = player->getWeapon();
 		// check for curses TODO
 		if (weap != NULL) {
 			level->pushMob(player, TURN_TIME);
-			player->appendLog("You stow the " + weap->getDisplayName());
-			player->removeWeapon();
-			player->getInventory().add(*weap);
+			if (player->removeWeapon()) {
+				player->getInventory().add(*weap);
+				player->appendLog("You stow the " + weap->getDisplayName());
+			} else {
+				player->appendLog("You cannot loosen your grip on the " + weap->getDisplayName());
+			}
 			return this;
 		} else {
 			player->appendLog("you are not wielding anything");
