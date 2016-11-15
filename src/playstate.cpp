@@ -87,23 +87,6 @@ class RingRemovePrompt : public PlayState {
 		}
 };
 
-class QuickDrop : public PlayState {
-	public:
-		QuickDrop(PlayerChar* player, Level* level, Item* item)
-			: PlayState(player, level)
-			, item(item)
-		{}
-		virtual UIState* handleInput(TCOD_key_t key) {
-			item->setContext(Item::FLOOR);
-			player->getInventory().remove(item);
-			item->setLocation(player->getLocation());
-			level->addFeature(item);
-			return new PlayState(player, level);
-		}
-	private:
-		Item* item;
-};
-
 class QuickThrow : public PlayState {
 	public:
 		QuickThrow(PlayerChar* player, Level* level, Item* item, Coord direction)
@@ -150,35 +133,15 @@ class QuickThrow : public PlayState {
 		Coord direction;
 };
 
-class QuickEat : public PlayState {
-	public:
-		QuickEat(PlayerChar* player, Level* level, Item* item)
-			: PlayState(player, level)
-			, item(item)
-		{}
-
-		virtual UIState* handleInput(TCOD_key_t key) {
-			auto food = dynamic_cast<Food*>(item);
-			if (food != NULL) {
-				player->eat(food);
-				delete food;
-			} else {
-				assert (false && "not eating non-edible");
-			}
-			return new PlayState(player, level);
-		}
-	private:
-		Item* item;
-};
-
 template<typename T>
 class QuickUse : public PlayState {
 	public:
 		QuickUse<T>(PlayerChar* player, Level* level, Item* item,
-					std::function<void(T*)> makeUseOf)
+					std::function<void(T*)> makeUseOf, bool del=true)
 			: PlayState(player, level)
 			, item(item)
 			, makeUseOf(makeUseOf)
+			, deleteAfter(del)
 		{}
 
 		virtual UIState* handleInput(TCOD_key_t key) {
@@ -186,7 +149,7 @@ class QuickUse : public PlayState {
 			if (usable != NULL) {
 				makeUseOf(usable);
 				player->getInventory().remove(usable);
-				delete usable;
+				if (deleteAfter) delete usable;
 			} else {
 				assert (false && "attempted to activate non-activatable");
 			}
@@ -195,48 +158,7 @@ class QuickUse : public PlayState {
 	private:
 		Item* item;
 		std::function<void(T*)> makeUseOf;
-};
-
-class QuickWield : public PlayState {
-	public:
-		QuickWield(PlayerChar* player, Level* level, Item* item)
-			: PlayState(player, level)
-			, item(item)
-		{}
-
-		virtual UIState* handleInput(TCOD_key_t key) {
-			Weapon* weap = dynamic_cast<Weapon*>(item);
-			if (weap != NULL) {
-				player->getInventory().remove(weap);
-				player->equipWeapon(weap);
-			} else {
-				assert (false && "tried to equip non-weapon");
-			}
-			return new PlayState(player, level);
-		}
-	private:
-		Item* item;
-};
-
-class QuickWear : public PlayState {
-	public:
-		QuickWear(PlayerChar* player, Level* level, Item* item)
-			: PlayState(player, level)
-			, item(item)
-		{}
-
-		virtual UIState* handleInput(TCOD_key_t key) {
-			auto armor = dynamic_cast<Armor*>(item);
-			if (armor != NULL) {
-				player->getInventory().remove(armor);
-				player->equipArmor(armor);
-			} else {
-				assert (false && "tried to wear non-armor");
-			}
-			return new PlayState(player, level);
-		}
-	private:
-		Item* item;
+		bool deleteAfter;
 };
 
 class ThrowDirectionState : public PlayState {
@@ -462,9 +384,16 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		level->pushMob(player, TURN_TIME);
 		return new InvScreen(player, level, [] (Item*) {return true;},
 											[] (Item* i, PlayerChar* p, Level* l) {
-													return new QuickDrop(p, l, i);
+												return new QuickUse<Item>(p, l, i,
+													[p, l] (Item* i) {
+														i->setContext(Item::FLOOR);
+														p->getInventory().remove(i);
+														i->setLocation(p->getLocation());
+														l->addFeature(i);
+													}, 
+													false);
 												},
-												false);
+												true);
 	}
 	no_drop:;
 	// Quaff
@@ -488,10 +417,14 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			if (weap != NULL) {
 				level->pushMob(player, TURN_TIME);
 				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Weapon*>(i)!=NULL;},
-													[] (Item* i, PlayerChar* p, Level* l) {
-														return new QuickWield(p, l, i);
-													},
-													true);
+											[] (Item* i, PlayerChar* p, Level* l) {
+												return new QuickUse<Weapon>(p, l, i, 
+																		[p] (Weapon* w) {
+																			p->equipWeapon(w);
+																			p->getInventory().remove(w);
+																		}, false);
+											},
+											true);
 			}
 		}
 		player->appendLog("You have nothing you can wield");
@@ -504,10 +437,14 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			if (armor != NULL) {
 				level->pushMob(player, TURN_TIME);
 				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Armor*>(i)!=NULL;},
-													[] (Item* i, PlayerChar* p, Level* l) {
-														return new QuickWear(p, l, i);
-													},
-													true);
+											[] (Item* i, PlayerChar* p, Level* l) {
+												return new QuickUse<Armor>(p, l, i, 
+																		[p] (Armor* a) {
+																			p->equipArmor(a);
+																			p->getInventory().remove(a);
+																		}, false);
+											},
+											true);
 			}
 		}
 		player->appendLog("You have nothing you can wear");
