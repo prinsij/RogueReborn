@@ -40,17 +40,13 @@ class LevelTest : public Testable {
 
 			l.clear();
 
-			/*
-
 			for (auto i = 0; i < 10; i++){
 
 				//Path size is inclusive. Going from N to M involves M-N+1 locations.
 				int target = Generator::intFromRange(5,30);
-				//std::cout << target << ", " << std::to_string(l.bfsPerp(Coord(0,0), Coord(target,0)).size()) << std::endl;
-				//assert(l.bfsPerp(Coord(0,0), Coord(target,0)).size() == uint(target+1), "BFS along a straight horizontal line works");
+				std::vector<Coord> path = l.bfsPerp(Coord(1,1), Coord(target+1,1));
+				
+				assert(path.size() == uint(target+1), "BFS along a straight horizontal line works");
 			}
-
-			*/
-
 		}
 };
