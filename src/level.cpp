@@ -17,6 +17,7 @@
 #include "include/coord.h"
 #include "include/feature.h"
 #include "include/food.h"
+#include "include/ring.h"
 #include "include/goldpile.h"
 #include "include/level.h"
 #include "include/mob.h"
@@ -287,6 +288,15 @@ void Level::generate() {
 			features.push_back(new Food(randPos, Item::FLOOR));
 			++i;
 		}
+	}
+	i = 0;
+	while (i < 15) {
+		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
+							  gen.intFromRange(0, Y_SIZE-1));
+		if (tileAt(randPos).isPassable() == Terrain::Passable) {
+			features.push_back(new Ring(randPos));
+			++i;
+		}	
 	}
 	this->placePlayerInStartingPosition();
 	this->brother = this;
