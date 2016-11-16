@@ -396,6 +396,11 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	if (numAIGone > 0) {
 		turnTime = player->update();
 	}
+	// Skip the player's turn if they are sleeping
+	if (player->hasCondition(PlayerChar::SLEEPING)) {
+		level->pushMob(player, turnTime);
+		return this;
+	}
 	// Quitting
 	if (key.c == 'Q') {
 		return new QuitPrompt2(player, level);
