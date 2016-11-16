@@ -49,7 +49,7 @@ class LevelTest : public Testable {
 				std::vector<Coord> path = l.bfsPerp(Coord(1,1), Coord(target+1,1));
 
 				
-				assert(path.size() == uint(target+1), "BFS perp along a straight horizontal line works");
+				assert(path.size() == uint(target+1), "BFS perp along a straight horizontal line");
 			}
 
 			for (auto i = 0; i < RANDOM_TEST_COUNT; i++){
@@ -59,7 +59,7 @@ class LevelTest : public Testable {
 				std::vector<Coord> path = l.bfsPerp(Coord(1,1), Coord(1,target+1));
 
 				
-				assert(path.size() == uint(target+1), "BFS perp along a straight vertical line works");
+				assert(path.size() == uint(target+1), "BFS perp along a straight vertical line");
 			}
 
 			for (auto i = 0; i < RANDOM_TEST_COUNT; i++){
@@ -69,7 +69,7 @@ class LevelTest : public Testable {
 				std::vector<Coord> path = l.bfsPerp(Coord(1,1), Coord(target+1,target+1));
 
 				
-				assert(path.size() == uint(2*target+1), "BFS perp along a diagonal line works");
+				assert(path.size() == uint(2*target+1), "BFS perp along a diagonal line");
 			}
 
 			//BFS DIAG
@@ -80,7 +80,7 @@ class LevelTest : public Testable {
 				std::vector<Coord> path = l.bfsDiag(Coord(1,1), Coord(target+1,1));
 
 				
-				assert(path.size() == uint(target+1), "BFS diag along a straight horizontal line works");
+				assert(path.size() == uint(target+1), "BFS diag along a straight horizontal line");
 			}
 
 			for (auto i = 0; i < RANDOM_TEST_COUNT; i++){
@@ -90,7 +90,7 @@ class LevelTest : public Testable {
 				std::vector<Coord> path = l.bfsDiag(Coord(1,1), Coord(1,target+1));
 
 				
-				assert(path.size() == uint(target+1), "BFS diag along a straight vertical line works");
+				assert(path.size() == uint(target+1), "BFS diag along a straight vertical line");
 			}
 
 			for (auto i = 0; i < RANDOM_TEST_COUNT; i++){
@@ -100,7 +100,12 @@ class LevelTest : public Testable {
 				std::vector<Coord> path = l.bfsDiag(Coord(1,1), Coord(target+1,target+1));
 
 				
-				assert(path.size() == uint(target+1), "BFS diag along a diagonal line works");
+				assert(path.size() == uint(target+1), "BFS diag along a diagonal line");
 			}
+
+			assert(l.canSee(Coord(0,0),Coord(1,1)), "Visibility functionality");
+
+
+
 		}
 };
