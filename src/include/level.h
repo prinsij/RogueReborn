@@ -188,10 +188,10 @@ class Level {
 
 		/**
 		 * @brief	Return a random coord within the level,
-		 *			with no features or mobs.
+		 *			with no mobs.
 		 *
 		 * @return	A random coord within the level,
-		 *			with no features or mobs.
+		 *			with no mobs.
 		 */
 		Coord getRandomEmptyPosition();
 
