@@ -130,7 +130,7 @@ Monster::Monster(char symbol, Coord location)
 	}
 	level = std::get<5>(monsterTuple);
 
-	int hp = std::get<6>(monsterTuple).first + diceSum(1, std::get<6>(monsterTuple).second) - 1;
+	int hp = diceSum(std::get<6>(monsterTuple).first, std::get<6>(monsterTuple).second) + 3;
 	currentHP = hp;
 	maxHP = hp;
 
