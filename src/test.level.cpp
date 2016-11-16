@@ -103,9 +103,14 @@ class LevelTest : public Testable {
 				assert(path.size() == uint(target+1), "BFS diag along a diagonal line");
 			}
 
-			assert(l.canSee(Coord(0,0),Coord(1,1)), "Visibility functionality");
+			for (auto i = 0; i < RANDOM_TEST_COUNT; i++){
+				assert(l.contains(l.getRandomEmptyPosition()), "Random player position generation");	
+			}
 
+			for (Coord nearby : l.getAdjPassable(Coord(5,5))){
 
-
+				std::vector<Coord> path = l.bfsDiag(nearby, Coord(5,5));
+				assert(path.size() == uint(2), "Distance to nearby is 1");
+			}
 		}
 };
