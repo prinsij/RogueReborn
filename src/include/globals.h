@@ -22,3 +22,4 @@ const std::string HALLUC_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRST
 const int TURN_TIME = 50;
 const int SLOW_TIME = 25;
 const int FAST_TIME = 100;
+const std::string VICTORY_STR = "Retrieved the Amulet of Yendor";

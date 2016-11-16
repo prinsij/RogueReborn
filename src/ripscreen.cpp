@@ -15,6 +15,7 @@
 
 #include "include/playerchar.h"
 #include "include/ripscreen.h"
+#include "include/globals.h"
 #include "libtcod/include/libtcod.hpp"
 
 struct ScoreItem {
@@ -68,7 +69,9 @@ struct ScoreItem {
 RIPScreen::RIPScreen(PlayerChar* player,
 					 Level* level, std::string reason)
 	: player(player)
+	, wasVictory(reason == VICTORY_STR)
 {
+
 	std::ifstream scoreFile(SCORE_FILE);
 	std::string line;
 	if (scoreFile.is_open()) {
@@ -83,7 +86,7 @@ RIPScreen::RIPScreen(PlayerChar* player,
 	} else {
 		std::cerr << "could not open " << SCORE_FILE << "\n";
 	}
-	scores.push_back(ScoreItem(player->getGold(), level->getDepth(), player->getName(), reason));
+	scores.push_back(ScoreItem(player->getGold()+1000*(int)wasVictory, level->getDepth(), player->getName(), reason));
 	// create if not exist, otherwise append
 	std::ofstream outStream(SCORE_FILE, std::ios::app | std::ios::out);
 	if (outStream.is_open()) {
@@ -96,13 +99,18 @@ RIPScreen::RIPScreen(PlayerChar* player,
 }
 
 void RIPScreen::draw(TCODConsole* con) {
-	int y = 1;
+	int y = 3;
+	int x = con->getWidth()/2;
 	for (ScoreItem item : scores) {
-		con->print(0, y, (std::to_string(item.gold) + ":" + item.name + " " + item.death
+		con->printEx(x, y, TCOD_BKGND_DEFAULT, TCOD_CENTER, (std::to_string(item.gold) + ":" + item.name + " " + item.death
 					+ " on level " + std::to_string(item.depth)).c_str());
-		y++;
+		y += 2;
 	}
-	con->print(0, 0, std::string("rip").c_str());
+	if (wasVictory) {
+		con->printEx(x, 1, TCOD_BKGND_DEFAULT, TCOD_CENTER, "You Win!");
+	} else {
+		con->printEx(x, 1, TCOD_BKGND_DEFAULT, TCOD_CENTER, std::string("RIP").c_str());
+	}
 }
 
 UIState* RIPScreen::handleInput(TCOD_key_t key) {
