@@ -35,9 +35,9 @@ std::vector<std::string> Wand::nameVector = Item::shuffleNameVector({
 	"Steel Wand", "Bronze Wand", "Gold Wand", "Silver Wand", "Copper Wand",
 	"Nickel Wand", "Cobalt Wand", "Tin Wand", "Iron Wand", "Magnesium Wand",
 	"Chrome Wand", "Carbon Wand", "Platinum Wand", "Silicon Wand", "Titanium Wand",
-	"Teak Wand", "Oak Wand", "Cherry Wand", "Birch Wand", "Pine Wand",
-	"Cedar Wand", "Redwood Wand", "Balsa Wand", "Ivory Wand", "Walnut Wand",
-	"Maple Wand", "Mahogany Wand", "Elm Wand", "Palm Wand", "Wooden Wand"
+	"Teak Staff", "Oak Staff", "Cherry Staff", "Birch Staff", "Pine Staff",
+	"Cedar Staff", "Redwood Staff", "Balsa Staff", "Ivory Staff", "Walnut Staff",
+	"Maple Staff", "Mahogany Staff", "Elm Staff", "Palm Staff", "Wooden Staff"
 });
 
 
