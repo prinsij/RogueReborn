@@ -390,13 +390,6 @@ void PlayerChar::raiseLevel() {
 	}
 }
 
-void PlayerChar::read(Scroll* scroll, Level* level) {
-	std::cout << "# PlayerChar Read Scroll " << scroll->getName() << "\n";
-
-	scroll->activate(level);
-	this->inventory.remove(scroll);
-}
-
 bool PlayerChar::removeArmor() {
 	if (this->itemArmor == NULL) return false;
 

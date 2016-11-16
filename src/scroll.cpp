@@ -20,6 +20,8 @@
 #include "include/playerchar.h"
 #include "include/random.h"
 #include "include/ring.h"
+#include "include/uistate.h"
+#include "include/invscreen.h"
 #include "include/scroll.h"
 #include "include/weapon.h"
 
@@ -77,10 +79,12 @@ Scroll::Scroll(Coord location)
 Scroll::Scroll(Coord location, Item::Context context, int type)
 	: Item('?', location, context, "Scroll", std::get<0>(Scroll::typeVector[type]), Scroll::nameVector[type], type, true, true) {}
 
-bool Scroll::activate(Level* level) {
+std::tuple<bool, UIState*> Scroll::activate(Level* level) {
 	this->setIdentified(true);
 
 	PlayerChar* player = level->getPlayer();
+
+	UIState* nextState = new PlayState(player, level);
 
 	// Protect Armor
 	if (this->type == 0) {
@@ -137,7 +141,18 @@ bool Scroll::activate(Level* level) {
 	// Identify
 	} else if (this->type == 4) {
 		player->appendLog("This is a scroll of identify");
-		// TODO
+		for (auto pair : player->getInventory().getContents()) {
+			if (!pair.second.front()->isIdentified()) {
+				delete nextState;
+				nextState = new InvScreen(player, level, [] (Item* i) {return !i->isIdentified();},
+														  [] (Item* i, PlayerChar* p, Level* l) {
+																i->setIdentified(true);
+																return new PlayState(p, l);
+															},
+															false,
+															"Choose an item to identify");
+			}
+		}
 
 	// Teleportation
 	} else if (this->type == 5) {
@@ -199,5 +214,5 @@ bool Scroll::activate(Level* level) {
 		player->applyCondition(PlayerChar::CONFUSE_MONSTER, -1);
 	}
 
-	return true;
+	return std::tuple<bool, UIState*>(true, nextState);
 }

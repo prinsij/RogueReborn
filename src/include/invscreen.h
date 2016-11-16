@@ -32,7 +32,7 @@ class InvScreen : public UIState {
 		 * resumes.
 		 * Includes filter for inventory and function for desired return state.
 		 */
-		InvScreen(PlayerChar*, Level*, filtFunc, transFunc, bool);
+		InvScreen(PlayerChar*, Level*, filtFunc, transFunc, bool, std::string prompt="");
 		/** Draw the inventory.
 		 * Shows like-and-stackable items grouped.
 		 * Makes sure to not reveal the true names
@@ -54,4 +54,6 @@ class InvScreen : public UIState {
 		transFunc transition;
 		/** indicates whether choice is mandatory. */
 		bool escapeable;
+		/** Indicates to the user why the inventory screen is open. */
+		std::string prompt;
 };

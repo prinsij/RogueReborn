@@ -182,7 +182,7 @@ template<typename T>
 class QuickUse : public PlayState {
 	public:
 		QuickUse<T>(PlayerChar* player, Level* level, Item* item,
-					std::function<void(T*)> makeUseOf, bool del=true)
+					std::function<UIState*(T*)> makeUseOf, bool del=true)
 			: PlayState(player, level)
 			, item(item)
 			, makeUseOf(makeUseOf)
@@ -192,9 +192,10 @@ class QuickUse : public PlayState {
 		virtual UIState* handleInput(TCOD_key_t key) {
 			T* usable = dynamic_cast<T*>(item);
 			if (usable != NULL) {
-				makeUseOf(usable);
+				auto nextState = makeUseOf(usable);
 				player->getInventory().remove(usable);
 				if (deleteAfter) delete usable;
+				return nextState;
 			} else {
 				assert (false && "attempted to activate non-activatable");
 			}
@@ -202,7 +203,7 @@ class QuickUse : public PlayState {
 		}
 	private:
 		Item* item;
-		std::function<void(T*)> makeUseOf;
+		std::function<UIState*(T*)> makeUseOf;
 		bool deleteAfter;
 };
 
@@ -338,7 +339,7 @@ void PlayState::draw(TCODConsole* con) {
 
 template<typename T>
 UIState* PlayState::attemptUse(std::string error, std::function<bool(Item*)> filter, 
-								std::function<void(T*)> makeUseOf) {
+								std::function<UIState*(T*)> makeUseOf) {
 	for (auto pair : player->getInventory().getContents()) {
 		if (filter(pair.second.front())) {
 			level->pushMob(player, TURN_TIME);
@@ -449,6 +450,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 														p->getInventory().remove(i);
 														i->setLocation(p->getLocation());
 														l->addFeature(i);
+														return new PlayState(p, l);
 													}, 
 													false);
 												},
@@ -457,17 +459,24 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	no_drop:;
 	// Quaff
 	if (key.c == 'q') {
-		auto temp = player;
+		auto temp_p = player;
+		auto temp_l = level;
 		return attemptUse<Potion>("You have nothing you can quaff", 
 						[] (Item* i) {return dynamic_cast<Potion*>(i)!=NULL;},
-						[temp] (Potion* p) {p->activate(temp);});
+						[temp_p, temp_l] (Potion* p) {
+							p->activate(temp_p);
+							return new PlayState(temp_p, temp_l);
+						});
 	}
 	// Read scroll
 	if (key.c == 'r') {
-		auto temp = level;
+		auto temp_l = level;
+		auto temp_p = player;
 		return attemptUse<Scroll>("You have nothing you can read",
 						[] (Item* i) {return dynamic_cast<Scroll*>(i)!=NULL;},
-						[temp] (Scroll* s) {s->activate(temp);});
+						[temp_l, temp_p] (Scroll* s) {
+							return std::get<1>(s->activate(temp_l));
+						});
 	}
 	// wield weapon
 	if (key.c == 'w') {
@@ -478,9 +487,10 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Weapon*>(i)!=NULL;},
 											[] (Item* i, PlayerChar* p, Level* l) {
 												return new QuickUse<Weapon>(p, l, i, 
-																		[p] (Weapon* w) {
+																		[p, l] (Weapon* w) {
 																			p->equipWeapon(w);
 																			p->getInventory().remove(w);
+																			return new PlayState(p, l);
 																		}, false);
 											},
 											true);
@@ -498,10 +508,11 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Armor*>(i)!=NULL;},
 											[] (Item* i, PlayerChar* p, Level* l) {
 												return new QuickUse<Armor>(p, l, i, 
-																		[p] (Armor* a) {
+																		[p, l] (Armor* a) {
 																			p->equipArmor(a);
 																			p->getInventory().remove(a);
 																			p->appendLog("You put on the " + a->getDisplayName());
+																			return new PlayState(p, l);
 																		}, false);
 											},
 											true);
@@ -573,10 +584,11 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Ring*>(i)!=NULL;},
 											[] (Item* i, PlayerChar* p, Level* l) {
 												return new QuickUse<Ring>(p, l, i, 
-																		[p] (Ring* r) {
+																		[p, l] (Ring* r) {
 																			p->equipRingLeft(r);
 																			p->appendLog("You put on the " + r->getDisplayName());
 																			p->getInventory().remove(r);
+																			return new PlayState(p, l);
 																		}, false);
 											},
 											true);
@@ -584,10 +596,11 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Ring*>(i)!=NULL;},
 											[] (Item* i, PlayerChar* p, Level* l) {
 												return new QuickUse<Ring>(p, l, i, 
-																		[p] (Ring* r) {
+																		[p, l] (Ring* r) {
 																			p->equipRingRight(r);
 																			p->appendLog("You put on the " + r->getDisplayName());
 																			p->getInventory().remove(r);
+																			return new PlayState(p, l);
 																		}, false);
 											},
 											true);
@@ -651,10 +664,14 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	}
 	// eat food
 	if (key.c == 'e') {
-		auto temp = player;
+		auto temp_p = player;
+		auto temp_l = level;
 		return attemptUse<Food>("You have nothing you can eat",
 						[] (Item* i) {return dynamic_cast<Food*>(i)!=NULL;},
-						[temp] (Food* f) {temp->eat(f);});
+						[temp_p, temp_l] (Food* f) {
+							temp_p->eat(f);
+							return new PlayState(temp_p, temp_l);
+						});
 	}
 	if (key.c == '<' || key.c == '>') {
 		for (Feature* feat : level->getFeatures()) {

@@ -52,6 +52,6 @@ class PlayState : public UIState {
 		 */
 		template<typename T>
 		UIState* attemptUse(std::string, std::function<bool(Item*)>,
-							std::function<void(T*)>);
+							std::function<UIState*(T*)>);
 
 };
