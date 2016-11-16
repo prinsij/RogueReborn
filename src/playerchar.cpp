@@ -253,7 +253,7 @@ int PlayerChar::getFoodLife() {
 std::string PlayerChar::getFoodStatus() {
 	switch(this->foodStatus) {
 		case FoodStates::FULL:
-			return NULL;
+			return "";
 		case 1:
 			return "Hungry";
 		case 2:
