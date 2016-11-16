@@ -9,10 +9,13 @@ x = False
 #Otherwise, only a first character of "0" means success
 #Anything else will fail!
 for i in results:
-	print "[PYTHON TESTER] " + i.strip()	
-	if "0" != i[0] and "#" != i[0]:
-		x = True
-		break
+	print "[PYTHON TESTER] " + i.strip()
+
+	#TESTER 0 Test ## Success/fail: comment
+	if (i[0:7] == "TESTER"):
+		if "0" != i[7] and "#" != i[7]:
+			x = True
+			break
 
 if (x):
 	print "Failed!"
