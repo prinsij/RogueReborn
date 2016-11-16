@@ -37,6 +37,15 @@ class RIPScreen : public UIState {
 		/** Handle player key input. */
 		virtual UIState* handleInput(TCOD_key_t);
 	private:
+		/** Width of grave */
+		int GRAVE_WIDTH = 10;
+
+		/** Leaves at bottom of grave */
+		std::string leaves;
+		
+		/** Flowers at bottom of grave */
+		std::string flowers;
+
 		/** Reference to player. */
 		PlayerChar* player;
 		/** Vector of score table items read from file
@@ -45,6 +54,7 @@ class RIPScreen : public UIState {
 		std::vector<ScoreItem> scores;
 		/** Location of score record. */
 		const std::string SCORE_FILE = "scores.txt";
+		
 		/** Indicates whether the player beat the game. */
 		bool wasVictory;
 };
