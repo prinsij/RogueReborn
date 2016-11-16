@@ -6,7 +6,7 @@ TESTTARGET = Test.exe
 
 SRCSNOMAIN=amulet.cpp armor.cpp coord.cpp feature.cpp food.cpp goldpile.cpp helpscreen.cpp invscreen.cpp item.cpp itemzone.cpp level.cpp mainmenu.cpp mastercontroller.cpp mob.cpp monster.cpp playerchar.cpp playstate.cpp potion.cpp random.cpp ring.cpp ripscreen.cpp room.cpp scroll.cpp stairs.cpp terrain.cpp tiles.cpp trap.cpp tunnel.cpp uistate.cpp wand.cpp weapon.cpp logscreen.cpp symbolscreen.cpp
 SRCS=$(SRCSNOMAIN) main.cpp
-TESTSRCS=$(SRCSNOMAIN) test.armor.cpp test.main.cpp test.testable.cpp test.level.cpp test.playerchar.cpp
+TESTSRCS=$(SRCSNOMAIN) $(wildcard test.*.cpp)
 
 OBJS = $(SRCS:.cpp=.o)
 DEPS = $(SRCS:.cpp=.depends)
