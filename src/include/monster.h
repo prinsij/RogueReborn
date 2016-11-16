@@ -249,6 +249,13 @@ class Monster : public Mob {
 		 */
 		virtual int turn(Level*);
 
+		/**
+		 * @brief	Creates a random monster.
+		 *
+		 * @return	Totally random monster (can be out of depth).
+		 */
+		static Monster* randomMonster();
+
 	private:
 		/**
 		 * Map of the following form: { Monster Symbol: Monster Tuple }
