@@ -81,7 +81,11 @@ bool Wand::activate(Level* level, Mob* mob) {
 
 	// Polymorph
 	} else if (this->type == 3) {
-		// TODO
+		auto newMonster = Monster::randomMonster();
+		newMonster->setLocation(monster->getLocation());
+		player->appendLog("The " + monster->getName() + " turns into a " + newMonster->getName());
+		level->removeMob(monster);
+		level->registerMob(newMonster);
 
 	// Haste Monster
 	} else if (this->type == 4) {
