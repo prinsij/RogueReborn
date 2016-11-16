@@ -1,7 +1,7 @@
 /**
  * @file item.h
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member declarations for the Item class
  */ 
@@ -125,7 +125,7 @@ class Item : public Feature {
 
 		/**
 		 * @brief      Removes the given effect from the Item.
-		 * 
+		 *
 		 * param[in]   effect Effect to be removed
 		 */
 		virtual void removeEffect(Effect);
@@ -187,7 +187,7 @@ class Item : public Feature {
 		void setIdentified(bool);
 
 
-		static const int BASE_THROW_DMG = 10;
+		static const int BASE_THROW_DMG = 3;
 
 	protected:
 		/**

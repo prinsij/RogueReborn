@@ -1,7 +1,7 @@
 /**
  * @file wand.cpp
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member definitions for the Wand class
  */ 
@@ -52,10 +52,10 @@ bool Wand::activate(Level* level, Mob* mob) {
 	this->setIdentified(true);
 
 	PlayerChar* player = level->getPlayer();
-	Monster* monster = dynamic_cast<Monster*>(mob); 
+	Monster* monster = dynamic_cast<Monster*>(mob);
 
 	this->charges--;
-	
+
 	if (monster == NULL) {
 		return false;
 	}

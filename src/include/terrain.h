@@ -1,15 +1,15 @@
 /**
  * @file terrain.h
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member declarations for the Terrain class
  */ 
 
 #pragma once
 
-#include "coord.h"
 #include "../libtcod/include/libtcod.hpp"
+#include "coord.h"
 
 /** Represents a tile in the dungeon. */
 class Terrain {

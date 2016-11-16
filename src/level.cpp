@@ -1,7 +1,7 @@
 /**
  * @file level.cpp
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member definitions for the Level class
  */ 
@@ -14,12 +14,13 @@
 #include <queue>
 #include <vector>
 
-#include "include/coord.h"
+#include "include/amulet.h"
 #include "include/armor.h"
+#include "include/coord.h"
 #include "include/feature.h"
 #include "include/food.h"
-#include "include/goldpile.h"
 #include "include/globals.h"
+#include "include/goldpile.h"
 #include "include/level.h"
 #include "include/mob.h"
 #include "include/monster.h"
@@ -35,8 +36,6 @@
 #include "include/trap.h"
 #include "include/tunnel.h"
 #include "include/wand.h"
-#include "include/amulet.h"
-
 
 Level::Level(int depth, PlayerChar* player)
 	: player(player)
@@ -285,7 +284,7 @@ void Level::generate() {
 			}
 		} while (tileAt(randPos).isPassable() != Terrain::Passable);
 		features.push_back(new Amulet(randPos, Item::FLOOR));
-		
+
 	}
 	stair_exit:;
 	// Place gold

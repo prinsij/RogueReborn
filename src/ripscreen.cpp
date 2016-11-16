@@ -1,7 +1,7 @@
 /**
  * @file ripscreen.cpp
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member definitions for the RIPScreen class
  */ 
@@ -13,10 +13,10 @@
 #include <sstream>
 #include <string>
 
+#include "include/globals.h"
 #include "include/playerchar.h"
 #include "include/random.h"
 #include "include/ripscreen.h"
-#include "include/globals.h"
 #include "libtcod/include/libtcod.hpp"
 
 struct ScoreItem {
@@ -113,7 +113,7 @@ RIPScreen::RIPScreen(PlayerChar* player,
 
 		leaves += symbol;
 	}
-	
+
 	// Flowers
 	for (int x = 40 - GRAVE_WIDTH/2 - 2 ; x <= 40 + GRAVE_WIDTH/2 + 2 ; x ++) {
 		if (Generator::intFromRange(0, 99) <= 15) {
@@ -129,35 +129,35 @@ void RIPScreen::draw(TCODConsole* con) {
 	if (!wasVictory) {
 		con->print(40 - GRAVE_WIDTH/2 - 2, 13, leaves.c_str());
 		con->print(40 - GRAVE_WIDTH/2 - 2, 12, flowers.c_str());
-	
+
 		// Top
 		for (int x = 40 - GRAVE_WIDTH/2 + 2 ; x <= 40 + GRAVE_WIDTH/2 - 2 ; x ++) {
 			con->print(x, 1, "_");
 		}
-		
+
 		// Diagonal
 		for (int x = 0 ; x < 3 ; x ++) {
 			con->print(40 - GRAVE_WIDTH/2 + 1 - x, x + 2, "/");
 			con->print(40 + GRAVE_WIDTH/2 - 1 + x, x + 2, "\\");
 		}
-	
+
 		// Sides
 		for (int i = 5 ; i < 13 ; i ++) {
 			con->print(40 - GRAVE_WIDTH/2 - 1, i, "|");
 			con->print(40 + GRAVE_WIDTH/2 + 1, i, "|");
 		}
-	
+
 		// Bottom
 		for (int x = 0 ; x < 10 ; x ++) {
 			con->print(40 - GRAVE_WIDTH/2 - 3 - x, 13, "_");
 			con->print(40 + GRAVE_WIDTH/2 + 3 + x, 13, "_");
 		}
-	
+
 		std::string name = player->getName();
 		if (static_cast<int>(name.length()) > GRAVE_WIDTH - 1) {
 			name = name.substr(0, GRAVE_WIDTH - 4) + "...";
 		}
-	
+
 		con->print(39, 3, "RIP");
 		con->print(40 - name.length()/2, 6, name.c_str());
 	}

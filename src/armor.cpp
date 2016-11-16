@@ -1,7 +1,7 @@
 /**
  * @file armor.cpp
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member definitions for the Armor class
  */ 
@@ -31,6 +31,8 @@ Armor::Armor(Coord location, Item::Context context, int type)
 	: Item(']', location, context, "Armor", std::get<0>(Armor::typeVector[type]), type, false, false),
 	  rating(std::get<1>(Armor::typeVector[type])) {
 		int chance = Generator::intFromRange(1, 100);
+
+		this->enchantProtection = 0;
 
 		if (chance <= 16) {
 			this->applyEffect(Item::CURSED);

@@ -1,22 +1,22 @@
 /**
  * @file mainmenu.cpp
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member definitions for the MainMenu class
  */ 
 
 #include <iostream>
 
+#include "include/food.h"
 #include "include/globals.h"
 #include "include/level.h"
 #include "include/mainmenu.h"
 #include "include/playerchar.h"
 #include "include/playstate.h"
+#include "include/potion.h"
 #include "include/uistate.h"
 #include "include/weapon.h"
-#include "include/food.h"
-#include "include/potion.h"
 #include "libtcod/include/libtcod.hpp"
 
 MainMenu::MainMenu()

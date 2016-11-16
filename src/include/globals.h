@@ -1,7 +1,7 @@
 /**
  * @file globals.h
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Global members
  */ 
@@ -9,8 +9,8 @@
 #pragma once
 
 #include <string>
-#include "../libtcod/include/libtcod.hpp"
 
+#include "../libtcod/include/libtcod.hpp"
 #include "random.h"
 
 //please don't put mutable state here

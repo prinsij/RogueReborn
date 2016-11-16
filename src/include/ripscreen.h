@@ -1,7 +1,7 @@
 /**
  * @file ripscreen.h
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member declarations for the RIPScreen class
  */ 
@@ -22,8 +22,8 @@ struct ScoreItem;
 
 /** Interface state for post-death/retirement,
  *  looking at the high-score table.
- *  
- * Environment variables: input device (e.g., keyboard), monitor, and the file system 
+ *
+ * Environment variables: input device (e.g., keyboard), monitor, and the file system
  */
 class RIPScreen : public UIState {
 	public:
@@ -42,7 +42,7 @@ class RIPScreen : public UIState {
 
 		/** Leaves at bottom of grave */
 		std::string leaves;
-		
+
 		/** Flowers at bottom of grave */
 		std::string flowers;
 
@@ -54,7 +54,7 @@ class RIPScreen : public UIState {
 		std::vector<ScoreItem> scores;
 		/** Location of score record. */
 		const std::string SCORE_FILE = "scores.txt";
-		
+
 		/** Indicates whether the player beat the game. */
 		bool wasVictory;
 };

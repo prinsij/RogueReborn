@@ -32,8 +32,8 @@ def cleanPragmas(content):
 		line = content[lineIndex]
 		if re.search(r"#pragma.*once", line):
 			removeList.append(lineIndex)
-		if re.search(r"#(ifdef.*_H|ifndef.*_H|define.*_H|endif)", line):
-			removeList.append(lineIndex)
+		#if re.search(r"#(ifdef.*_H|ifndef.*_H|define.*_H|endif)", line):
+		#	removeList.append(lineIndex)
 
 	newContent = ["#pragma once", ""]
 
@@ -152,11 +152,11 @@ def addHeader(cppFile, content):
 def formatContent(cppFile, content):
 	newContent = trim(content)
 	newContent = sortIncludes(newContent)
-	if re.search(r"test.*cpp|\.h$", cppFile):
+	if re.search(r"\.h$", cppFile):
 		newContent = cleanPragmas(newContent)
 
 	newContent = addHeader(cppFile, newContent)
-	return newContent
+	return newContent + [""]
 
 
 ##

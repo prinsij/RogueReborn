@@ -1,26 +1,24 @@
 /**
  * @file test.armor.cpp
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Global members
  */ 
-
-#pragma once
 
 #include <iostream>
 #include <string>
 #include <vector>
 
 #include "include/armor.h"
-#include "test.testable.cpp"
+#include "test.testable.h"
 
 class ArmorTest : public Testable {
 	public:
 		ArmorTest(){}
 
 		void test(){
-			
+
 			comment("Testing armor!");
 
 			assert(true, "");

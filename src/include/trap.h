@@ -1,7 +1,7 @@
 /**
  * @file trap.h
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member declarations for the Trap class
  */ 
@@ -27,7 +27,7 @@ class Trap : public Feature {
 		 * @param visible Whether the trap is revealed
 		 */
 		Trap(Coord location, unsigned char type, bool visible);
-		/** Trigger the trap on the given mob. 
+		/** Trigger the trap on the given mob.
 		 * Return the next level if a pitfall, otherwise
 		 * return the given level.
 		 */

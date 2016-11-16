@@ -1,7 +1,7 @@
 /**
  * @file level.h
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member declarations for the Level class
  */ 
@@ -19,8 +19,8 @@
 #include "random.h"
 #include "room.h"
 #include "terrain.h"
-#include "tunnel.h"
 #include "trap.h"
+#include "tunnel.h"
 
 class Room;
 

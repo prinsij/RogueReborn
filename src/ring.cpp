@@ -1,7 +1,7 @@
 /**
  * @file ring.cpp
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member definitions for the Ring class
  */ 
@@ -78,7 +78,7 @@ bool Ring::activate(PlayerChar* player) {
 	} else if (this->type == 4) {
 		int newStrength = std::min(player->getMaxStrength(), player->getStrength() + this->ringValue);
 		newStrength = std::max(newStrength, 1);
-		player->setStrength(newStrength);	
+		player->setStrength(newStrength);
 
 	// Sustain Strength
 	} else if (this->type == 5) {
@@ -87,7 +87,7 @@ bool Ring::activate(PlayerChar* player) {
 
 	// Dexterity
 	} else if (this->type == 6) {
-		player->setDexterity(player->getDexterity() + this->ringValue);	
+		player->setDexterity(player->getDexterity() + this->ringValue);
 
 	// Adornment
 	} else if (this->type == 7) {
@@ -132,7 +132,7 @@ bool Ring::deactivate(PlayerChar* player) {
 	} else if (this->type == 4) {
 		int newStrength = std::min(player->getMaxStrength(), player->getStrength() - this->ringValue);
 		newStrength = std::max(newStrength, 1);
-		player->setStrength(newStrength);	
+		player->setStrength(newStrength);
 
 	// Sustain Strength
 	} else if (this->type == 5) {
@@ -140,7 +140,7 @@ bool Ring::deactivate(PlayerChar* player) {
 
 	// Dexterity
 	} else if (this->type == 6) {
-		player->setDexterity(player->getDexterity() - this->ringValue);	
+		player->setDexterity(player->getDexterity() - this->ringValue);
 
 	// Adornment
 	} else if (this->type == 7) {

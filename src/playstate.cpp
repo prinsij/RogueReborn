@@ -1,7 +1,7 @@
 /**
  * @file playstate.cpp
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member definitions for the PlayState class
  */ 
@@ -12,18 +12,12 @@
 #include <string>
 #include <time.h>
 
+#include "include/armor.h"
 #include "include/feature.h"
 #include "include/food.h"
-#include "include/potion.h"
-#include "include/weapon.h"
-#include "include/armor.h"
-#include "include/scroll.h"
-#include "include/wand.h"
 #include "include/globals.h"
-#include "include/ring.h"
 #include "include/goldpile.h"
 #include "include/helpscreen.h"
-#include "include/symbolscreen.h"
 #include "include/invscreen.h"
 #include "include/item.h"
 #include "include/level.h"
@@ -31,10 +25,16 @@
 #include "include/monster.h"
 #include "include/playerchar.h"
 #include "include/playstate.h"
+#include "include/potion.h"
+#include "include/ring.h"
 #include "include/ripscreen.h"
+#include "include/scroll.h"
 #include "include/stairs.h"
+#include "include/symbolscreen.h"
 #include "include/trap.h"
 #include "include/uistate.h"
+#include "include/wand.h"
+#include "include/weapon.h"
 #include "include/weapon.h"
 #include "libtcod/include/libtcod.hpp"
 
@@ -269,7 +269,7 @@ Room* PlayState::updateMap() {
 			result = &room;
 		}
 	}
-	bool blinded = (result == NULL 
+	bool blinded = (result == NULL
  		|| result->getDark() == Room::DARK
  		|| player->hasCondition(PlayerChar::BLIND));
 	if (!blinded) {
@@ -284,7 +284,7 @@ Room* PlayState::updateMap() {
 
 void PlayState::draw(TCODConsole* con) {
 	// Draw terrain
-	bool blinded = currRoom == NULL 
+	bool blinded = currRoom == NULL
  		|| currRoom->getDark() == Room::DARK
  		|| player->hasCondition(PlayerChar::BLIND);
  	unsigned int hallucChar = time(NULL) % HALLUC_CHARS.size();
@@ -357,7 +357,7 @@ void PlayState::draw(TCODConsole* con) {
 }
 
 template<typename T>
-UIState* PlayState::attemptUse(std::string error, std::function<bool(Item*)> filter, 
+UIState* PlayState::attemptUse(std::string error, std::function<bool(Item*)> filter,
 								std::function<UIState*(T*)> makeUseOf) {
 	for (auto pair : player->getInventory().getContents()) {
 		if (filter(pair.second.front())) {
@@ -479,7 +479,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 														i->setLocation(p->getLocation());
 														l->addFeature(i);
 														return new PlayState(p, l);
-													}, 
+													},
 													false);
 												},
 												true);
@@ -489,7 +489,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	if (key.c == 'q') {
 		auto temp_p = player;
 		auto temp_l = level;
-		return attemptUse<Potion>("You have nothing you can quaff", 
+		return attemptUse<Potion>("You have nothing you can quaff",
 						[] (Item* i) {return dynamic_cast<Potion*>(i)!=NULL;},
 						[temp_p, temp_l] (Potion* p) {
 							temp_p->appendLog("You drink the " + p->getName());
@@ -516,7 +516,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 				level->pushMob(player, turnTime);
 				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Weapon*>(i)!=NULL;},
 											[] (Item* i, PlayerChar* p, Level* l) {
-												return new QuickUse<Weapon>(p, l, i, 
+												return new QuickUse<Weapon>(p, l, i,
 																		[p, l] (Weapon* w) {
 																			p->equipWeapon(w);
 																			p->getInventory().remove(w);
@@ -538,7 +538,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 				level->pushMob(player, turnTime);
 				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Armor*>(i)!=NULL;},
 											[] (Item* i, PlayerChar* p, Level* l) {
-												return new QuickUse<Armor>(p, l, i, 
+												return new QuickUse<Armor>(p, l, i,
 																		[p, l] (Armor* a) {
 																			p->equipArmor(a);
 																			p->getInventory().remove(a);
@@ -618,7 +618,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			if (rings.first == NULL) {
 				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Ring*>(i)!=NULL;},
 											[] (Item* i, PlayerChar* p, Level* l) {
-												return new QuickUse<Ring>(p, l, i, 
+												return new QuickUse<Ring>(p, l, i,
 																		[p, l] (Ring* r) {
 																			p->equipRingLeft(r);
 																			p->appendLog("You put on the " + r->getDisplayName());
@@ -630,7 +630,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			} else {
 				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Ring*>(i)!=NULL;},
 											[] (Item* i, PlayerChar* p, Level* l) {
-												return new QuickUse<Ring>(p, l, i, 
+												return new QuickUse<Ring>(p, l, i,
 																		[p, l] (Ring* r) {
 																			p->equipRingRight(r);
 																			p->appendLog("You put on the " + r->getDisplayName());
@@ -695,7 +695,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		}
 		player->appendLog("You have nothing with which to zap");
 		return this;
-																						
+
 	}
 	// eat food
 	if (key.c == 'e') {
