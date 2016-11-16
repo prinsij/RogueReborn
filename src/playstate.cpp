@@ -399,6 +399,9 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	int turnTime = TURN_TIME;
 	if (numAIGone > 0) {
 		turnTime = player->update();
+		if (player->isDead()) {
+			return new RIPScreen(player, level, "Starved to death");
+		}
 	}
 	// Skip the player's turn if they are sleeping
 	if (player->hasCondition(PlayerChar::SLEEPING)) {
