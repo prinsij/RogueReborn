@@ -45,4 +45,6 @@ class RIPScreen : public UIState {
 		std::vector<ScoreItem> scores;
 		/** Location of score record. */
 		const std::string SCORE_FILE = "scores.txt";
+		/** Indicates whether the player beat the game. */
+		bool wasVictory;
 };
