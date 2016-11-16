@@ -25,6 +25,7 @@
 #include "include/scroll.h"
 #include "include/wand.h"
 #include "include/weapon.h"
+#include "libtcod/include/libtcod.hpp"
 
 std::map<PlayerChar::Condition, int> PlayerChar::conditions = {};
 
@@ -33,7 +34,7 @@ std::vector<int> PlayerChar::levelExpBounds = {10, 20, 40, 80, 160, 320, 640, 13
 std::vector<int> PlayerChar::foodLifeBounds = {300, 150, 20, 0};
 
 PlayerChar::PlayerChar(Coord location, std::string name)
-	: Mob('@', location, name, START_ARMOR, START_EXP, START_HP, START_LEVEL),
+	: Mob('@', location, name, START_ARMOR, START_EXP, START_HP, START_LEVEL, TCODColor::yellow),
 	  currentStr(START_STR),
 	  foodLife(START_FOOD),
 	  foodStatus(PlayerChar::FULL),
@@ -44,7 +45,8 @@ PlayerChar::PlayerChar(Coord location, std::string name)
 	  itemRingRight(NULL),
 	  itemWeapon(NULL),
 	  maxStr(START_STR),
-	  moves(0) {}
+	  moves(0) 
+{}
 
 void PlayerChar::addExp(int exp) {
 	this->exp += exp;

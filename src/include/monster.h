@@ -301,4 +301,7 @@ class Monster : public Mob {
 
 		/** Determines whether or not this Monster should be visible to the PlayerChar */
 		bool visible;
+
+		/** Possibilities for a randomly assigned foreground color for the mob. */
+		static const std::vector<TCODColor> possibleColors;
 };

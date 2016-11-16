@@ -11,6 +11,7 @@
 #include <string>
 
 #include "coord.h"
+#include "../libtcod/include/libtcod.hpp"
 
 class Level;
 
@@ -28,7 +29,7 @@ class Mob {
 		 * @see maxHP
 		 * @see level
 		*/
-		Mob(char, Coord, std::string, int armor, int exp, int mobHP, int level);
+		Mob(char, Coord, std::string, int armor, int exp, int mobHP, int level, TCODColor);
 
 		static int diceSum(int, int);
 
@@ -80,6 +81,14 @@ class Mob {
 		 * @see symbol
 		 */
 		char getSymbol();
+		/** Getter for the foreground color.
+		 * @see fcolor
+		 */
+		TCODColor getFColor();
+		/** Setter for the foreground color.
+		 * @see fcolor
+		 */
+		void setFColor(TCODColor);
 		/** Called by other entities when they
 		 *  deal damage.
 		 * @see currentHP
@@ -133,6 +142,8 @@ class Mob {
 		int maxHP;
 		/** Name of the mob. */
 		std::string name;
+		/** Foreground color of the mob. */
+		TCODColor fcolor;
 
 	private:
 		/** Ascii symbol which represents the mob */

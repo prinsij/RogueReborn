@@ -310,6 +310,7 @@ void PlayState::draw(TCODConsole* con) {
  						for (Mob* mob : level->getMobs()) {
  							if (mob->getLocation() == mapPos) {
  								con->putChar(scrPos[0], scrPos[1], HALLUC_CHARS[hallucChar]);
+								con->setCharForeground(scrPos[0], scrPos[1], mob->getFColor());
  								hallucChar = hallucChar < HALLUC_CHARS.size() ? hallucChar+1 : 0;
  							}
  						}
@@ -317,6 +318,7 @@ void PlayState::draw(TCODConsole* con) {
  						for (Mob* mob : level->getMobs()) {
  							if (mob->getLocation() == mapPos) {
  								con->putChar(scrPos[0], scrPos[1], mob->getSymbol());
+								con->setCharForeground(scrPos[0], scrPos[1], mob->getFColor());
  							}
 						}
 					}
