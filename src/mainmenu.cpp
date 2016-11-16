@@ -24,15 +24,18 @@ MainMenu::MainMenu()
 {}
 
 void MainMenu::draw(TCODConsole* con) {
-	con->print(0, 0, "################################################################################");
-	con->print(0, 1, "#                                                                              #");
-	con->print(0, 2, "#                            Welcome to Rogue Reborn                           #");
-	con->print(0, 3, "#                          ---------------------------                         #");
-	con->print(0, 4, "#                                                                              #");
-	con->print(0, 5, "#                             A Rogue++ Production                             #");
-	con->print(0, 6, "#                                                                              #");
-	con->print(0, 7, "################################################################################");
-	con->print(0, 10, ("What is the Rogue's Name? " + nameBuffer).c_str());
+	con->print(10, 2, "############################################################");
+	con->print(10, 3, "#                                                          #");
+	con->print(10, 4, "#                                                          #");
+	con->print(10, 5, "#                  Welcome to Rogue Reborn                 #");
+	con->print(10, 6, "#                ---------------------------               #");
+	con->print(10, 7, "#                                                          #");
+	con->print(10, 8, "#                   A Rogue++ Production                   #");
+	con->print(10, 9, "#                                                          #");
+	con->print(10, 10, "#                                                          #");
+	con->print(10, 11, "############################################################");
+
+	con->print(0, 15, ("What is the Rogue's Name? " + nameBuffer).c_str());
 }
 
 UIState* MainMenu::handleInput(TCOD_key_t key) {

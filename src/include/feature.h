@@ -26,7 +26,7 @@ class Feature {
 		/** Getter for symbol.
 		 * @see symbol
 		 */
-		char getSymbol();
+		virtual char getSymbol();
 		/** Getter for location.
 		 * @see location
 		 */

@@ -28,6 +28,7 @@
 #include "include/item.h"
 #include "include/level.h"
 #include "include/logscreen.h"
+#include "include/monster.h"
 #include "include/playerchar.h"
 #include "include/playstate.h"
 #include "include/ripscreen.h"
@@ -319,6 +320,12 @@ void PlayState::draw(TCODConsole* con) {
  						}
  					} else {
  						for (Mob* mob : level->getMobs()) {
+
+ 							Monster* monster = dynamic_cast<Monster*>(mob);
+
+ 							if (monster != NULL && !player->hasCondition(PlayerChar::SEE_INVISIBLE) && monster->hasFlag(Monster::INVISIBLE))
+ 								continue;
+
  							if (mob->getLocation() == mapPos) {
  								con->putChar(scrPos[0], scrPos[1], mob->getSymbol());
 								con->setCharForeground(scrPos[0], scrPos[1], mob->getFColor());
