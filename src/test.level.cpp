@@ -41,6 +41,8 @@ class LevelTest : public Testable {
 
 			l.clear();
 
+			assert(l.bfsPerp(Coord(2,2),Coord(1,1)).size() == uint(3), "BFS perp along single diagonal works");
+
 			//BFS PERP
 			for (auto i = 0; i < RANDOM_TEST_COUNT; i++){
 
