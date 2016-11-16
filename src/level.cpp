@@ -17,6 +17,7 @@
 #include "include/coord.h"
 #include "include/feature.h"
 #include "include/armor.h"
+#include "include/scroll.h"
 #include "include/food.h"
 #include "include/wand.h"
 #include "include/ring.h"
@@ -334,6 +335,15 @@ void Level::generate() {
 			++i;
 		}
 	}
+	i = 0;
+	while (i < 15) {
+		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
+							  gen.intFromRange(0, Y_SIZE-1));
+		if (tileAt(randPos).isPassable() == Terrain::Passable) {
+			features.push_back(new Scroll(randPos));
+			++i;
+		}
+	}
 	this->placePlayerInStartingPosition();
 }
 
@@ -613,4 +623,10 @@ Coord Level::getRandomEmptyPosition() {
 		result = Generator::randPosition(Coord(0,0), Coord(X_SIZE-1, Y_SIZE-1));
 	} while (tileAt(result).isPassable() != Terrain::Passable || monsterAt(result) != NULL);
 	return result;
+}
+
+void Level::putRandomMonster() {
+	auto possibilities = Monster::getSymbolsForLevel(depth);
+	auto monsterSymbol = possibilities[Generator::intFromRange(0, possibilities.size()-1)];
+	registerMob(new Monster(monsterSymbol, getRandomEmptyPosition()));
 }

@@ -14,6 +14,9 @@
 #include "include/coord.h"
 #include "include/item.h"
 #include "include/level.h"
+#include "include/mob.h"
+#include "include/monster.h"
+#include "include/terrain.h"
 #include "include/playerchar.h"
 #include "include/random.h"
 #include "include/ring.h"
@@ -138,7 +141,7 @@ bool Scroll::activate(Level* level) {
 
 	// Teleportation
 	} else if (this->type == 5) {
-		// TODO
+		player->setLocation(level->getRandomEmptyPosition());
 
 	// Sleep
 	} else if (this->type == 6) {
@@ -167,17 +170,26 @@ bool Scroll::activate(Level* level) {
 	// Create Monster
 	} else if (this->type == 9) {
 		player->appendLog("You hear a faint cry of anguish in the distance");
-		// TODO
+		level->putRandomMonster();
 
 	// Aggravate Monster
 	} else if (this->type == 10) {
 		player->appendLog("You hear a high pitched humming noise");
-		// TODO
+		for (auto mob : level->getMobs()) {
+			auto monster = dynamic_cast<Monster*>(mob);
+			if (monster != NULL) {
+				monster->aggrevate();
+			}
+		}
 
 	// Magic Mapping
 	} else if (this->type == 11) {
 		player->appendLog("This scroll seems to have a map on it");
-		// TODO
+		for (auto x=0; x < level->getSize()[0]; ++x) {
+			for (auto y=0; y < level->getSize()[1]; ++y) {
+				level->tileAt(Coord(x,y)).setIsSeen(Terrain::Seen);
+			}
+		}
 
 	// Confuse Monster
 	} else if (this->type == 12) {

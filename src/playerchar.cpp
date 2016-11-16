@@ -318,8 +318,7 @@ bool PlayerChar::move(Coord location, Level* level) {
 		this->appendLog("You are being held");
 		return false;
 	} else if (this->hasCondition(RANDOM_TELEPORTATION) && this->moves % 80 == 0) {
-		// TODO
-		
+		this->setLocation(level->getRandomEmptyPosition());
 		return true;
 	}
 

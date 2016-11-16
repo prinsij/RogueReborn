@@ -42,7 +42,6 @@ Level* Trap::activate(Mob* mob, Level* level) {
 		l->registerMob(player);
 		l->generate();
 		return l;
-		// TODO
 
 	// Rust Trap
 	} else if (this->type == 1) {
@@ -79,8 +78,7 @@ Level* Trap::activate(Mob* mob, Level* level) {
 		if (player) {
 			player->appendLog("You are suddenly taken aback");
 		}
-
-		// TODO
+		player->setLocation(level->getRandomEmptyPosition());
 
 	// Dart Trap
 	} else if (this->type == 5) {
