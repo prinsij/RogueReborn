@@ -27,11 +27,18 @@ class PlayerCharTest : public Testable {
 			Coord pos  = Coord(0,0);
 			PlayerChar player = PlayerChar(pos, "test");
 
+			assert(!player.hasAmulet(), "Player does not start with amulet");
+
 			int a = player.getLevel();
 			player.addExp(15);
 			int b = player.getLevel();
 
-			assert(b > a, "Level up works");
+			assert(b > a, "Level up by xp works");
+
+			player.raiseLevel();
+			a = player.getLevel();
+
+			assert(a > b, "Level up by code hax works");
 
 			for (auto i = 0; i < 5; i++){
 
@@ -41,5 +48,7 @@ class PlayerCharTest : public Testable {
 
 				assert (b < a, "Taking damage works");	
 			}
+
+
 		}
 };
