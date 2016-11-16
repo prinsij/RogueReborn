@@ -354,9 +354,18 @@ void Monster::relocate(Level* level) {
 	if (this->chasing) {
 		//If you are in the same room as the player, go to him
 		
-		std::vector<Coord> path;
+		std::vector<Coord> path = {this->location};
 		if (this->location.distanceTo(level->getPlayer()->getLocation()) == 2) {
-			path = level->bfsPerp(this->location, level->getPlayer()->getLocation());
+			std::vector<Coord> adjacentTiles = level->getAdjPassable(this->location, true);
+			
+			for (auto it = adjacentTiles.begin() ; it != adjacentTiles.end() ; it ++) {
+				if (it->distanceTo(level->getPlayer()->getLocation()) == 1) {
+					path.push_back(*it);
+				}
+			}
+
+			if (path.size() == 1)
+				path.push_back(this->location);
 		} else {
 			path = level->bfsDiag(this->location, level->getPlayer()->getLocation());
 		}
