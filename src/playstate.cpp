@@ -396,7 +396,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			return new RIPScreen(player, level, "Killed by a " + nextUp->getName());
 		}
 	}
-	int turnTime = 0;
+	int turnTime = TURN_TIME;
 	if (numAIGone > 0) {
 		turnTime = player->update();
 	}
