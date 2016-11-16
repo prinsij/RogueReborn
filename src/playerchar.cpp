@@ -187,7 +187,6 @@ void PlayerChar::dropLevel() {
 	this->exp = levelExpBounds[this->level - 2];
 	this->level--;
 	this->appendLog("Welcome to level " + std::to_string(this->level));
-	std::cout << "# PlayerChar is now at level " << this->level << "\n";
 
 	int deltaHP = Generator::intFromRange(3, 9);
 	this->maxHP -= deltaHP;
