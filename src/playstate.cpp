@@ -510,6 +510,10 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	}
 	// wield weapon
 	if (key.c == 'w') {
+		if (player->getWeapon() != NULL) {
+			player->appendLog("You are already wielding something");
+			return this;
+		}
 		for (auto pair : player->getInventory().getContents()) {
 			Weapon* weap = dynamic_cast<Weapon*>(pair.second.front());
 			if (weap != NULL) {
@@ -532,6 +536,10 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	}
 	// Wear armor
 	if (key.c == 'W') {
+		if (player->getArmor() != NULL) {
+			player->appendLog("You are already wearing something");
+			return this;
+		}
 		for (auto pair : player->getInventory().getContents()) {
 			Armor* armor = dynamic_cast<Armor*>(pair.second.front());
 			if (armor != NULL) {
@@ -566,7 +574,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			}
 			return this;
 		} else {
-			player->appendLog("you are not wielding anything");
+			player->appendLog("you are not wearing anything");
 		}
 	}
 	// Remove ring
