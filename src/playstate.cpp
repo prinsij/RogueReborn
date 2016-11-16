@@ -291,15 +291,17 @@ void PlayState::draw(TCODConsole* con) {
 				auto scrPos = mapPos.asScreen();
 				Terrain& terrain = (*level)[mapPos];
 				con->putChar(scrPos[0], scrPos[1], terrain.getSymbol());
-				bool hasFeat = false;
+				Feature* featAt = NULL;
 				for (Feature* feat : level->getFeatures()) {
 					if (feat->getLocation() == mapPos && feat->getVisible()) {
 						con->putChar(scrPos[0], scrPos[1], feat->getSymbol());
-						hasFeat = true;
+						featAt = feat;
 					}
 				}
-				if (!hasFeat) {
+				if (featAt == NULL) {
 					con->setCharForeground(scrPos[0], scrPos[1], terrain.getColor());
+				} else {
+					con->setCharForeground(scrPos[0], scrPos[1], featAt->getFColor());
 				}
 				// Previously but not currently seen
 				if (mapPos.distanceTo(player->getLocation()) > 1

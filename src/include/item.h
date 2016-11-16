@@ -186,6 +186,7 @@ class Item : public Feature {
 		 */
 		void setIdentified(bool);
 
+
 		static const int BASE_THROW_DMG = 10;
 
 	protected:

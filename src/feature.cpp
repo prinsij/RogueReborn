@@ -9,10 +9,14 @@
 #include "include/coord.h"
 #include "include/feature.h"
 
-Feature::Feature(char symbol, Coord location, bool visible)
+const std::vector<TCODColor> Feature::possibleColors = {TCODColor::lightBlue, TCODColor::red, TCODColor::orange, 
+							TCODColor::green, TCODColor::purple, TCODColor::yellow};
+
+Feature::Feature(char symbol, Coord location, bool visible, TCODColor fcolor)
 	: location(location)
 	, symbol(symbol) 
 	, visible(visible)
+	, fcolor(fcolor)
 {}
 
 char Feature::getSymbol() {
@@ -33,6 +37,10 @@ Coord Feature::getLocation() {
 
 void Feature::setLocation(Coord newLoc) {
 	this->location = newLoc;
+}
+
+TCODColor Feature::getFColor() {
+	return this->fcolor;
 }
 
 Feature::~Feature() {}
