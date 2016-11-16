@@ -21,7 +21,8 @@ class LevelTest : public Testable {
 	public:
 		LevelTest(){}
 
-		int LEVEL_DEPTH = 5;
+		const int LEVEL_DEPTH = 5;
+		const int RANDOM_TEST_COUNT = 5;
 
 		void test(){
 
@@ -40,15 +41,66 @@ class LevelTest : public Testable {
 
 			l.clear();
 
-			for (auto i = 0; i < 10; i++){
+			//BFS PERP
+			for (auto i = 0; i < RANDOM_TEST_COUNT; i++){
 
 				//Path size is inclusive. Going from N to M involves M-N+1 locations.
 				int target = Generator::intFromRange(5,30);
 				std::vector<Coord> path = l.bfsPerp(Coord(1,1), Coord(target+1,1));
 
+				
+				assert(path.size() == uint(target+1), "BFS perp along a straight horizontal line works");
+			}
+
+			for (auto i = 0; i < RANDOM_TEST_COUNT; i++){
+
+				//Path size is inclusive. Going from N to M involves M-N+1 locations.
+				int target = Generator::intFromRange(5,30);
+				std::vector<Coord> path = l.bfsPerp(Coord(1,1), Coord(1,target+1));
 
 				
-				assert(path.size() == uint(target+1), "BFS along a straight horizontal line works");
+				assert(path.size() == uint(target+1), "BFS perp along a straight vertical line works");
+			}
+
+			for (auto i = 0; i < RANDOM_TEST_COUNT; i++){
+
+				//Path size is inclusive. Going from N to M involves M-N+1 locations.
+				int target = Generator::intFromRange(5,30);
+				std::vector<Coord> path = l.bfsPerp(Coord(1,1), Coord(target+1,target+1));
+
+				
+				assert(path.size() == uint(2*target+1), "BFS perp along a diagonal line works");
+			}
+
+			//BFS DIAG
+			for (auto i = 0; i < RANDOM_TEST_COUNT; i++){
+
+				//Path size is inclusive. Going from N to M involves M-N+1 locations.
+				int target = Generator::intFromRange(5,30);
+				std::vector<Coord> path = l.bfsDiag(Coord(1,1), Coord(target+1,1));
+
+				
+				assert(path.size() == uint(target+1), "BFS diag along a straight horizontal line works");
+			}
+
+			for (auto i = 0; i < RANDOM_TEST_COUNT; i++){
+
+				//Path size is inclusive. Going from N to M involves M-N+1 locations.
+				int target = Generator::intFromRange(5,30);
+				std::vector<Coord> path = l.bfsDiag(Coord(1,1), Coord(1,target+1));
+
+				
+				assert(path.size() == uint(target+1), "BFS diag along a straight vertical line works");
+			}
+
+			for (auto i = 0; i < RANDOM_TEST_COUNT; i++){
+
+				//Path size is inclusive. Going from N to M involves M-N+1 locations.
+				int target = Generator::intFromRange(5,30);
+				std::vector<Coord> path = l.bfsDiag(Coord(1,1), Coord(target+1,target+1));
+
+				
+				assert(path.size() == uint(target+1), "BFS diag along a diagonal line works");
 			}
 		}
 };
