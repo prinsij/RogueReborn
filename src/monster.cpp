@@ -247,10 +247,10 @@ void Monster::attack(Level* level) {
 	if (this->getLocation().isAdjacentTo(player->getLocation())) {
 		if (Generator::intFromRange(0, 99) <= this->calculateHitChance(player)) {
 
-			player->appendLog("The " + this->getName() + " hit you");
+			player->appendLog("The " + this->getName(player) + " hit you");
 			player->hit(calculateDamage());
 
-			if (!player->isDead()) {	
+			if (!player->isDead() && !this->hasFlag(CANCELLED)) {	
 
 				if (this->hasFlag(CONFUSES)) { this->attackConfuse(player); }
 				else if (this->hasFlag(DRAINS_LIFE)) { this->attackDrainLife(player); }
@@ -261,7 +261,7 @@ void Monster::attack(Level* level) {
 				else if (this->hasFlag(STINGS)) { this->attackSting(player); }
 			}
 		} else {
-			player->appendLog("The " + this->getName() + " missed you");
+			player->appendLog("The " + this->getName(player) + " missed you");
 		}
 	}
 }
@@ -296,6 +296,15 @@ int Monster::getDelay() {
 	} else {
 		return TURN_TIME;
 	}
+}
+
+std::string Monster::getName() {
+	return Mob::getName();
+}
+
+std::string Monster::getName(PlayerChar* player) {
+	if (!this->hasFlag(INVISIBLE) || player->hasCondition(PlayerChar::SEE_INVISIBLE)) return Mob::getName();
+	else return "Something";
 }
 
 std::vector<char> Monster::getSymbolsForLevel(int depth) {

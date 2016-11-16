@@ -167,11 +167,26 @@ class Monster : public Mob {
 		int getCarryChance();
 
 		/**
-		 * @brief      Returns this Monster's turn delay
+		 * @brief      Returns this Monster's turn delay.
 		 *
 		 * @return     The delay.
 		 */
 		int getDelay();
+
+		
+		/**
+		 * @brief	Returns the name of this Monster.
+		 *
+		 * @return	The name of this Monster.
+		 */ 
+		std::string getName();
+
+		/**
+		 * @brief	Returns the name of this Monster (factoring in invisiblity).
+		 *
+		 * @return	The name of this Monster.
+		 */ 
+		std::string getName(PlayerChar*);
 
 		/**
 		 * @brief      Gets the valid Monster symbols based on the current dungeon depth.
