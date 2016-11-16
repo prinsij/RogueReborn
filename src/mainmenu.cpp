@@ -7,6 +7,7 @@
  */ 
 
 #include <iostream>
+#include <time.h>
 
 #include "include/food.h"
 #include "include/globals.h"
@@ -24,18 +25,62 @@ MainMenu::MainMenu()
 {}
 
 void MainMenu::draw(TCODConsole* con) {
-	con->print(10, 2, "############################################################");
-	con->print(10, 3, "#                                                          #");
-	con->print(10, 4, "#                                                          #");
-	con->print(10, 5, "#                  Welcome to Rogue Reborn                 #");
-	con->print(10, 6, "#                ---------------------------               #");
-	con->print(10, 7, "#                                                          #");
-	con->print(10, 8, "#                   A Rogue++ Production                   #");
-	con->print(10, 9, "#                                                          #");
-	con->print(10, 10, "#                                                          #");
-	con->print(10, 11, "############################################################");
+	int WIDTH = 60;
+	int startX = con->getWidth()/2 - WIDTH/2 - 4;
 
-	con->print(0, 15, ("What is the Rogue's Name? " + nameBuffer).c_str());
+	int conY = 2;
+
+	con->print(0, conY++, "        ____________________________________________________________          ");
+	con->print(0, conY++, "      (@\\                                                           \\       ");
+	con->print(0, conY++, "       ^ \\                                                           \\      ");
+	con->print(0, conY++, "          \\                                                           \\      ");
+	con->print(0, conY++, "           \\                                                           \\     ");
+	con->print(0, conY++, "            )                                                           )     ");
+	con->print(0, conY++, "           /                                                           /      ");
+	con->print(0, conY++, "          /                                                           /       ");
+	con->print(0, conY++, "         (                                                           (        ");
+	con->print(0, conY++, "          \\                                                           \\     ");
+	con->print(0, conY++, "           \\                                                           \\    ");
+	con->print(0, conY++, "            \\                                                           \\   ");
+	con->print(0, conY++, "           (@)___________________________________________________________)   ");
+
+	for (int row = 0 ; row < conY ; row++) {
+		for (int col = 0 ; col < 80 ; col++) {
+			con->setCharForeground(col, row, TCODColor::amber);
+		}
+	}
+
+	std::string strTop = "@-- Welcome to Rogue Reborn -->,";
+	std::string strBot = "~ Rogue++ Productions ~";
+
+	int startTop = startX + WIDTH/2 + 5 - strTop.length()/2;
+	int startBot = startX + WIDTH/2 + 5 - strBot.length()/2; 
+	int rowTop = 5;
+	int rowBot = 10;
+
+	con->print(startTop, rowTop, strTop.c_str());
+	con->print(startBot, rowBot, strBot.c_str());
+
+	for (int col = startTop ; col < static_cast<int>(startTop + strTop.length()) ; col++) {
+		con->setCharForeground(col, rowTop, TCODColor::yellow);
+	}
+
+	for (int col = startTop ; col < static_cast<int>(startTop + strTop.length()) ; col++) {
+		con->setCharForeground(col, rowBot, TCODColor::orange);
+	}
+
+	int promptRow = 18;
+	std::string prompt = "Who dare enter the Dungeons of Doom? "; 
+
+	con->print(1, promptRow, (prompt + nameBuffer).c_str());
+
+	for (int col = 1 ; col <= static_cast<int>(prompt.length()) ; col++) {
+		con->setCharForeground(col, promptRow, TCODColor::red);
+	}
+
+	if (time(NULL) % 2 == 0) {
+		con->print(prompt.length() + nameBuffer.length() + 1, 18, "_");
+	}
 }
 
 UIState* MainMenu::handleInput(TCOD_key_t key) {
