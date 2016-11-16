@@ -32,6 +32,9 @@ class Trap : public Feature {
 		 * return the given level.
 		 */
 		Level* activate(Mob*, Level*);
+
+		/** Records how many type of traps there are for rand-gen purposes. */
+		static constexpr unsigned int MAX_TYPE = 5;
 	private:
 		/** Type of the trap.
 		   0 = Door Trap

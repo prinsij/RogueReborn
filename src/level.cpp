@@ -312,7 +312,7 @@ void Level::generate() {
 		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
 							  gen.intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
-			features.push_back(new Trap(randPos, 0, false));
+			features.push_back(new Trap(randPos, Generator::intFromRange(0, Trap::MAX_TYPE), false));
 			++i;
 		}
 	}
