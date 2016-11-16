@@ -566,7 +566,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			}
 			return this;
 		} else {
-			player->appendLog("you are not wielding anything");
+			player->appendLog("you are not wearing anything");
 		}
 	}
 	// Remove ring
