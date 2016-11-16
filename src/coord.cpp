@@ -88,7 +88,7 @@ std::string Coord::toString() const{
 }
 
 int Coord::distanceTo(const Coord& other) const {
-	return std::max(std::abs(x - other.x), std::abs(y - other.y));
+	return std::abs(x - other.x) + std::abs(y - other.y);
 }
 
 bool Coord::isAdjacentTo(const Coord& other) const {
