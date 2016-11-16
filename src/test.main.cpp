@@ -14,6 +14,7 @@
 
 #include "test.armor.cpp"
 #include "test.level.cpp"
+#include "test.playerchar.cpp"
 #include "test.testable.cpp"
 
 int main(){
@@ -21,9 +22,11 @@ int main(){
 	ArmorTest a = ArmorTest();
 	a.test();
 
-
 	LevelTest l = LevelTest();
 	l.test();
+
+	PlayerCharTest pc = PlayerCharTest();
+	pc.test();
 
 	return 0;
 }

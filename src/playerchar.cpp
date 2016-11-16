@@ -158,7 +158,7 @@ void PlayerChar::changeFoodLife(int amount) {
 }
 
 void PlayerChar::collectGold(GoldPile* goldpile) {
-	std::cout << "PlayerChar Collected " << goldpile->getQuantity() << " Gold\n";
+	std::cout << "# PlayerChar Collected " << goldpile->getQuantity() << " Gold\n";
 	this->appendLog("Collected " + std::to_string(goldpile->getQuantity()) + " gold");
 	this->gold += goldpile->getQuantity();
 }
@@ -170,7 +170,7 @@ bool PlayerChar::dropItem(Item* item, Level* level) {
 		this->itemWeapon == item)
 		return false;
 
-	std::cout << "PlayerChar Dropped Item " << item->getName() << "\n";
+	std::cout << "# PlayerChar Dropped Item " << item->getName() << "\n";
 
 	this->inventory.remove(item);
 	item->setContext(Item::FLOOR);
@@ -183,7 +183,7 @@ void PlayerChar::dropLevel() {
 	this->exp = levelExpBounds[this->level - 2];
 	this->level--;
 	this->appendLog("Welcome to level " + std::to_string(this->level));
-	std::cout << "PlayerChar is now at level " << this->level << "\n";
+	std::cout << "# PlayerChar is now at level " << this->level << "\n";
 
 	int deltaHP = Generator::intFromRange(3, 9);
 	this->maxHP -= deltaHP;
@@ -191,33 +191,33 @@ void PlayerChar::dropLevel() {
 }
 
 void PlayerChar::eat(Food* food) {
-	std::cout << "PlayerChar Ate " << food->getName() << "\n";
+	std::cout << "# PlayerChar Ate " << food->getName() << "\n";
 
 	food->activate(this);
 	this->inventory.remove(food);
 }
 
 void PlayerChar::equipArmor(Armor* armor) {
-	std::cout << "PlayerChar Equipped Armor " << armor->getName() << "\n";
+	std::cout << "# PlayerChar Equipped Armor " << armor->getName() << "\n";
 
 	this->itemArmor = armor;
 	this->armor += armor->getRating();
 }
 
 void PlayerChar::equipRingLeft(Ring* ring) {
-	std::cout << "PlayerChar Equipped Left Ring " << ring->getName() << "\n";
+	std::cout << "# PlayerChar Equipped Left Ring " << ring->getName() << "\n";
 
 	this->itemRingLeft = ring;
 }
 
 void PlayerChar::equipRingRight(Ring* ring) {
-	std::cout << "PlayerChar Equipped Right Ring " << ring->getName() << "\n";
+	std::cout << "# PlayerChar Equipped Right Ring " << ring->getName() << "\n";
 
 	this->itemRingRight = ring;
 }
 
 void PlayerChar::equipWeapon(Weapon* weapon) {
-	std::cout << "PlayerChar Equipped Weapon " << weapon->getName() << "\n";
+	std::cout << "# PlayerChar Equipped Weapon " << weapon->getName() << "\n";
 
 	this->itemWeapon = weapon;
 }
@@ -287,7 +287,7 @@ int PlayerChar::getSightRadius() {
 
 Weapon* PlayerChar::getWeapon() {
 	if (itemWeapon != NULL) {
-		std::cout << "PlayerChar stowed weapon " + itemWeapon->getName() << "\n";
+		std::cout << "# PlayerChar stowed weapon " + itemWeapon->getName() << "\n";
 	}
 	return this->itemWeapon;
 }
@@ -371,7 +371,7 @@ void PlayerChar::pickupItem(Item* item) {
 }
 
 void PlayerChar::quaff(Potion* potion, Mob* mob) {
-	std::cout << "PlayerChar Quaffed " << potion->getName() << "\n";
+	std::cout << "# PlayerChar Quaffed " << potion->getName() << "\n";
 
 	potion->activate(mob);
 	this->inventory.remove(potion);
@@ -382,7 +382,7 @@ void PlayerChar::raiseLevel() {
 		this->exp = levelExpBounds[this->level - 1];
 		this->level++;
 		this->appendLog("Welcome to level " + std::to_string(this->level));
-		std::cout << "PlayerChar is now at level " << this->level << "\n";
+		std::cout << "# PlayerChar is now at level " << this->level << "\n";
 
 		int deltaHP = Generator::intFromRange(3, 9);
 		this->currentHP += deltaHP;
@@ -391,7 +391,7 @@ void PlayerChar::raiseLevel() {
 }
 
 void PlayerChar::read(Scroll* scroll, Level* level) {
-	std::cout << "PlayerChar Read Scroll " << scroll->getName() << "\n";
+	std::cout << "# PlayerChar Read Scroll " << scroll->getName() << "\n";
 
 	scroll->activate(level);
 	this->inventory.remove(scroll);
@@ -400,7 +400,7 @@ void PlayerChar::read(Scroll* scroll, Level* level) {
 bool PlayerChar::removeArmor() {
 	if (this->itemArmor == NULL) return false;
 
-	std::cout << "PlayerChar Removed Armor " << this->itemArmor->getName() << "\n";
+	std::cout << "# PlayerChar Removed Armor " << this->itemArmor->getName() << "\n";
 
 	this->armor -= this->itemArmor->getRating();
 	this->itemArmor = NULL;
@@ -427,7 +427,7 @@ void PlayerChar::removeCondition(PlayerChar::Condition condition) {
 bool PlayerChar::removeRingLeft() {
 	if (this->itemRingLeft == NULL) return false;
 
-	std::cout << "PlayerChar Removed Left Ring " << this->itemRingLeft->getName() << "\n";
+	std::cout << "# PlayerChar Removed Left Ring " << this->itemRingLeft->getName() << "\n";
 
 	this->itemRingLeft = NULL;
 
@@ -437,7 +437,7 @@ bool PlayerChar::removeRingLeft() {
 bool PlayerChar::removeRingRight() {
 	if (this->itemRingRight == NULL) return false;
 
-	std::cout << "PlayerChar Removed Right Ring " << this->itemRingRight->getName() << "\n";
+	std::cout << "# PlayerChar Removed Right Ring " << this->itemRingRight->getName() << "\n";
 
 	this->itemRingRight = NULL;
 
@@ -447,7 +447,7 @@ bool PlayerChar::removeRingRight() {
 bool PlayerChar::removeWeapon() {
 	if (this->itemWeapon == NULL) return false;
 
-	std::cout << "PlayerChar Removed Weapon " << this->itemWeapon->getName() << "\n";
+	std::cout << "# PlayerChar Removed Weapon " << this->itemWeapon->getName() << "\n";
 
 	this->itemWeapon = NULL;
 
@@ -514,7 +514,7 @@ void PlayerChar::setStrength(int strength) {
 bool PlayerChar::throwItem(Item* item) {
 	if (!item->isThrowable()) return false;
 
-	std::cout << "PlayerChar Threw " << item->getName() << "\n";
+	std::cout << "# PlayerChar Threw " << item->getName() << "\n";
 
 	// TODO
 
@@ -562,7 +562,7 @@ int PlayerChar::update() {
 bool PlayerChar::zap(Wand* wand, Level* level) {
 	if (wand->getCharges() == 0) return false;
 
-	std::cout << "PlayerChar Zapped with Wand " << wand->getName() << "\n";
+	std::cout << "# PlayerChar Zapped with Wand " << wand->getName() << "\n";
 
 	// TODO
 	// Mob* mob = ...
