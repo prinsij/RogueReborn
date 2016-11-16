@@ -179,7 +179,7 @@ void RIPScreen::draw(TCODConsole* con) {
 }
 
 UIState* RIPScreen::handleInput(TCOD_key_t key) {
-	if (key.vk == TCODK_ESCAPE) {
+	if (key.vk == TCODK_ESCAPE || key.vk == TCODK_SPACE || key.vk == TCODK_ENTER) {
 		delete player;
 		player = NULL;
 		return NULL;
