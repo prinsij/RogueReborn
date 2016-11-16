@@ -195,6 +195,12 @@ class Level {
 		 */
 		Coord getRandomEmptyPosition();
 
+		/**
+		 * @brief	Places a depth-appropriate monster
+		 *			somewhere in the level.
+		 */
+		void putRandomMonster();
+
 		~Level();
 
 	private:

@@ -624,3 +624,9 @@ Coord Level::getRandomEmptyPosition() {
 	} while (tileAt(result).isPassable() != Terrain::Passable || monsterAt(result) != NULL);
 	return result;
 }
+
+void Level::putRandomMonster() {
+	auto possibilities = Monster::getSymbolsForLevel(depth);
+	auto monsterSymbol = possibilities[Generator::intFromRange(0, possibilities.size()-1)];
+	registerMob(new Monster(monsterSymbol, getRandomEmptyPosition()));
+}
