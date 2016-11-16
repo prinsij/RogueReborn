@@ -109,6 +109,7 @@ class QuickZap : public PlayState {
 				auto mob = level->monsterAt(next);
 				if (mob != NULL) {
 					wand->activate(level, mob);
+					player->appendLog("You zap with the " + wand->getName());
 					if (wand->getCharges() <= 0) {
 						player->getInventory().remove(wand);
 						player->appendLog("Drained of magic, the wand crumbles to dust");
@@ -466,6 +467,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		return attemptUse<Potion>("You have nothing you can quaff", 
 						[] (Item* i) {return dynamic_cast<Potion*>(i)!=NULL;},
 						[temp_p, temp_l] (Potion* p) {
+							temp_p->appendLog("You drink the " + p->getName());
 							p->activate(temp_p);
 							return new PlayState(temp_p, temp_l);
 						});
@@ -477,6 +479,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		return attemptUse<Scroll>("You have nothing you can read",
 						[] (Item* i) {return dynamic_cast<Scroll*>(i)!=NULL;},
 						[temp_l, temp_p] (Scroll* s) {
+							temp_p->appendLog("You read the " + s->getName());
 							return std::get<1>(s->activate(temp_l));
 						});
 	}
@@ -492,6 +495,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 																		[p, l] (Weapon* w) {
 																			p->equipWeapon(w);
 																			p->getInventory().remove(w);
+																			p->appendLog("You wield the " + w->getName());
 																			return new PlayState(p, l);
 																		}, false);
 											},
