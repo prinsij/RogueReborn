@@ -70,6 +70,8 @@ class RingRemovePrompt : public PlayState {
 				if (player->removeRingRight()) {
 					player->getInventory().add(*ring);
 					player->appendLog("You take off the " + ring->getDisplayName());
+				} else {
+					player->appendLog("The " + ring->getDisplayName() + " tightens its grip on your finger");
 				}
 				return new PlayState(player, level);
 			}
@@ -78,6 +80,8 @@ class RingRemovePrompt : public PlayState {
 				if (player->removeRingLeft()) {
 					player->getInventory().add(*ring);
 					player->appendLog("You take off the " + ring->getDisplayName());
+				} else {
+					player->appendLog("The " + ring->getDisplayName() + " tightens its grip on your finger");
 				}
 				return new PlayState(player, level);
 			}
