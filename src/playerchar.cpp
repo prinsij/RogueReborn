@@ -390,6 +390,10 @@ void PlayerChar::raiseLevel() {
 bool PlayerChar::removeArmor() {
 	if (this->itemArmor == NULL) return false;
 
+	if (this->itemArmor->hasEffect(Item::CURSED)) {
+		return false;
+	}
+
 	std::cout << "# PlayerChar Removed Armor " << this->itemArmor->getName() << "\n";
 
 	this->armor -= this->itemArmor->getRating();
@@ -416,7 +420,10 @@ void PlayerChar::removeCondition(PlayerChar::Condition condition) {
 
 bool PlayerChar::removeRingLeft() {
 	if (this->itemRingLeft == NULL) return false;
-
+	
+	if (this->itemRingLeft->hasEffect(Item::CURSED)) {
+		return false;
+	}
 	std::cout << "# PlayerChar Removed Left Ring " << this->itemRingLeft->getName() << "\n";
 
 	this->itemRingLeft = NULL;
@@ -426,6 +433,10 @@ bool PlayerChar::removeRingLeft() {
 
 bool PlayerChar::removeRingRight() {
 	if (this->itemRingRight == NULL) return false;
+	
+	if (this->itemRingRight->hasEffect(Item::CURSED)) {
+		return false;
+	}
 
 	std::cout << "# PlayerChar Removed Right Ring " << this->itemRingRight->getName() << "\n";
 
@@ -436,6 +447,10 @@ bool PlayerChar::removeRingRight() {
 
 bool PlayerChar::removeWeapon() {
 	if (this->itemWeapon == NULL) return false;
+
+	if (this->itemWeapon->hasEffect(Item::CURSED)) {
+		return false;
+	}
 
 	std::cout << "# PlayerChar Removed Weapon " << this->itemWeapon->getName() << "\n";
 
