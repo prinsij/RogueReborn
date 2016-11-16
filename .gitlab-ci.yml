@@ -1,12 +1,18 @@
 
+stages:
+  - build
+  - test
+
 build:
+  stage: build
   script:
     - cd src/
     - make
-    - cp Test.exe ../../Test.exe
     - cd ..
 test:
+  stage: test
   script:
-    - ../Test.exe > Pipeline/TestResults
-    - cd Pipeline/
+    - cd src/
+    - ./Test.exe > ../Pipeline/TestResults
+    - cd ../Pipeline/
     - python check.py
