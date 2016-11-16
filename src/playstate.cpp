@@ -309,7 +309,7 @@ void PlayState::draw(TCODConsole* con) {
 					con->setCharForeground(scrPos[0], scrPos[1], featAt->getFColor());
 				}
 				// Previously but not currently seen
-				if (mapPos.distanceTo(player->getLocation()) > 1
+				if (mapPos.distanceTo(player->getLocation(), false) > 1
 						&& (blinded || currRoom == NULL || !currRoom->contains(mapPos, 1))) {
 					con->setCharForeground(scrPos[0], scrPos[1], terrain.getColor()*.5);
 				// Currently in view
@@ -447,8 +447,8 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		player->appendLog("You search your surroundings for traps");
 		for (Feature* feat : level->getFeatures()) {
 			if (!feat->getVisible()
-					&& player->getLocation().distanceTo(feat->getLocation())
-					   < player->getSearchRadius()
+					&& player->getLocation().distanceTo(feat->getLocation(), false)
+					   <= player->getSearchRadius()
 					&& Generator::rand() <= player->getSearchChance()) {
 				feat->setVisible(true);
 				player->appendLog("You uncover a secret");
