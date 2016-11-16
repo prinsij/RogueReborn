@@ -3,11 +3,10 @@ build:
   script:
     - cd src/
     - make
+    - cp Test.exe ../../Test.exe
     - cd ..
 test:
   script:
-    - cd src/
-    - ./Test.exe > ../Pipeline/TestResults
-    - make clean
-    - cd ../Pipeline/
+    - ../Test.exe > Pipeline/TestResults
+    - cd Pipeline/
     - python check.py
