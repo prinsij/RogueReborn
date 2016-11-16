@@ -311,4 +311,6 @@ class Level {
 		void resetPF();
 
 		std::vector<Coord> traceBack(Coord, Coord);
+
+		static constexpr int THINGS_PER_KIND = 3;
 };
