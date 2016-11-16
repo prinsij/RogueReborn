@@ -21,22 +21,22 @@ void HelpScreen::draw(TCODConsole* con) {
 	con->print(0, 3, " /|\\");
 	con->print(0, 4, "b j n");
 
+	/*
 	con->print(9, 0, "Shift <dir> Move until stopped");
 	con->print(9, 1, " Ctrl <dir> \" until near");
 	con->print(9, 2, "    g <dir> \" with no pickup");
+	*/
 
-	std::string hotkeys[] = {"Esc", "Space", "!", ".", "/", "0-9", "<", ">",
-							 "?", "D", "P", "Q", "R", "T", "W", "X", "^", "`",
-							 "a", "c", "d", "e", "i", "o", "q", "r", "s", "t",
-							 "v", "w", "S", "x", "z"};
-	std::string descs[] = {"Cancel command", "Clear \"More\" message", "Toggle quick fighting",
-						   "Rest", "List symbols", "<cmd> Repeat # times", "Ascend stairs", "Descend stairs",
-						   "List commands", "List discoveries", "<obj> <hand> Put on ring", "Quit (give up)",
-						   "<hand> Remove ring", "Take off armor", "<obj> Wear armor", "Define [x] key",
-						   "<dir> Identify trap", "Toggle tiles", "Repeat last command", "<obj> Rename object",
+	std::string hotkeys[] = {".", "/", "<", ">",
+							 "?", "P", "Q", "R", "T", "W", 
+							 "d", "e", "i", "o", "q", "r", "s", "t",
+							 "w", "S", "Z"};
+	std::string descs[] = {"Rest", "List symbols", "Ascend stairs", "Descend stairs",
+						   "List commands", "<obj> <hand> Put on ring", "Quit (give up)",
+						   "<hand> Remove ring", "Take off armor", "<obj> Wear armor",
 						   "<obj> Drop object", "<obj> Eat food", "Inventory", "View previous log",
 						   "<obj> Quaff potion", "<obj> Read scroll", "Search for trap or door",
-						   "<dir> <obj> Throw object", "Show version", "<obj> Wield weapon", "Stow Weapon", "Definable key; see [X]",
+						   "<dir> <obj> Throw object", "<obj> Wield weapon", "Stow Weapon",
 						   "<dir> <obj> Zap wand"};
 	int i = 0;
 	for (int y=6; y < 20; y++) {
