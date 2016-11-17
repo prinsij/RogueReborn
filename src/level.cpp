@@ -265,13 +265,14 @@ void Level::generate() {
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
 			for (Room& r : rooms) {
 				if (r.contains(randPos)) {
-					features.push_back(new Stairs(randPos, !(depth == NUM_LEVELS || player->hasAmulet())));
+					features.push_back(new Stairs(randPos, !(depth == NUM_LEVELS-1 || player->hasAmulet())));
 					goto stair_exit;
 				}
 			}
 		}
 	}
-	if (depth == NUM_LEVELS) {
+	stair_exit:;
+	if (depth == NUM_LEVELS-1) {
 		Coord randPos;
 		do {
 			try_again:;
@@ -286,7 +287,6 @@ void Level::generate() {
 		features.push_back(new Amulet(randPos, Item::FLOOR));
 
 	}
-	stair_exit:;
 	// Place gold
 	int i = 0;
 	while (i < THINGS_PER_KIND) {
