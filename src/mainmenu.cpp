@@ -95,7 +95,7 @@ UIState* MainMenu::handleInput(TCOD_key_t key) {
 
 		PlayerChar* player = new PlayerChar(Coord(10, 10), nameBuffer);
 		setupPlayer(player);
-		Level* level = new Level(0, player);
+		Level* level = new Level(1, player);
 		level->registerMob(player);
 		level->generate();
 		player->appendLog("Hello " + player->getName() + ". Welcome to the Dungeons of Doom. Type [?] for help.");
