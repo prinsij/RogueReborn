@@ -344,6 +344,9 @@ void PlayState::draw(TCODConsole* con) {
 	if (player->getLog().size() > 0) {
 		con->print(0, 0, player->getLog().back().c_str());
 	}
+	if (player->hasCondition(PlayerChar::SLEEPING)) {
+		con->print(PROMPTX, PROMPTY, "You are helpless (press SPACE to continue)");
+	}
 	// Display the info bar
 	const int y = Coord(0, level->getSize()[1]).asScreen()[1]+1;
 	std::string starveStr = player->getFoodStatus();
@@ -386,17 +389,15 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		}
 	}
 	// Perform AI turns until it's the player's go
-	int numAIGone = 0;
 	int difference = 0;
 	while (true) {
 		auto tuple = level->popTurnClock();
 		auto nextUp = std::get<0>(tuple);
-		difference = std::get<1>(tuple);
+		difference += std::get<1>(tuple);
 		if (nextUp == player) {
 			level->pushMob(player, 0);
 			break;
 		}
-		++numAIGone;
 		// Do AI turn
 		level->pushMob(nextUp, nextUp->turn(level));
 		if (player->isDead()) {
@@ -412,7 +413,9 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	}
 	// Skip the player's turn if they are sleeping
 	if (player->hasCondition(PlayerChar::SLEEPING)) {
-		level->pushMob(player, turnTime);
+		if (key.vk == TCODK_SPACE) {
+			level->pushMob(player, turnTime);
+		}
 		return this;
 	}
 #ifdef URAWIZARD
