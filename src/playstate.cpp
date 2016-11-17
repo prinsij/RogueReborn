@@ -444,6 +444,29 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 				level->tileAt(Coord(x,y)).setIsSeen(Terrain::Seen);
 			}
 		}
+	} else if (key.c == '*') {
+		if (currRoom != NULL) {
+			for (auto x=currRoom->getPosition1()[0]; x <= currRoom->getPosition2()[0]; ++x) {
+				for (auto y=currRoom->getPosition1()[1]; y <= currRoom->getPosition2()[1]; ++y) {
+					int itemType = Generator::intFromRange(0, 5);
+					if (itemType == 0) {
+						level->addFeature(new GoldPile(Coord(x,y), 42));
+					} else if (itemType == 1) {
+						level->addFeature(new Potion(Coord(x,y)));
+					} else if (itemType == 2) {
+						level->addFeature(new Wand(Coord(x,y)));
+					} else if (itemType == 3) {
+						level->addFeature(new Scroll(Coord(x,y)));
+					} else if (itemType == 4) {
+						level->addFeature(new Weapon(Coord(x,y)));
+					} else if (itemType == 5) {
+						level->addFeature(new Armor(Coord(x,y)));
+					} else if (itemType == 6) {
+						level->addFeature(new Ring(Coord(x,y)));
+					}
+				}
+			}
+		}
 	}
 #endif
 	// Quitting
