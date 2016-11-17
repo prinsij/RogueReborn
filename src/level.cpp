@@ -504,8 +504,6 @@ std::vector<Coord> Level::traceBack(Coord end, Coord start){
 	std::vector<Coord> path;
 	Coord current = end.copy();
 
-	std::cout << "Performing trace from " << start.toString() << " to " << end.toString() << std::endl;
-
 	int count = 0;
 
 	while(current != start){
@@ -515,7 +513,7 @@ std::vector<Coord> Level::traceBack(Coord end, Coord start){
 		path.push_back(c_);
 
 		if (current == tiles[current[0]][current[1]].parent){
-			std::cout << "Dead end" << std::endl;
+			std::cout << "Dead end in trace-back" << std::endl;
 			break;
 		}
 
@@ -524,7 +522,7 @@ std::vector<Coord> Level::traceBack(Coord end, Coord start){
 		count++;
 
 		if (count == 500){
-			std::cout << "Path too long" << std::endl;
+			std::cout << "Path too long! (500)" << std::endl;
 			break;
 		}
 	}
@@ -599,8 +597,6 @@ Level::~Level() {
 //Still doing BFS twice
 std::vector<Coord> Level::getNearestGold(Coord ori) {
 
-	std::cout << "Finding nearest gold from " << ori.toString() << std::endl;
-
 	resetPF();
 
 	std::queue<Coord> q;
@@ -624,7 +620,6 @@ std::vector<Coord> Level::getNearestGold(Coord ori) {
 			if (pile != NULL){
 				if (pile->getLocation() == current){
 					near = pile;
-					std::cout << "\"Current\" is:  " << current.toString() << std::endl;
 					goto found_gold;
 				}
 			}
@@ -655,14 +650,11 @@ std::vector<Coord> Level::getNearestGold(Coord ori) {
 
 	if (near != nullptr){
 
-		std::cout << "Found gold pile at " << near->getLocation().toString() << std::endl;
-
 		return bfsDiag(ori, near->getLocation());
 
 	} else {
 
-		std::cout << "I can't BFS" << std::endl;
-
+		std::cout << "Can't find gold pile! This is an issue!" << std::endl;
 		return {};
 
 	}
