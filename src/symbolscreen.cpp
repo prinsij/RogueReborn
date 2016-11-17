@@ -18,7 +18,7 @@ SymbolScreen::SymbolScreen(PlayerChar* pc, Level* lvl)
 {}
 
 const std::string SymbolScreen::symbols[] = {"#", ".", "+", "^", "%%", "*", ":", "!", "?",
-							 "/", "=", ",", ")", "]", "A-Z", "@"};
+							 "/", "=", "$", ")", "]", "A-Z", "@"};
 
 const std::string SymbolScreen::explanations[] = {"Wall", "Floor", "Door", "Trap", "Stairs", "Gold",
 								"Food", "Potion", "Scroll", "Wand/Staff", "Ring",
