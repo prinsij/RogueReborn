@@ -86,9 +86,9 @@ void Mob::hit(int damage) {
 	int effectiveArmor = this->getArmorRating();
 	int deltaHP = std::max(1, static_cast<int>(damage - (damage * 3.00 * effectiveArmor)/100.00));
 
-     //	std::cout << this->getName() << " Hit " << deltaHP << " / " << damage << " Now " << currentHP << ".\n";
-
 	this->currentHP -= deltaHP;
+
+    std::cout << "# " << this->getName() << " Hit for " << deltaHP << " / " << damage << ". Now at " << currentHP << " HP.\n";
 
 	if (this->currentHP <= 0) {
 		this->dead = true;
