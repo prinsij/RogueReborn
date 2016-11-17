@@ -346,6 +346,8 @@ void PlayState::draw(TCODConsole* con) {
 	}
 	if (player->hasCondition(PlayerChar::SLEEPING)) {
 		con->print(PROMPTX, PROMPTY, "You are helpless (press SPACE to continue)");
+		auto ppos = player->getLocation().asScreen();
+		con->setCharForeground(ppos[0], ppos[1], TCODColor::lightBlue);
 	}
 	// Display the info bar
 	const int y = Coord(0, level->getSize()[1]).asScreen()[1]+1;
