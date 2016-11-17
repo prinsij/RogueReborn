@@ -16,6 +16,7 @@
 #include "include/feature.h"
 #include "include/food.h"
 #include "include/globals.h"
+#include "include/wizard.h"
 #include "include/goldpile.h"
 #include "include/helpscreen.h"
 #include "include/invscreen.h"
@@ -411,6 +412,40 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		level->pushMob(player, turnTime);
 		return this;
 	}
+#ifdef URAWIZARD
+	if (key.c == '}') {
+		int currDepth = level->getDepth();
+		delete level;
+		level = new Level(currDepth+1, player);
+		level->registerMob(player);
+		level->generate();
+		currRoom = updateMap();
+		player->appendLog("Teleported to level " + std::to_string(level->getDepth()));
+		return this;
+	} else if (key.c == '{') {
+		int currDepth = level->getDepth();
+		if (currDepth <= 0) return this;
+		delete level;
+		level = new Level(currDepth-1, player);
+		level->registerMob(player);
+		level->generate();
+		currRoom = updateMap();
+		player->appendLog("Teleported to level " + std::to_string(level->getDepth()));
+		return this;
+	} else if (key.c == '&') {
+		for (auto mob : level->getMobs()) {
+			if (mob != player) {
+				mob->hit(1000000);
+			}
+		}
+	} else if (key.c == '%') {
+		for (auto x=0; x < level->getSize()[0]; ++x) {
+			for (auto y=0; y < level->getSize()[1]; ++y) {
+				level->tileAt(Coord(x,y)).setIsSeen(Terrain::Seen);
+			}
+		}
+	}
+#endif
 	// Quitting
 	if (key.c == 'Q') {
 		return new QuitPrompt2(player, level);
@@ -718,6 +753,9 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	}
 	if (key.c == '<' || key.c == '>') {
 		for (Feature* feat : level->getFeatures()) {
+			if (feat->getLocation() != player->getLocation()) {
+				continue;
+			}
 			Stairs* stair = dynamic_cast<Stairs*>(feat);
 			if (stair != NULL) {
 				if ((key.c == '>') && stair->getDirection()) {
