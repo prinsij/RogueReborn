@@ -295,6 +295,7 @@ void Level::generate() {
 							  gen.intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
 			features.push_back(new GoldPile(randPos, gen.intFromRange(1, 35)));
+			std::cout << "Put gold at " << randPos.toString() << std::endl;
 			++i;
 		}
 	}
@@ -595,7 +596,6 @@ Level::~Level() {
 	}
 }
 
-
 //Still doing BFS twice
 std::vector<Coord> Level::getNearestGold(Coord ori) {
 
@@ -608,36 +608,44 @@ std::vector<Coord> Level::getNearestGold(Coord ori) {
 
 	tileAt(ori).checked = true;
 
-	GoldPile* near;
+	GoldPile* near = nullptr;
+
+	Coord current = q.front().copy();
 
 	while(q.size() > 0){
 
-		Coord current = q.front().copy();
+		current = q.front().copy();
 		q.pop();
 
-		for (GoldPile pile : golds){
-			if (pile.getLocation() == current){
-				near = &pile;
-				goto found_gold;
+		for (Feature* f : features){
+
+			GoldPile* pile = dynamic_cast<GoldPile*>(f);
+
+			if (pile != NULL){
+				if (pile->getLocation() == current){
+					near = pile;
+					std::cout << "\"Current\" is:  " << current.toString() << std::endl;
+					goto found_gold;
+				}
 			}
 		}
 
-		if (contains(current + Coord(1,0)) && !tileAt(current + Coord(1,0)).checked){
+		if (contains(current + Coord(1,0)) && !tileAt(current + Coord(1,0)).checked && tileAt(current + Coord(1,0)).isPassable() == Terrain::Passable){
 			q.push(current + Coord(1,0));
 			tileAt(current + Coord(1,0)).checked = true;
 		}
 
-		if (contains(current + Coord(-1,0)) && !tileAt(current + Coord(-1,0)).checked){
+		if (contains(current + Coord(-1,0)) && !tileAt(current + Coord(-1,0)).checked && tileAt(current + Coord(-1,0)).isPassable() == Terrain::Passable){
 			q.push(current + Coord(-1,0));
 			tileAt(current + Coord(-1,0)).checked = true;
 		}
 
-		if (contains(current + Coord(0,1)) && !tileAt(current + Coord(0,1)).checked){
+		if (contains(current + Coord(0,1)) && !tileAt(current + Coord(0,1)).checked && tileAt(current + Coord(0,1)).isPassable() == Terrain::Passable){
 			q.push(current + Coord(0,1));
 			tileAt(current + Coord(0,1)).checked = true;
 		}
 
-		if (contains(current + Coord(0,-1)) && !tileAt(current + Coord(0,-1)).checked){
+		if (contains(current + Coord(0,-1)) && !tileAt(current + Coord(0,-1)).checked && tileAt(current + Coord(0,-1)).isPassable() == Terrain::Passable){
 			q.push(current + Coord(0,-1));
 			tileAt(current + Coord(0,-1)).checked = true;
 		}
@@ -645,9 +653,19 @@ std::vector<Coord> Level::getNearestGold(Coord ori) {
 
 	found_gold:;
 
-	std::cout << "Found gold pile at " << near->getLocation().toString() << std::endl;
+	if (near != nullptr){
 
-	return bfsDiag(ori, near->getLocation());
+		std::cout << "Found gold pile at " << near->getLocation().toString() << std::endl;
+
+		return bfsDiag(ori, near->getLocation());
+
+	} else {
+
+		std::cout << "I can't BFS" << std::endl;
+
+		return {};
+
+	}
 }
 
 void Level::removeFeature(Feature* feat) {

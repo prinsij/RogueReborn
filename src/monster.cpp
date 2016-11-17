@@ -43,7 +43,7 @@ std::map<char, MONSTER_TUPLE_TYPE > Monster::templateMap = {
 	{'J', MONSTER_TUPLE_TYPE { 6, 70,{std::make_pair( 2,12),
 									  std::make_pair( 2, 4)},4000,    "",15,std::make_pair(15,8),   "Jabberwock",std::make_pair(21,26)}},
 	{'K', MONSTER_TUPLE_TYPE { 7,  0,{std::make_pair( 1, 4)},   1,  "AF", 1,std::make_pair( 1,8),      "Kestral",std::make_pair( 1, 6)}},
-	{'L', MONSTER_TUPLE_TYPE { 8,100,{std::make_pair( 1, 2)},  10,   "G", 3,std::make_pair( 3,8),   "Leprechaun",std::make_pair( 1,15)}},//Should be 6,15 not 1,15 NOVNOV
+	{'L', MONSTER_TUPLE_TYPE { 8,100,{std::make_pair( 1, 2)},  10,   "G", 3,std::make_pair( 3,8),   "Leprechaun",std::make_pair( 6,15)}},
 	{'M', MONSTER_TUPLE_TYPE { 2, 40,{std::make_pair( 3, 4),
 									  std::make_pair( 3, 4),
 									  std::make_pair( 2, 5)}, 200,  "AC", 8,std::make_pair( 8,8),       "Medusa",std::make_pair(18,26)}},
