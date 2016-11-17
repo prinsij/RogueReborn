@@ -424,7 +424,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		return this;
 	} else if (key.c == '{') {
 		int currDepth = level->getDepth();
-		if (currDepth <= 0) return this;
+		if (currDepth <= 1) return this;
 		delete level;
 		level = new Level(currDepth-1, player);
 		level->registerMob(player);
@@ -788,11 +788,12 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 					level->registerMob(player);
 					level->generate();
 					currRoom = updateMap();
+					player->appendLog("You descend to level " + std::to_string(level->getDepth()));
 					return this;
 				} else if (key.c == '<') {
 					if (!stair->getDirection() && player->hasAmulet()) {
 						int currDepth = level->getDepth();
-						if (currDepth == 0) {
+						if (currDepth == 1) {
 							return new RIPScreen(player, level, VICTORY_STR);
 						} else {
 							delete level;
@@ -800,6 +801,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 							level->registerMob(player);
 							level->generate();
 							currRoom = updateMap();
+							player->appendLog("You ascend to level " + std::to_string(level->getDepth()));
 							return this;
 						}
 					} else {
