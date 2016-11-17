@@ -503,6 +503,8 @@ std::vector<Coord> Level::traceBack(Coord end, Coord start){
 	std::vector<Coord> path;
 	Coord current = end.copy();
 
+	std::cout << "Performing trace from " << start.toString() << " to " << end.toString() << std::endl;
+
 	int count = 0;
 
 	while(current != start){
@@ -510,12 +512,18 @@ std::vector<Coord> Level::traceBack(Coord end, Coord start){
 		Coord c_ = current.copy();
 
 		path.push_back(c_);
+
+		if (current == tiles[current[0]][current[1]].parent){
+			std::cout << "Dead end" << std::endl;
+			break;
+		}
+
 		current = tiles[current[0]][current[1]].parent.copy();
 
 		count++;
 
-		if (count == 100 || current == Coord(0,0)){
-			std::cout << "Oops " << count << std::endl;
+		if (count == 500){
+			std::cout << "Path too long" << std::endl;
 			break;
 		}
 	}
@@ -570,7 +578,6 @@ Mob* Level::monsterAt(Coord s){
 			return c.mob;
 		}
 	}
-
 	return NULL;
 }
 
@@ -588,28 +595,59 @@ Level::~Level() {
 	}
 }
 
+
+//Still doing BFS twice
 std::vector<Coord> Level::getNearestGold(Coord ori) {
 
-	std::vector<std::vector<Coord> > paths;
+	std::cout << "Finding nearest gold from " << ori.toString() << std::endl;
 
-	uint mindex = 999;
-	uint minlen = 999;
+	resetPF();
 
-	for (uint i = 0; i < golds.size(); ++i){
+	std::queue<Coord> q;
+	q.push(ori.copy());
 
-		paths.push_back(bfsDiag(ori, golds[i].getLocation()));
+	tileAt(ori).checked = true;
 
-		if (paths[i].size() < minlen){
-			minlen = paths[i].size();
-			mindex = i;
+	GoldPile* near;
+
+	while(q.size() > 0){
+
+		Coord current = q.front().copy();
+		q.pop();
+
+		for (GoldPile pile : golds){
+			if (pile.getLocation() == current){
+				near = &pile;
+				goto found_gold;
+			}
+		}
+
+		if (contains(current + Coord(1,0)) && !tileAt(current + Coord(1,0)).checked){
+			q.push(current + Coord(1,0));
+			tileAt(current + Coord(1,0)).checked = true;
+		}
+
+		if (contains(current + Coord(-1,0)) && !tileAt(current + Coord(-1,0)).checked){
+			q.push(current + Coord(-1,0));
+			tileAt(current + Coord(-1,0)).checked = true;
+		}
+
+		if (contains(current + Coord(0,1)) && !tileAt(current + Coord(0,1)).checked){
+			q.push(current + Coord(0,1));
+			tileAt(current + Coord(0,1)).checked = true;
+		}
+
+		if (contains(current + Coord(0,-1)) && !tileAt(current + Coord(0,-1)).checked){
+			q.push(current + Coord(0,-1));
+			tileAt(current + Coord(0,-1)).checked = true;
 		}
 	}
 
-	if (mindex != 999){
-		return paths[mindex];
-	} else {
-		return {};
-	}
+	found_gold:;
+
+	std::cout << "Found gold pile at " << near->getLocation().toString() << std::endl;
+
+	return bfsDiag(ori, near->getLocation());
 }
 
 void Level::removeFeature(Feature* feat) {
