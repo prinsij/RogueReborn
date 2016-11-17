@@ -265,14 +265,14 @@ void Level::generate() {
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
 			for (Room& r : rooms) {
 				if (r.contains(randPos)) {
-					features.push_back(new Stairs(randPos, !(depth == NUM_LEVELS-1 || player->hasAmulet())));
+					features.push_back(new Stairs(randPos, !(depth == NUM_LEVELS || player->hasAmulet())));
 					goto stair_exit;
 				}
 			}
 		}
 	}
 	stair_exit:;
-	if (depth == NUM_LEVELS-1) {
+	if (depth == NUM_LEVELS) {
 		Coord randPos;
 		do {
 			try_again:;
