@@ -387,8 +387,11 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	}
 	// Perform AI turns until it's the player's go
 	int numAIGone = 0;
+	int difference = 0;
 	while (true) {
-		auto nextUp = level->popTurnClock();
+		auto tuple = level->popTurnClock();
+		auto nextUp = std::get<0>(tuple);
+		difference = std::get<1>(tuple);
 		if (nextUp == player) {
 			level->pushMob(player, 0);
 			break;
@@ -401,7 +404,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		}
 	}
 	int turnTime = TURN_TIME;
-	if (numAIGone > 0 || level->getMobs().size() == 1) {
+	if (difference > 0) {
 		turnTime = player->update();
 		if (player->isDead()) {
 			return new RIPScreen(player, level, "Starved to death");

@@ -11,6 +11,7 @@
 #include <map>
 #include <queue>
 #include <vector>
+#include <tuple>
 
 #include "coord.h"
 #include "feature.h"
@@ -65,7 +66,7 @@ class Level {
 		 *
 		 * @return     A mob
 		 */
-		Mob* popTurnClock();
+		std::tuple<Mob*, int> popTurnClock();
 
 		// move a mob back in the turn clock equal to the amount specified
 

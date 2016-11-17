@@ -13,6 +13,7 @@
 #include <math.h>
 #include <queue>
 #include <vector>
+#include <tuple>
 
 #include "include/amulet.h"
 #include "include/armor.h"
@@ -110,9 +111,9 @@ void Level::removeMob(Mob* mob) {
 	}
 }
 
-Mob* Level::popTurnClock() {
+std::tuple<Mob*, int> Level::popTurnClock() {
 	if (mobs.empty()) {
-		return NULL;
+		return std::tuple<Mob*, int>(NULL, 0);
 	}
 	auto difference = mobs.back().delay;
 	if (difference > 0) {
@@ -120,7 +121,7 @@ Mob* Level::popTurnClock() {
 			 item.delay -= difference;
 		}
 	}
-	return mobs.back().mob;
+	return std::tuple<Mob*, int>(mobs.back().mob, difference);
 }
 
 void Level::pushMob(Mob* which, int delay) {
