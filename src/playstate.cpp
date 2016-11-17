@@ -484,6 +484,16 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 				player->setLocation(feat->getLocation());
 			}
 		}
+	} else if (key.c == 'L') {
+		if (currRoom != NULL) {
+			for (auto x=currRoom->getPosition1()[0]; x <= currRoom->getPosition2()[0]; ++x) {
+				for (auto y=currRoom->getPosition1()[1]; y <= currRoom->getPosition2()[1]; ++y) {
+					if (level->monsterAt(Coord(x,y)) == NULL) {
+						level->registerMob(new Monster('L', Coord(x,y)));
+					}
+				}
+			}
+		}
 	}
 #endif
 	// Quitting
