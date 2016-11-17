@@ -127,30 +127,50 @@ RIPScreen::RIPScreen(PlayerChar* player,
 
 void RIPScreen::draw(TCODConsole* con) {
 	if (!wasVictory) {
-		con->print(40 - GRAVE_WIDTH/2 - 2, 13, leaves.c_str());
-		con->print(40 - GRAVE_WIDTH/2 - 2, 12, flowers.c_str());
+		int leafCol = 40 - GRAVE_WIDTH/2 - 2;
+		int flowerCol = 40 - GRAVE_WIDTH/2 - 2;
+		int leafRow = 13;
+		int flowerRow = 12;		 
+
+		con->print(leafCol, leafRow, leaves.c_str());
+		con->print(flowerCol, flowerRow, flowers.c_str());
+
+		for (int col = leafCol ; col < static_cast<int>(leafCol + leaves.length()) ; col++) {
+			con->setCharForeground(col, leafRow, TCODColor::green);
+		}
+
+		for (int col = flowerCol ; col < static_cast<int>(flowerCol + flowers.length()) ; col++) {
+			con->setCharForeground(col, flowerRow, TCODColor::red);
+		}
 
 		// Top
 		for (int x = 40 - GRAVE_WIDTH/2 + 2 ; x <= 40 + GRAVE_WIDTH/2 - 2 ; x ++) {
 			con->print(x, 1, "_");
+			con->setCharForeground(x, 1, TCODColor::lightGrey);
 		}
 
 		// Diagonal
 		for (int x = 0 ; x < 3 ; x ++) {
 			con->print(40 - GRAVE_WIDTH/2 + 1 - x, x + 2, "/");
 			con->print(40 + GRAVE_WIDTH/2 - 1 + x, x + 2, "\\");
+			con->setCharForeground(40 - GRAVE_WIDTH/2 + 1 - x, x + 2, TCODColor::lightGrey);
+			con->setCharForeground(40 + GRAVE_WIDTH/2 - 1 + x, x + 2, TCODColor::lightGrey);
 		}
 
 		// Sides
 		for (int i = 5 ; i < 13 ; i ++) {
 			con->print(40 - GRAVE_WIDTH/2 - 1, i, "|");
 			con->print(40 + GRAVE_WIDTH/2 + 1, i, "|");
+			con->setCharForeground(40 - GRAVE_WIDTH/2 - 1, i, TCODColor::lightGrey);
+			con->setCharForeground(40 + GRAVE_WIDTH/2 + 1, i, TCODColor::lightGrey);
 		}
 
 		// Bottom
 		for (int x = 0 ; x < 10 ; x ++) {
 			con->print(40 - GRAVE_WIDTH/2 - 3 - x, 13, "_");
 			con->print(40 + GRAVE_WIDTH/2 + 3 + x, 13, "_");
+			con->setCharForeground(40 - GRAVE_WIDTH/2 - 3 - x, 13, TCODColor::lightGrey);
+			con->setCharForeground(40 + GRAVE_WIDTH/2 + 3 + x, 13, TCODColor::lightGrey);
 		}
 
 		std::string name = player->getName();
@@ -164,10 +184,15 @@ void RIPScreen::draw(TCODConsole* con) {
 
 	int y = 16;
 	int maxY = 16 + 2*10;
-	int x = con->getWidth()/2;
+	int x = con->getWidth()/4;
 	for (ScoreItem item : scores) {
-		con->printEx(x, y, TCOD_BKGND_DEFAULT, TCOD_CENTER, (std::to_string(item.gold) + ":" + item.name + " " + item.death
-					+ " on level " + std::to_string(item.depth)).c_str());
+		con->printEx(x, y, TCOD_BKGND_DEFAULT, TCOD_RIGHT, (std::to_string(item.gold) + ": ").c_str());
+		con->printEx(x + 1, y, TCOD_BKGND_DEFAULT, TCOD_LEFT, (item.name + " " + item.death + " on level " + std::to_string(item.depth)).c_str());
+
+		for (int col = x ; col >= static_cast<int>(std::to_string(item.gold).length() + 2) ; col--) {
+			con->setCharForeground(col, y, TCODColor::yellow);
+		}
+
 		y += 2;
 
 		if (y == maxY) break;

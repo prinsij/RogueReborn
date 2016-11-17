@@ -38,7 +38,7 @@ class RIPScreen : public UIState {
 		virtual UIState* handleInput(TCOD_key_t);
 	private:
 		/** Width of grave */
-		int GRAVE_WIDTH = 10;
+		int GRAVE_WIDTH = 14;
 
 		/** Leaves at bottom of grave */
 		std::string leaves;
