@@ -50,7 +50,6 @@ Weapon::Weapon(Coord location, Item::Context context, int type)
 		else this->enchantHit += increment;
 	}
 
-	this->updateName();
 	this->setIdentified(true);
 }
 
@@ -73,6 +72,12 @@ bool Weapon::isMelee() {
 void Weapon::setEnchantments(int enchantHit, int enchantDamage) {
 	this->enchantHit = enchantHit;
 	this->enchantDamage = enchantDamage;
+
+	if (this->enchantDamage + this->enchantHit >= 0) {
+		this->removeEffect(CURSED);
+	} else {
+		this->applyEffect(CURSED);
+	}
 
 	this->updateName();
 }

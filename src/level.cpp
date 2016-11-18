@@ -107,6 +107,7 @@ void Level::removeMob(Mob* mob) {
 	for (auto it=mobs.begin(); it != mobs.end(); ++it) {
 		if (it->mob == mob) {
 			mobs.erase(it);
+			std::cout << "Hi\n";
 			break;
 		}
 	}
@@ -663,8 +664,8 @@ std::vector<Coord> Level::getNearestGold(Coord ori) {
 		return bfsDiag(ori, near->getLocation());
 
 	} else {
-
-		std::cout << "Can't find gold pile! This is an issue!" << std::endl;
+		// Stopping the spam onslaught temporarily
+		// std::cout << "Can't find gold pile! This is an issue!" << std::endl;
 		return {};
 
 	}

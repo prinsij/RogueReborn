@@ -139,6 +139,7 @@ Monster::Monster(char symbol, Coord location)
 	}
 	level = std::get<5>(monsterTuple);
 
+				flags.insert(GREEDY);
 	int hp = diceSum(std::get<6>(monsterTuple).first, std::get<6>(monsterTuple).second) + 3;
 	currentHP = hp;
 	maxHP = hp;
@@ -252,10 +253,9 @@ void Monster::attackSteal(Level* level) {
 		stolenItem->setLocation(getLocation());
 
 		player->appendLog("Your supplies feel lighter");
-
-		std::cout << "Monster attempted to steal " << stolenItem->getName() << "\n";
+		std::cout << this->getName() << " stole \"" << stolenItem->getName() << "\"\n";
 	
-		//delete stolenItem;
+		delete stolenItem;
 	} else {
 		if (player->getGold() <= 0 || Generator::intFromRange(0, 99) <= 10) return;
 
@@ -263,9 +263,10 @@ void Monster::attackSteal(Level* level) {
 
 		player->setGold(player->getGold() - stealAmount);
 		player->appendLog("Your purse feels lighter");
+		std::cout << this->getName() << " stole " << stealAmount << " gold\n";
 	}
 
-	// level->removeMob(this);
+	level->removeMob(this);
 }
 
 

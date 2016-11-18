@@ -228,6 +228,8 @@ void PlayerChar::equipWeapon(Weapon* weapon) {
 	std::cout << "# PlayerChar Equipped Weapon: " << weapon->getName() << "\n";
 
 	this->itemWeapon = weapon;
+
+	weapon->updateName();
 }
 
 Armor* PlayerChar::getArmor() {
