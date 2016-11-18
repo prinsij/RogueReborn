@@ -664,8 +664,8 @@ std::vector<Coord> Level::getNearestGold(Coord ori) {
 		return bfsDiag(ori, near->getLocation());
 
 	} else {
-
-		//std::cout << "Can't find gold pile! This is an issue!" << std::endl;
+		// Stopping the spam onslaught temporarily
+		// std::cout << "Can't find gold pile! This is an issue!" << std::endl;
 		return {};
 
 	}
