@@ -309,9 +309,6 @@ int PlayerChar::getSightRadius() {
 }
 
 Weapon* PlayerChar::getWeapon() {
-	if (itemWeapon != NULL) {
-		std::cout << "# PlayerChar stowed weapon " + itemWeapon->getName() << "\n";
-	}
 	return this->itemWeapon;
 }
 
