@@ -8,6 +8,10 @@
 #include <iostream>
 #include "include/saving.h"
 
+const std::string SaveScreen::PROMPT = "Enter save file: ";
+const std::string SaveScreen::KEY_HINT = "Press ESCAPE to continue";
+
+
 SaveScreen::SaveScreen(PlayerChar* player, Level* level)
 	: player(player)
 	, level(level)
@@ -15,7 +19,10 @@ SaveScreen::SaveScreen(PlayerChar* player, Level* level)
 {}
 
 void SaveScreen::draw(TCODConsole* con) {
-	con->print(1, 1, (nameBuffer+"$").c_str());
+	con->print(1, 1, (PROMPT+nameBuffer).c_str());
+	con->print(1 + PROMPT.length() + nameBuffer.length(), 1, std::string("_").c_str());
+	con->print(1, 3, KEY_HINT.c_str());
+
 }
 
 UIState* SaveScreen::handleInput(TCOD_key_t key) {
@@ -35,7 +42,7 @@ UIState* SaveScreen::handleInput(TCOD_key_t key) {
 		}
 	} else if (key.c) {
 		if (VALID_NAME.find(key.c) != std::string::npos && nameBuffer.size() < NAME_LENGTH) {
-			nameBuffer = nameBuffer + key.c;
+			nameBuffer.push_back(key.c);
 		}
 	}
 	if (key.vk == TCODK_BACKSPACE && nameBuffer.size() > 0) {
@@ -43,3 +50,5 @@ UIState* SaveScreen::handleInput(TCOD_key_t key) {
 	}
 	return this;
 }
+
+SaveScreen::~SaveScreen() {}

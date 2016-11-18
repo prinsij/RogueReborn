@@ -104,10 +104,10 @@ void Level::registerMob(Mob* mob) {
 }
 
 void Level::removeMob(Mob* mob) {
+	std::cout << "removeMob " << mob->getName() << "\n";
 	for (auto it=mobs.begin(); it != mobs.end(); ++it) {
 		if (it->mob == mob) {
 			mobs.erase(it);
-			std::cout << "Hi\n";
 			break;
 		}
 	}
@@ -689,7 +689,7 @@ void Level::placePlayerInStartingPosition() {
 	do {
 		roomIndex = Generator::intFromRange(0,rooms.size()-1);
 		count++;
-	} while (!rooms[roomIndex].exists() || count < 100);
+	} while (!rooms[roomIndex].exists());
 
 	player->move(Generator::randPosition(rooms[roomIndex].getPosition1(), rooms[roomIndex].getPosition2()), this);
 

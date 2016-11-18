@@ -862,15 +862,6 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		newPos += Coord(-1, 1);
 	}
 
-	for (int x=0; x<level->getSize()[0]; ++x) {
-		for (int y=0; y<level->getSize()[1]; ++y) {
-			auto door = dynamic_cast<Door*>(&(level->tileAt(Coord(x,y))));
-			if (door != NULL) {
-				std::cout << Coord(x,y).toString() << "\n";
-			}
-		}
-	}
-
 	if (newPos != player->getLocation() && level->contains(newPos)) {
 		auto& tile = level->tileAt(newPos);
 		if (tile.getSymbol() == '+') {
