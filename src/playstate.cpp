@@ -594,7 +594,12 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 						[] (Item* i) {return dynamic_cast<Scroll*>(i)!=NULL;},
 						[temp_l, temp_p] (Scroll* s) {
 							temp_p->appendLog("You read the " + s->getName());
-							return std::get<1>(s->activate(temp_l));
+							auto nextState = std::get<1>(s->activate(temp_l));
+							auto ps = dynamic_cast<PlayState*>(nextState);
+							if (ps != NULL) {
+								ps->updateMap();
+							}
+							return nextState;
 						});
 	}
 	// wield weapon
