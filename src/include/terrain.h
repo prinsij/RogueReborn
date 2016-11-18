@@ -30,6 +30,10 @@ class Terrain {
 		 * @see character
 		 */
 		char getSymbol();
+		/** Setter for character.
+		 * @see character
+		 */
+		void setSymbol(char);
 		/** Getter for passable.
 		 * @see passable
 		 */
@@ -65,7 +69,6 @@ class Terrain {
 
 		/** Destructor. */
 		virtual ~Terrain();
-	protected:
 		/** Symbol which represents the tile on the display. */
 		char character;
 		/** Degree of transparent of the tile. */

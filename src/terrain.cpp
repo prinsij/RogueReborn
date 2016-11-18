@@ -28,6 +28,10 @@ char Terrain::getSymbol() {
 	return character;
 }
 
+void Terrain::setSymbol(char newSymbol) {
+	this->character = newSymbol;
+}
+
 TCODColor Terrain::getColor() {
 	return color;
 }
