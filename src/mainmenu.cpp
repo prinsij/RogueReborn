@@ -9,6 +9,7 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <stdio.h>
 #include <time.h>
 
 #include "include/food.h"
@@ -108,11 +109,14 @@ UIState* MainMenu::handleInput(TCOD_key_t key) {
 			if (savefile.is_open()) {
 				std::string line;
 				std::getline(savefile, line);
+				savefile.close();
+				std::remove(nameBuffer.c_str());
 				auto pair = decode(line);
 				return new PlayState(std::get<0>(pair), std::get<1>(pair));
+			} else {
+				std::cout << "ERROR OPENING SAVEFILE\n";
+				nameBuffer = "ERROR";
 			}
-
-			std::cout << "shift\n";
 		}
 	} else if (key.c) {
 		// Append to name if its a valid name character

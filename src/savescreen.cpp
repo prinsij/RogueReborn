@@ -19,7 +19,7 @@ void SaveScreen::draw(TCODConsole* con) {
 }
 
 UIState* SaveScreen::handleInput(TCOD_key_t key) {
-	if (key.vk == TCODK_ESCAPE || key.vk == TCODK_SPACE) {
+	if (key.vk == TCODK_ESCAPE) {
 		return new PlayState(player, level);
 	}
 	if (key.vk == TCODK_ENTER && nameBuffer.size() > 0) {

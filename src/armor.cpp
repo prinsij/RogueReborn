@@ -29,7 +29,8 @@ Armor::Armor(Coord location)
 
 Armor::Armor(Coord location, Item::Context context, int type)
 	: Item(']', location, context, "Armor", std::get<0>(Armor::typeVector[type]), type, false, false),
-	  rating(std::get<1>(Armor::typeVector[type])) {
+	  rating(std::get<1>(Armor::typeVector[type])),
+	  variety(type) {
 		int chance = Generator::intFromRange(1, 100);
 
 		this->enchantProtection = 0;
