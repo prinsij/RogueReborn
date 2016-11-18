@@ -47,3 +47,9 @@ Terrain::Mapped Terrain::isSeen() {
 void Terrain::setIsSeen(Terrain::Mapped newState) {
 	seen = newState;
 }
+
+void Terrain::setPassable(Passability pass) {
+	this->passable = pass;
+}
+
+Terrain::~Terrain() {};

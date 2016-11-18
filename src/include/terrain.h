@@ -29,11 +29,15 @@ class Terrain {
 		/** Getter for character.
 		 * @see character
 		 */
-		char getSymbol();
+		virtual char getSymbol();
 		/** Getter for passable.
 		 * @see passable
 		 */
 		Passability isPassable();
+		/** Setter for passable.
+		 * @see passable
+		 */
+		void setPassable(Passability);
 		/** Getter for foreground color.
 		 * @see color
 		 */
@@ -58,7 +62,10 @@ class Terrain {
 		 * @see seen
 		 */
 		void setIsSeen(Mapped);
-	private:
+
+		/** Destructor. */
+		virtual ~Terrain();
+	protected:
 		/** Symbol which represents the tile on the display. */
 		char character;
 		/** Degree of transparent of the tile. */
@@ -66,6 +73,7 @@ class Terrain {
 		/** Whether the tile can be walked through. */
 		Passability passable;
 		/** Whether the tile has been seen by the player. */
+	private:
 		Mapped seen;
 		/** Color the tile will be displayed with (foreground). */
 		TCODColor color;
