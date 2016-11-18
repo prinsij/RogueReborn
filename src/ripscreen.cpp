@@ -32,6 +32,7 @@ struct ScoreItem {
 	static ScoreItem decode(std::string line) {
 		std::stringstream ss(line);
 		std::string temp;
+
 		if (!readItem(ss, temp))
 			throw std::invalid_argument("bad format");
 		int gold = std::stoi(temp);
@@ -43,6 +44,7 @@ struct ScoreItem {
 		std::string name = temp;
 		if (!readItem(ss, temp))
 			throw std::invalid_argument("bad format");
+
 		std::string death = temp;
 		return ScoreItem(gold, depth, name, death);
 	}
@@ -79,8 +81,8 @@ RIPScreen::RIPScreen(PlayerChar* player,
 		while (std::getline(scoreFile, line)) {
 			try {
 				scores.push_back(ScoreItem::decode(line));
-			} catch (std::string param) {
-				std::cerr << param << " while reading " << SCORE_FILE << "\n";
+			} catch (const std::exception& e) {
+				std::cerr << "Error: " << e.what() << " while reading " << SCORE_FILE << "\n";
 			}
 		}
 		scoreFile.close();

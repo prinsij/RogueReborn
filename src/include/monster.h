@@ -119,13 +119,6 @@ class Monster : public Mob {
 		void attackFreeze(PlayerChar*);
 
 		/**
-		 * @brief      Gold steal Monster attack
-		 *
-		 * @param      player Reference to the PlayerChar
-		 */
-		void attackGold(PlayerChar*);
-
-		/**
 		 * @brief      Rust Monster attack
 		 *
 		 * @param      player Reference to the PlayerChar
@@ -133,12 +126,20 @@ class Monster : public Mob {
 		void attackRust(PlayerChar*);
 
 		/**
+		 * @brief      Gold or item steal Monster attack
+		 *
+		 * @param      level Reference to the current level
+		 */
+		void attackSteal(Level*);
+
+
+		/**
 		 * @brief      Sting Monster attack
 		 *
 		 * @param      player Reference to the PlayerChar
 		 */
 		void attackSting(PlayerChar*);
-
+	
 		/**
 		 * @brief      Calculates the damage of this Monster.
 		 *

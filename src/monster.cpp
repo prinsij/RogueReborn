@@ -215,18 +215,6 @@ void Monster::attackFreeze(PlayerChar* player) {
 	}
 }
 
-void Monster::attackGold(PlayerChar* player) {
-	if (player->getGold() <= 0 || Generator::intFromRange(0, 99) <= 10) return;
-
-	int stealAmount = std::min(player->getGold(), Generator::intFromRange(10 * player->getLevel(), 30 * player->getLevel()));
-
-	player->setGold(player->getGold() - stealAmount);
-	player->appendLog("You purse feels lighter");
-
-	// TODO
-}
-
-
 void Monster::attackRust(PlayerChar* player) {
 	Armor* armor = player->getArmor();
 
@@ -236,6 +224,48 @@ void Monster::attackRust(PlayerChar* player) {
 		armor->setEnchantment(armor->getEnchantment() - 1);
 		player->appendLog("Your armor weakens");
 	}
+}
+
+
+void Monster::attackSteal(Level* level) {
+	PlayerChar* player = level->getPlayer();
+
+	if (Generator::intFromRange(0, 99) <= 50) {
+		if (Generator::intFromRange(0, 99) <= 10) return;
+
+		ItemZone inventory = player->getInventory();
+
+		std::vector<Item*> playerItems;
+
+		for (auto mapPair : inventory.getContents()) {
+			for (auto item : mapPair.second) {
+				playerItems.push_back(item);
+			}
+		}
+
+		if (playerItems.size() == 0) return;
+
+		Item* stolenItem = playerItems[Generator::intFromRange(0, playerItems.size() - 1)];
+
+		inventory.remove(stolenItem);	
+		stolenItem->setContext(Item::FLOOR);
+		stolenItem->setLocation(getLocation());
+
+		// player->appendLog("Your supplies feel lighter");
+
+		// std::cout << "Monster attempted to steal " << stolenItem->getName() << "\n";
+	
+		//delete stolenItem;
+	} else {
+		if (player->getGold() <= 0 || Generator::intFromRange(0, 99) <= 10) return;
+
+		int stealAmount = std::min(player->getGold(), Generator::intFromRange(10 * player->getLevel(), 30 * player->getLevel()));
+
+		player->setGold(player->getGold() - stealAmount);
+		player->appendLog("Your purse feels lighter");
+	}
+
+	// level->removeMob(this);
 }
 
 
@@ -271,8 +301,8 @@ void Monster::attack(Level* level) {
 				else if (this->hasFlag(DRAINS_LIFE)) { this->attackDrainLife(player); }
 				else if (this->hasFlag(DROPS_LEVEL)) { this->attackDropLevel(player); }
 				else if (this->hasFlag(FREEZES)) { this->attackFreeze(player); }
-				else if (this->hasFlag(GREEDY)) { this->attackGold(player); }
 				else if (this->hasFlag(RUSTS)) { this->attackRust(player); }
+				else if (this->hasFlag(GREEDY)) { this->attackSteal(level); }
 				else if (this->hasFlag(STINGS)) { this->attackSting(player); }
 			}
 		} else {

@@ -123,9 +123,9 @@ bool Wand::activate(Level* level, Mob* mob) {
 		if (monster->hasFlag(Monster::RUSTS)) {
 			damage = monster->getHP()/2 + 1;
 		} else {
-			if (monster->hasFlag(Monster::FREEZES)) {
+			if (monster->hasFlag(Monster::FLAMES)) {
 				damage = monster->getHP();
-			} else if (monster->hasFlag(Monster::FLAMES)) {
+			} else if (monster->hasFlag(Monster::FREEZES)) {
 				damage = monster->getHP()/10 + 1;
 			} else {
 				damage = Generator::intFromRange(player->getHP()/3, player->getMaxHP());
@@ -145,9 +145,9 @@ bool Wand::activate(Level* level, Mob* mob) {
 
 		int damage = 0;
 
-		if (monster->hasFlag(Monster::FLAMES)) {
+		if (monster->hasFlag(Monster::FREEZES)) {
 			damage = monster->getHP();
-		} else if (monster->hasFlag(Monster::FREEZES)) {
+		} else if (monster->hasFlag(Monster::FLAMES)) {
 			damage = monster->getHP()/10 + 1;
 		} else {
 			damage = Generator::intFromRange(player->getHP()/3, player->getMaxHP());

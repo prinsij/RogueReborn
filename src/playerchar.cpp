@@ -197,35 +197,35 @@ void PlayerChar::dropLevel() {
 }
 
 void PlayerChar::eat(Food* food) {
-	std::cout << "# PlayerChar Ate " << food->getName() << "\n";
+	std::cout << "# PlayerChar Ate: " << food->getName() << "\n";
 
 	food->activate(this);
 	this->inventory.remove(food);
 }
 
 void PlayerChar::equipArmor(Armor* armor) {
-	std::cout << "# PlayerChar Equipped Armor " << armor->getName() << "\n";
+	std::cout << "# PlayerChar Equipped Armor: " << armor->getName() << "\n";
 
 	this->itemArmor = armor;
 	this->armor += armor->getRating();
 }
 
 void PlayerChar::equipRingLeft(Ring* ring) {
-	std::cout << "# PlayerChar Equipped Left Ring " << ring->getName() << "\n";
+	std::cout << "# PlayerChar Equipped Left Ring: " << ring->getName() << "\n";
 
 	ring->activate(this);
 	this->itemRingLeft = ring;
 }
 
 void PlayerChar::equipRingRight(Ring* ring) {
-	std::cout << "# PlayerChar Equipped Right Ring " << ring->getName() << "\n";
+	std::cout << "# PlayerChar Equipped Right Ring: " << ring->getName() << "\n";
 
 	ring->activate(this);
 	this->itemRingRight = ring;
 }
 
 void PlayerChar::equipWeapon(Weapon* weapon) {
-	std::cout << "# PlayerChar Equipped Weapon " << weapon->getName() << "\n";
+	std::cout << "# PlayerChar Equipped Weapon: " << weapon->getName() << "\n";
 
 	this->itemWeapon = weapon;
 }
