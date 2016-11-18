@@ -57,7 +57,7 @@ UIState* MainMenu::handleInput(TCOD_key_t key) {
 		return new PlayState(player, level);
 	} else if (key.c) {
 		// Append to name if its a valid name character
-		if (VALID_NAME.find(key.c) != std::string::npos) {
+		if (VALID_NAME.find(key.c) != std::string::npos && nameBuffer.size() < MAX_NAME_LEN) {
 			nameBuffer = nameBuffer + key.c;
 		}
 	}

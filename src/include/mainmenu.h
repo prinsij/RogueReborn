@@ -39,4 +39,6 @@ class MainMenu : public UIState {
 
 		/** Candidate for character name as the player types it. */
 		std::string nameBuffer;
+
+		static constexpr int MAX_NAME_LEN = 12;
 };
