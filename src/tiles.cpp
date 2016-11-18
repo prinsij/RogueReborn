@@ -23,5 +23,5 @@ Corridor::Corridor()
 {}
 
 Door::Door()
-	: Terrain('+', Terrain::Corridor, Terrain::Passable)
+	: Terrain('+', Terrain::Corridor, Terrain::Blocked)
 {}

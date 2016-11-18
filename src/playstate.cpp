@@ -33,6 +33,7 @@
 #include "include/stairs.h"
 #include "include/symbolscreen.h"
 #include "include/trap.h"
+#include "include/tiles.h"
 #include "include/uistate.h"
 #include "include/wand.h"
 #include "include/weapon.h"
@@ -839,7 +840,32 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		newPos += Coord(-1, 1);
 	}
 
+	for (int x=0; x<level->getSize()[0]; ++x) {
+		for (int y=0; y<level->getSize()[1]; ++y) {
+			auto door = dynamic_cast<Door*>(&(level->tileAt(Coord(x,y))));
+			if (door != NULL) {
+				std::cout << Coord(x,y).toString() << "\n";
+			}
+		}
+	}
+
 	if (newPos != player->getLocation() && level->contains(newPos)) {
+		auto& tile = level->tileAt(newPos);
+		if (tile.getSymbol() == '+') {
+			if (key.shift) {
+				tile.setPassable(Terrain::Blocked);
+				tile.setSymbol('-');
+				player->appendLog("You open the door");
+			}
+			tile.setPassable(Terrain::Passable);
+			tile.setSymbol('-');
+			player->appendLog("You open the door");
+		} else if (tile.getSymbol() == '-' && key.shift && level->monsterAt(newPos) == NULL) {
+			tile.setPassable(Terrain::Blocked);
+			tile.setSymbol('+');
+			player->appendLog("You close the door");
+			return this;
+		}
 		Mob* mob = level->monsterAt(newPos);
 		if (mob != NULL) {
 			player->attack((Monster*) mob);
