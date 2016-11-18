@@ -503,6 +503,18 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			mob->setLocation(level->getRandomEmptyPosition());
 			level->registerMob(mob);
 		}
+	} else if (key.c == '=') {
+		for (auto& pair : player->getInventory().getContents()) {
+			pair.second.front()->setIdentified(true);
+		}
+	} else if (key.c == '-') {
+		if (currRoom != NULL) {
+			for (auto x=currRoom->getPosition1()[0]; x <= currRoom->getPosition2()[0]; ++x) {
+				for (auto y=currRoom->getPosition1()[1]; y <= currRoom->getPosition2()[1]; ++y) {
+					level->addFeature(Trap::randomTrap(Coord(x,y)));
+				}
+			}
+		}	
 	}
 
 #endif
@@ -936,10 +948,10 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 						if (next != level) {
 							delete level;
 							level = next;
-							currRoom = NULL;
-							currRoom = updateMap();
-							return this;
 						}
+						currRoom = NULL;
+						currRoom = updateMap();
+						return this;
 					}
 				}
 			} while (search);
