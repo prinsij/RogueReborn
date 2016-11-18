@@ -30,6 +30,7 @@
 #include "include/random.h"
 #include "include/ring.h"
 #include "include/room.h"
+#include "include/weapon.h"
 #include "include/scroll.h"
 #include "include/stairs.h"
 #include "include/terrain.h"
@@ -341,6 +342,15 @@ void Level::generate() {
 							  gen.intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
 			features.push_back(new Armor(randPos));
+			++i;
+		}
+	}
+	i = 0;
+	while (i < THINGS_PER_KIND) {
+		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
+							  gen.intFromRange(0, Y_SIZE-1));
+		if (tileAt(randPos).isPassable() == Terrain::Passable) {
+			features.push_back(new Weapon(randPos));
 			++i;
 		}
 	}
