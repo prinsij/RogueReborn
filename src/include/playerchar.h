@@ -493,6 +493,12 @@ class PlayerChar : public Mob {
 		/** PlayerChar's move counter */
 		int moves;
 
+		/** Turns taken since the last combat sequence */
+		int oocTurns;
+
+		/** Number of turns until the PlayerChar is declared "Out of Combat" */
+		static const int MIN_OOC_TURNS = 5;
+
 		/** Maximum moves value */
 		static const int MOVES_RESET = 99999;
 

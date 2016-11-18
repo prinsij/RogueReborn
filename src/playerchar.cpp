@@ -45,7 +45,8 @@ PlayerChar::PlayerChar(Coord location, std::string name)
 	  itemRingRight(NULL),
 	  itemWeapon(NULL),
 	  maxStr(START_STR),
-	  moves(0)
+	  moves(0),
+	  oocTurns(0)
 {}
 
 void PlayerChar::addExp(int exp) {
@@ -75,6 +76,8 @@ void PlayerChar::applyCondition(PlayerChar::Condition condition, int turns) {
 
 void PlayerChar::attack(Monster* monster) {
 	if (this->getLocation().isAdjacentTo(monster->getLocation())) {
+		this->oocTurns = 0;
+
 		if (Generator::intFromRange(0, 99) <= this->calculateHitChance(monster)) {
 			this->appendLog("You hit the " + monster->getName(this));
 
@@ -326,6 +329,8 @@ void PlayerChar::hit(int damage) {
 	if (this->currentHP > 0 && !this->hasCondition(MAINTAIN_ARMOR) && Generator::intFromRange(0, 99) <= 10) {
 		this->armor = std::max(1, this->armor - 1);
 	}
+
+	this->oocTurns = 0;
 }
 
 bool PlayerChar::move(Coord location, Level* level) {
@@ -356,21 +361,6 @@ bool PlayerChar::move(Coord location, Level* level) {
 			}
 		}
 
-	}
-
-	// Health regeneration
-	if (this->level < 8) {
-		if (this->moves % (21 - this->level*2) == 0) {
-			this->currentHP += this->hasCondition(REGENERATION) ? 2 : 1;
-			this->currentHP = std::min(this->currentHP, this->maxHP);
-		}
-	} else {
-		if (this->moves % 3 == 0) {
-			int upperLimit = this->level - 7;
-			if (this->hasCondition(REGENERATION)) upperLimit ++;
-			this->currentHP += Generator::intFromRange(1, upperLimit);
-			this->currentHP = std::min(this->currentHP, this->maxHP);
-		}
 	}
 
 	return true;
@@ -550,6 +540,27 @@ int PlayerChar::update() {
 	this->changeFoodLife(this->hasCondition(DIGESTION) ? 0 : foodDecrement);
 	this->moves = (this->moves + 1) % MOVES_RESET;
 
+	if (this->oocTurns < MIN_OOC_TURNS)
+		this->oocTurns++;
+
+	// Health regeneration
+	if (this->oocTurns == MIN_OOC_TURNS) {
+		if (this->level < 8) {
+			if (this->moves % (21 - this->level*2) == 0) {
+				this->currentHP += this->hasCondition(REGENERATION) ? 2 : 1;
+				this->currentHP = std::min(this->currentHP, this->maxHP);
+			}
+		} else {
+			if (this->moves % 3 == 0) {
+				int upperLimit = this->level - 7;
+				if (this->hasCondition(REGENERATION)) upperLimit ++;
+				this->currentHP += Generator::intFromRange(1, upperLimit);
+				this->currentHP = std::min(this->currentHP, this->maxHP);
+			}
+		}
+	}
+
+	// Update condition counters
 	for (auto it = this->conditions.begin() ; it != this->conditions.end() ; it++) {
 		if (it->second > -1) {
 			it->second--;

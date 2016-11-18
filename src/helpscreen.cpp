@@ -15,11 +15,17 @@ HelpScreen::HelpScreen(PlayerChar* pc, Level* lvl)
 {}
 
 void HelpScreen::draw(TCODConsole* con) {
-	con->print(0, 0, "y k u");
-	con->print(0, 1, "\\|/");
-	con->print(0, 2, "h-*-l");
-	con->print(0, 3, " /|\\");
-	con->print(0, 4, "b j n");
+	con->print(1, 1, "y k u");
+	con->print(2, 2, "\\|/");
+	con->print(1, 3, "h-*-l");
+	con->print(1, 4, " /|\\");
+	con->print(1, 5, "b j n");
+
+	for (int row = 1 ; row <= 5 ; row++) {
+		for (int col = 0 ; col <= 5 ; col ++) {
+			con->setCharForeground(col, row, TCODColor::green);
+		}
+	}
 
 	/*
 	con->print(9, 0, "Shift <dir> Move until stopped");
@@ -39,15 +45,20 @@ void HelpScreen::draw(TCODConsole* con) {
 						   "<dir> <obj> Throw object", "<obj> Wield weapon", "Stow Weapon",
 						   "<dir> <obj> Zap wand"};
 	int i = 0;
-	for (int y=6; y < 20; y++) {
-		con->print(0, y, hotkeys[i].c_str());
-		con->print(9, y, descs[i].c_str());
+	for (int y = 0; y < 13; y++) {
+		con->print(1, 8 + 2*y, hotkeys[i].c_str());
+		con->print(6, 8 + 2*y, descs[i].c_str());
 		i += 1;
+
+		con->setCharForeground(1, 8 + 2*y, TCODColor::cyan);
 	}
-	for (int y=0; y < 23 && (unsigned int) i < sizeof(hotkeys)/sizeof(*hotkeys); y++) {
-		con->print(41, y, hotkeys[i].c_str());
-		con->print(46, y, descs[i].c_str());
+
+	for (int y = 13; y < 23 && (unsigned int) i < sizeof(hotkeys)/sizeof(*hotkeys); y++) {
+		con->print(41, 8 + 2*(y - 13), hotkeys[i].c_str());
+		con->print(46, 8 + 2*(y - 13), descs[i].c_str());
 		i += 1;
+
+		con->setCharForeground(41, 8 + 2*(y - 13), TCODColor::cyan);
 	}
 }
 
