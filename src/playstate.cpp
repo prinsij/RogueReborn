@@ -30,6 +30,7 @@
 #include "include/ring.h"
 #include "include/ripscreen.h"
 #include "include/scroll.h"
+#include "include/savescreen.h"
 #include "include/stairs.h"
 #include "include/statusscreen.h"
 #include "include/symbolscreen.h"
@@ -477,6 +478,12 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 				}
 			}
 		}
+	} else if (key.c == '@') {
+		for (auto feat : level->getFeatures()) {
+			if (dynamic_cast<Stairs*>(feat)) {
+				player->setLocation(feat->getLocation());
+			}
+		}
 	}
 #endif
 	// Quitting
@@ -803,8 +810,8 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 					level->generate();
 					currRoom = updateMap();
 					player->appendLog("You descend to level " + std::to_string(level->getDepth()));
-					return this;
-				} else if (key.c == '<') {
+					return new SaveScreen(player, level);
+			} else if (key.c == '<') {
 					if (!stair->getDirection() && player->hasAmulet()) {
 						int currDepth = level->getDepth();
 						if (currDepth == 1) {
@@ -816,7 +823,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 							level->generate();
 							currRoom = updateMap();
 							player->appendLog("You ascend to level " + std::to_string(level->getDepth()));
-							return this;
+							return new SaveScreen(player, level);
 						}
 					} else {
 						player->appendLog("Some magical force prevents your passage upward.");

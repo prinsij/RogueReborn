@@ -13,6 +13,7 @@
 
 #include "coord.h"
 #include "item.h"
+#include "saving.h"
 
 /** Tuple representing Armor information (<Name, Rating>)*/
 using ARMOR_TUPLE_TYPE = std::tuple<std::string, int>;
@@ -59,6 +60,9 @@ class Armor : public Item {
 		 */
 		void setEnchantment(int);
 
+		friend std::string encode(PlayerChar*, Level*);
+		friend std::tuple<PlayerChar*, Level*> decode(std::string);
+
 	private:
 		/**
 		 * Vector of tuples representing different Armor configurations indexed by type.
@@ -74,4 +78,6 @@ class Armor : public Item {
 		 * Protection rating.
 		 */
 		int rating;
+
+		int variety;
 };

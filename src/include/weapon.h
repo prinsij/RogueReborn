@@ -13,6 +13,7 @@
 
 #include "coord.h"
 #include "item.h"
+#include "saving.h"
 
 /**
  * Tuple representing Weapon information (<Name, Damage, Melee, Stackable>)
@@ -76,6 +77,10 @@ class Weapon : public Item {
 		 */
 		void setEnchantments(int, int);
 
+		friend std::string encode(PlayerChar*, Level*);
+		friend std::tuple<PlayerChar*, Level*> decode(std::string);
+
+
 	private:
 		/**
 		 * Vector of tuples representing different Weapon configurations indexed by type.
@@ -106,4 +111,6 @@ class Weapon : public Item {
 		 * Denotes whether or not this is a melee Weapon.
 		 */
 		bool melee;
+
+		int variety;
 };

@@ -7,6 +7,8 @@
  */ 
 
 #include <iostream>
+#include <sstream>
+#include <fstream>
 #include <time.h>
 
 #include "include/food.h"
@@ -16,6 +18,7 @@
 #include "include/playerchar.h"
 #include "include/playstate.h"
 #include "include/potion.h"
+#include "include/saving.h"
 #include "include/uistate.h"
 #include "include/weapon.h"
 #include "libtcod/include/libtcod.hpp"
@@ -92,14 +95,25 @@ UIState* MainMenu::handleInput(TCOD_key_t key) {
 		}
 	// If enter we generate the first level and start the game
 	} else if (key.vk == TCODK_ENTER) {
+		if (!key.shift) {
+			PlayerChar* player = new PlayerChar(Coord(10, 10), nameBuffer);
+			setupPlayer(player);
+			Level* level = new Level(1, player);
+			level->registerMob(player);
+			level->generate();
+			player->appendLog("Hello " + player->getName() + ". Welcome to the Dungeons of Doom. Type [?] for help.");
+			return new PlayState(player, level);
+		} else {
+			std::ifstream savefile(nameBuffer);
+			if (savefile.is_open()) {
+				std::string line;
+				std::getline(savefile, line);
+				auto pair = decode(line);
+				return new PlayState(std::get<0>(pair), std::get<1>(pair));
+			}
 
-		PlayerChar* player = new PlayerChar(Coord(10, 10), nameBuffer);
-		setupPlayer(player);
-		Level* level = new Level(1, player);
-		level->registerMob(player);
-		level->generate();
-		player->appendLog("Hello " + player->getName() + ". Welcome to the Dungeons of Doom. Type [?] for help.");
-		return new PlayState(player, level);
+			std::cout << "shift\n";
+		}
 	} else if (key.c) {
 		// Append to name if its a valid name character
 		if (VALID_NAME.find(key.c) != std::string::npos && nameBuffer.size() < MAX_NAME_LEN) {

@@ -31,7 +31,8 @@ Weapon::Weapon(Coord location)
 Weapon::Weapon(Coord location, Item::Context context, int type)
 	: Item(')', location, context, "Weapon", std::get<0>(Weapon::typeVector[type]), type, std::get<3>(Weapon::typeVector[type]), true),
 	  damage(std::get<1>(Weapon::typeVector[type])),
-	  melee (std::get<2>(Weapon::typeVector[type])) {
+	  melee (std::get<2>(Weapon::typeVector[type])),
+	  variety(type) {
 
 	int chance = Generator::intFromRange(1, 96);
 	int iterations = Generator::intFromRange(1, 3);

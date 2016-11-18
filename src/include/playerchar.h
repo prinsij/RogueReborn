@@ -10,11 +10,13 @@
 
 #include <string>
 #include <vector>
+#include <tuple>
 
 #include "coord.h"
 #include "goldpile.h"
 #include "itemzone.h"
 #include "mob.h"
+#include "saving.h"
 
 class Level;
 class Food;
@@ -437,6 +439,9 @@ class PlayerChar : public Mob {
 		 * @return     The PlayerChar's log.
 		 */
 		std::vector<std::string>& getLog();
+
+		friend std::string encode(PlayerChar*, Level*);
+		friend std::tuple<PlayerChar*, Level*> decode(std::string);
 
 	private:
 		/** Possible food states of the PlayerChar */
