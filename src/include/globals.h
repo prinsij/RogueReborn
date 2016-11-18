@@ -23,3 +23,4 @@ const int TURN_TIME = 50;
 const int SLOW_TIME = 103;
 const int FAST_TIME = 23;
 const std::string VICTORY_STR = "Retrieved the Amulet of Yendor";
+const int DISAPPEAR_DELAY = -1;

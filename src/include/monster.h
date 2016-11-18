@@ -46,6 +46,7 @@ class Monster : public Mob {
 			CANCELLED,
 			CONFUSED,
 			CONFUSES,
+			DISAPPEAR,
 			DRAINS_LIFE,
 			DROPS_LEVEL,
 			FLAMES,
@@ -128,7 +129,7 @@ class Monster : public Mob {
 		/**
 		 * @brief      Gold or item steal Monster attack
 		 *
-		 * @param      level Reference to the current level
+		 * @param      level Reference to the current Level
 		 */
 		void attackSteal(Level*);
 
