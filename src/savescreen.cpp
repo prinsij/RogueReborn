@@ -6,6 +6,7 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <time.h>
 #include "include/saving.h"
 
 const std::string SaveScreen::PROMPT = "Enter save file: ";
@@ -20,9 +21,10 @@ SaveScreen::SaveScreen(PlayerChar* player, Level* level)
 
 void SaveScreen::draw(TCODConsole* con) {
 	con->print(1, 1, (PROMPT+nameBuffer).c_str());
-	con->print(1 + PROMPT.length() + nameBuffer.length(), 1, std::string("_").c_str());
+	if (time(NULL) % 2 == 0) {
+		con->print(1 + PROMPT.length() + nameBuffer.length(), 1, std::string("_").c_str());
+	}
 	con->print(1, 3, KEY_HINT.c_str());
-
 }
 
 UIState* SaveScreen::handleInput(TCOD_key_t key) {

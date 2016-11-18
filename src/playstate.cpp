@@ -600,7 +600,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 							auto nextState = std::get<1>(s->activate(temp_l));
 							auto ps = dynamic_cast<PlayState*>(nextState);
 							if (ps != NULL) {
-								ps->updateMap();
+								ps->currRoom = ps->updateMap();
 							}
 							return nextState;
 						});
