@@ -1,7 +1,7 @@
 /**
  * @file ring.h
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member declarations for the Ring class
  */ 
@@ -44,7 +44,7 @@ class Ring : public Item {
 		 *
 		 * @param      player  Reference to the PlayerChar instance
 		 *
-		 * @return	True if the operation was successful, False otherwise. 
+		 * @return	True if the operation was successful, False otherwise.
 		 */
 		bool activate(PlayerChar*);
 
@@ -54,7 +54,7 @@ class Ring : public Item {
 		 * @param	player Reference to the player
 		 *
 		 * @return	True if the operation was successful, False otherwise.
-		 */ 
+		 */
 		bool deactivate(PlayerChar*);
 
 	private:

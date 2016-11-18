@@ -1,7 +1,7 @@
 /**
  * @file coord.h
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member declarations for the Coord class
  */ 
@@ -50,7 +50,7 @@ class Coord {
 		/** Format as x, y. */
 		std::string toString() const;
 		/** Maximum distance in either dimension */
-		int distanceTo(const Coord&) const;
+		int distanceTo(const Coord&, bool taxicab=true) const;
 		/** Set of unit vectors. */
 		static Coord ORTHO[4];
 	private:

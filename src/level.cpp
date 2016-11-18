@@ -1,7 +1,7 @@
 /**
  * @file level.cpp
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member definitions for the Level class
  */ 
@@ -13,13 +13,15 @@
 #include <math.h>
 #include <queue>
 #include <vector>
+#include <tuple>
 
-#include "include/coord.h"
+#include "include/amulet.h"
 #include "include/armor.h"
+#include "include/coord.h"
 #include "include/feature.h"
 #include "include/food.h"
-#include "include/goldpile.h"
 #include "include/globals.h"
+#include "include/goldpile.h"
 #include "include/level.h"
 #include "include/mob.h"
 #include "include/monster.h"
@@ -35,8 +37,6 @@
 #include "include/trap.h"
 #include "include/tunnel.h"
 #include "include/wand.h"
-#include "include/amulet.h"
-
 
 Level::Level(int depth, PlayerChar* player)
 	: player(player)
@@ -111,9 +111,9 @@ void Level::removeMob(Mob* mob) {
 	}
 }
 
-Mob* Level::popTurnClock() {
+std::tuple<Mob*, int> Level::popTurnClock() {
 	if (mobs.empty()) {
-		return NULL;
+		return std::tuple<Mob*, int>(NULL, 0);
 	}
 	auto difference = mobs.back().delay;
 	if (difference > 0) {
@@ -121,7 +121,7 @@ Mob* Level::popTurnClock() {
 			 item.delay -= difference;
 		}
 	}
-	return mobs.back().mob;
+	return std::tuple<Mob*, int>(mobs.back().mob, difference);
 }
 
 void Level::pushMob(Mob* which, int delay) {
@@ -272,6 +272,7 @@ void Level::generate() {
 			}
 		}
 	}
+	stair_exit:;
 	if (depth == NUM_LEVELS) {
 		Coord randPos;
 		do {
@@ -285,9 +286,8 @@ void Level::generate() {
 			}
 		} while (tileAt(randPos).isPassable() != Terrain::Passable);
 		features.push_back(new Amulet(randPos, Item::FLOOR));
-		
+
 	}
-	stair_exit:;
 	// Place gold
 	int i = 0;
 	while (i < THINGS_PER_KIND) {
@@ -295,6 +295,7 @@ void Level::generate() {
 							  gen.intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
 			features.push_back(new GoldPile(randPos, gen.intFromRange(1, 35)));
+			std::cout << "Put gold at " << randPos.toString() << std::endl;
 			++i;
 		}
 	}
@@ -510,12 +511,18 @@ std::vector<Coord> Level::traceBack(Coord end, Coord start){
 		Coord c_ = current.copy();
 
 		path.push_back(c_);
+
+		if (current == tiles[current[0]][current[1]].parent){
+			std::cout << "Dead end in trace-back" << std::endl;
+			break;
+		}
+
 		current = tiles[current[0]][current[1]].parent.copy();
 
 		count++;
 
-		if (count == 100 || current == Coord(0,0)){
-			std::cout << "Oops " << count << std::endl;
+		if (count == 500){
+			std::cout << "Path too long! (500)" << std::endl;
 			break;
 		}
 	}
@@ -570,7 +577,6 @@ Mob* Level::monsterAt(Coord s){
 			return c.mob;
 		}
 	}
-
 	return NULL;
 }
 
@@ -588,27 +594,69 @@ Level::~Level() {
 	}
 }
 
+//Still doing BFS twice
 std::vector<Coord> Level::getNearestGold(Coord ori) {
 
-	std::vector<std::vector<Coord> > paths;
+	resetPF();
 
-	uint mindex = 999;
-	uint minlen = 999;
+	std::queue<Coord> q;
+	q.push(ori.copy());
 
-	for (uint i = 0; i < golds.size(); ++i){
+	tileAt(ori).checked = true;
 
-		paths.push_back(bfsDiag(ori, golds[i].getLocation()));
+	GoldPile* near = nullptr;
 
-		if (paths[i].size() < minlen){
-			minlen = paths[i].size();
-			mindex = i;
+	Coord current = q.front().copy();
+
+	while(q.size() > 0){
+
+		current = q.front().copy();
+		q.pop();
+
+		for (Feature* f : features){
+
+			GoldPile* pile = dynamic_cast<GoldPile*>(f);
+
+			if (pile != NULL){
+				if (pile->getLocation() == current){
+					near = pile;
+					goto found_gold;
+				}
+			}
+		}
+
+		if (contains(current + Coord(1,0)) && !tileAt(current + Coord(1,0)).checked && tileAt(current + Coord(1,0)).isPassable() == Terrain::Passable){
+			q.push(current + Coord(1,0));
+			tileAt(current + Coord(1,0)).checked = true;
+		}
+
+		if (contains(current + Coord(-1,0)) && !tileAt(current + Coord(-1,0)).checked && tileAt(current + Coord(-1,0)).isPassable() == Terrain::Passable){
+			q.push(current + Coord(-1,0));
+			tileAt(current + Coord(-1,0)).checked = true;
+		}
+
+		if (contains(current + Coord(0,1)) && !tileAt(current + Coord(0,1)).checked && tileAt(current + Coord(0,1)).isPassable() == Terrain::Passable){
+			q.push(current + Coord(0,1));
+			tileAt(current + Coord(0,1)).checked = true;
+		}
+
+		if (contains(current + Coord(0,-1)) && !tileAt(current + Coord(0,-1)).checked && tileAt(current + Coord(0,-1)).isPassable() == Terrain::Passable){
+			q.push(current + Coord(0,-1));
+			tileAt(current + Coord(0,-1)).checked = true;
 		}
 	}
 
-	if (mindex != 999){
-		return paths[mindex];
+	found_gold:;
+
+	if (near != nullptr){
+
+		return bfsDiag(ori, near->getLocation());
+
 	} else {
+
+		std::cout << "Can't find gold pile! This is an issue!" << std::endl;
 		return {};
+
 	}
 }
 

@@ -1,20 +1,20 @@
 /**
  * @file test.playerchar.cpp
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Global members
- */
+ */ 
 
 #include <iostream>
 #include <string>
 #include <vector>
 
-#include "test.testable.cpp"
+#include "include/armor.h"
 #include "include/playerchar.h"
 #include "include/random.h"
 #include "include/weapon.h"
-#include "include/armor.h"
+#include "test.testable.h"
 
 class PlayerCharTest : public Testable {
 	public:
@@ -24,7 +24,7 @@ class PlayerCharTest : public Testable {
 
 		void test(){
 
-			comment("Testing PlayerChar!");			
+			comment("Testing PlayerChar!");
 
 			Coord pos  = Coord(0,0);
 			PlayerChar player = PlayerChar(pos, "test");
@@ -49,7 +49,7 @@ class PlayerCharTest : public Testable {
 				player.hit(1);
 				b = player.getHP();
 
-				assert(b < a, "Taking damage works");	
+				assert(b < a, "Taking damage works");
 			}
 
 			//Weapon

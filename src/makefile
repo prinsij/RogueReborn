@@ -6,7 +6,7 @@ TESTTARGET = Test.exe
 
 SRCSNOMAIN=amulet.cpp armor.cpp coord.cpp feature.cpp food.cpp goldpile.cpp helpscreen.cpp invscreen.cpp item.cpp itemzone.cpp level.cpp mainmenu.cpp mastercontroller.cpp mob.cpp monster.cpp playerchar.cpp playstate.cpp potion.cpp random.cpp ring.cpp ripscreen.cpp room.cpp scroll.cpp stairs.cpp terrain.cpp tiles.cpp trap.cpp tunnel.cpp uistate.cpp wand.cpp weapon.cpp logscreen.cpp symbolscreen.cpp
 SRCS=$(SRCSNOMAIN) main.cpp
-TESTSRCS=$(SRCSNOMAIN) test.armor.cpp test.main.cpp test.testable.cpp test.level.cpp test.playerchar.cpp
+TESTSRCS=$(SRCSNOMAIN) $(wildcard test.*.cpp)
 
 OBJS = $(SRCS:.cpp=.o)
 DEPS = $(SRCS:.cpp=.depends)
@@ -16,13 +16,13 @@ TESTDEPS = $(TESTSRCS:.cpp=.depends)
 
 .PHONY: clean all doxy
 
-all: $(TARGET) $(TESTTARGET)
+all: dodeps $(TARGET) $(TESTTARGET)
 
-$(TARGET): $(OBJS)
+$(TARGET): $(OBJS) dodeps
 	@cp -n ./libtcod/*.so .
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(OBJS) *.so -o $(TARGET)
 
-$(TESTTARGET): $(TESTOBJS)
+$(TESTTARGET): $(TESTOBJS) dodeps
 	@cp -n ./libtcod/*.so .
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(TESTOBJS) *.so -o $(TESTTARGET)
 
@@ -32,11 +32,11 @@ $(TESTTARGET): $(TESTOBJS)
 %.depends: %.cpp
 	$(CXX) -M $(CXXFLAGS) $< > $@
 
-clean:
-	#rm -f *.o *.so *.depends
-	rm -f $(OBJS) $(DEPS) $(TARGET) $(TESTOBJS) $(TESTDEPS) $(TESTTARGET) *.so
-
 doxy:
 	doxygen Doxyfile
 
--include $(DEPS) $(TESTDEPS)
+dodeps: $(DEPS) $(TESTDEPS)
+	@echo "Dependency files generated"
+
+clean: 
+	rm -f $(OBJS) $(DEPS) $(TARGET) $(TESTOBJS) $(TESTDEPS) $(TESTTARGET) *.so

@@ -1,7 +1,7 @@
 /**
  * @file playerchar.h
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member declarations for the PlayerChar class
  */ 
@@ -40,7 +40,7 @@ class PlayerChar : public Mob {
 		 */
 		PlayerChar(Coord, std::string);
 
-		enum Condition {BLIND, 
+		enum Condition {BLIND,
 			CONFUSED,
 			CONFUSE_MONSTER,
 			DETECT_MONSTER,
@@ -85,7 +85,7 @@ class PlayerChar : public Mob {
 
 		/**
 		 * @brief Applies the given condition to the PlayerChar for the provided number of turns.
-		 * 
+		 *
 		 * @param condition State to be applied to the player
 		 * @param turns Number of turns the condition should last (-1 for continuous)
 		 */
@@ -219,7 +219,7 @@ class PlayerChar : public Mob {
 		 * @return     The turn delay.
 		 */
 		int getDelay();
-		 
+
 		/*
 		 * @brief	Gets the PlayerChar's chance to reveal secrets.
 		 * @see		SEARCH_CHANCE
@@ -267,7 +267,7 @@ class PlayerChar : public Mob {
 
 		/**
 		 * @brief		Gets the level of this PlayerChar.
-		 * 
+		 *
 		 * @return		The level of this PlayerChar.
 		 */
 		int getLevel();
@@ -316,14 +316,14 @@ class PlayerChar : public Mob {
 
 		/**
 		 * @brief Determines whether or not this PlayerChar is affected by the given condition.
-		 * 
+		 *
 		 * @param  condition Condition to check
 		 * @return True if PlayerChar is currently affected by condition, False otherwise.
 		 */
 		bool hasCondition(Condition);
 
 		/**
-		 * @brief      Inflicts HP loss to this PlayerChar based on the given damage.  
+		 * @brief      Inflicts HP loss to this PlayerChar based on the given damage.
 		 *
 		 * @param[in]  damage Baseline damage to be inflicted
 		 */
@@ -365,8 +365,8 @@ class PlayerChar : public Mob {
 		bool removeArmor();
 
 		/**
-		 * @brief	Removes the given condition from the PlayerChar. 
-		 * 
+		 * @brief	Removes the given condition from the PlayerChar.
+		 *
 		 * @param	condition Condition to remove
 		 */
 		void removeCondition(Condition);
@@ -417,14 +417,14 @@ class PlayerChar : public Mob {
 		 * @brief	Sets the strength of the PlayerChar.
 		 *
 		 * @param	strength The new strength of the PlayerChar
-		 */ 
+		 */
 		void setStrength(int);
 
 		/**
 		 * @brief	Updates this Player's states
 		 *
 		 * @return	The turn delay.
-		 */ 
+		 */
 		int update();
 
 		/**
@@ -489,9 +489,15 @@ class PlayerChar : public Mob {
 
 		/** PlayerChar's maximum strength */
 		int maxStr;
-	
+
 		/** PlayerChar's move counter */
 		int moves;
+
+		/** Turns taken since the last combat sequence */
+		int oocTurns;
+
+		/** Number of turns until the PlayerChar is declared "Out of Combat" */
+		static const int MIN_OOC_TURNS = 5;
 
 		/** Maximum moves value */
 		static const int MOVES_RESET = 99999;
@@ -520,11 +526,11 @@ class PlayerChar : public Mob {
 		/** PlayerChar's starting food value */
 		static const int START_FOOD = 1250;
 
-		/** Chance in to discover a nearby secret 
+		/** Chance in to discover a nearby secret
 		 *  with a search (out of 1).
 		 */
 		static constexpr float SEARCH_CHANCE = .4;
-		
+
 		/** Distance (taxicab) the player searches
 		 *  when looking for secrets.
 		 */

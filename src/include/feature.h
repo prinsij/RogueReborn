@@ -1,16 +1,17 @@
 /**
  * @file feature.h
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member declarations for the Feature class
  */ 
 
 #pragma once
 
-#include "coord.h"
-#include "../libtcod/include/libtcod.hpp"
 #include <vector>
+
+#include "../libtcod/include/libtcod.hpp"
+#include "coord.h"
 
 /** Models a 'thing' in the dungeon
  *  that has position and may be visible.

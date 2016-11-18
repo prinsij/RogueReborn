@@ -1,12 +1,10 @@
 /**
  * @file test.main.cpp
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Global members
  */ 
-
-#pragma once
 
 #include <iostream>
 #include <string>
@@ -15,7 +13,7 @@
 #include "test.armor.cpp"
 #include "test.level.cpp"
 #include "test.playerchar.cpp"
-#include "test.testable.cpp"
+#include "test.testable.h"
 
 int main(){
 

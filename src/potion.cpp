@@ -1,7 +1,7 @@
 /**
  * @file potion.cpp
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member definitions for the Potion class
  */ 
@@ -59,7 +59,7 @@ bool Potion::activate(Mob* mob) {
 		} else {
 			PlayerChar* player = dynamic_cast<PlayerChar*>(mob);
 			player->appendLog("You feel stronger now, what bulging muscles!");
-				
+
 			if (player->getMaxStrength() == player->getStrength()) {
 				player->changeMaxStrength(1);
 			}
@@ -73,11 +73,11 @@ bool Potion::activate(Mob* mob) {
 		} else {
 			PlayerChar* player = dynamic_cast<PlayerChar*>(mob);
 			player->appendLog("This tastes great; you feel warm all over");
-			
+
 			int strengthLeft = player->getMaxStrength() - player->getStrength();
 			player->changeCurrentStrength(strengthLeft);
 		}
-	
+
 	// Healing / Extra Healing
 	} else if (this->type == 2 || this->type == 3) {
 		PlayerChar* player = dynamic_cast<PlayerChar*>(mob);
@@ -115,50 +115,50 @@ bool Potion::activate(Mob* mob) {
 		if (!player->hasCondition(PlayerChar::SUSTAIN_STRENGTH)) {
 			int newStrength = player->getStrength();
 			newStrength = std::max(1, newStrength - Generator::intFromRange(1, 3));
-			player->changeCurrentStrength(newStrength - player->getStrength());	
+			player->changeCurrentStrength(newStrength - player->getStrength());
 		}
-		
+
 		player->removeCondition(PlayerChar::HALLUCINATING);
 
 	// Raise Level
 	} else if (this->type == 5) {
-		if (!player) return false;	
+		if (!player) return false;
 
 		player->appendLog("You suddenly feel much more skillful");
 		player->raiseLevel();
 
 	// Blindness
-	} else if (this->type == 6) {	
-		if (!player) return false;	
+	} else if (this->type == 6) {
+		if (!player) return false;
 
 		if (!player->hasCondition(PlayerChar::BLIND)) {
 			player->appendLog("A cloak of darkness falls around you");
 		}
-		
+
 		player->applyCondition(PlayerChar::BLIND, Generator::intFromRange(500, 800));
-	
+
 	// Hallucination
 	} else if (this->type == 7) {
-		if (!player) return false;	
+		if (!player) return false;
 
 		player->appendLog("Oh wow, everything seems so cosmic!");
-		
+
 		player->applyCondition(PlayerChar::HALLUCINATING, Generator::intFromRange(500, 800));
-	
+
 	// Detect Monster
 	} else if (this->type == 8) {
-		if (!player) return false;	
+		if (!player) return false;
 
 		player->appendLog("You have a strange feeling for moment, then it passes");
-		
+
 		player->applyCondition(PlayerChar::DETECT_MONSTER, -1);
 
 	// Detect Objects
 	} else if (this->type == 9) {
-		if (!player) return false;	
+		if (!player) return false;
 
 		player->appendLog("You have a strange feeling for moment, then it passes");
-		
+
 		player->applyCondition(PlayerChar::DETECT_OBJECTS, -1);
 
 	// Confusion
@@ -168,7 +168,7 @@ bool Potion::activate(Mob* mob) {
 		player->appendLog(player->hasCondition(PlayerChar::HALLUCINATING) ? "What a trippy feeling" : "You feel confused");
 
 		player->applyCondition(PlayerChar::CONFUSED, Generator::intFromRange(12, 22));
-	
+
 	// Levitation
 	} else if (this->type == 11) {
 		if (!player) return false;
@@ -185,7 +185,7 @@ bool Potion::activate(Mob* mob) {
 		player->appendLog("You feel yourself moving much faster");
 
 		player->applyCondition(PlayerChar::HASTED, Generator::intFromRange(11, 21));
-	
+
 	// See Invisible
 	} else if (this->type == 13) {
 		if (!player) return false;

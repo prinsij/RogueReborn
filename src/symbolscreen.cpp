@@ -1,15 +1,16 @@
 /**
  * @file symbolscreen.cpp
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member definitions for the SymbolScreen class
- */
+ */ 
+
+#include <iostream>
 
 #include "include/playstate.h"
 #include "include/symbolscreen.h"
 #include "libtcod/include/libtcod.hpp"
-#include <iostream>
 
 SymbolScreen::SymbolScreen(PlayerChar* pc, Level* lvl)
 	: player(pc)
@@ -17,7 +18,7 @@ SymbolScreen::SymbolScreen(PlayerChar* pc, Level* lvl)
 {}
 
 const std::string SymbolScreen::symbols[] = {"#", ".", "+", "^", "%%", "*", ":", "!", "?",
-							 "/", "=", ",", ")", "]", "A-Z", "@"};
+							 "/", "=", "$", ")", "]", "A-Z", "@"};
 
 const std::string SymbolScreen::explanations[] = {"Wall", "Floor", "Door", "Trap", "Stairs", "Gold",
 								"Food", "Potion", "Scroll", "Wand/Staff", "Ring",

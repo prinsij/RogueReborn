@@ -1,7 +1,7 @@
 /**
  * @file weapon.cpp
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member definitions for the Weapon class
  */ 
@@ -81,4 +81,3 @@ void Weapon::updateName() {
 		+ (this->enchantDamage >= 0 ? "+" : "") + std::to_string(this->enchantDamage) + " "
 		+ std::get<0>(Weapon::typeVector[this->type]);
 }
-

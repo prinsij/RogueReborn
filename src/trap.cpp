@@ -1,7 +1,7 @@
 /**
  * @file trap.cpp
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member definitions for the Trap class
  */ 
@@ -9,10 +9,10 @@
 #include "include/armor.h"
 #include "include/coord.h"
 #include "include/feature.h"
+#include "include/level.h"
 #include "include/playerchar.h"
 #include "include/random.h"
 #include "include/trap.h"
-#include "include/level.h"
 
 Trap::Trap(Coord location, unsigned char type, bool visible)
 	: Feature('^', location, visible)
@@ -53,7 +53,7 @@ Level* Trap::activate(Mob* mob, Level* level) {
 			Armor* armor = player->getArmor();
 
 			if (armor == NULL || armor->getRating() == 1) return level;
-	
+
 			if (!player->hasCondition(PlayerChar::MAINTAIN_ARMOR) && !armor->hasEffect(Item::PROTECTED)) {
 				armor->setEnchantment(armor->getEnchantment() - 1);
 			}
@@ -87,7 +87,7 @@ Level* Trap::activate(Mob* mob, Level* level) {
 		if (player) {
 			player->appendLog("A small dart just hit you in the shoulder");
 
-			if (!player->hasCondition(PlayerChar::SUSTAIN_STRENGTH) && 
+			if (!player->hasCondition(PlayerChar::SUSTAIN_STRENGTH) &&
 				Generator::intFromRange(0, 99) <= 40 &&
 				player->getStrength() >= 3) {
 				player->changeCurrentStrength(-1);

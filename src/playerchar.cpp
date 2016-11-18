@@ -1,7 +1,7 @@
 /**
  * @file playerchar.cpp
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member definitions for the PlayerChar class
  */ 
@@ -45,7 +45,8 @@ PlayerChar::PlayerChar(Coord location, std::string name)
 	  itemRingRight(NULL),
 	  itemWeapon(NULL),
 	  maxStr(START_STR),
-	  moves(0) 
+	  moves(0),
+	  oocTurns(0)
 {}
 
 void PlayerChar::addExp(int exp) {
@@ -75,6 +76,8 @@ void PlayerChar::applyCondition(PlayerChar::Condition condition, int turns) {
 
 void PlayerChar::attack(Monster* monster) {
 	if (this->getLocation().isAdjacentTo(monster->getLocation())) {
+		this->oocTurns = 0;
+
 		if (Generator::intFromRange(0, 99) <= this->calculateHitChance(monster)) {
 			this->appendLog("You hit the " + monster->getName(this));
 
@@ -187,7 +190,6 @@ void PlayerChar::dropLevel() {
 	this->exp = levelExpBounds[this->level - 2];
 	this->level--;
 	this->appendLog("Welcome to level " + std::to_string(this->level));
-	std::cout << "# PlayerChar is now at level " << this->level << "\n";
 
 	int deltaHP = Generator::intFromRange(3, 9);
 	this->maxHP -= deltaHP;
@@ -323,17 +325,19 @@ bool PlayerChar::hasCondition(PlayerChar::Condition condition) {
 
 void PlayerChar::hit(int damage) {
 	Mob::hit(damage);
-	
+
 	if (this->currentHP > 0 && !this->hasCondition(MAINTAIN_ARMOR) && Generator::intFromRange(0, 99) <= 10) {
-		this->armor = std::max(1, this->armor - 1); 
+		this->armor = std::max(1, this->armor - 1);
 	}
+
+	this->oocTurns = 0;
 }
 
 bool PlayerChar::move(Coord location, Level* level) {
 	if (this->hasCondition(IMMOBILIZED)) {
 		this->appendLog("You are being held");
 		return false;
-	} else if (this->hasCondition(RANDOM_TELEPORTATION) && this->moves % 80 == 0) {
+	} else if (this->hasCondition(RANDOM_TELEPORTATION) && this->moves % Generator::intFromRange(15, 40) == 0) {
 		this->setLocation(level->getRandomEmptyPosition());
 		return true;
 	}
@@ -344,37 +348,19 @@ bool PlayerChar::move(Coord location, Level* level) {
 		this->setLocation(adjacentTiles[Generator::intFromRange(0, adjacentTiles.size() - 1)]);
 		return true;
 	}
-	
+
 	this->setLocation(location);
 
-	std::vector<Coord> adjacentTiles = level->getAdjPassable(location, false);
-
-	// Chance to awaken nearby monsters	
-	for (auto it = adjacentTiles.begin() ; it != adjacentTiles.end() ; it++) {
-		Mob* mob = level->monsterAt(*it);
-		if (mob) {
-			Monster* monster = dynamic_cast<Monster*>(mob);
+	// Chance to awaken nearby monsters
+	for (Mob* mob : level->getMobs()) {
+		Monster* monster = dynamic_cast<Monster*>(mob);
+		if (monster != NULL && this->location.distanceTo(monster->getLocation())) {
 			if (monster && !monster->isAwake()) {
 				int wakePercent = static_cast<int>(45/(3 + (this->hasCondition(STEALTHY) ? 1 : 0)));
 				monster->setAwake(Generator::intFromRange(0,99) <= wakePercent);
 			}
 		}
-	}
-		
 
-	// Health regeneration
-	if (this->level < 8) {
-		if (this->moves % (21 - this->level*2) == 0) {
-			this->currentHP += this->hasCondition(REGENERATION) ? 2 : 1;
-			this->currentHP = std::min(this->currentHP, this->maxHP);
-		}
-	} else {
-		if (this->moves % 3 == 0) {
-			int upperLimit = this->level - 7;
-			if (this->hasCondition(REGENERATION)) upperLimit ++;
-			this->currentHP += Generator::intFromRange(1, upperLimit);
-			this->currentHP = std::min(this->currentHP, this->maxHP);
-		}
 	}
 
 	return true;
@@ -437,14 +423,14 @@ void PlayerChar::removeCondition(PlayerChar::Condition condition) {
 		} else if (condition == PlayerChar::LEVITATING) {
 			this->appendLog("You float gently to the ground");
 		}
-	}	
+	}
 
 	this->conditions.erase(condition);
 }
 
 bool PlayerChar::removeRingLeft() {
 	if (this->itemRingLeft == NULL) return false;
-	
+
 	if (this->itemRingLeft->hasEffect(Item::CURSED)) {
 		return false;
 	}
@@ -458,7 +444,7 @@ bool PlayerChar::removeRingLeft() {
 
 bool PlayerChar::removeRingRight() {
 	if (this->itemRingRight == NULL) return false;
-	
+
 	if (this->itemRingRight->hasEffect(Item::CURSED)) {
 		return false;
 	}
@@ -544,7 +530,7 @@ void PlayerChar::setStrength(int strength) {
 
 int PlayerChar::update() {
 	int foodDecrement = -1;
-	
+
 	if (this->itemRingLeft && this->itemRingRight) {
 		foodDecrement = -3;
 	} else if (this->itemRingLeft || this->itemRingRight) {
@@ -554,6 +540,27 @@ int PlayerChar::update() {
 	this->changeFoodLife(this->hasCondition(DIGESTION) ? 0 : foodDecrement);
 	this->moves = (this->moves + 1) % MOVES_RESET;
 
+	if (this->oocTurns < MIN_OOC_TURNS)
+		this->oocTurns++;
+
+	// Health regeneration
+	if (this->oocTurns == MIN_OOC_TURNS) {
+		if (this->level < 8) {
+			if (this->moves % (21 - this->level*2) == 0) {
+				this->currentHP += this->hasCondition(REGENERATION) ? 2 : 1;
+				this->currentHP = std::min(this->currentHP, this->maxHP);
+			}
+		} else {
+			if (this->moves % 3 == 0) {
+				int upperLimit = this->level - 7;
+				if (this->hasCondition(REGENERATION)) upperLimit ++;
+				this->currentHP += Generator::intFromRange(1, upperLimit);
+				this->currentHP = std::min(this->currentHP, this->maxHP);
+			}
+		}
+	}
+
+	// Update condition counters
 	for (auto it = this->conditions.begin() ; it != this->conditions.end() ; it++) {
 		if (it->second > -1) {
 			it->second--;
@@ -572,7 +579,7 @@ int PlayerChar::update() {
 
 				if (Generator::intFromRange(0, 99) <= 40) {
 					this->foodLife ++;
-				} 
+				}
 			}
 		}
 	}

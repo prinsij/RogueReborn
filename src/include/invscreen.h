@@ -1,7 +1,7 @@
 /**
  * @file invscreen.h
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member declarations for the InvScreen class
  */ 
@@ -19,7 +19,7 @@
 /** Interface state for viewing the contents of
  *  the player inventory.
  *
- * Environment variables: input device (e.g., keyboard) and output device (e.g., monitor) 
+ * Environment variables: input device (e.g., keyboard) and output device (e.g., monitor)
  */
 
 class InvScreen : public UIState {

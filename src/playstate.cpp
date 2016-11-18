@@ -1,7 +1,7 @@
 /**
  * @file playstate.cpp
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member definitions for the PlayState class
  */ 
@@ -12,18 +12,13 @@
 #include <string>
 #include <time.h>
 
+#include "include/armor.h"
 #include "include/feature.h"
 #include "include/food.h"
-#include "include/potion.h"
-#include "include/weapon.h"
-#include "include/armor.h"
-#include "include/scroll.h"
-#include "include/wand.h"
 #include "include/globals.h"
-#include "include/ring.h"
+#include "include/wizard.h"
 #include "include/goldpile.h"
 #include "include/helpscreen.h"
-#include "include/symbolscreen.h"
 #include "include/invscreen.h"
 #include "include/item.h"
 #include "include/level.h"
@@ -31,10 +26,16 @@
 #include "include/monster.h"
 #include "include/playerchar.h"
 #include "include/playstate.h"
+#include "include/potion.h"
+#include "include/ring.h"
 #include "include/ripscreen.h"
+#include "include/scroll.h"
 #include "include/stairs.h"
+#include "include/symbolscreen.h"
 #include "include/trap.h"
 #include "include/uistate.h"
+#include "include/wand.h"
+#include "include/weapon.h"
 #include "include/weapon.h"
 #include "libtcod/include/libtcod.hpp"
 
@@ -269,7 +270,7 @@ Room* PlayState::updateMap() {
 			result = &room;
 		}
 	}
-	bool blinded = (result == NULL 
+	bool blinded = (result == NULL
  		|| result->getDark() == Room::DARK
  		|| player->hasCondition(PlayerChar::BLIND));
 	if (!blinded) {
@@ -284,7 +285,7 @@ Room* PlayState::updateMap() {
 
 void PlayState::draw(TCODConsole* con) {
 	// Draw terrain
-	bool blinded = currRoom == NULL 
+	bool blinded = currRoom == NULL
  		|| currRoom->getDark() == Room::DARK
  		|| player->hasCondition(PlayerChar::BLIND);
  	unsigned int hallucChar = time(NULL) % HALLUC_CHARS.size();
@@ -309,7 +310,7 @@ void PlayState::draw(TCODConsole* con) {
 					con->setCharForeground(scrPos[0], scrPos[1], featAt->getFColor());
 				}
 				// Previously but not currently seen
-				if (mapPos.distanceTo(player->getLocation()) > 1
+				if (mapPos.distanceTo(player->getLocation(), false) > 1
 						&& (blinded || currRoom == NULL || !currRoom->contains(mapPos, 1))) {
 					con->setCharForeground(scrPos[0], scrPos[1], terrain.getColor()*.5);
 				// Currently in view
@@ -343,6 +344,11 @@ void PlayState::draw(TCODConsole* con) {
 	if (player->getLog().size() > 0) {
 		con->print(0, 0, player->getLog().back().c_str());
 	}
+	if (player->hasCondition(PlayerChar::SLEEPING)) {
+		con->print(PROMPTX, PROMPTY, "You are helpless (press SPACE to continue)");
+		auto ppos = player->getLocation().asScreen();
+		con->setCharForeground(ppos[0], ppos[1], TCODColor::lightBlue);
+	}
 	// Display the info bar
 	const int y = Coord(0, level->getSize()[1]).asScreen()[1]+1;
 	std::string starveStr = player->getFoodStatus();
@@ -357,7 +363,7 @@ void PlayState::draw(TCODConsole* con) {
 }
 
 template<typename T>
-UIState* PlayState::attemptUse(std::string error, std::function<bool(Item*)> filter, 
+UIState* PlayState::attemptUse(std::string error, std::function<bool(Item*)> filter,
 								std::function<UIState*(T*)> makeUseOf) {
 	for (auto pair : player->getInventory().getContents()) {
 		if (filter(pair.second.front())) {
@@ -385,14 +391,15 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		}
 	}
 	// Perform AI turns until it's the player's go
-	int numAIGone = 0;
+	int difference = 0;
 	while (true) {
-		auto nextUp = level->popTurnClock();
+		auto tuple = level->popTurnClock();
+		auto nextUp = std::get<0>(tuple);
+		difference += std::get<1>(tuple);
 		if (nextUp == player) {
 			level->pushMob(player, 0);
 			break;
 		}
-		++numAIGone;
 		// Do AI turn
 		level->pushMob(nextUp, nextUp->turn(level));
 		if (player->isDead()) {
@@ -400,7 +407,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		}
 	}
 	int turnTime = TURN_TIME;
-	if (numAIGone > 0) {
+	if (difference > 0) {
 		turnTime = player->update();
 		if (player->isDead()) {
 			return new RIPScreen(player, level, "Starved to death");
@@ -408,9 +415,68 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	}
 	// Skip the player's turn if they are sleeping
 	if (player->hasCondition(PlayerChar::SLEEPING)) {
-		level->pushMob(player, turnTime);
+		if (key.vk == TCODK_SPACE) {
+			level->pushMob(player, turnTime);
+		}
 		return this;
 	}
+#ifdef URAWIZARD
+	if (key.c == '}') {
+		int currDepth = level->getDepth();
+		delete level;
+		level = new Level(currDepth+1, player);
+		level->registerMob(player);
+		level->generate();
+		currRoom = updateMap();
+		player->appendLog("Teleported to level " + std::to_string(level->getDepth()));
+		return this;
+	} else if (key.c == '{') {
+		int currDepth = level->getDepth();
+		if (currDepth <= 1) return this;
+		delete level;
+		level = new Level(currDepth-1, player);
+		level->registerMob(player);
+		level->generate();
+		currRoom = updateMap();
+		player->appendLog("Teleported to level " + std::to_string(level->getDepth()));
+		return this;
+	} else if (key.c == '&') {
+		for (auto mob : level->getMobs()) {
+			if (mob != player) {
+				mob->hit(1000000);
+			}
+		}
+	} else if (key.c == '%') {
+		for (auto x=0; x < level->getSize()[0]; ++x) {
+			for (auto y=0; y < level->getSize()[1]; ++y) {
+				level->tileAt(Coord(x,y)).setIsSeen(Terrain::Seen);
+			}
+		}
+	} else if (key.c == '*') {
+		if (currRoom != NULL) {
+			for (auto x=currRoom->getPosition1()[0]; x <= currRoom->getPosition2()[0]; ++x) {
+				for (auto y=currRoom->getPosition1()[1]; y <= currRoom->getPosition2()[1]; ++y) {
+					int itemType = Generator::intFromRange(0, 5);
+					if (itemType == 0) {
+						level->addFeature(new GoldPile(Coord(x,y), 42));
+					} else if (itemType == 1) {
+						level->addFeature(new Potion(Coord(x,y)));
+					} else if (itemType == 2) {
+						level->addFeature(new Wand(Coord(x,y)));
+					} else if (itemType == 3) {
+						level->addFeature(new Scroll(Coord(x,y)));
+					} else if (itemType == 4) {
+						level->addFeature(new Weapon(Coord(x,y)));
+					} else if (itemType == 5) {
+						level->addFeature(new Armor(Coord(x,y)));
+					} else if (itemType == 6) {
+						level->addFeature(new Ring(Coord(x,y)));
+					}
+				}
+			}
+		}
+	}
+#endif
 	// Quitting
 	if (key.c == 'Q') {
 		return new QuitPrompt2(player, level);
@@ -447,8 +513,8 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		player->appendLog("You search your surroundings for traps");
 		for (Feature* feat : level->getFeatures()) {
 			if (!feat->getVisible()
-					&& player->getLocation().distanceTo(feat->getLocation())
-					   < player->getSearchRadius()
+					&& player->getLocation().distanceTo(feat->getLocation(), false)
+					   <= player->getSearchRadius()
 					&& Generator::rand() <= player->getSearchChance()) {
 				feat->setVisible(true);
 				player->appendLog("You uncover a secret");
@@ -479,7 +545,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 														i->setLocation(p->getLocation());
 														l->addFeature(i);
 														return new PlayState(p, l);
-													}, 
+													},
 													false);
 												},
 												true);
@@ -489,7 +555,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	if (key.c == 'q') {
 		auto temp_p = player;
 		auto temp_l = level;
-		return attemptUse<Potion>("You have nothing you can quaff", 
+		return attemptUse<Potion>("You have nothing you can quaff",
 						[] (Item* i) {return dynamic_cast<Potion*>(i)!=NULL;},
 						[temp_p, temp_l] (Potion* p) {
 							temp_p->appendLog("You drink the " + p->getName());
@@ -510,13 +576,17 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	}
 	// wield weapon
 	if (key.c == 'w') {
+		if (player->getWeapon() != NULL) {
+			player->appendLog("You are already wielding something");
+			return this;
+		}
 		for (auto pair : player->getInventory().getContents()) {
 			Weapon* weap = dynamic_cast<Weapon*>(pair.second.front());
 			if (weap != NULL) {
 				level->pushMob(player, turnTime);
 				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Weapon*>(i)!=NULL;},
 											[] (Item* i, PlayerChar* p, Level* l) {
-												return new QuickUse<Weapon>(p, l, i, 
+												return new QuickUse<Weapon>(p, l, i,
 																		[p, l] (Weapon* w) {
 																			p->equipWeapon(w);
 																			p->getInventory().remove(w);
@@ -532,13 +602,17 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	}
 	// Wear armor
 	if (key.c == 'W') {
+		if (player->getArmor() != NULL) {
+			player->appendLog("You are already wearing something");
+			return this;
+		}
 		for (auto pair : player->getInventory().getContents()) {
 			Armor* armor = dynamic_cast<Armor*>(pair.second.front());
 			if (armor != NULL) {
 				level->pushMob(player, turnTime);
 				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Armor*>(i)!=NULL;},
 											[] (Item* i, PlayerChar* p, Level* l) {
-												return new QuickUse<Armor>(p, l, i, 
+												return new QuickUse<Armor>(p, l, i,
 																		[p, l] (Armor* a) {
 																			p->equipArmor(a);
 																			p->getInventory().remove(a);
@@ -566,7 +640,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			}
 			return this;
 		} else {
-			player->appendLog("you are not wielding anything");
+			player->appendLog("you are not wearing anything");
 		}
 	}
 	// Remove ring
@@ -618,7 +692,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			if (rings.first == NULL) {
 				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Ring*>(i)!=NULL;},
 											[] (Item* i, PlayerChar* p, Level* l) {
-												return new QuickUse<Ring>(p, l, i, 
+												return new QuickUse<Ring>(p, l, i,
 																		[p, l] (Ring* r) {
 																			p->equipRingLeft(r);
 																			p->appendLog("You put on the " + r->getDisplayName());
@@ -630,7 +704,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			} else {
 				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Ring*>(i)!=NULL;},
 											[] (Item* i, PlayerChar* p, Level* l) {
-												return new QuickUse<Ring>(p, l, i, 
+												return new QuickUse<Ring>(p, l, i,
 																		[p, l] (Ring* r) {
 																			p->equipRingRight(r);
 																			p->appendLog("You put on the " + r->getDisplayName());
@@ -695,7 +769,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		}
 		player->appendLog("You have nothing with which to zap");
 		return this;
-																						
+
 	}
 	// eat food
 	if (key.c == 'e') {
@@ -710,6 +784,9 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	}
 	if (key.c == '<' || key.c == '>') {
 		for (Feature* feat : level->getFeatures()) {
+			if (feat->getLocation() != player->getLocation()) {
+				continue;
+			}
 			Stairs* stair = dynamic_cast<Stairs*>(feat);
 			if (stair != NULL) {
 				if ((key.c == '>') && stair->getDirection()) {
@@ -719,11 +796,12 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 					level->registerMob(player);
 					level->generate();
 					currRoom = updateMap();
+					player->appendLog("You descend to level " + std::to_string(level->getDepth()));
 					return this;
 				} else if (key.c == '<') {
 					if (!stair->getDirection() && player->hasAmulet()) {
 						int currDepth = level->getDepth();
-						if (currDepth == 0) {
+						if (currDepth == 1) {
 							return new RIPScreen(player, level, VICTORY_STR);
 						} else {
 							delete level;
@@ -731,6 +809,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 							level->registerMob(player);
 							level->generate();
 							currRoom = updateMap();
+							player->appendLog("You ascend to level " + std::to_string(level->getDepth()));
 							return this;
 						}
 					} else {

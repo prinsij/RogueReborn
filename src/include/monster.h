@@ -1,7 +1,7 @@
 /**
  * @file monster.h
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member declarations for the Monster class
  */ 
@@ -56,9 +56,11 @@ class Monster : public Mob {
 			HASTED,
 			HELD,
 			INVISIBLE,
+			RANGED,
 			REGENERATIVE,
 			RUSTS,
 			SLOWED,
+			STATIONARY,
 			STINGS };
 
 		/**
@@ -155,7 +157,7 @@ class Monster : public Mob {
 
 		/**
 		 * @brief Returns the effective armor of this Monster.
-		 * 
+		 *
 		 * @return The effective armor of this Monster.
 		 */
 		int getArmorRating();
@@ -174,19 +176,19 @@ class Monster : public Mob {
 		 */
 		int getDelay();
 
-		
+
 		/**
 		 * @brief	Returns the name of this Monster.
 		 *
 		 * @return	The name of this Monster.
-		 */ 
+		 */
 		std::string getName();
 
 		/**
 		 * @brief	Returns the name of this Monster (factoring in invisiblity).
 		 *
 		 * @return	The name of this Monster.
-		 */ 
+		 */
 		std::string getName(PlayerChar*);
 
 		/**
@@ -216,7 +218,7 @@ class Monster : public Mob {
 
 		/**
 		 * @brief	Override mob implementation to aggrevate monster.
-		 * 
+		 *
 		 * @see		aggrevate
 		 */
 		virtual void hit(int dmgAmount);
@@ -232,28 +234,28 @@ class Monster : public Mob {
 		 * @brief	Determines whether or not this monster should be visible to the PlayerChar.
 		 *
 		 * @return	True if it is visible, False otherwise.
-		 */ 
+		 */
 		bool isVisible();
 
 		/**
 		 * @brief      Removes a flag from the Monster.
 		 *
-		 * param[in]	flag Flag to remove from this Monster.   
+		 * param[in]	flag Flag to remove from this Monster.
 		 */
 		void removeFlag(Monster::Behaviour);
-	
+
 		/**
 		 * @brief	Sets the Monster awake state.
 		 *
 		 * @param	New awake state
-		 */ 
+		 */
 		void setAwake(bool);
 
 		/**
 		 * @brief	Sets this Monster's visibility to the given value.
 		 *
 		 * @param	visible New value of Monster's visibility.
-		 */ 
+		 */
 		void setVisible(bool);
 
 		/**

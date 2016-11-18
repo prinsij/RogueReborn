@@ -1,7 +1,7 @@
 /**
  * @file item.cpp
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member definitions for the Item class
  */ 
@@ -12,9 +12,9 @@
 #include <string>
 #include <vector>
 
+#include "include/feature.h"
 #include "include/item.h"
 #include "include/random.h"
-#include "include/feature.h"
 
 std::map<std::string, std::map<int, bool> > Item::identified;
 
@@ -103,4 +103,3 @@ void Item::removeEffect(Item::Effect effect) {
 void Item::setIdentified(bool newValue) {
 	Item::identified[this->className][this->type] = newValue;
 }
-

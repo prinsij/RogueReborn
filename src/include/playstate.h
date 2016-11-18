@@ -1,18 +1,19 @@
 /**
  * @file playstate.h
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member declarations for the PlayState class
  */ 
 
 #pragma once
 
+#include <functional>
+
 #include "../libtcod/include/libtcod.hpp"
 #include "level.h"
 #include "playerchar.h"
 #include "uistate.h"
-#include <functional>
 
 /** Primary interface state, showing level, player,
  *  monsters, etc.

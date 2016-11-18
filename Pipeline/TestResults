@@ -1,9 +1,72 @@
-# Creating armor test
-# Testing armor!
-0 Test 1 success
-0 Test 2 success
-0 Test 3 success
-1 Test 4 fail
-0 Test 1 success
-0 Test 2 success
-0 Test 3 success
+TESTER # Testing armor!
+TESTER 0 Test 1 success: 
+TESTER 0 Test 2 success: 
+TESTER 0 Test 3 success: 
+TESTER 0 Test 4 success: 
+TESTER 0 Test 5 success: 
+TESTER 0 Test 6 success: 
+TESTER # Testing level!
+TESTER 0 Test 1 success: Level pointer not null
+TESTER 0 Test 2 success: Level depth correct
+TESTER 0 Test 3 success: BFS perp along single diagonal works
+TESTER 0 Test 4 success: BFS perp along a straight horizontal line
+TESTER 0 Test 5 success: BFS perp along a straight horizontal line
+TESTER 0 Test 6 success: BFS perp along a straight horizontal line
+TESTER 0 Test 7 success: BFS perp along a straight horizontal line
+TESTER 0 Test 8 success: BFS perp along a straight horizontal line
+TESTER 0 Test 9 success: BFS perp along a straight vertical line
+TESTER 0 Test 10 success: BFS perp along a straight vertical line
+TESTER 0 Test 11 success: BFS perp along a straight vertical line
+TESTER 0 Test 12 success: BFS perp along a straight vertical line
+TESTER 0 Test 13 success: BFS perp along a straight vertical line
+TESTER 0 Test 14 success: BFS perp along a diagonal line
+TESTER 0 Test 15 success: BFS perp along a diagonal line
+TESTER 0 Test 16 success: BFS perp along a diagonal line
+TESTER 0 Test 17 success: BFS perp along a diagonal line
+TESTER 0 Test 18 success: BFS perp along a diagonal line
+TESTER 0 Test 19 success: BFS diag along a straight horizontal line
+TESTER 0 Test 20 success: BFS diag along a straight horizontal line
+TESTER 0 Test 21 success: BFS diag along a straight horizontal line
+TESTER 0 Test 22 success: BFS diag along a straight horizontal line
+TESTER 0 Test 23 success: BFS diag along a straight horizontal line
+TESTER 0 Test 24 success: BFS diag along a straight vertical line
+TESTER 0 Test 25 success: BFS diag along a straight vertical line
+TESTER 0 Test 26 success: BFS diag along a straight vertical line
+TESTER 0 Test 27 success: BFS diag along a straight vertical line
+TESTER 0 Test 28 success: BFS diag along a straight vertical line
+TESTER 0 Test 29 success: BFS diag along a diagonal line
+TESTER 0 Test 30 success: BFS diag along a diagonal line
+TESTER 0 Test 31 success: BFS diag along a diagonal line
+TESTER 0 Test 32 success: BFS diag along a diagonal line
+TESTER 0 Test 33 success: BFS diag along a diagonal line
+TESTER 0 Test 34 success: Random player position generation
+TESTER 0 Test 35 success: Random player position generation
+TESTER 0 Test 36 success: Random player position generation
+TESTER 0 Test 37 success: Random player position generation
+TESTER 0 Test 38 success: Random player position generation
+TESTER 0 Test 39 success: Distance to nearby is 1
+TESTER 0 Test 40 success: Distance to nearby is 1
+TESTER 0 Test 41 success: Distance to nearby is 1
+TESTER 0 Test 42 success: Distance to nearby is 1
+TESTER # Testing PlayerChar!
+TESTER 0 Test 1 success: Player does not start with amulet
+TESTER 0 Test 2 success: Player starts at max HP
+# PlayerChar is now at level 2
+TESTER 0 Test 3 success: Level up by xp works
+# PlayerChar is now at level 3
+TESTER 0 Test 4 success: Level up by code hax works
+TESTER 0 Test 5 success: Taking damage works
+TESTER 0 Test 6 success: Taking damage works
+TESTER 0 Test 7 success: Taking damage works
+TESTER 0 Test 8 success: Taking damage works
+TESTER 0 Test 9 success: Taking damage works
+TESTER 0 Test 10 success: Player cannot inflict damage with no weapon
+# PlayerChar Equipped Weapon +967538619/+32766 Mace
+TESTER 0 Test 11 success: Player can inflict damage with weapon (+967538619/+32766 Mace)
+# PlayerChar Removed Weapon +967538619/+32766 Mace
+TESTER 0 Test 12 success: Player can remove weapon
+TESTER 0 Test 13 success: Player cannot inflict damage once weapon is removed
+TESTER 0 Test 14 success: Player cannot remove armor that is not equipped
+# PlayerChar Equipped Armor Leather Armor
+# PlayerChar Removed Armor Leather Armor
+TESTER 0 Test 15 success: Player can remove armor that is equipped

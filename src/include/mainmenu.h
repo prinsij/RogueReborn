@@ -1,7 +1,7 @@
 /**
  * @file mainmenu.h
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member declarations for the MainMenu class
  */ 
@@ -18,8 +18,8 @@ class PlayerChar;
 /** Start screen of the game.
  * Should include splash art, and
  * name prompt.
- * 
- * Environment variables: input device (e.g., keyboard) and output device (e.g., monitor) 
+ *
+ * Environment variables: input device (e.g., keyboard) and output device (e.g., monitor)
  */
 class MainMenu : public UIState {
 	public:

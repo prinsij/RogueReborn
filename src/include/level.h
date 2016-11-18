@@ -1,7 +1,7 @@
 /**
  * @file level.h
  * @author Team Rogue++
- * @date November 13, 2016
+ * @date November 14, 2016
  *
  * @brief Member declarations for the Level class
  */ 
@@ -11,6 +11,7 @@
 #include <map>
 #include <queue>
 #include <vector>
+#include <tuple>
 
 #include "coord.h"
 #include "feature.h"
@@ -19,8 +20,8 @@
 #include "random.h"
 #include "room.h"
 #include "terrain.h"
-#include "tunnel.h"
 #include "trap.h"
+#include "tunnel.h"
 
 class Room;
 
@@ -65,7 +66,7 @@ class Level {
 		 *
 		 * @return     A mob
 		 */
-		Mob* popTurnClock();
+		std::tuple<Mob*, int> popTurnClock();
 
 		// move a mob back in the turn clock equal to the amount specified
 
