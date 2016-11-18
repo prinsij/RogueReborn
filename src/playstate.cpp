@@ -497,7 +497,14 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 				}
 			}
 		}
+	} else if (key.c == '!') {
+		for (auto i=0; i < 30; ++i) {
+			auto mob = Monster::randomMonster();
+			mob->setLocation(level->getRandomEmptyPosition());
+			level->registerMob(mob);
+		}
 	}
+
 #endif
 	// Quitting
 	if (key.c == 'Q') {
