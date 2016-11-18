@@ -29,7 +29,7 @@ class Terrain {
 		/** Getter for character.
 		 * @see character
 		 */
-		virtual char getSymbol();
+		char getSymbol();
 		/** Getter for passable.
 		 * @see passable
 		 */
