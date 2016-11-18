@@ -96,3 +96,7 @@ Level* Trap::activate(Mob* mob, Level* level) {
 	}
 	return level;
 }
+
+Trap* Trap::randomTrap(Coord location) {
+	return new Trap(location, Generator::intFromRange(1, Trap::MAX_TYPE), false);
+}
