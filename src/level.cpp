@@ -104,6 +104,7 @@ void Level::registerMob(Mob* mob) {
 }
 
 void Level::removeMob(Mob* mob) {
+	std::cout << "removeMob " << mob->getName() << "\n";
 	for (auto it=mobs.begin(); it != mobs.end(); ++it) {
 		if (it->mob == mob) {
 			mobs.erase(it);
@@ -664,7 +665,7 @@ std::vector<Coord> Level::getNearestGold(Coord ori) {
 
 	} else {
 
-		std::cout << "Can't find gold pile! This is an issue!" << std::endl;
+		//std::cout << "Can't find gold pile! This is an issue!" << std::endl;
 		return {};
 
 	}
