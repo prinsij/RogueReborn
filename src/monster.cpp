@@ -139,7 +139,6 @@ Monster::Monster(char symbol, Coord location)
 	}
 	level = std::get<5>(monsterTuple);
 
-				flags.insert(GREEDY);
 	int hp = diceSum(std::get<6>(monsterTuple).first, std::get<6>(monsterTuple).second) + 3;
 	currentHP = hp;
 	maxHP = hp;
@@ -249,8 +248,6 @@ void Monster::attackSteal(Level* level) {
 		Item* stolenItem = playerItems[Generator::intFromRange(0, playerItems.size() - 1)];
 
 		inventory.remove(stolenItem);	
-		stolenItem->setContext(Item::FLOOR);
-		stolenItem->setLocation(getLocation());
 
 		player->appendLog("Your supplies feel lighter");
 		std::cout << this->getName() << " stole \"" << stolenItem->getName() << "\"\n";
@@ -266,6 +263,7 @@ void Monster::attackSteal(Level* level) {
 		std::cout << this->getName() << " stole " << stealAmount << " gold\n";
 	}
 
+	this->addFlag(DISAPPEAR);
 	level->removeMob(this);
 }
 
@@ -335,7 +333,9 @@ int Monster::getCarryChance() {
 }
 
 int Monster::getDelay() {
-	if (this->hasFlag(SLOWED)) {
+	if (this->hasFlag(DISAPPEAR)) {
+		return DISAPPEAR_DELAY;
+	} else if (this->hasFlag(SLOWED)) {
 		return SLOW_TIME;
 	} else if (this->hasFlag(HASTED)) {
 		return FAST_TIME;
