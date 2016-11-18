@@ -404,7 +404,10 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			break;
 		}
 		// Do AI turn
-		level->pushMob(nextUp, nextUp->turn(level));
+		auto turnTime = nextUp->turn(level);
+		if (turnTime != -1) {
+			level->pushMob(nextUp, nextUp->turn(level));
+		}
 		if (player->isDead()) {
 			return new RIPScreen(player, level, "Killed by a " + nextUp->getName());
 		}
