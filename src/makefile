@@ -16,13 +16,13 @@ TESTDEPS = $(TESTSRCS:.cpp=.depends)
 
 .PHONY: clean all doxy
 
-all: $(TARGET) $(TESTTARGET)
+all: dodeps $(TARGET) $(TESTTARGET)
 
-$(TARGET): $(OBJS)
+$(TARGET): $(OBJS) dodeps
 	@cp -n ./libtcod/*.so .
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(OBJS) *.so -o $(TARGET)
 
-$(TESTTARGET): $(TESTOBJS)
+$(TESTTARGET): $(TESTOBJS) dodeps
 	@cp -n ./libtcod/*.so .
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(TESTOBJS) *.so -o $(TESTTARGET)
 
@@ -32,11 +32,11 @@ $(TESTTARGET): $(TESTOBJS)
 %.depends: %.cpp
 	$(CXX) -M $(CXXFLAGS) $< > $@
 
-clean:
-	#rm -f *.o *.so *.depends
-	rm -f $(OBJS) $(DEPS) $(TARGET) $(TESTOBJS) $(TESTDEPS) $(TESTTARGET) *.so
-
 doxy:
 	doxygen Doxyfile
 
--include $(DEPS) $(TESTDEPS)
+dodeps: $(DEPS) $(TESTDEPS)
+	@echo "Dependency files generated"
+
+clean: 
+	rm -f $(OBJS) $(DEPS) $(TARGET) $(TESTOBJS) $(TESTDEPS) $(TESTTARGET) *.so
