@@ -31,6 +31,7 @@
 #include "include/ripscreen.h"
 #include "include/scroll.h"
 #include "include/stairs.h"
+#include "include/statusscreen.h"
 #include "include/symbolscreen.h"
 #include "include/trap.h"
 #include "include/tiles.h"
@@ -501,6 +502,10 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	// view log
 	if (key.c == 'o') {
 		return new LogScreen(player, level);
+	}
+	// view detailed character info
+	if (key.c == 'c') {
+		return new StatusScreen(player, level);
 	}
 	// Rest action
 	if (key.c == '.') {
