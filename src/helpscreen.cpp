@@ -38,7 +38,7 @@ void HelpScreen::draw(TCODConsole* con) {
 							 "d", "e", "i", "o", "q", "r", "s", "t",
 							 "w", "S", "Z"};
 	std::string descs[] = {"Rest", "List symbols", "Ascend stairs", "Descend stairs",
-						   "List commands", "<obj> <hand> Put on ring", "Quit (give up)",
+						   "List commands", "<obj> Put on ring", "Quit (give up)",
 						   "<hand> Remove ring", "Take off armor", "<obj> Wear armor",
 						   "<obj> Drop object", "<obj> Eat food", "Inventory", "View previous log",
 						   "<obj> Quaff potion", "<obj> Read scroll", "Search for trap or door",
