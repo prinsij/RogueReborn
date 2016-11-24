@@ -112,8 +112,6 @@ class Weapon : public Item {
 		 */
 		bool melee;
 
-		int variety;
-
 		/**
 		 * All weapons weigh the following value.
 		 */

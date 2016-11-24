@@ -31,14 +31,14 @@ string encode(PlayerChar* player, Level* level) {
 		+ c + to_string(level->getDepth());
 	string weap = "-1,-1,-1";
 	if (player->getWeapon() != NULL) {
-		weap = to_string(player->getWeapon()->variety);
+		weap = to_string(player->getWeapon()->type);
 		weap += c + to_string(player->getWeapon()->enchantHit);
 		weap += c + to_string(player->getWeapon()->enchantDamage);
 	}
 	result += c + weap;
 	string armor = "-1,-1";
 	if (player->getArmor() != NULL) {
-		armor = to_string(player->getArmor()->variety);
+		armor = to_string(player->getArmor()->type);
 		armor += c + to_string(player->getArmor()->enchantProtection);
 	}
 	result += c + armor;
