@@ -18,7 +18,7 @@
 const int NUM_LEVELS = 26;
 const int NAME_LENGTH = 10;
 const std::string VALID_NAME =   "abcdefghijklmnopqrstuvwxyz _.ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const std::string HALLUC_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const std::string HALLUC_CHARS = "fPgbj!esiIMlEFONZnVL%woXHhycTp*?UrdxS/KCkmDBvRJ[aGPWzqu:AQY=t";
 const int TURN_TIME = 50;
 const int SLOW_TIME = 103;
 const int FAST_TIME = 23;

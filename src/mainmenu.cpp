@@ -22,6 +22,7 @@
 #include "include/saving.h"
 #include "include/uistate.h"
 #include "include/weapon.h"
+#include "include/wizard.h"
 #include "libtcod/include/libtcod.hpp"
 
 MainMenu::MainMenu()
@@ -136,4 +137,7 @@ void MainMenu::setupPlayer(PlayerChar* player) {
 	player->pickupItem(new Food(Coord(0,0), Item::Context::INVENTORY));
 	player->pickupItem(new Food(Coord(0,0), Item::Context::INVENTORY));
 	player->pickupItem(new Potion(Coord(0,0)));
+#ifdef URAWIZARD
+	player->pickupItem(new Potion(Coord(0,0), Item::Context::INVENTORY, 7)); // halluc
+#endif
 }

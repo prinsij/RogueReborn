@@ -8,8 +8,10 @@
 
 #include <algorithm>
 #include <assert.h>
+#include <math.h>
 #include <iostream>
 #include <string>
+#include <sys/time.h>
 #include <time.h>
 
 #include "include/armor.h"
@@ -292,6 +294,9 @@ void PlayState::draw(TCODConsole* con) {
  		|| currRoom->getDark() == Room::DARK
  		|| player->hasCondition(PlayerChar::BLIND);
  	unsigned int hallucChar = time(NULL) % HALLUC_CHARS.size();
+	struct timeval tp;
+	gettimeofday(&tp, NULL);
+	long int milli = tp.tv_sec * 1000 + tp.tv_usec/1000;
 	for (auto x=0; x < level->getSize()[0]; x++) {
 		for (auto y=0; y < level->getSize()[1]; y++) {
 			auto mapPos = Coord(x, y);
@@ -310,7 +315,12 @@ void PlayState::draw(TCODConsole* con) {
 				if (featAt == NULL) {
 					con->setCharForeground(scrPos[0], scrPos[1], terrain.getColor());
 				} else {
-					con->setCharForeground(scrPos[0], scrPos[1], featAt->getFColor());
+					if (player->hasCondition(PlayerChar::HALLUCINATING)) {
+						con->putChar(scrPos[0], scrPos[1], HALLUC_CHARS[hallucChar]);
+						hallucChar = hallucChar < HALLUC_CHARS.size() ? hallucChar+1 : 0;
+					} else {
+						con->setCharForeground(scrPos[0], scrPos[1], featAt->getFColor());
+					}
 				}
 				// Previously but not currently seen
 				if (mapPos.distanceTo(player->getLocation(), false) > 1
@@ -322,10 +332,10 @@ void PlayState::draw(TCODConsole* con) {
  						for (Mob* mob : level->getMobs()) {
  							if (mob->getLocation() == mapPos) {
  								con->putChar(scrPos[0], scrPos[1], HALLUC_CHARS[hallucChar]);
-								con->setCharForeground(scrPos[0], scrPos[1], mob->getFColor());
  								hallucChar = hallucChar < HALLUC_CHARS.size() ? hallucChar+1 : 0;
  							}
  						}
+
  					} else {
  						for (Mob* mob : level->getMobs()) {
 
@@ -341,6 +351,14 @@ void PlayState::draw(TCODConsole* con) {
 						}
 					}
 				}
+				if (player->hasCondition(PlayerChar::HALLUCINATING)) {
+					con->setCharForeground(scrPos[0], scrPos[1], 
+											TCODColor::lerp(TCODColor::orange, TCODColor::purple, 
+															0.5+0.45*std::cos((milli+scrPos[0]*100)/200.0)));
+					con->setCharBackground(scrPos[0], scrPos[1], 
+											TCODColor::lerp(TCODColor::cyan, TCODColor::yellow, 
+															0.5+0.45*std::cos((milli+scrPos[1]*100)/200.0)));
+				}
 			}
 		}
 	}
@@ -355,12 +373,18 @@ void PlayState::draw(TCODConsole* con) {
 	// Display the info bar
 	const int y = Coord(0, level->getSize()[1]).asScreen()[1]+1;
 	std::string starveStr = player->getFoodStatus();
+	std::string lvl, hit, str, gld, arm;
+	lvl = std::to_string(player->getLevel());
+	hit = std::to_string(player->getHP())+"("+std::to_string(player->getMaxHP())+")";
+	str = std::to_string(player->getStrength())+"("+std::to_string(player->getMaxStrength())+")";
+	gld = std::to_string(player->getGold());
+	arm = std::to_string(player->getArmorRating());
 	con->print(0, y, (
-	"Level:"+std::to_string(player->getLevel())+
-	"  Hits:"+std::to_string(player->getHP())+"("+std::to_string(player->getMaxHP())+")"+
-	"  Str:"+std::to_string(player->getStrength())+"("+std::to_string(player->getMaxStrength())+")"+
-	"  Gold:"+std::to_string(player->getGold())+
-	"  Armor:"+std::to_string(player->getArmorRating())+
+	"Level:"+lvl+
+	"  Hits:"+hit+
+	"  Str:"+str+
+	"  Gold:"+gld+
+	"  Armor:"+arm+
 	"     "+starveStr
 	).c_str());
 }
