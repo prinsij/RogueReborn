@@ -41,7 +41,8 @@ Ring::Ring(Coord location)
 	: Ring(location, Item::Context::FLOOR, Generator::intFromRange(0, Ring::typeVector.size() - 1)) {}
 
 Ring::Ring(Coord location, Item::Context context, int type)
-	: Item('=', location, context, "Ring", std::get<0>(Ring::typeVector[type]), Ring::nameVector[type], type, true, true),
+	: Item('=', location, context, "Ring", std::get<0>(Ring::typeVector[type]), 
+			Ring::nameVector[type], type, true, true, RING_WEIGHT),
 	  ringValue(Generator::intFromRange(-2, 2)) {}
 
 bool Ring::activate(PlayerChar* player) {

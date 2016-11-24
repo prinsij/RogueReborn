@@ -45,4 +45,7 @@ class Food : public Item {
 
 		/** Upper bound of food effect */
 		int FOOD_HIGH = 1150;
+
+		/** All food weighs the following value */
+		static constexpr int FOOD_WEIGHT = 2;
 };

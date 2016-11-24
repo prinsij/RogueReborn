@@ -36,6 +36,10 @@ class PlayState : public UIState {
 		PlayerChar* player;
 		/** Reference to current dungeon level. */
 		Level* level;
+		/** Log this to the player when they attempt 
+		 *  an action and fail due to inventory capacity.
+		 */
+		static constexpr auto NO_SPACE_LOG = "You have no space in your inventory";
 	private:
 		/** Update the portion of the map which has
 		 *  been seen, and return the room which the
@@ -52,7 +56,7 @@ class PlayState : public UIState {
 		 *  read, etc.
 		 */
 		template<typename T>
-		UIState* attemptUse(std::string, std::function<bool(Item*)>,
+		UIState* attemptUse(std::string, std::string, std::function<bool(Item*)>,
 							std::function<UIState*(T*)>);
 
 };

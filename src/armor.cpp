@@ -28,7 +28,7 @@ Armor::Armor(Coord location)
 	: Armor(location, Item::Context::FLOOR, Generator::intFromRange(0, Armor::typeVector.size() - 1)) {}
 
 Armor::Armor(Coord location, Item::Context context, int type)
-	: Item(']', location, context, "Armor", std::get<0>(Armor::typeVector[type]), type, false, false),
+	: Item(']', location, context, "Armor", std::get<0>(Armor::typeVector[type]), type, false, false, ARMOR_WEIGHT),
 	  rating(std::get<1>(Armor::typeVector[type])),
 	  variety(type) {
 		int chance = Generator::intFromRange(1, 100);

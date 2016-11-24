@@ -23,4 +23,7 @@ class Amulet : public Item {
 		 * @param[in]  context  Amulet context
 		 */
 		Amulet(Coord, Item::Context);
+	private:
+		/** The weight of the amulet */
+		static constexpr int AMULET_WEIGHT = 1;
 };

@@ -73,4 +73,9 @@ class Wand : public Item {
 		 * Quantity of remaining Wand charges.
 		 */
 		int charges;
+
+		/**
+		 * All wands weigh the following value
+		 */
+		 static constexpr int WAND_WEIGHT = 1;
 };

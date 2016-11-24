@@ -113,4 +113,9 @@ class Weapon : public Item {
 		bool melee;
 
 		int variety;
+
+		/**
+		 * All weapons weigh the following value.
+		 */
+		 static constexpr int WEAPON_WEIGHT = 5;
 };

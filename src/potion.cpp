@@ -45,7 +45,8 @@ Potion::Potion(Coord location)
 	: Potion(location, Item::Context::FLOOR, Generator::intFromRange(0, Potion::typeVector.size() - 1)) {}
 
 Potion::Potion(Coord location, Item::Context context, int type)
-	: Item('!', location, context, "Potion", std::get<0>(Potion::typeVector[type]), Potion::nameVector[type], type, true, true) {}
+	: Item('!', location, context, "Potion", std::get<0>(Potion::typeVector[type]), 
+	Potion::nameVector[type], type, true, true, POTION_WEIGHT) {}
 
 bool Potion::activate(Mob* mob) {
 	this->setIdentified(true);

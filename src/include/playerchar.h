@@ -343,8 +343,9 @@ class PlayerChar : public Mob {
 		 * @brief      Attempts to place the provided Item in the PlayerChar's inventory.
 		 *
 		 * @param      item Item to be inserted into the PlayerChar's inventory.
+		 * @return	   Success or failure in picking up item. (true for success)
 		 */
-		void pickupItem(Item*);
+		bool pickupItem(Item*);
 
 		/**
 		 * @brief      Attempts to apply the effects of the provided Potion to the given Mob.

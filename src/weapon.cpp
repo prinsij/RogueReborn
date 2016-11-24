@@ -29,7 +29,8 @@ Weapon::Weapon(Coord location)
 	: Weapon(location, Item::Context::FLOOR, Generator::intFromRange(0, Weapon::typeVector.size() - 1)) {}
 
 Weapon::Weapon(Coord location, Item::Context context, int type)
-	: Item(')', location, context, "Weapon", std::get<0>(Weapon::typeVector[type]), type, std::get<3>(Weapon::typeVector[type]), true),
+	: Item(')', location, context, "Weapon", std::get<0>(Weapon::typeVector[type]), 
+			type, std::get<3>(Weapon::typeVector[type]), true, WEAPON_WEIGHT),
 	  damage(std::get<1>(Weapon::typeVector[type])),
 	  melee (std::get<2>(Weapon::typeVector[type])),
 	  variety(type) {

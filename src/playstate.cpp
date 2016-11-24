@@ -74,8 +74,12 @@ class RingRemovePrompt : public PlayState {
 			if (key.c == 'r' || key.c == 'R') {
 				auto ring = player->getRings().second;
 				if (player->removeRingRight()) {
-					player->getInventory().add(*ring);
-					player->appendLog("You take off the " + ring->getDisplayName());
+					if (player->getInventory().add(*ring)) {
+						player->appendLog("You take off the " + ring->getDisplayName());
+					} else {
+						player->equipRingRight(ring);
+						player->appendLog(NO_SPACE_LOG);
+					}
 				} else {
 					player->appendLog("The " + ring->getDisplayName() + " tightens its grip on your finger");
 				}
@@ -84,8 +88,12 @@ class RingRemovePrompt : public PlayState {
 			if (key.c == 'l' || key.c == 'L') {
 				auto ring = player->getRings().first;
 				if (player->removeRingLeft()) {
-					player->getInventory().add(*ring);
-					player->appendLog("You take off the " + ring->getDisplayName());
+					if (player->getInventory().add(*ring)) {
+						player->appendLog("You take off the " + ring->getDisplayName());
+					} else {
+						player->equipRingLeft(ring);
+						player->appendLog(NO_SPACE_LOG);
+					}
 				} else {
 					player->appendLog("The " + ring->getDisplayName() + " tightens its grip on your finger");
 				}
@@ -390,7 +398,8 @@ void PlayState::draw(TCODConsole* con) {
 }
 
 template<typename T>
-UIState* PlayState::attemptUse(std::string error, std::function<bool(Item*)> filter,
+UIState* PlayState::attemptUse(std::string error, std::string invPrompt, 
+								std::function<bool(Item*)> filter,
 								std::function<UIState*(T*)> makeUseOf) {
 	for (auto pair : player->getInventory().getContents()) {
 		if (filter(pair.second.front())) {
@@ -399,7 +408,8 @@ UIState* PlayState::attemptUse(std::string error, std::function<bool(Item*)> fil
 											[makeUseOf] (Item* i, PlayerChar* p, Level* l) {
 												return new QuickUse<T>(p, l, i, makeUseOf);
 											},
-											true);
+											true,
+											invPrompt);
 		}
 	}
 	player->appendLog(error);
@@ -617,7 +627,8 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 													},
 													false);
 												},
-												true);
+												true,
+												"Choose an item to drop");
 	}
 	no_drop:;
 	// Quaff
@@ -625,6 +636,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		auto temp_p = player;
 		auto temp_l = level;
 		return attemptUse<Potion>("You have nothing you can quaff",
+								  "Choose a potion to quaff",
 						[] (Item* i) {return dynamic_cast<Potion*>(i)!=NULL;},
 						[temp_p, temp_l] (Potion* p) {
 							temp_p->appendLog("You drink the " + p->getName());
@@ -637,6 +649,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		auto temp_l = level;
 		auto temp_p = player;
 		return attemptUse<Scroll>("You have nothing you can read",
+								  "Choose a scroll to read",
 						[] (Item* i) {return dynamic_cast<Scroll*>(i)!=NULL;},
 						[temp_l, temp_p] (Scroll* s) {
 							temp_p->appendLog("You read the " + s->getName());
@@ -668,7 +681,8 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 																			return new PlayState(p, l);
 																		}, false);
 											},
-											true);
+											true,
+											"Choose a weapon to wield");
 			}
 		}
 		player->appendLog("You have nothing you can wield");
@@ -694,7 +708,8 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 																			return new PlayState(p, l);
 																		}, false);
 											},
-											true);
+											true,
+											"Choose a piece of armor to wear");
 			}
 		}
 		player->appendLog("You have nothing you can wear");
@@ -707,8 +722,12 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		if (armor != NULL) {
 			level->pushMob(player, turnTime);
 			if (player->removeArmor()) {
-				player->getInventory().add(*armor);
-				player->appendLog("You take off the " + armor->getDisplayName());
+				if (player->getInventory().add(*armor)) {
+					player->appendLog("You take off the " + armor->getDisplayName());
+				} else {
+					player->equipArmor(armor);
+					player->appendLog(NO_SPACE_LOG);
+				}
 			} else {
 				player->appendLog("You cannot remove the " + armor->getDisplayName());
 			}
@@ -728,16 +747,24 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		if (rings.first == NULL) {
 			auto ring = rings.second;
 			if (player->removeRingRight()) {
-				player->getInventory().add(*ring);
-				player->appendLog("You take off the " + ring->getDisplayName());
+				if (player->getInventory().add(*ring)) {
+					player->appendLog("You take off the " + ring->getDisplayName());
+				} else {
+					player->equipRingRight(ring);
+					player->appendLog(NO_SPACE_LOG);
+				}
 			} else {
 				player->appendLog("The " + ring->getDisplayName() + " tightens its grip on your finger");
 			}
 		} else if (rings.second == NULL) {
 			auto ring = rings.first;
 			if (player->removeRingLeft()) {
-				player->getInventory().add(*ring);
-				player->appendLog("You take off the " + ring->getDisplayName());
+				if (player->getInventory().add(*ring)) {
+					player->appendLog("You take off the " + ring->getDisplayName());
+				} else {
+					player->equipRingLeft(ring);
+					player->appendLog(NO_SPACE_LOG);
+				}
 			} else {
 				player->appendLog("The " + ring->getDisplayName() + " tightens its grip on your finger");
 			}
@@ -774,7 +801,8 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 																			return new PlayState(p, l);
 																		}, false);
 											},
-											true);
+											true,
+											"Choose a ring to wear");
 			} else {
 				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Ring*>(i)!=NULL;},
 											[] (Item* i, PlayerChar* p, Level* l) {
@@ -786,7 +814,8 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 																			return new PlayState(p, l);
 																		}, false);
 											},
-											true);
+											true,
+											"Choose a ring to wear");
 			}
 		}
 	}
@@ -797,8 +826,12 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		if (weap != NULL) {
 			level->pushMob(player, turnTime);
 			if (player->removeWeapon()) {
-				player->getInventory().add(*weap);
-				player->appendLog("You stow the " + weap->getDisplayName());
+				if (player->getInventory().add(*weap)) {
+					player->appendLog("You stow the " + weap->getDisplayName());
+				} else {
+					player->equipWeapon(weap);
+					player->appendLog(NO_SPACE_LOG);
+				}
 			} else {
 				player->appendLog("You cannot loosen your grip on the " + weap->getDisplayName());
 			}
@@ -819,7 +852,8 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 														[direction] (Item* i, PlayerChar* p, Level* l) {
 															return new QuickThrow(p, l, i, direction);
 														},
-														true);
+														true,
+														"Choose an item to throw");
 				});
 			}
 		}
@@ -837,7 +871,8 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 																	[direction] (Item* i, PlayerChar* p, Level* l) {
 																		return new QuickZap(p, l, i, direction);
 																	},
-																	true);
+																	true,
+																	"Choose a wand to zap with");
 												});
 			}
 		}
@@ -850,6 +885,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		auto temp_p = player;
 		auto temp_l = level;
 		return attemptUse<Food>("You have nothing you can eat",
+								"Choose a piece of food to eat",
 						[] (Item* i) {return dynamic_cast<Food*>(i)!=NULL;},
 						[temp_p, temp_l] (Food* f) {
 							temp_p->eat(f);
@@ -952,8 +988,9 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 					}
 					Item* i = dynamic_cast<Item*>(feat);
 					if (i != NULL) {
-						player->pickupItem(i);
-						level->removeFeature(feat);
+						if (player->pickupItem(i)) {
+							level->removeFeature(feat);
+						}
 						search = true;
 						break;
 					}

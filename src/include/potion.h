@@ -60,4 +60,9 @@ class Potion : public Item {
 		 * Vector of names to be applied to Potions that are unidentified indexed by type.
 		 */
 		static std::vector<std::string> nameVector;
+
+		/**
+		 * All potions weigh the following value.
+		 */
+		static constexpr int POTION_WEIGHT = 1;
 };

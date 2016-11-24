@@ -45,7 +45,8 @@ Wand::Wand(Coord location)
 	: Wand(location, Item::Context::FLOOR, Generator::intFromRange(0, Wand::typeVector.size() - 1)) {}
 
 Wand::Wand(Coord location, Item::Context context, int type)
-	: Item('/', location, context, "Wand", std::get<0>(Wand::typeVector[type]), Wand::nameVector[type], type, false, false),
+	: Item('/', location, context, "Wand", std::get<0>(Wand::typeVector[type]), 
+			Wand::nameVector[type], type, false, false, WAND_WEIGHT),
 	  charges(Generator::intFromRange(3, 7)) {}
 
 bool Wand::activate(Level* level, Mob* mob) {

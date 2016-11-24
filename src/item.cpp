@@ -23,7 +23,8 @@ std::vector<std::string> Item::shuffleNameVector(std::vector<std::string> nameVe
 	return nameVector;
 };
 
-Item::Item(char symbol, Coord location, Item::Context context, std::string className, std::string name, std::string pseudoName, int type, bool canStack, bool canThrow)
+Item::Item(char symbol, Coord location, Item::Context context, std::string className, std::string name, 
+			std::string pseudoName, int type, bool canStack, bool canThrow, int weight)
 	: Feature(symbol, location, true, Feature::possibleColors[Generator::intFromRange(0, Feature::possibleColors.size()-1)]),
 	  canStack(canStack),
 	  canThrow(canThrow),
@@ -31,10 +32,12 @@ Item::Item(char symbol, Coord location, Item::Context context, std::string class
 	  context(context),
 	  name(name),
 	  pseudoName(pseudoName),
-	  type(type) {}
+	  type(type),
+	  weight(weight) {}
 
-Item::Item(char symbol, Coord location, Item::Context context, std::string className, std::string name, int type, bool canStack, bool canThrow)
-	: Item(symbol, location, context, className, name, name, type, canStack, canThrow) {}
+Item::Item(char symbol, Coord location, Item::Context context, std::string className, std::string name, 
+			int type, bool canStack, bool canThrow, int weight)
+	: Item(symbol, location, context, className, name, name, type, canStack, canThrow, weight) {}
 
 bool Item::operator==(const Item& other) const {
 	return this->name.compare(other.name) == 0;
@@ -54,6 +57,10 @@ std::string Item::getClassName() {
 
 Item::Context Item::getContext() {
 	return this->context;
+}
+
+int Item::getWeight() {
+	return this->weight;
 }
 
 bool Item::hasEffect(Item::Effect effect) {

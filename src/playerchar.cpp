@@ -365,10 +365,12 @@ bool PlayerChar::move(Coord location, Level* level) {
 	return true;
 }
 
-void PlayerChar::pickupItem(Item* item) {
-	item->setContext(Item::INVENTORY);
-	this->appendLog("Picked up " + item->getDisplayName());
-	this->inventory.add(*item);
+bool PlayerChar::pickupItem(Item* item) {
+	if (this->inventory.add(*item)) {
+		this->appendLog("Picked up " + item->getDisplayName());
+		return true;
+	}
+	return false;
 }
 
 void PlayerChar::quaff(Potion* potion, Mob* mob) {

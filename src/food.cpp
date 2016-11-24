@@ -12,7 +12,7 @@
 #include "include/random.h"
 
 Food::Food(Coord location, Item::Context context)
-	: Item(':', location, context, "Food", "Some Rations of Food", 0, true, false) {}
+	: Item(':', location, context, "Food", "Some Rations of Food", 0, true, false, FOOD_WEIGHT) {}
 
 bool Food::activate(PlayerChar* player) {
 	int foodLife = player->getFoodLife()/3;
