@@ -69,9 +69,16 @@ class PlayState : public UIState {
 							  NO_EAT_MSG = "You have nothing to eat",
 							  NO_ASCEND_MSG = "Some magical force prevents your passage upward.",
 							  OPEN_DOOR_MSG = "You open the door",
-							  CLOSE_DOOR_MSG = "You close the door";
-
-
+							  CLOSE_DOOR_MSG = "You close the door",
+							  TIGHTEN_FINGER = " tightens its grip on your finger",
+							  LOOSEN_GRIP = "You cannot loosen your grip on the ",
+							  REST_MSG = "You rest briefly",
+							  SEARCH_MSG = "You search your surroundings for secrets",
+							  SECRET_MSG = "You uncover a secret",
+							  SAVE_ON_MSG = "You will save at the end of the this level",
+							  SAVE_OFF_MSG = "You won't save at the end of the this level",
+							  NO_DROP_MSG = "You have nothing to drop",
+							  ALREADY_THERE_MSG = "There is already something there";
 
 	private:
 		/** Update the portion of the map which has
@@ -92,4 +99,62 @@ class PlayState : public UIState {
 		UIState* attemptUse(std::string, std::string, std::function<bool(Item*)>,
 							std::function<UIState*(T*)>);
 
+		/** Occurs when the player attempts to wear a piece of armor. */
+		UIState* attemptWear(int);
+		
+		/** Occurs when the player attempts to wield a weapon. */
+		UIState* attemptWield(int);
+
+		/** Occurs when the player attempts to remove a ring. */
+		UIState* attemptRemove(int);
+
+		/** Occurs when the player attempts to take off armor. */
+		UIState* attemptTakeOff(int);
+
+		/** Toggles the flag that determines if the player will
+		 *  be directed to the save screen after the level.
+		 */
+		UIState* toggleSaveFlag();
+
+		/** Occurs when the player attempts to drop an item from
+		 *  their inventory.
+		 */
+		UIState* attemptDrop(int);
+
+		/** Occurs when the player attempts to quaff a potion. */
+		UIState* attemptQuaff(int);
+
+		/** Occurs when the player is in debug mode. */
+		void handleWizardry(TCOD_key_t);
+
+		/** Occurs when the player searches their surroundings
+		 *  for hidden secrets.
+		 */
+		UIState* attemptSearch(int);
+
+		/** Occurs when the player uses the movement keys, including
+		 *  when they use them to attack.
+		 */
+		UIState* attemptMove(Coord, TCOD_key_t, int);
+
+		/** Occurs when the player attempts to climb stairs. */
+		UIState* attemptClimb(bool);
+
+		/** Occurs when the player attempts to eat a piece of food. */
+		UIState* attemptEat(int);
+
+		/** Occurs when the player attempts to zap with a wand. */
+		UIState* attemptZap(int);
+
+		/** Occurs when the player attempts to throw an item. */
+		UIState* attemptThrow(int);
+
+		/** Occurs when the player attempts to stow their weapon. */
+		UIState* attemptStow(int);
+
+		/** Occurs when the player attempts to read a scroll. */
+		UIState* attemptRead(int);
+
+		/** Occurs when the player attempts to put on a ring. */
+		UIState* attemptPutOn(int);
 };

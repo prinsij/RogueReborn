@@ -81,7 +81,7 @@ class RingRemovePrompt : public PlayState {
 						player->appendLog(NO_SPACE_LOG);
 					}
 				} else {
-					player->appendLog("The " + ring->getDisplayName() + " tightens its grip on your finger");
+					player->appendLog("The " + ring->getDisplayName() + TIGHTEN_FINGER);
 				}
 				return new PlayState(player, level);
 			}
@@ -95,7 +95,7 @@ class RingRemovePrompt : public PlayState {
 						player->appendLog(NO_SPACE_LOG);
 					}
 				} else {
-					player->appendLog("The " + ring->getDisplayName() + " tightens its grip on your finger");
+					player->appendLog("The " + ring->getDisplayName() + TIGHTEN_FINGER);
 				}
 				return new PlayState(player, level);
 			}
@@ -173,6 +173,10 @@ class QuickThrow : public PlayState {
 						auto dmg = weap->getDamage();
 						mob->hit(Generator::nDx(std::get<0>(dmg), std::get<1>(dmg)+std::get<2>(dmg)));
 					} else {
+						auto pot = dynamic_cast<Potion*>(item);
+						if (pot != NULL) {
+							pot->activate(mob);
+						}
 						mob->hit(Item::BASE_THROW_DMG);
 					}
 					player->appendLog("The flying " + item->getDisplayName() + " strikes the " + mob->getName());
@@ -416,51 +420,442 @@ UIState* PlayState::attemptUse(std::string error, std::string invPrompt,
 	return this;
 }
 
-UIState* PlayState::handleInput(TCOD_key_t key) {
-	auto mobs = level->getMobs();
-	for (auto it=mobs.begin(); it != mobs.end(); ++it) {
-		if ((*it)->isDead()) {
-			if (*it == player) {
-				return new RIPScreen(player, level, "Unknown");
-			}
-			player->appendLog("The " + (*it)->getName() + " dies, horribly");
-			level->removeMob(*it);
-		}
+UIState* PlayState::attemptWear(int turnTime) {
+	if (player->getArmor() != NULL) {
+		player->appendLog(ALREADY_WEAR);
+		return this;
 	}
-	// Perform AI turns until it's the player's go
-	int difference = 0;
-	while (true) {
-		auto tuple = level->popTurnClock();
-		auto nextUp = std::get<0>(tuple);
-		difference += std::get<1>(tuple);
-		if (nextUp == player) {
-			level->pushMob(player, 0);
-			break;
-		}
-		// Do AI turn
-		auto turnTime = nextUp->turn(level);
-		if (turnTime != DISAPPEAR_DELAY) {
-			level->pushMob(nextUp, turnTime);
-		}
-		if (player->isDead()) {
-			return new RIPScreen(player, level, "Killed by a " + nextUp->getName());
-		}
-	}
-	int turnTime = TURN_TIME;
-	if (difference > 0) {
-		turnTime = player->update();
-		if (player->isDead()) {
-			return new RIPScreen(player, level, "Starved to death");
-		}
-	}
-	// Skip the player's turn if they are sleeping
-	if (player->hasCondition(PlayerChar::SLEEPING)) {
-		if (key.vk == TCODK_SPACE) {
+	for (auto pair : player->getInventory().getContents()) {
+		Armor* armor = dynamic_cast<Armor*>(pair.second.front());
+		if (armor != NULL) {
 			level->pushMob(player, turnTime);
+			return new InvScreen(player, level, 
+									[] (Item* i) {return dynamic_cast<Armor*>(i)!=NULL;},
+									[] (Item* i, PlayerChar* p, Level* l) {
+										return new QuickUse<Armor>(p, l, i,
+																[p, l] (Armor* a) {
+																	p->equipArmor(a);
+																	p->getInventory().remove(a);
+																	p->appendLog("You put on the " + a->getDisplayName());
+																	return new PlayState(p, l);
+																}, false);
+									},
+									true,
+									WEAR_PROMPT);
+		}
+	}
+	player->appendLog(NO_WEAR_MSG);
+	return this;
+}
+
+UIState* PlayState::attemptTakeOff(int turnTime) {
+	auto armor = player->getArmor();
+	// check for curses TODO
+	if (armor != NULL) {
+		level->pushMob(player, turnTime);
+		if (player->removeArmor()) {
+			if (player->getInventory().add(*armor)) {
+				player->appendLog("You take off the " + armor->getDisplayName());
+			} else {
+				player->equipArmor(armor);
+				player->appendLog(NO_SPACE_LOG);
+			}
+		} else {
+			player->appendLog("You cannot remove the " + armor->getDisplayName());
 		}
 		return this;
 	}
-#ifdef URAWIZARD
+	player->appendLog(NO_TAKE_OFF_MSG);
+	return this;
+}
+
+UIState* PlayState::attemptRemove(int turnTime) {
+	auto rings = player->getRings();
+	if (rings.first == NULL && rings.second == NULL) {
+		player->appendLog(NO_REMOVE_MSG);
+		return this;
+	}
+	level->pushMob(player, turnTime);
+	if (rings.first == NULL) {
+		auto ring = rings.second;
+		if (player->removeRingRight()) {
+			if (player->getInventory().add(*ring)) {
+				player->appendLog("You take off the " + ring->getDisplayName());
+			} else {
+				player->equipRingRight(ring);
+				player->appendLog(NO_SPACE_LOG);
+			}
+		} else {
+			player->appendLog("The " + ring->getDisplayName() + TIGHTEN_FINGER);
+		}
+	} else if (rings.second == NULL) {
+		auto ring = rings.first;
+		if (player->removeRingLeft()) {
+			if (player->getInventory().add(*ring)) {
+				player->appendLog("You take off the " + ring->getDisplayName());
+			} else {
+				player->equipRingLeft(ring);
+				player->appendLog(NO_SPACE_LOG);
+			}
+		} else {
+			player->appendLog("The " + ring->getDisplayName() + TIGHTEN_FINGER);
+		}
+	} else {
+		return new RingRemovePrompt(player, level);
+	}
+	return this;
+}
+
+UIState* PlayState::toggleSaveFlag() {
+	player->setSaveFlag(!player->getSaveFlag());
+	if (player->getSaveFlag()) {
+		player->appendLog(SAVE_ON_MSG);
+	} else {
+		player->appendLog(SAVE_OFF_MSG);
+	}
+	return this;
+}
+
+UIState* PlayState::attemptDrop(int turnTime) {
+	if (player->getInventory().getSize() <= 0) {
+		player->appendLog(NO_DROP_MSG);
+		return this;
+	}
+	for (auto feat : level->getFeatures()) {
+		Item* item = dynamic_cast<Item*>(feat);
+		if (item != NULL && item->getLocation() == player->getLocation()) {
+			player->appendLog(ALREADY_THERE_MSG);
+			return this;
+		}
+	}
+	level->pushMob(player, turnTime);
+	return new InvScreen(player, level, [] (Item*) {return true;},
+										[] (Item* i, PlayerChar* p, Level* l) {
+											return new QuickUse<Item>(p, l, i,
+												[p, l] (Item* i) {
+													i->setContext(Item::FLOOR);
+													p->getInventory().remove(i);
+													i->setLocation(p->getLocation());
+													l->addFeature(i);
+													return new PlayState(p, l);
+												},
+												false);
+											},
+											true,
+											DROP_PROMPT);
+	return this;
+}
+
+UIState* PlayState::attemptQuaff(int turnTime) {
+	auto temp_p = player;
+	auto temp_l = level;
+	return attemptUse<Potion>(NO_QUAFF_MSG,
+							  QUAFF_PROMPT,
+					[] (Item* i) {return dynamic_cast<Potion*>(i)!=NULL;},
+					[temp_p, temp_l] (Potion* p) {
+						temp_p->appendLog("You drink the " + p->getName());
+						p->activate(temp_p);
+						return new PlayState(temp_p, temp_l);
+					});
+}
+
+UIState* PlayState::attemptSearch(int turnTime) {
+	level->pushMob(player, turnTime);
+	player->appendLog(SEARCH_MSG);
+	for (Feature* feat : level->getFeatures()) {
+		if (!feat->getVisible()
+				&& player->getLocation().distanceTo(feat->getLocation(), false)
+				   <= player->getSearchRadius()
+				&& Generator::rand() <= player->getSearchChance()) {
+			feat->setVisible(true);
+			player->appendLog(SECRET_MSG);
+		}
+	}
+	return this;
+}
+
+UIState* PlayState::attemptMove(Coord newPos, TCOD_key_t key, int turnTime) {
+	auto& tile = level->tileAt(newPos);
+	if (tile.getSymbol() == '+') {
+		if (key.shift) {
+			tile.setPassable(Terrain::Blocked);
+			tile.setSymbol('-');
+			player->appendLog(OPEN_DOOR_MSG);
+		}
+		tile.setPassable(Terrain::Passable);
+		tile.setSymbol('-');
+		player->appendLog(OPEN_DOOR_MSG);
+	} else if (tile.getSymbol() == '-' && key.shift && level->monsterAt(newPos) == NULL) {
+		tile.setPassable(Terrain::Blocked);
+		tile.setSymbol('+');
+		player->appendLog(CLOSE_DOOR_MSG);
+		return this;
+	}
+	Mob* mob = level->monsterAt(newPos);
+	if (mob != NULL) {
+		player->attack((Monster*) mob);
+		if (mob->isDead()) {
+			level->removeMob(mob);
+			player->appendLog("The " + mob->getName() + " died, horribly");
+			delete mob;
+		}
+		level->pushMob(player, turnTime);
+	} else if ((*level)[newPos].isPassable()) {
+		player->move(newPos, level);
+		level->pushMob(player, turnTime);
+		currRoom = updateMap();
+		bool search;
+		do {
+			search = false;
+			for (Feature* feat : level->getFeatures()) {
+				if (feat->getLocation() != newPos) {
+					continue;
+				}
+				Item* i = dynamic_cast<Item*>(feat);
+				if (i != NULL) {
+					if (player->pickupItem(i)) {
+						level->removeFeature(feat);
+						search = true;
+						break;
+					}
+				}
+				GoldPile* gp = dynamic_cast<GoldPile*>(feat);
+				if (gp != NULL) {
+					player->collectGold(gp);
+					level->removeFeature(feat);
+					delete feat;
+					search = true;
+					break;
+				}
+
+				Trap* tr = dynamic_cast<Trap*>(feat);
+				if (tr != NULL){
+					auto next = tr->activate(player, level);
+					if (next != level) {
+						delete level;
+						level = next;
+					}
+					currRoom = NULL;
+					currRoom = updateMap();
+					return this;
+				}
+			}
+		} while (search);
+	}
+	return this;
+}
+
+UIState* PlayState::attemptClimb(bool direction) {
+	for (Feature* feat : level->getFeatures()) {
+		if (feat->getLocation() != player->getLocation()) {
+			continue;
+		}
+		Stairs* stair = dynamic_cast<Stairs*>(feat);
+		if (stair != NULL) {
+			if (direction && stair->getDirection()) {
+				int currDepth = level->getDepth();
+				delete level;
+				level = new Level(currDepth+1, player);
+				level->registerMob(player);
+				level->generate();
+				currRoom = updateMap();
+				player->appendLog("You descend to level " + std::to_string(level->getDepth()));
+				if (player->getSaveFlag()) {
+					player->setSaveFlag(false);
+					return new SaveScreen(player, level);
+				} else {
+					return new PlayState(player, level);
+				}
+			} else {
+				if (!stair->getDirection() && player->hasAmulet()) {
+					int currDepth = level->getDepth();
+					if (currDepth == 1) {
+						return new RIPScreen(player, level, VICTORY_STR);
+					} else {
+						delete level;
+						level = new Level(currDepth-1, player);
+						level->registerMob(player);
+						level->generate();
+						currRoom = updateMap();
+						player->appendLog("You ascend to level " + std::to_string(level->getDepth()));
+						return new SaveScreen(player, level);
+					}
+				} else {
+					player->appendLog(NO_ASCEND_MSG);
+				}
+			}
+		}
+	}
+	return this;
+}
+
+UIState* PlayState::attemptEat(int turnTime) {
+	auto temp_p = player;
+	auto temp_l = level;
+	return attemptUse<Food>(NO_EAT_MSG,
+							EAT_PROMPT,
+					[] (Item* i) {return dynamic_cast<Food*>(i)!=NULL;},
+					[temp_p, temp_l, turnTime] (Food* f) {
+						temp_p->eat(f);
+						temp_l->pushMob(temp_p, turnTime);
+						return new PlayState(temp_p, temp_l);
+					});
+}
+
+UIState* PlayState::attemptZap(int turnTime) {
+	auto temp_p = player;
+	auto temp_l = level;
+	for (auto pair : player->getInventory().getContents()) {
+		if (dynamic_cast<Wand*>(pair.second.front())!=NULL) {
+			return new DirectionPrompt(player, level,
+										[temp_p, temp_l] (Coord direction) {
+											return new InvScreen(temp_p, temp_l, [] (Item* i) {return dynamic_cast<Wand*>(i)!=NULL;},
+																[direction] (Item* i, PlayerChar* p, Level* l) {
+																	return new QuickZap(p, l, i, direction);
+																},
+																true,
+																ZAP_PROMPT);
+											});
+		}
+	}
+	player->appendLog(NO_ZAP_MSG);
+	return this;
+}
+
+UIState* PlayState::attemptThrow(int turnTime) {
+	for (auto pair : player->getInventory().getContents()) {
+		if (pair.second.front()->isThrowable()) {
+			level->pushMob(player, turnTime);
+			auto temp_p = player;
+			auto temp_l = level;
+			return new DirectionPrompt(player, level, [temp_p, temp_l] (Coord direction) {
+				return new InvScreen(temp_p, temp_l, [] (Item* i) {return i->isThrowable();},
+													[direction] (Item* i, PlayerChar* p, Level* l) {
+														return new QuickThrow(p, l, i, direction);
+													},
+													true,
+													THROW_PROMPT);
+			});
+		}
+	}
+	player->appendLog(NO_THROW_MSG);
+	return this;
+}
+
+UIState* PlayState::attemptStow(int turnTime) {
+	auto weap = player->getWeapon();
+	// check for curses TODO
+	if (weap != NULL) {
+		level->pushMob(player, turnTime);
+		if (player->removeWeapon()) {
+			if (player->getInventory().add(*weap)) {
+				player->appendLog("You stow the " + weap->getDisplayName());
+			} else {
+				player->equipWeapon(weap);
+				player->appendLog(NO_SPACE_LOG);
+			}
+		} else {
+			player->appendLog(LOOSEN_GRIP + weap->getDisplayName());
+		}
+	} else {
+		player->appendLog(NO_STOW_MSG);
+	}
+	return this;
+}
+
+UIState* PlayState::attemptRead(int turnTime) {
+	auto temp_l = level;
+	auto temp_p = player;
+	return attemptUse<Scroll>(NO_READ_MSG,
+							  READ_PROMPT,
+					[] (Item* i) {return dynamic_cast<Scroll*>(i)!=NULL;},
+					[temp_l, temp_p] (Scroll* s) {
+						temp_p->appendLog("You read the " + s->getName());
+						auto nextState = std::get<1>(s->activate(temp_l));
+						auto ps = dynamic_cast<PlayState*>(nextState);
+						if (ps != NULL) {
+							ps->currRoom = ps->updateMap();
+						}
+						return nextState;
+					});
+}
+
+UIState* PlayState::attemptWield(int turnTime) {
+	if (player->getWeapon() != NULL) {
+		player->appendLog(ALREADY_WIELD);
+		return this;
+	}
+	for (auto pair : player->getInventory().getContents()) {
+		Weapon* weap = dynamic_cast<Weapon*>(pair.second.front());
+		if (weap != NULL) {
+			level->pushMob(player, turnTime);
+			return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Weapon*>(i)!=NULL;},
+										[] (Item* i, PlayerChar* p, Level* l) {
+											return new QuickUse<Weapon>(p, l, i,
+																	[p, l] (Weapon* w) {
+																		p->equipWeapon(w);
+																		p->getInventory().remove(w);
+																		p->appendLog("You wield the " + w->getName());
+																		return new PlayState(p, l);
+																	}, false);
+										},
+										true,
+										WIELD_PROMPT);
+		}
+	}
+	player->appendLog(NO_WIELD_MSG);
+	return this;
+}
+
+UIState* PlayState::attemptPutOn(int turnTime) {
+	auto rings = player->getRings();
+	if (rings.first != NULL && rings.second != NULL) {
+		player->appendLog(FINGER_DEFICIT);
+		return this;
+	} else {
+		bool hasRing = false;
+		for (auto pair : player->getInventory().getContents()) {
+			Ring* ring = dynamic_cast<Ring*>(pair.second.front());
+			if (ring != NULL) {
+				hasRing = true;
+			}
+		}
+		if (!hasRing) {
+			player->appendLog(NO_PUT_MSG);
+			return this;
+		}
+		level->pushMob(player, turnTime);
+		if (rings.first == NULL) {
+			return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Ring*>(i)!=NULL;},
+										[] (Item* i, PlayerChar* p, Level* l) {
+											return new QuickUse<Ring>(p, l, i,
+																	[p, l] (Ring* r) {
+																		p->equipRingLeft(r);
+																		p->appendLog("You put on the " + r->getDisplayName());
+																		p->getInventory().remove(r);
+																		return new PlayState(p, l);
+																	}, false);
+										},
+										true,
+										PUT_PROMPT);
+		} else {
+			return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Ring*>(i)!=NULL;},
+										[] (Item* i, PlayerChar* p, Level* l) {
+											return new QuickUse<Ring>(p, l, i,
+																	[p, l] (Ring* r) {
+																		p->equipRingRight(r);
+																		p->appendLog("You put on the " + r->getDisplayName());
+																		p->getInventory().remove(r);
+																		return new PlayState(p, l);
+																	}, false);
+										},
+										true,
+										PUT_PROMPT);
+		}
+	}
+}
+
+void PlayState::handleWizardry(TCOD_key_t key) {
 	if (key.c == '}') {
 		int currDepth = level->getDepth();
 		delete level;
@@ -469,17 +864,15 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		level->generate();
 		currRoom = updateMap();
 		player->appendLog("Teleported to level " + std::to_string(level->getDepth()));
-		return this;
 	} else if (key.c == '{') {
 		int currDepth = level->getDepth();
-		if (currDepth <= 1) return this;
+		if (currDepth <= 1) return;
 		delete level;
 		level = new Level(currDepth-1, player);
 		level->registerMob(player);
 		level->generate();
 		currRoom = updateMap();
 		player->appendLog("Teleported to level " + std::to_string(level->getDepth()));
-		return this;
 	} else if (key.c == '&') {
 		for (auto mob : level->getMobs()) {
 			if (mob != player) {
@@ -550,8 +943,56 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			}
 		}	
 	}
+}
 
+
+UIState* PlayState::handleInput(TCOD_key_t key) {
+	auto mobs = level->getMobs();
+	for (auto it=mobs.begin(); it != mobs.end(); ++it) {
+		if ((*it)->isDead()) {
+			if (*it == player) {
+				return new RIPScreen(player, level, "Unknown");
+			}
+			player->appendLog("The " + (*it)->getName() + " dies, horribly");
+			level->removeMob(*it);
+		}
+	}
+	// Perform AI turns until it's the player's go
+	int difference = 0;
+	while (true) {
+		auto tuple = level->popTurnClock();
+		auto nextUp = std::get<0>(tuple);
+		difference += std::get<1>(tuple);
+		if (nextUp == player) {
+			level->pushMob(player, 0);
+			break;
+		}
+		// Do AI turn
+		auto turnTime = nextUp->turn(level);
+		if (turnTime != DISAPPEAR_DELAY) {
+			level->pushMob(nextUp, turnTime);
+		}
+		if (player->isDead()) {
+			return new RIPScreen(player, level, "Killed by a " + nextUp->getName());
+		}
+	}
+	int turnTime = TURN_TIME;
+	if (difference > 0) {
+		turnTime = player->update();
+		if (player->isDead()) {
+			return new RIPScreen(player, level, "Starved to death");
+		}
+	}
+#ifdef URAWIZARD
+	handleWizardry(key);
 #endif
+	// Skip the player's turn if they are sleeping
+	if (player->hasCondition(PlayerChar::SLEEPING)) {
+		if (key.vk == TCODK_SPACE) {
+			level->pushMob(player, turnTime);
+		}
+		return this;
+	}
 	// Quitting
 	if (key.c == 'Q') {
 		return new QuitPrompt2(player, level);
@@ -583,368 +1024,70 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	// Rest action
 	if (key.c == '.') {
 		level->pushMob(player, turnTime);
-		player->appendLog("You rest briefly");
+		player->appendLog(REST_MSG);
 		player->update();
 		return this;
 	}
+	// Search for secrets
 	if (key.c == 's') {
-		level->pushMob(player, turnTime);
-		player->appendLog("You search your surroundings for traps");
-		for (Feature* feat : level->getFeatures()) {
-			if (!feat->getVisible()
-					&& player->getLocation().distanceTo(feat->getLocation(), false)
-					   <= player->getSearchRadius()
-					&& Generator::rand() <= player->getSearchChance()) {
-				feat->setVisible(true);
-				player->appendLog("You uncover a secret");
-			}
-		}
-		return this;
+		return attemptSearch(turnTime);
 	}
 	// set the save flag
 	if (key.c == '~') {
-		player->setSaveFlag(!player->getSaveFlag());
-		if (player->getSaveFlag()) {
-			player->appendLog("You will save at the next level end.");
-		} else {
-			player->appendLog("You won't save at the next level end.");
-		}
-		return this;
+		return toggleSaveFlag();
 	}
 	// drop item
 	if (key.c == 'd') {
-		if (player->getInventory().getSize() <= 0) {
-			player->appendLog("You aren't carrying anything");
-			goto no_drop;
-		}
-		for (auto feat : level->getFeatures()) {
-			Item* item = dynamic_cast<Item*>(feat);
-			if (item != NULL && item->getLocation() == player->getLocation()) {
-				player->appendLog("There is something there already");
-				goto no_drop;
-			}
-		}
-		level->pushMob(player, turnTime);
-		return new InvScreen(player, level, [] (Item*) {return true;},
-											[] (Item* i, PlayerChar* p, Level* l) {
-												return new QuickUse<Item>(p, l, i,
-													[p, l] (Item* i) {
-														i->setContext(Item::FLOOR);
-														p->getInventory().remove(i);
-														i->setLocation(p->getLocation());
-														l->addFeature(i);
-														return new PlayState(p, l);
-													},
-													false);
-												},
-												true,
-												DROP_PROMPT);
+		return attemptDrop(turnTime);
 	}
-	no_drop:;
 	// Quaff
 	if (key.c == 'q') {
-		auto temp_p = player;
-		auto temp_l = level;
-		return attemptUse<Potion>(NO_QUAFF_MSG,
-								  QUAFF_PROMPT,
-						[] (Item* i) {return dynamic_cast<Potion*>(i)!=NULL;},
-						[temp_p, temp_l] (Potion* p) {
-							temp_p->appendLog("You drink the " + p->getName());
-							p->activate(temp_p);
-							return new PlayState(temp_p, temp_l);
-						});
+		return attemptQuaff(turnTime);
 	}
 	// Read scroll
 	if (key.c == 'r') {
-		auto temp_l = level;
-		auto temp_p = player;
-		return attemptUse<Scroll>(NO_READ_MSG,
-								  READ_PROMPT,
-						[] (Item* i) {return dynamic_cast<Scroll*>(i)!=NULL;},
-						[temp_l, temp_p] (Scroll* s) {
-							temp_p->appendLog("You read the " + s->getName());
-							auto nextState = std::get<1>(s->activate(temp_l));
-							auto ps = dynamic_cast<PlayState*>(nextState);
-							if (ps != NULL) {
-								ps->currRoom = ps->updateMap();
-							}
-							return nextState;
-						});
+		return attemptRead(turnTime);
 	}
 	// wield weapon
 	if (key.c == 'w') {
-		if (player->getWeapon() != NULL) {
-			player->appendLog(ALREADY_WIELD);
-			return this;
-		}
-		for (auto pair : player->getInventory().getContents()) {
-			Weapon* weap = dynamic_cast<Weapon*>(pair.second.front());
-			if (weap != NULL) {
-				level->pushMob(player, turnTime);
-				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Weapon*>(i)!=NULL;},
-											[] (Item* i, PlayerChar* p, Level* l) {
-												return new QuickUse<Weapon>(p, l, i,
-																		[p, l] (Weapon* w) {
-																			p->equipWeapon(w);
-																			p->getInventory().remove(w);
-																			p->appendLog("You wield the " + w->getName());
-																			return new PlayState(p, l);
-																		}, false);
-											},
-											true,
-											WIELD_PROMPT);
-			}
-		}
-		player->appendLog(NO_WIELD_MSG);
-		return this;
+		return attemptWield(turnTime);
 	}
 	// Wear armor
 	if (key.c == 'W') {
-		if (player->getArmor() != NULL) {
-			player->appendLog(ALREADY_WEAR);
-			return this;
-		}
-		for (auto pair : player->getInventory().getContents()) {
-			Armor* armor = dynamic_cast<Armor*>(pair.second.front());
-			if (armor != NULL) {
-				level->pushMob(player, turnTime);
-				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Armor*>(i)!=NULL;},
-											[] (Item* i, PlayerChar* p, Level* l) {
-												return new QuickUse<Armor>(p, l, i,
-																		[p, l] (Armor* a) {
-																			p->equipArmor(a);
-																			p->getInventory().remove(a);
-																			p->appendLog("You put on the " + a->getDisplayName());
-																			return new PlayState(p, l);
-																		}, false);
-											},
-											true,
-											WEAR_PROMPT);
-			}
-		}
-		player->appendLog(NO_WEAR_MSG);
-		return this;
+		return attemptWear(turnTime);
 	}
 	// Take off armor
 	if (key.c == 'T') {
-		auto armor = player->getArmor();
-		// check for curses TODO
-		if (armor != NULL) {
-			level->pushMob(player, turnTime);
-			if (player->removeArmor()) {
-				if (player->getInventory().add(*armor)) {
-					player->appendLog("You take off the " + armor->getDisplayName());
-				} else {
-					player->equipArmor(armor);
-					player->appendLog(NO_SPACE_LOG);
-				}
-			} else {
-				player->appendLog("You cannot remove the " + armor->getDisplayName());
-			}
-			return this;
-		} else {
-			player->appendLog(NO_TAKE_OFF_MSG);
-		}
+		return attemptTakeOff(turnTime);
 	}
 	// Remove ring
 	if (key.c == 'R') {
-		auto rings = player->getRings();
-		if (rings.first == NULL && rings.second == NULL) {
-			player->appendLog(NO_REMOVE_MSG);
-			return this;
-		}
-		level->pushMob(player, turnTime);
-		if (rings.first == NULL) {
-			auto ring = rings.second;
-			if (player->removeRingRight()) {
-				if (player->getInventory().add(*ring)) {
-					player->appendLog("You take off the " + ring->getDisplayName());
-				} else {
-					player->equipRingRight(ring);
-					player->appendLog(NO_SPACE_LOG);
-				}
-			} else {
-				player->appendLog("The " + ring->getDisplayName() + " tightens its grip on your finger");
-			}
-		} else if (rings.second == NULL) {
-			auto ring = rings.first;
-			if (player->removeRingLeft()) {
-				if (player->getInventory().add(*ring)) {
-					player->appendLog("You take off the " + ring->getDisplayName());
-				} else {
-					player->equipRingLeft(ring);
-					player->appendLog(NO_SPACE_LOG);
-				}
-			} else {
-				player->appendLog("The " + ring->getDisplayName() + " tightens its grip on your finger");
-			}
-		} else {
-			return new RingRemovePrompt(player, level);
-		}
+		return attemptRemove(turnTime);
 	}
+	// Put on ring
 	if (key.c == 'P') {
-		auto rings = player->getRings();
-		if (rings.first != NULL && rings.second != NULL) {
-			player->appendLog(FINGER_DEFICIT);
-			return this;
-		} else {
-			bool hasRing = false;
-			for (auto pair : player->getInventory().getContents()) {
-				Ring* ring = dynamic_cast<Ring*>(pair.second.front());
-				if (ring != NULL) {
-					hasRing = true;
-				}
-			}
-			if (!hasRing) {
-				player->appendLog(NO_PUT_MSG);
-				return this;
-			}
-			level->pushMob(player, turnTime);
-			if (rings.first == NULL) {
-				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Ring*>(i)!=NULL;},
-											[] (Item* i, PlayerChar* p, Level* l) {
-												return new QuickUse<Ring>(p, l, i,
-																		[p, l] (Ring* r) {
-																			p->equipRingLeft(r);
-																			p->appendLog("You put on the " + r->getDisplayName());
-																			p->getInventory().remove(r);
-																			return new PlayState(p, l);
-																		}, false);
-											},
-											true,
-											PUT_PROMPT);
-			} else {
-				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Ring*>(i)!=NULL;},
-											[] (Item* i, PlayerChar* p, Level* l) {
-												return new QuickUse<Ring>(p, l, i,
-																		[p, l] (Ring* r) {
-																			p->equipRingRight(r);
-																			p->appendLog("You put on the " + r->getDisplayName());
-																			p->getInventory().remove(r);
-																			return new PlayState(p, l);
-																		}, false);
-											},
-											true,
-											PUT_PROMPT);
-			}
-		}
+		return attemptPutOn(turnTime);
 	}
 	// stow weapon
 	if (key.c == 'S') {
-		auto weap = player->getWeapon();
-		// check for curses TODO
-		if (weap != NULL) {
-			level->pushMob(player, turnTime);
-			if (player->removeWeapon()) {
-				if (player->getInventory().add(*weap)) {
-					player->appendLog("You stow the " + weap->getDisplayName());
-				} else {
-					player->equipWeapon(weap);
-					player->appendLog(NO_SPACE_LOG);
-				}
-			} else {
-				player->appendLog("You cannot loosen your grip on the " + weap->getDisplayName());
-			}
-			return this;
-		} else {
-			player->appendLog(NO_STOW_MSG);
-		}
 	}
 	// throw item
 	if (key.c == 't') {
-		for (auto pair : player->getInventory().getContents()) {
-			if (pair.second.front()->isThrowable()) {
-				level->pushMob(player, turnTime);
-				auto temp_p = player;
-				auto temp_l = level;
-				return new DirectionPrompt(player, level, [temp_p, temp_l] (Coord direction) {
-					return new InvScreen(temp_p, temp_l, [] (Item* i) {return i->isThrowable();},
-														[direction] (Item* i, PlayerChar* p, Level* l) {
-															return new QuickThrow(p, l, i, direction);
-														},
-														true,
-														THROW_PROMPT);
-				});
-			}
-		}
-		player->appendLog(NO_THROW_MSG);
-		return this;
+		return attemptThrow(turnTime);
 	}
+	// use a wand
 	if (key.c == 'Z') {
-		auto temp_p = player;
-		auto temp_l = level;
-		for (auto pair : player->getInventory().getContents()) {
-			if (dynamic_cast<Wand*>(pair.second.front())!=NULL) {
-				return new DirectionPrompt(player, level,
-											[temp_p, temp_l] (Coord direction) {
-												return new InvScreen(temp_p, temp_l, [] (Item* i) {return dynamic_cast<Wand*>(i)!=NULL;},
-																	[direction] (Item* i, PlayerChar* p, Level* l) {
-																		return new QuickZap(p, l, i, direction);
-																	},
-																	true,
-																	ZAP_PROMPT);
-												});
-			}
-		}
-		player->appendLog(NO_ZAP_MSG);
-		return this;
-
+		return attemptZap(turnTime);
 	}
 	// eat food
 	if (key.c == 'e') {
-		auto temp_p = player;
-		auto temp_l = level;
-		return attemptUse<Food>(NO_EAT_MSG,
-								EAT_PROMPT,
-						[] (Item* i) {return dynamic_cast<Food*>(i)!=NULL;},
-						[temp_p, temp_l] (Food* f) {
-							temp_p->eat(f);
-							return new PlayState(temp_p, temp_l);
-						});
+		return attemptEat(turnTime);
 	}
+	// climb some stairs
 	if (key.c == '<' || key.c == '>') {
-		for (Feature* feat : level->getFeatures()) {
-			if (feat->getLocation() != player->getLocation()) {
-				continue;
-			}
-			Stairs* stair = dynamic_cast<Stairs*>(feat);
-			if (stair != NULL) {
-				if ((key.c == '>') && stair->getDirection()) {
-					int currDepth = level->getDepth();
-					delete level;
-					level = new Level(currDepth+1, player);
-					level->registerMob(player);
-					level->generate();
-					currRoom = updateMap();
-					player->appendLog("You descend to level " + std::to_string(level->getDepth()));
-					if (player->getSaveFlag()) {
-						player->setSaveFlag(false);
-						return new SaveScreen(player, level);
-					} else {
-						return new PlayState(player, level);
-					}
-			} else if (key.c == '<') {
-					if (!stair->getDirection() && player->hasAmulet()) {
-						int currDepth = level->getDepth();
-						if (currDepth == 1) {
-							return new RIPScreen(player, level, VICTORY_STR);
-						} else {
-							delete level;
-							level = new Level(currDepth-1, player);
-							level->registerMob(player);
-							level->generate();
-							currRoom = updateMap();
-							player->appendLog("You ascend to level " + std::to_string(level->getDepth()));
-							return new SaveScreen(player, level);
-						}
-					} else {
-						player->appendLog(NO_ASCEND_MSG);
-					}
-				}
-			}
-		}
+		return attemptClimb(key.c == '<');
 	}
-	//Arrow controls
+	//Arrow/vi controls
 	auto newPos = player->getLocation().copy();
 	if (key.vk == TCODK_UP || key.c == 'k') {
 		newPos -= Coord(0, 1);
@@ -963,75 +1106,8 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	} else if (key.c == 'b') {
 		newPos += Coord(-1, 1);
 	}
-
 	if (newPos != player->getLocation() && level->contains(newPos)) {
-		auto& tile = level->tileAt(newPos);
-		if (tile.getSymbol() == '+') {
-			if (key.shift) {
-				tile.setPassable(Terrain::Blocked);
-				tile.setSymbol('-');
-				player->appendLog(OPEN_DOOR_MSG);
-			}
-			tile.setPassable(Terrain::Passable);
-			tile.setSymbol('-');
-			player->appendLog(OPEN_DOOR_MSG);
-		} else if (tile.getSymbol() == '-' && key.shift && level->monsterAt(newPos) == NULL) {
-			tile.setPassable(Terrain::Blocked);
-			tile.setSymbol('+');
-			player->appendLog(CLOSE_DOOR_MSG);
-			return this;
-		}
-		Mob* mob = level->monsterAt(newPos);
-		if (mob != NULL) {
-			player->attack((Monster*) mob);
-			if (mob->isDead()) {
-				level->removeMob(mob);
-				player->appendLog("The " + mob->getName() + " died, horribly");
-				delete mob;
-			}
-			level->pushMob(player, turnTime);
-		} else if ((*level)[newPos].isPassable()) {
-			player->move(newPos, level);
-			level->pushMob(player, turnTime);
-			currRoom = updateMap();
-			bool search;
-			do {
-				search = false;
-				for (Feature* feat : level->getFeatures()) {
-					if (feat->getLocation() != newPos) {
-						continue;
-					}
-					Item* i = dynamic_cast<Item*>(feat);
-					if (i != NULL) {
-						if (player->pickupItem(i)) {
-							level->removeFeature(feat);
-							search = true;
-							break;
-						}
-					}
-					GoldPile* gp = dynamic_cast<GoldPile*>(feat);
-					if (gp != NULL) {
-						player->collectGold(gp);
-						level->removeFeature(feat);
-						delete feat;
-						search = true;
-						break;
-					}
-
-					Trap* tr = dynamic_cast<Trap*>(feat);
-					if (tr != NULL){
-						auto next = tr->activate(player, level);
-						if (next != level) {
-							delete level;
-							level = next;
-						}
-						currRoom = NULL;
-						currRoom = updateMap();
-						return this;
-					}
-				}
-			} while (search);
-		}
+		return attemptMove(newPos, key, turnTime);
 	}
 	return this;
 }
