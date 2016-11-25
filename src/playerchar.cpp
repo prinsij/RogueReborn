@@ -587,3 +587,11 @@ int PlayerChar::update() {
 
 	return this->getDelay();
 }
+
+bool PlayerChar::getSaveFlag() {
+	return this->saveFlag;
+}
+
+void PlayerChar::setSaveFlag(bool flag) {
+	this->saveFlag = flag;
+}
