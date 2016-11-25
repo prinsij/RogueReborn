@@ -43,7 +43,35 @@ class PlayState : public UIState {
 							  QUIT_PROMPT = "Do you wish to end your quest now (Yes/No) ?",
 							  HAND_PROMPT = "Which ring to remove (R/L) ?",
 							  DIRECTION_PROMPT = "Which direction?",
-							  HELPLESS_MSG = "You are helpless (press SPACE to continue";
+							  HELPLESS_MSG = "You are helpless (press SPACE to continue",
+							  DROP_PROMPT = "Choose an item to drop",
+							  NO_QUAFF_MSG = "You have nothing you can quaff",
+							  QUAFF_PROMPT = "Choose a potion to quaff",
+							  NO_READ_MSG = "You have nothing you can read",
+							  READ_PROMPT = "Choose a scroll to read",
+							  ALREADY_WIELD = "You are already wielding something",
+							  WIELD_PROMPT = "Choose a weapon to wield",
+							  NO_WIELD_MSG = "You have nothing you can wield",
+							  ALREADY_WEAR = "You are already wearing something",
+							  WEAR_PROMPT = "Choose a piece of armor to wear",
+							  NO_WEAR_MSG = "You have nothing you can wear",
+							  NO_TAKE_OFF_MSG = "You are not wearing anything",
+							  NO_REMOVE_MSG = "You are not wearing any rings",
+							  FINGER_DEFICIT = "You have no more fingers",
+							  NO_PUT_MSG = "You have nothing to put on your finger(s)",
+							  PUT_PROMPT = "Choose a ring to put on your finger",
+							  NO_STOW_MSG = "You are not wielding anything",
+							  THROW_PROMPT = "Choose an item to throw",
+							  NO_THROW_MSG = "You have nothing you can throw",
+							  ZAP_PROMPT = "Choose a wand to zap with",
+							  NO_ZAP_MSG = "You have nothing with which to zap",
+							  EAT_PROMPT = "Choose a piece of food to eat",
+							  NO_EAT_MSG = "You have nothing to eat",
+							  NO_ASCEND_MSG = "Some magical force prevents your passage upward.",
+							  OPEN_DOOR_MSG = "You open the door",
+							  CLOSE_DOOR_MSG = "You close the door";
+
+
 
 	private:
 		/** Update the portion of the map which has

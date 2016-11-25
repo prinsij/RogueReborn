@@ -638,15 +638,15 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 													false);
 												},
 												true,
-												"Choose an item to drop");
+												DROP_PROMPT);
 	}
 	no_drop:;
 	// Quaff
 	if (key.c == 'q') {
 		auto temp_p = player;
 		auto temp_l = level;
-		return attemptUse<Potion>("You have nothing you can quaff",
-								  "Choose a potion to quaff",
+		return attemptUse<Potion>(NO_QUAFF_MSG,
+								  QUAFF_PROMPT,
 						[] (Item* i) {return dynamic_cast<Potion*>(i)!=NULL;},
 						[temp_p, temp_l] (Potion* p) {
 							temp_p->appendLog("You drink the " + p->getName());
@@ -658,8 +658,8 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	if (key.c == 'r') {
 		auto temp_l = level;
 		auto temp_p = player;
-		return attemptUse<Scroll>("You have nothing you can read",
-								  "Choose a scroll to read",
+		return attemptUse<Scroll>(NO_READ_MSG,
+								  READ_PROMPT,
 						[] (Item* i) {return dynamic_cast<Scroll*>(i)!=NULL;},
 						[temp_l, temp_p] (Scroll* s) {
 							temp_p->appendLog("You read the " + s->getName());
@@ -674,7 +674,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	// wield weapon
 	if (key.c == 'w') {
 		if (player->getWeapon() != NULL) {
-			player->appendLog("You are already wielding something");
+			player->appendLog(ALREADY_WIELD);
 			return this;
 		}
 		for (auto pair : player->getInventory().getContents()) {
@@ -692,16 +692,16 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 																		}, false);
 											},
 											true,
-											"Choose a weapon to wield");
+											WIELD_PROMPT);
 			}
 		}
-		player->appendLog("You have nothing you can wield");
+		player->appendLog(NO_WIELD_MSG);
 		return this;
 	}
 	// Wear armor
 	if (key.c == 'W') {
 		if (player->getArmor() != NULL) {
-			player->appendLog("You are already wearing something");
+			player->appendLog(ALREADY_WEAR);
 			return this;
 		}
 		for (auto pair : player->getInventory().getContents()) {
@@ -719,10 +719,10 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 																		}, false);
 											},
 											true,
-											"Choose a piece of armor to wear");
+											WEAR_PROMPT);
 			}
 		}
-		player->appendLog("You have nothing you can wear");
+		player->appendLog(NO_WEAR_MSG);
 		return this;
 	}
 	// Take off armor
@@ -743,14 +743,14 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			}
 			return this;
 		} else {
-			player->appendLog("you are not wearing anything");
+			player->appendLog(NO_TAKE_OFF_MSG);
 		}
 	}
 	// Remove ring
 	if (key.c == 'R') {
 		auto rings = player->getRings();
 		if (rings.first == NULL && rings.second == NULL) {
-			player->appendLog("You are not wearing any rings");
+			player->appendLog(NO_REMOVE_MSG);
 			return this;
 		}
 		level->pushMob(player, turnTime);
@@ -785,7 +785,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	if (key.c == 'P') {
 		auto rings = player->getRings();
 		if (rings.first != NULL && rings.second != NULL) {
-			player->appendLog("You have no more fingers");
+			player->appendLog(FINGER_DEFICIT);
 			return this;
 		} else {
 			bool hasRing = false;
@@ -796,7 +796,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 				}
 			}
 			if (!hasRing) {
-				player->appendLog("You have nothing to put on your finger(s)");
+				player->appendLog(NO_PUT_MSG);
 				return this;
 			}
 			level->pushMob(player, turnTime);
@@ -812,7 +812,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 																		}, false);
 											},
 											true,
-											"Choose a ring to wear");
+											PUT_PROMPT);
 			} else {
 				return new InvScreen(player, level, [] (Item* i) {return dynamic_cast<Ring*>(i)!=NULL;},
 											[] (Item* i, PlayerChar* p, Level* l) {
@@ -825,7 +825,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 																		}, false);
 											},
 											true,
-											"Choose a ring to wear");
+											PUT_PROMPT);
 			}
 		}
 	}
@@ -847,7 +847,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			}
 			return this;
 		} else {
-			player->appendLog("you are not wielding anything");
+			player->appendLog(NO_STOW_MSG);
 		}
 	}
 	// throw item
@@ -863,11 +863,11 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 															return new QuickThrow(p, l, i, direction);
 														},
 														true,
-														"Choose an item to throw");
+														THROW_PROMPT);
 				});
 			}
 		}
-		player->appendLog("You have nothing you can throw");
+		player->appendLog(NO_THROW_MSG);
 		return this;
 	}
 	if (key.c == 'Z') {
@@ -882,11 +882,11 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 																		return new QuickZap(p, l, i, direction);
 																	},
 																	true,
-																	"Choose a wand to zap with");
+																	ZAP_PROMPT);
 												});
 			}
 		}
-		player->appendLog("You have nothing with which to zap");
+		player->appendLog(NO_ZAP_MSG);
 		return this;
 
 	}
@@ -894,8 +894,8 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	if (key.c == 'e') {
 		auto temp_p = player;
 		auto temp_l = level;
-		return attemptUse<Food>("You have nothing you can eat",
-								"Choose a piece of food to eat",
+		return attemptUse<Food>(NO_EAT_MSG,
+								EAT_PROMPT,
 						[] (Item* i) {return dynamic_cast<Food*>(i)!=NULL;},
 						[temp_p, temp_l] (Food* f) {
 							temp_p->eat(f);
@@ -938,7 +938,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 							return new SaveScreen(player, level);
 						}
 					} else {
-						player->appendLog("Some magical force prevents your passage upward.");
+						player->appendLog(NO_ASCEND_MSG);
 					}
 				}
 			}
@@ -970,15 +970,15 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 			if (key.shift) {
 				tile.setPassable(Terrain::Blocked);
 				tile.setSymbol('-');
-				player->appendLog("You open the door");
+				player->appendLog(OPEN_DOOR_MSG);
 			}
 			tile.setPassable(Terrain::Passable);
 			tile.setSymbol('-');
-			player->appendLog("You open the door");
+			player->appendLog(OPEN_DOOR_MSG);
 		} else if (tile.getSymbol() == '-' && key.shift && level->monsterAt(newPos) == NULL) {
 			tile.setPassable(Terrain::Blocked);
 			tile.setSymbol('+');
-			player->appendLog("You close the door");
+			player->appendLog(CLOSE_DOOR_MSG);
 			return this;
 		}
 		Mob* mob = level->monsterAt(newPos);
