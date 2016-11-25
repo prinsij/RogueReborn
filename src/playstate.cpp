@@ -601,6 +601,16 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		}
 		return this;
 	}
+	// set the save flag
+	if (key.c == '~') {
+		player->setSaveFlag(!player->getSaveFlag());
+		if (player->getSaveFlag()) {
+			player->appendLog("You will save at the next level end.");
+		} else {
+			player->appendLog("You won't save at the next level end.");
+		}
+		return this;
+	}
 	// drop item
 	if (key.c == 'd') {
 		if (player->getInventory().getSize() <= 0) {
@@ -907,7 +917,12 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 					level->generate();
 					currRoom = updateMap();
 					player->appendLog("You descend to level " + std::to_string(level->getDepth()));
-					return new SaveScreen(player, level);
+					if (player->getSaveFlag()) {
+						player->setSaveFlag(false);
+						return new SaveScreen(player, level);
+					} else {
+						return new PlayState(player, level);
+					}
 			} else if (key.c == '<') {
 					if (!stair->getDirection() && player->hasAmulet()) {
 						int currDepth = level->getDepth();
