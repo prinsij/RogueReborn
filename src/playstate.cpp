@@ -1085,7 +1085,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 	}
 	// climb some stairs
 	if (key.c == '<' || key.c == '>') {
-		return attemptClimb(key.c == '<');
+		return attemptClimb(key.c == '>');
 	}
 	//Arrow/vi controls
 	auto newPos = player->getLocation().copy();
