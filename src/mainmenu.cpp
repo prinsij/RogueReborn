@@ -75,7 +75,7 @@ void MainMenu::draw(TCODConsole* con) {
 	}
 
 	int promptRow = 18;
-	std::string prompt = "Who dare enter the Dungeons of Doom? "; 
+	std::string prompt = "Who dare enter the Dungeons of Doom? ";
 
 	con->print(1, promptRow, (prompt + nameBuffer).c_str());
 
