@@ -39,7 +39,12 @@ class PlayState : public UIState {
 		/** Log this to the player when they attempt 
 		 *  an action and fail due to inventory capacity.
 		 */
-		static constexpr auto NO_SPACE_LOG = "You have no space in your inventory";
+		static constexpr auto NO_SPACE_LOG = "You have no space in your inventory",
+							  QUIT_PROMPT = "Do you wish to end your quest now (Yes/No) ?",
+							  HAND_PROMPT = "Which ring to remove (R/L) ?",
+							  DIRECTION_PROMPT = "Which direction?",
+							  HELPLESS_MSG = "You are helpless (press SPACE to continue";
+
 	private:
 		/** Update the portion of the map which has
 		 *  been seen, and return the room which the

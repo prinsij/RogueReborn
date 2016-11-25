@@ -60,7 +60,7 @@ class QuitPrompt2 : public PlayState {
 		}
 		virtual void draw(TCODConsole* con) {
 			PlayState::draw(con);
-			con->print(PROMPTX, PROMPTY, std::string("Do you wish to end your quest now (Yes/No) ?").c_str());
+			con->print(PROMPTX, PROMPTY, QUIT_PROMPT);
 		}
 };
 
@@ -104,7 +104,7 @@ class RingRemovePrompt : public PlayState {
 
 		virtual void draw(TCODConsole* con) {
 			PlayState::draw(con);
-			con->print(PROMPTX, PROMPTY, std::string("Which ring to remove (R/L) ?").c_str());
+			con->print(PROMPTX, PROMPTY, HAND_PROMPT);
 		}
 };
 
@@ -236,7 +236,7 @@ class DirectionPrompt : public PlayState {
 
 		virtual void draw(TCODConsole* con) {
 			PlayState::draw(con);
-			con->print(PROMPTX, PROMPTY, std::string("Which direction?").c_str());
+			con->print(PROMPTX, PROMPTY, DIRECTION_PROMPT);
 		}
 
 		virtual UIState* handleInput(TCOD_key_t key) {
@@ -374,7 +374,7 @@ void PlayState::draw(TCODConsole* con) {
 		con->print(0, 0, player->getLog().back().c_str());
 	}
 	if (player->hasCondition(PlayerChar::SLEEPING)) {
-		con->print(PROMPTX, PROMPTY, "You are helpless (press SPACE to continue)");
+		con->print(PROMPTX, PROMPTY, HELPLESS_MSG);
 		auto ppos = player->getLocation().asScreen();
 		con->setCharForeground(ppos[0], ppos[1], TCODColor::lightBlue);
 	}
