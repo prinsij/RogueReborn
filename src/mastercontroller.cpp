@@ -10,6 +10,7 @@
 #include <string>
 
 #include "include/coord.h"
+#include "include/globals.h"
 #include "include/level.h"
 #include "include/mainmenu.h"
 #include "include/mastercontroller.h"
@@ -20,15 +21,13 @@ MasterController::MasterController()
 {}
 
 void MasterController::run() {
-	const int spacer = 5;
     std::cout << "Welcome to Rogue Reborn!" << std::endl;
     TCODConsole::setCustomFont("assets/terminal-large.png");
     //Init console
-	Coord lSize = Level::getSize();
-    TCODConsole::initRoot(lSize[0], lSize[1] + spacer, "Rogue Reborn", false);
+    TCODConsole::initRoot(SCREEN_WIDTH, SCREEN_HEIGHT, "Rogue Reborn", false);
 	// floatCon is our 'false root' so we don't have to work with the root
 	// console -> more flexibility and maintainability
-    TCODConsole* floatCon = new TCODConsole(lSize[0], lSize[1] + spacer);
+    TCODConsole* floatCon = new TCODConsole(SCREEN_WIDTH, SCREEN_HEIGHT);
 	// Limits number of flushes/second so we don't consum 100% cpu
 	TCODSystem::setFps(FPS_LIMIT);
 	//Game loop
@@ -52,7 +51,7 @@ void MasterController::run() {
         TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS, &key, NULL);
 		floatCon->clear();
 		currState->draw(floatCon);
-		TCODConsole::blit(floatCon,0,0,lSize[0],lSize[1]+spacer,TCODConsole::root,0,0);
+		TCODConsole::blit(floatCon,0,0,SCREEN_WIDTH,SCREEN_HEIGHT,TCODConsole::root,0,0);
 		TCODConsole::flush();
 	}
 	delete floatCon;

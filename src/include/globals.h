@@ -22,5 +22,7 @@ const std::string HALLUC_CHARS = "fPgbj!esiIMlEFONZnVL%woXHhycTp*?UrdxS/KCkmDBvR
 const int TURN_TIME = 50;
 const int SLOW_TIME = 103;
 const int FAST_TIME = 23;
+constexpr int SCREEN_WIDTH = 80,
+			  SCREEN_HEIGHT = 40;
 const std::string VICTORY_STR = "Retrieved the Amulet of Yendor";
 const int DISAPPEAR_DELAY = -1;

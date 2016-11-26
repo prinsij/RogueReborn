@@ -666,7 +666,7 @@ UIState* PlayState::attemptClimb(bool direction) {
 				} else {
 					return new PlayState(player, level);
 				}
-			} else {
+			} else if (!direction) {
 				if (!stair->getDirection() && player->hasAmulet()) {
 					int currDepth = level->getDepth();
 					if (currDepth == 1) {
@@ -678,7 +678,12 @@ UIState* PlayState::attemptClimb(bool direction) {
 						level->generate();
 						currRoom = updateMap();
 						player->appendLog("You ascend to level " + std::to_string(level->getDepth()));
-						return new SaveScreen(player, level);
+						if (player->getSaveFlag()) {
+							player->setSaveFlag(false);
+							return new SaveScreen(player, level);
+						} else {
+							return new PlayState(player, level);
+						}
 					}
 				} else {
 					player->appendLog(NO_ASCEND_MSG);
