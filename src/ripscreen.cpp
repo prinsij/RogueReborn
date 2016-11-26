@@ -201,7 +201,7 @@ void RIPScreen::draw(TCODConsole* con) {
 	}
 
 	if (wasVictory) {
-		con->printEx(x, 8, TCOD_BKGND_DEFAULT, TCOD_CENTER, "You Win!");
+		con->printEx(SCREEN_WIDTH/2, 8, TCOD_BKGND_DEFAULT, TCOD_CENTER, "You Win!");
 	}
 }
 
