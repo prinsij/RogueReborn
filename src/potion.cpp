@@ -45,7 +45,8 @@ Potion::Potion(Coord location)
 	: Potion(location, Item::Context::FLOOR, Generator::intFromRange(0, Potion::typeVector.size() - 1)) {}
 
 Potion::Potion(Coord location, Item::Context context, int type)
-	: Item('!', location, context, "Potion", std::get<0>(Potion::typeVector[type]), Potion::nameVector[type], type, true, true) {}
+	: Item('!', location, context, "Potion", std::get<0>(Potion::typeVector[type]), 
+	Potion::nameVector[type], type, true, true, POTION_WEIGHT) {}
 
 bool Potion::activate(Mob* mob) {
 	this->setIdentified(true);
@@ -54,35 +55,30 @@ bool Potion::activate(Mob* mob) {
 
 	// Increase Strength
 	if (this->type == 0) {
-		if (dynamic_cast<Monster*>(mob)) {
+		if (player == NULL) {
 			return false;
-		} else {
-			PlayerChar* player = dynamic_cast<PlayerChar*>(mob);
-			player->appendLog("You feel stronger now, what bulging muscles!");
-
-			if (player->getMaxStrength() == player->getStrength()) {
-				player->changeMaxStrength(1);
-			}
-			player->changeCurrentStrength(1);
 		}
+		player->appendLog("You feel stronger now, what bulging muscles!");
+
+		if (player->getMaxStrength() == player->getStrength()) {
+			player->changeMaxStrength(1);
+		}
+		player->changeCurrentStrength(1);
 
 	// Restore Strength
 	} else if (this->type == 1) {
-		if (dynamic_cast<Monster*>(mob)) {
+		if (player == NULL) {
 			return false;
-		} else {
-			PlayerChar* player = dynamic_cast<PlayerChar*>(mob);
-			player->appendLog("This tastes great; you feel warm all over");
-
-			int strengthLeft = player->getMaxStrength() - player->getStrength();
-			player->changeCurrentStrength(strengthLeft);
 		}
+		PlayerChar* player = dynamic_cast<PlayerChar*>(mob);
+		player->appendLog("This tastes great; you feel warm all over");
+
+		int strengthLeft = player->getMaxStrength() - player->getStrength();
+		player->changeCurrentStrength(strengthLeft);
 
 	// Healing / Extra Healing
 	} else if (this->type == 2 || this->type == 3) {
-		PlayerChar* player = dynamic_cast<PlayerChar*>(mob);
-
-		if (player) {
+		if (player != NULL) {
 			if (this->type == 2) {
 				player->appendLog("You begin to feel better");
 			} else {

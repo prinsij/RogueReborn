@@ -47,5 +47,12 @@ void InvScreen::draw(TCODConsole* con) {
 			+pair.second.front()->getDisplayName()).c_str());
 		++y;
 	}
-	con->print(1, y+2, prompt.c_str());
+	if (prompt == "") {
+		con->print(1, y+1, ("Weight: " + std::to_string(player->getInventory().getCurrWeight()) + "/" + 
+										 std::to_string(player->getInventory().getMaxWeight()) + 
+							" pounds"
+							).c_str());
+	} else {
+		con->print(1, y+1, prompt.c_str());
+	}
 }

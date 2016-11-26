@@ -72,4 +72,9 @@ class Scroll : public Item {
 		 * Vector of syllables to be used when constructing the randomized Scroll names.
 		 */
 		static std::vector<std::string> syllableVector;
+
+		/**
+		 * All scrolls weigh the following value
+		 */
+		 static constexpr int SCROLL_WEIGHT = 1;
 };

@@ -12,8 +12,11 @@ class SaveScreen : public UIState {
 		SaveScreen(PlayerChar*, Level*);
 		void draw(TCODConsole* con);
 		UIState* handleInput(TCOD_key_t);
+		virtual ~SaveScreen();
 	protected:
 		PlayerChar* player;
 		Level* level;
 		std::string nameBuffer;
+		static const std::string PROMPT;
+		static const std::string KEY_HINT;
 };

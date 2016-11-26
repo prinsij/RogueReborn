@@ -79,5 +79,6 @@ class Armor : public Item {
 		 */
 		int rating;
 
-		int variety;
+		/** All armor weighs the following value */
+		static constexpr int ARMOR_WEIGHT = 7;
 };

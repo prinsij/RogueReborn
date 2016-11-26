@@ -27,7 +27,7 @@ class ItemZone {
 		 */
 		Item* operator[](int);
 		/** Add item to ItemZone, stacking if necessary. */
-		void add(Item&);
+		bool add(Item&);
 		/** Check if ItemZone contains >= 1 copies of item. */
 		bool contains(Item*);
 		/** Check if item with given name is in ItemZone. */
@@ -42,6 +42,10 @@ class ItemZone {
 		std::vector<Item*>* getItem(char);
 		/** Return the number of distinct items. */
 		int getSize();
+		/** Return the sum the weight of all inventory contents. */
+		int getCurrWeight();
+		/** Return the maximum inventory capacity. */
+		int getMaxWeight() { return MAX_WEIGHT; }
 	private:
 		/** Data structure which stores items. */
 		std::map<char, std::vector<Item*> > contents;
@@ -55,4 +59,6 @@ class ItemZone {
 		char getFreeChar();
 		/** Return struct corresponding to given item. */
 		std::vector<Item*>* getItem(Item&);
+		/** Max weight of all inventory contents. */
+		static constexpr int MAX_WEIGHT = 35;
 };

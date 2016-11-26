@@ -343,8 +343,9 @@ class PlayerChar : public Mob {
 		 * @brief      Attempts to place the provided Item in the PlayerChar's inventory.
 		 *
 		 * @param      item Item to be inserted into the PlayerChar's inventory.
+		 * @return	   Success or failure in picking up item. (true for success)
 		 */
-		void pickupItem(Item*);
+		bool pickupItem(Item*);
 
 		/**
 		 * @brief      Attempts to apply the effects of the provided Potion to the given Mob.
@@ -439,6 +440,21 @@ class PlayerChar : public Mob {
 		 * @return     The PlayerChar's log.
 		 */
 		std::vector<std::string>& getLog();
+		
+		/**
+		 * @brief		Gets the save flag.
+		 *
+		 * @return		The save flag.
+		 * @see			saveFlag
+		 */
+		 bool getSaveFlag();
+
+		 /**
+		  * @brief		Sets the save flag.
+		  *
+		  * @see 		saveFlag
+		  */
+		  void setSaveFlag(bool);
 
 		friend std::string encode(PlayerChar*, Level*);
 		friend std::tuple<PlayerChar*, Level*> decode(std::string);
@@ -540,4 +556,9 @@ class PlayerChar : public Mob {
 		 *  when looking for secrets.
 		 */
 		static constexpr int SEARCH_RADIUS = 2;
+
+		/** Indicates whether the player wants to save
+		 *  at the next level transition.
+		 */
+		bool saveFlag = false;
 };

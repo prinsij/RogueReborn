@@ -228,6 +228,8 @@ void PlayerChar::equipWeapon(Weapon* weapon) {
 	std::cout << "# PlayerChar Equipped Weapon: " << weapon->getName() << "\n";
 
 	this->itemWeapon = weapon;
+
+	weapon->updateName();
 }
 
 Armor* PlayerChar::getArmor() {
@@ -363,10 +365,12 @@ bool PlayerChar::move(Coord location, Level* level) {
 	return true;
 }
 
-void PlayerChar::pickupItem(Item* item) {
-	item->setContext(Item::INVENTORY);
-	this->appendLog("Picked up " + item->getDisplayName());
-	this->inventory.add(*item);
+bool PlayerChar::pickupItem(Item* item) {
+	if (this->inventory.add(*item)) {
+		this->appendLog("Picked up " + item->getDisplayName());
+		return true;
+	}
+	return false;
 }
 
 void PlayerChar::quaff(Potion* potion, Mob* mob) {
@@ -582,4 +586,12 @@ int PlayerChar::update() {
 	}
 
 	return this->getDelay();
+}
+
+bool PlayerChar::getSaveFlag() {
+	return this->saveFlag;
+}
+
+void PlayerChar::setSaveFlag(bool flag) {
+	this->saveFlag = flag;
 }

@@ -46,21 +46,25 @@ std::vector<Item*>* ItemZone::getItem(Item& item) {
 	return NULL;
 }
 
-void ItemZone::add(Item& item) {
+bool ItemZone::add(Item& item) {
+	if (getCurrWeight() + item.getWeight() > MAX_WEIGHT) {
+		return false;
+	}
 	for (auto it=contents.begin(); it != contents.end(); it++) {
 		if (it->second.front()->getName() == item.getName()) {
 			it->second.push_back(&item);
-			return;
+			return true;
 		}
 	}
 	if (contents.size() >= MAX_SIZE) {
-		return;
+		return false;
 	}
 	char key = getFreeChar();
 	if (key == '0') {
-		return;
+		return false;
 	}
 	contents.insert(std::make_pair(key, std::vector<Item*> {&item}));
+	return true;
 }
 
 char ItemZone::getFreeChar() {
@@ -114,4 +118,12 @@ bool ItemZone::remove(Item* item) {
 
 int ItemZone::getSize() {
 	return contents.size();
+}
+
+int ItemZone::getCurrWeight() {
+	int sum = 0;
+	for (auto it=contents.begin(); it != contents.end(); it++) {
+		sum += it->second.front()->getWeight() * it->second.size();
+	}
+	return sum;
 }

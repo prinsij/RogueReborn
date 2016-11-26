@@ -35,6 +35,9 @@ class Trap : public Feature {
 
 		/** Records how many type of traps there are for rand-gen purposes. */
 		static constexpr unsigned int MAX_TYPE = 5;
+
+		/** Creates/returns a random trap at the given coordinates. */
+		static Trap* randomTrap(Coord);
 	private:
 		/** Type of the trap.
 		   0 = Door Trap

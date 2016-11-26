@@ -70,4 +70,7 @@ class Ring : public Item {
 
 		/** Arbitrary value for determining dexterity and cursedness */
 		int ringValue;
+
+		/** All rings weigh the following value */
+		static constexpr int RING_WEIGHT = 1;
 };

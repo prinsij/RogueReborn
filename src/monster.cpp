@@ -233,7 +233,7 @@ void Monster::attackSteal(Level* level) {
 	if (Generator::intFromRange(0, 99) <= 50) {
 		if (Generator::intFromRange(0, 99) <= 10) return;
 
-		ItemZone inventory = player->getInventory();
+		ItemZone& inventory = player->getInventory();
 
 		std::vector<Item*> playerItems;
 
@@ -248,14 +248,11 @@ void Monster::attackSteal(Level* level) {
 		Item* stolenItem = playerItems[Generator::intFromRange(0, playerItems.size() - 1)];
 
 		inventory.remove(stolenItem);	
-		stolenItem->setContext(Item::FLOOR);
-		stolenItem->setLocation(getLocation());
 
-		// player->appendLog("Your supplies feel lighter");
-
-		// std::cout << "Monster attempted to steal " << stolenItem->getName() << "\n";
+		player->appendLog("Your supplies feel lighter");
+		std::cout << this->getName() << " stole \"" << stolenItem->getName() << "\"\n";
 	
-		//delete stolenItem;
+		delete stolenItem;
 	} else {
 		if (player->getGold() <= 0 || Generator::intFromRange(0, 99) <= 10) return;
 
@@ -263,9 +260,11 @@ void Monster::attackSteal(Level* level) {
 
 		player->setGold(player->getGold() - stealAmount);
 		player->appendLog("Your purse feels lighter");
+		std::cout << this->getName() << " stole " << stealAmount << " gold\n";
 	}
 
-	// level->removeMob(this);
+	this->addFlag(DISAPPEAR);
+	level->removeMob(this);
 }
 
 
@@ -334,7 +333,9 @@ int Monster::getCarryChance() {
 }
 
 int Monster::getDelay() {
-	if (this->hasFlag(SLOWED)) {
+	if (this->hasFlag(DISAPPEAR)) {
+		return DISAPPEAR_DELAY;
+	} else if (this->hasFlag(SLOWED)) {
 		return SLOW_TIME;
 	} else if (this->hasFlag(HASTED)) {
 		return FAST_TIME;

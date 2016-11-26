@@ -50,8 +50,9 @@ class Item : public Feature {
 		 * @param[in]  type  Item type
 		 * @param[in]  canStack  Denotes whether or not this Item can be stacked in the inventory
 		 * @param[in]  canThrow  Denotes whether or not this Item can be thrown
+		 * @param[in]  weight  How much the item weighs
 		 */
-		Item(char, Coord, Context, std::string, std::string, int, bool, bool);
+		Item(char, Coord, Context, std::string, std::string, int, bool, bool, int);
 
 		/**
 		 * @brief      Constructs an Item instance.
@@ -65,8 +66,9 @@ class Item : public Feature {
 		 * @param[in]  type  Item type
 		 * @param[in]  canStack  Denotes whether or not this Item can be stacked in the inventory
 		 * @param[in]  canThrow  Denotes whether or not this Item can be thrown
+		 * @param[in]  weight  How much the item weighs
 		 */
-		Item(char, Coord, Context, std::string, std::string, std::string, int, bool, bool);
+		Item(char, Coord, Context, std::string, std::string, std::string, int, bool, bool, int);
 
 		/**
 		 * @brief      Item equality definition
@@ -99,6 +101,13 @@ class Item : public Feature {
 		 * @return     The context.
 		 */
 		Context getContext();
+
+		/**
+		 * @brief		Gets the item's weight
+		 *
+		 * @return		The weight
+		 */
+		 int getWeight();
 
 		/**
 		 * @brief	Gets the subclass name.
@@ -234,4 +243,9 @@ class Item : public Feature {
 		 * Type of this Item.
 		 */
 		int type;
+
+		/**
+		 * How much the item weighs (unit unspecified)
+		 */
+		 int weight;
 };

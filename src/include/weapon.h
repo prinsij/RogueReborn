@@ -77,20 +77,20 @@ class Weapon : public Item {
 		 */
 		void setEnchantments(int, int);
 
+		/**
+		 * @brief	Updates this Weapon's name.
+		 */
+		void updateName();
+
+
 		friend std::string encode(PlayerChar*, Level*);
 		friend std::tuple<PlayerChar*, Level*> decode(std::string);
-
 
 	private:
 		/**
 		 * Vector of tuples representing different Weapon configurations indexed by type.
 		 */
 		static std::vector<WEAPON_TUPLE_TYPE > typeVector;
-
-		/**
-		 * @brief	Updates this Weapon's name.
-		 */
-		void updateName();
 
 		/**
 		 * <Dice Rolls, Dice Value> pair representing the damage output of this Weapon.
@@ -112,5 +112,8 @@ class Weapon : public Item {
 		 */
 		bool melee;
 
-		int variety;
+		/**
+		 * All weapons weigh the following value.
+		 */
+		 static constexpr int WEAPON_WEIGHT = 5;
 };
