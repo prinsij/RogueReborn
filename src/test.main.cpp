@@ -10,29 +10,41 @@
 #include <string>
 #include <vector>
 
+#include "test.amulet.cpp"
 #include "test.armor.cpp"
-#include "test.level.cpp"
-#include "test.playerchar.cpp"
 #include "test.coord.cpp"
+#include "test.food.cpp"
+#include "test.level.cpp"
+#include "test.potion.cpp"
+#include "test.playerchar.cpp"
+#include "test.ring.cpp"
+#include "test.scroll.cpp"
+#include "test.wand.cpp"
+#include "test.weapon.cpp"
 #include "test.testable.h"
 #include "test.uistate.cpp"
 
-int main(){
+int main() {
 
-	ArmorTest a = ArmorTest();
-	a.test();
+	std::vector<Testable*> tests;
 
-	LevelTest l = LevelTest();
-	l.test();
+	tests.push_back(new ArmorTest());
+	tests.push_back(new AmuletTest());
+	tests.push_back(new CoordTest());
+	tests.push_back(new FoodTest());
+	tests.push_back(new LevelTest());
+	tests.push_back(new PlayerCharTest());
+	tests.push_back(new PotionTest());
+	tests.push_back(new RingTest());
+	tests.push_back(new ScrollTest());
+	tests.push_back(new WandTest());
+	tests.push_back(new WeaponTest());
+	tests.push_back(new UIStateTest());
 
-	PlayerCharTest pc = PlayerCharTest();
-	pc.test();
-
-	CoordTest ct = CoordTest();
-	ct.test();
-
-	auto uist = UIStateTest();
-	uist.test();
+	for (Testable* t : tests){
+		t->test();
+		delete t;
+	}
 
 	return 0;
 }

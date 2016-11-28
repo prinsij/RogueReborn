@@ -15,6 +15,7 @@
 class Testable {
 	public:
 		virtual void test() = 0;
+		virtual ~Testable();
 
 		void assert(bool condition, std::string comment);
 
