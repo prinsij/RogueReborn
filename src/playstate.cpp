@@ -1050,7 +1050,7 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		return attemptSearch(turnTime);
 	}
 	// set the save flag
-	if (key.c == '~') {
+	if (key.c == 'N') {
 		return toggleSaveFlag();
 	}
 	// drop item
