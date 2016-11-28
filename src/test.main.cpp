@@ -15,6 +15,7 @@
 #include "test.playerchar.cpp"
 #include "test.coord.cpp"
 #include "test.testable.h"
+#include "test.uistate.cpp"
 
 int main(){
 
@@ -29,6 +30,9 @@ int main(){
 
 	CoordTest ct = CoordTest();
 	ct.test();
+
+	auto uist = UIStateTest();
+	uist.test();
 
 	return 0;
 }
