@@ -1,23 +1,23 @@
-
 import os
 
 results = file("TestResults", "r").readlines()
 
-x = False
+failed = False
 
 #Hashtags can be used for comments in the test files
 #Otherwise, only a first character of "0" means success
 #Anything else will fail!
-for i in results:
-	print "[PYTHON TESTER] " + i.strip()
+for line in map(lambda s: s.strip(), results):
+	print "[PYTHON TESTER] " + line
+
+	lineList = map(lambda s: s.strip(), line.split(" "))
 
 	#TESTER 0 Test ## Success/fail: comment
-	if (i[0:7] == "TESTER"):
-		if "0" != i[7] and "#" != i[7]:
-			x = True
-			break
+	if lineList[0] == "TESTER" and lineList[1] == "1":
+		failed = True
+		break
 
-if (x):
+if failed:
 	print "Failed!"
 	raise Exception("Failure!")
 else:

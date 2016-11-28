@@ -1,10 +1,33 @@
-TESTER # Testing armor!
-TESTER 0 Test 1 success: 
-TESTER 0 Test 2 success: 
-TESTER 0 Test 3 success: 
-TESTER 0 Test 4 success: 
-TESTER 0 Test 5 success: 
-TESTER 0 Test 6 success: 
+TESTER # Commencing Armor tests...
+TESTER 0 Test 1 success: Created Armor (1)
+TESTER 0 Test 2 success: Created Armor (2)
+TESTER 0 Test 3 success: Armor Identification Test
+TESTER 0 Test 4 success: Armor Curse Test
+TESTER 0 Test 5 success: Get Armor Enchantment
+TESTER 0 Test 6 success: Get Armor Rating
+TESTER # Finished Armor tests.
+TESTER # Commencing Amulet tests...
+TESTER 0 Test 1 success: Created Amulet
+TESTER # Finished Amulet tests.
+TESTER # Testing coord!
+TESTER 0 Test 1 success: Coordinate comparison (Greater than)
+TESTER 0 Test 2 success: Coordinate comparison (Equality)
+TESTER 0 Test 3 success: Coordinate comparison fail (Equality)
+TESTER 0 Test 4 success: Coordinate addition
+TESTER 0 Test 5 success: Coordinate subtraction
+TESTER # Commencing Food tests...
+TESTER 0 Test 1 success: Created Food
+TESTER 0 Test 2 success: Food increase bounds
+TESTER 0 Test 3 success: Food increase bounds
+TESTER 0 Test 4 success: Food increase bounds
+TESTER 0 Test 5 success: Food increase bounds
+TESTER 0 Test 6 success: Food increase bounds
+TESTER 0 Test 7 success: Food increase bounds
+TESTER 0 Test 8 success: Food increase bounds
+TESTER 0 Test 9 success: Food increase bounds
+TESTER 0 Test 10 success: Food increase bounds
+TESTER 0 Test 11 success: Food increase bounds
+TESTER # Finished Food tests.
 TESTER # Testing level!
 TESTER 0 Test 1 success: Level pointer not null
 TESTER 0 Test 2 success: Level depth correct
@@ -51,9 +74,7 @@ TESTER 0 Test 42 success: Distance to nearby is 1
 TESTER # Testing PlayerChar!
 TESTER 0 Test 1 success: Player does not start with amulet
 TESTER 0 Test 2 success: Player starts at max HP
-# PlayerChar is now at level 2
 TESTER 0 Test 3 success: Level up by xp works
-# PlayerChar is now at level 3
 TESTER 0 Test 4 success: Level up by code hax works
 TESTER 0 Test 5 success: Taking damage works
 TESTER 0 Test 6 success: Taking damage works
@@ -61,12 +82,97 @@ TESTER 0 Test 7 success: Taking damage works
 TESTER 0 Test 8 success: Taking damage works
 TESTER 0 Test 9 success: Taking damage works
 TESTER 0 Test 10 success: Player cannot inflict damage with no weapon
-# PlayerChar Equipped Weapon +967538619/+32766 Mace
-TESTER 0 Test 11 success: Player can inflict damage with weapon (+967538619/+32766 Mace)
-# PlayerChar Removed Weapon +967538619/+32766 Mace
+TESTER 0 Test 11 success: Player can inflict damage with weapon (+1/+1 Mace)
 TESTER 0 Test 12 success: Player can remove weapon
 TESTER 0 Test 13 success: Player cannot inflict damage once weapon is removed
 TESTER 0 Test 14 success: Player cannot remove armor that is not equipped
-# PlayerChar Equipped Armor Leather Armor
-# PlayerChar Removed Armor Leather Armor
 TESTER 0 Test 15 success: Player can remove armor that is equipped
+TESTER # Commencing Potion tests...
+TESTER 0 Test 1 success: Created Potion (1)
+TESTER 0 Test 2 success: Created Potion (2)
+TESTER 0 Test 3 success: Potion of Strength
+TESTER 0 Test 4 success: Potion of Restore Strength
+TESTER 0 Test 5 success: Potion of Healing
+TESTER 0 Test 6 success: Potion of Extra Healing
+TESTER 0 Test 7 success: Potion of Poison
+TESTER 0 Test 8 success: Potion of Raise Level
+TESTER 0 Test 9 success: Potion of Blindness
+TESTER 0 Test 10 success: Potion of Hallucination
+TESTER 0 Test 11 success: Potion of Detect Monster
+TESTER 0 Test 12 success: Potion of Detect Objects
+TESTER 0 Test 13 success: Potion of Confusion
+TESTER 0 Test 14 success: Potion of Levitation
+TESTER 0 Test 15 success: Potion of Haste
+TESTER 0 Test 16 success: Potion of See Invisible
+TESTER # Finished Potion tests.
+TESTER # Commencing Ring tests...
+TESTER 0 Test 1 success: Created Ring (1)
+TESTER 0 Test 2 success: Created Ring (2)
+TESTER 0 Test 3 success: Ring of Stealth Activate
+TESTER 0 Test 4 success: Ring of Stealth Deactivate
+TESTER 0 Test 5 success: Ring of Teleportation Activate
+TESTER 0 Test 6 success: Ring of Teleportation Deactivate
+TESTER 0 Test 7 success: Ring of Regeneration Activate
+TESTER 0 Test 8 success: Ring of Regeneration Deactivate
+TESTER 0 Test 9 success: Ring of Digestion Activate
+TESTER 0 Test 10 success: Ring of Digestion Deactivate
+TESTER 0 Test 11 success: Ring of Add Strength Activate
+TESTER 0 Test 12 success: Ring of Add Strength Deactivate
+TESTER 0 Test 13 success: Ring of Sustain Strength Activate
+TESTER 0 Test 14 success: Ring of Sustain Strength Deactivate
+TESTER 0 Test 15 success: Ring of Dexterity Activate
+TESTER 0 Test 16 success: Ring of Dexterity Deactivate
+TESTER 0 Test 17 success: Potion of Adornment Activate
+TESTER 0 Test 18 success: Potion of Adornment Deactivate
+TESTER 0 Test 19 success: Ring of See Invisible Activate Activate
+TESTER 0 Test 20 success: Ring of See Invisible Activate Deactivate
+TESTER 0 Test 21 success: Ring of Maintain Armor Activate
+TESTER 0 Test 22 success: Ring of Maintain Armor Deactivate
+TESTER 0 Test 23 success: Ring of Searching Activate
+TESTER 0 Test 24 success: Ring of Searching Deactivate
+TESTER # Finished Ring tests.
+TESTER # Commencing Scroll tests...
+TESTER 0 Test 1 success: Created Scroll (1)
+TESTER 0 Test 2 success: Created Scroll (2)
+TESTER 0 Test 3 success: Scroll Name Lengths
+TESTER 0 Test 4 success: Scroll of Protect Armor
+TESTER 0 Test 5 success: Scroll of Hold Monster
+TESTER 0 Test 6 success: Scroll of Enchant Weapon
+TESTER 0 Test 7 success: Scroll of Enchant Armor
+TESTER 0 Test 8 success: Scroll of Identify
+TESTER 0 Test 9 success: Scroll of Teleportation
+TESTER 0 Test 10 success: Scroll of Sleep
+TESTER 0 Test 11 success: Scroll of Scare Monster
+TESTER 0 Test 12 success: Scroll of Remove Curse
+TESTER 0 Test 13 success: Scroll of Create Monster
+TESTER 0 Test 14 success: Scroll of Aggravate Monster
+TESTER 0 Test 15 success: Scroll of Magic Mapping
+TESTER 0 Test 16 success: Scroll of Confuse Monster
+TESTER # Finished Scroll tests.
+TESTER # Commencing Wand tests...
+TESTER 0 Test 1 success: Created Wand (1)
+TESTER 0 Test 2 success: Created Wand (2)
+TESTER 0 Test 3 success: Wand of Teleport Away
+TESTER 0 Test 4 success: Wand of Slow Monster
+TESTER 0 Test 5 success: Wand of Invisibility
+TESTER 0 Test 6 success: Wand of Polymorph
+TESTER 0 Test 7 success: Wand of Haste Monster
+TESTER 0 Test 8 success: Wand of Magic Missile
+TESTER 0 Test 9 success: Wand of Cancellation
+TESTER 0 Test 10 success: Wand of Do Nothing
+TESTER 0 Test 11 success: Wand of Drain Life
+TESTER 0 Test 12 success: Wand of Cold
+TESTER 0 Test 13 success: Wand of Fire
+TESTER # Finished Wand tests.
+TESTER # Commencing Weapon tests...
+TESTER 0 Test 1 success: Created Weapon (1)
+TESTER 0 Test 2 success: Created Weapon (2)
+TESTER 0 Test 3 success: Weapon Identification Test
+TESTER 0 Test 4 success: Weapon Curse Test
+TESTER 0 Test 5 success: Get Weapon Name
+TESTER 0 Test 6 success: Get Weapon Enchantments
+TESTER # Finished Weapon tests.
+TESTER # Testing PlayState
+TESTER 1 Test 1 FAILURE: i key should open inventory
+TESTER 0 Test 2 success: escape key should exit inventory
+TESTER 1 Test 3 FAILURE: movement should place player in correct location
