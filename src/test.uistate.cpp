@@ -6,6 +6,9 @@
  * @brief Global members
  */
 
+#include <iostream>
+#include <typeinfo>
+
 #include "include/coord.h"
 #include "include/playstate.h"
 #include "libtcod/include/libtcod.hpp"
@@ -17,7 +20,7 @@ class UIStateTest : public Testable {
 		UIStateTest() {};
 
 		void test() {
-			comment("Testing PlayState");
+			comment("Testing UIState");
 
 			auto player = new PlayerChar(Coord(10, 10), "Test Char");
 			auto level = new Level(1, player);
@@ -26,13 +29,20 @@ class UIStateTest : public Testable {
 			auto ps = new PlayState(player, level);
 			auto key = TCOD_key_t();
 			key.c = 'i';
-			assert(dynamic_cast<InvScreen*>(ps->handleInput(key)) != NULL, "i key should open inventory");
+			std::cerr << key.c << "\n";
+			std::cerr << (player->hasCondition(PlayerChar::SLEEPING) == true) << "\n";
+			auto iscreen = ps->handleInput(key);
+			std::cerr << typeid(iscreen).name() << "\n";
+			assert(dynamic_cast<InvScreen*>(iscreen) != NULL, "i key should open inventory");
 			key = TCOD_key_t();
 			key.vk = TCODK_ESCAPE;
 			assert(dynamic_cast<PlayState*>(ps->handleInput(key)) != NULL, "escape key should exit inventory");
 			key = TCOD_key_t();
 			key.c = 'y';
 			ps->handleInput(key);
+			std::cerr << player->getLocation().toString() << "\n";
 			assert(player->getLocation() == Coord(9,9), "movement should place player in correct location");
+
+			comment("Finished UIState tests.");
 		}
 };
