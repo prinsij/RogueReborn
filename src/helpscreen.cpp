@@ -36,14 +36,14 @@ void HelpScreen::draw(TCODConsole* con) {
 	std::string hotkeys[] = {".", "/", "<", ">",
 							 "?", "P", "Q", "R", "T", "W",
 							 "d", "e", "i", "o", "q", "r", "s", "t",
-							 "w", "S", "Z"};
+							 "w", "S", "Z", "N"};
 	std::string descs[] = {"Rest", "List symbols", "Ascend stairs", "Descend stairs",
 						   "List commands", "<obj> <hand> Put on ring", "Quit (give up)",
 						   "<hand> Remove ring", "Take off armor", "<obj> Wear armor",
 						   "<obj> Drop object", "<obj> Eat food", "Inventory", "View previous log",
 						   "<obj> Quaff potion", "<obj> Read scroll", "Search for trap or door",
 						   "<dir> <obj> Throw object", "<obj> Wield weapon", "Stow Weapon",
-						   "<dir> <obj> Zap wand"};
+						   "<dir> <obj> Zap wand", "Toggle save"};
 	int i = 0;
 	for (int y = 0; y < 13; y++) {
 		con->print(1, 8 + 2*y, hotkeys[i].c_str());
