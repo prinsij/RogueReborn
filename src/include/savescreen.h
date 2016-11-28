@@ -1,8 +1,17 @@
+/**
+ * @file savescreen.h
+ * @author Team Rogue++
+ * @date November 29, 2016
+ *
+ * @brief Member declarations for the SaveScreen class
+ */ 
+
 #pragma once
 
-#include "uistate.h"
 #include <string>
+
 #include "../libtcod/include/libtcod.hpp"
+#include "uistate.h"
 
 class PlayerChar;
 class Level;

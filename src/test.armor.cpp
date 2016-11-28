@@ -1,7 +1,7 @@
 /**
  * @file test.armor.cpp
  * @author Team Rogue++
- * @date November 14, 2016
+ * @date November 29, 2016
  *
  * @brief Global members
  */ 
@@ -10,8 +10,8 @@
 #include <string>
 #include <vector>
 
-#include "include/playerchar.h"
 #include "include/armor.h"
+#include "include/playerchar.h"
 #include "test.testable.h"
 
 class ArmorTest : public Testable {

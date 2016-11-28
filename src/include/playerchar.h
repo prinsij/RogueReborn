@@ -1,7 +1,7 @@
 /**
  * @file playerchar.h
  * @author Team Rogue++
- * @date November 14, 2016
+ * @date November 29, 2016
  *
  * @brief Member declarations for the PlayerChar class
  */ 
@@ -9,8 +9,8 @@
 #pragma once
 
 #include <string>
-#include <vector>
 #include <tuple>
+#include <vector>
 
 #include "coord.h"
 #include "goldpile.h"
@@ -62,6 +62,9 @@ class PlayerChar : public Mob {
 			SLOWED,
 			STEALTHY,
 			SUSTAIN_STRENGTH};
+
+		/** Clears the current conditions from the PlayerChar (regardless of equipped items) */
+		static void clearConditions();
 
 		/**
 		 * @brief      Activates the provided item
@@ -440,7 +443,7 @@ class PlayerChar : public Mob {
 		 * @return     The PlayerChar's log.
 		 */
 		std::vector<std::string>& getLog();
-		
+
 		/**
 		 * @brief		Gets the save flag.
 		 *

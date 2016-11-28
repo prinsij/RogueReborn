@@ -1,7 +1,7 @@
 /**
  * @file wand.cpp
  * @author Team Rogue++
- * @date November 14, 2016
+ * @date November 29, 2016
  *
  * @brief Member definitions for the Wand class
  */ 
@@ -45,7 +45,7 @@ Wand::Wand(Coord location)
 	: Wand(location, Item::Context::FLOOR, Generator::intFromRange(0, Wand::typeVector.size() - 1)) {}
 
 Wand::Wand(Coord location, Item::Context context, int type)
-	: Item('/', location, context, "Wand", std::get<0>(Wand::typeVector[type]), 
+	: Item('/', location, context, "Wand", std::get<0>(Wand::typeVector[type]),
 			Wand::nameVector[type], type, false, false, WAND_WEIGHT),
 	  charges(Generator::intFromRange(3, 7)) {}
 

@@ -1,18 +1,18 @@
 /**
  * @file statusscreen.cpp
  * @author Team Rogue++
- * @data Novemeber 16, 2016
+ * @date November 29, 2016
  *
  * @brief Member definitions for the StatusScreen class
- */
+ */ 
 
-#include "include/statusscreen.h"
-#include "include/playstate.h"
-#include "include/armor.h"
-#include "include/weapon.h"
-#include "include/playerchar.h"
 #include <string>
 
+#include "include/armor.h"
+#include "include/playerchar.h"
+#include "include/playstate.h"
+#include "include/statusscreen.h"
+#include "include/weapon.h"
 
 StatusScreen::StatusScreen(PlayerChar* pc, Level* lvl)
 	: player(pc)

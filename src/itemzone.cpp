@@ -1,7 +1,7 @@
 /**
  * @file itemzone.cpp
  * @author Team Rogue++
- * @date November 14, 2016
+ * @date November 29, 2016
  *
  * @brief Member definitions for the ItemZone class
  */ 

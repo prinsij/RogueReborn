@@ -1,7 +1,7 @@
 /**
  * @file playstate.h
  * @author Team Rogue++
- * @date November 14, 2016
+ * @date November 29, 2016
  *
  * @brief Member declarations for the PlayState class
  */ 
@@ -36,7 +36,7 @@ class PlayState : public UIState {
 		PlayerChar* player;
 		/** Reference to current dungeon level. */
 		Level* level;
-		/** Log this to the player when they attempt 
+		/** Log this to the player when they attempt
 		 *  an action and fail due to inventory capacity.
 		 */
 		static constexpr auto NO_SPACE_LOG = "You have no space in your inventory",
@@ -101,7 +101,7 @@ class PlayState : public UIState {
 
 		/** Occurs when the player attempts to wear a piece of armor. */
 		UIState* attemptWear(int);
-		
+
 		/** Occurs when the player attempts to wield a weapon. */
 		UIState* attemptWield(int);
 

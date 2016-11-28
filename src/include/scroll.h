@@ -1,7 +1,7 @@
 /**
  * @file scroll.h
  * @author Team Rogue++
- * @date November 14, 2016
+ * @date November 29, 2016
  *
  * @brief Member declarations for the Scroll class
  */ 
@@ -56,11 +56,11 @@ class Scroll : public Item {
 		 * @return     A value reflecting the success of the activation operation.
 		 */
 		std::tuple<bool, UIState*> activate(Level*);
-		
+
 		/**
 		 * Controls whether or not state transitions occur in activate.
 		 */
-		static bool ignoreTransitions; 
+		static bool ignoreTransitions;
 
 	private:
 		/**

@@ -1,7 +1,7 @@
 /**
  * @file ripscreen.cpp
  * @author Team Rogue++
- * @date November 14, 2016
+ * @date November 29, 2016
  *
  * @brief Member definitions for the RIPScreen class
  */ 
@@ -139,7 +139,7 @@ void RIPScreen::draw(TCODConsole* con) {
 		int leafCol = 40 - GRAVE_WIDTH/2 - 2;
 		int flowerCol = 40 - GRAVE_WIDTH/2 - 2;
 		int leafRow = 13;
-		int flowerRow = 12;		 
+		int flowerRow = 12;
 
 		con->print(leafCol, leafRow, leaves.c_str());
 		con->print(flowerCol, flowerRow, flowers.c_str());

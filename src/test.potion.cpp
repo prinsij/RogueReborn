@@ -1,7 +1,7 @@
 /**
  * @file test.potion.cpp
  * @author Team Rogue++
- * @date November 14, 2016
+ * @date November 29, 2016
  *
  * @brief Global members
  */ 
@@ -10,8 +10,8 @@
 #include <string>
 #include <vector>
 
-#include "include/potion.h"
 #include "include/playerchar.h"
+#include "include/potion.h"
 #include "test.testable.h"
 
 class PotionTest : public Testable {

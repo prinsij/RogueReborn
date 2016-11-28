@@ -1,7 +1,7 @@
 /**
  * @file playerchar.cpp
  * @author Team Rogue++
- * @date November 14, 2016
+ * @date November 29, 2016
  *
  * @brief Member definitions for the PlayerChar class
  */ 
@@ -48,7 +48,9 @@ PlayerChar::PlayerChar(Coord location, std::string name)
 	  maxStr(START_STR),
 	  moves(0),
 	  oocTurns(0)
-{}
+	{
+		PlayerChar::clearConditions();
+	}
 
 void PlayerChar::addExp(int exp) {
 	this->exp += exp;
@@ -163,6 +165,10 @@ void PlayerChar::changeMaxStrength(int amount) {
 
 void PlayerChar::changeFoodLife(int amount) {
 	this->setFoodLife(this->foodLife + amount);
+}
+
+void PlayerChar::clearConditions() {
+	PlayerChar::conditions.clear();
 }
 
 void PlayerChar::collectGold(GoldPile* goldpile) {

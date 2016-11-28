@@ -1,7 +1,7 @@
 /**
  * @file scroll.cpp
  * @author Team Rogue++
- * @date November 14, 2016
+ * @date November 29, 2016
  *
  * @brief Member definitions for the Scroll class
  */ 
@@ -81,7 +81,7 @@ Scroll::Scroll(Coord location)
 	: Scroll(location, Item::Context::FLOOR, Generator::intFromRange(0, Scroll::typeVector.size() - 1)) {}
 
 Scroll::Scroll(Coord location, Item::Context context, int type)
-	: Item('?', location, context, "Scroll", std::get<0>(Scroll::typeVector[type]), 
+	: Item('?', location, context, "Scroll", std::get<0>(Scroll::typeVector[type]),
 			Scroll::nameVector[type], type, true, true, SCROLL_WEIGHT) {}
 
 std::tuple<bool, UIState*> Scroll::activate(Level* level) {

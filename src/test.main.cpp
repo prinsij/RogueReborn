@@ -1,7 +1,7 @@
 /**
  * @file test.main.cpp
  * @author Team Rogue++
- * @date November 14.2016
+ * @date November 29, 2016
  *
  * @brief Global members
  */ 
@@ -15,14 +15,14 @@
 #include "test.coord.cpp"
 #include "test.food.cpp"
 #include "test.level.cpp"
-#include "test.potion.cpp"
 #include "test.playerchar.cpp"
+#include "test.potion.cpp"
 #include "test.ring.cpp"
 #include "test.scroll.cpp"
-#include "test.wand.cpp"
-#include "test.weapon.cpp"
 #include "test.testable.h"
 #include "test.uistate.cpp"
+#include "test.wand.cpp"
+#include "test.weapon.cpp"
 
 int main() {
 

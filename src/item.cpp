@@ -1,7 +1,7 @@
 /**
  * @file item.cpp
  * @author Team Rogue++
- * @date November 14, 2016
+ * @date November 29, 2016
  *
  * @brief Member definitions for the Item class
  */ 
@@ -23,7 +23,7 @@ std::vector<std::string> Item::shuffleNameVector(std::vector<std::string> nameVe
 	return nameVector;
 };
 
-Item::Item(char symbol, Coord location, Item::Context context, std::string className, std::string name, 
+Item::Item(char symbol, Coord location, Item::Context context, std::string className, std::string name,
 			std::string pseudoName, int type, bool canStack, bool canThrow, int weight)
 	: Feature(symbol, location, true, Feature::possibleColors[Generator::intFromRange(0, Feature::possibleColors.size()-1)]),
 	  canStack(canStack),
@@ -35,7 +35,7 @@ Item::Item(char symbol, Coord location, Item::Context context, std::string class
 	  type(type),
 	  weight(weight) {}
 
-Item::Item(char symbol, Coord location, Item::Context context, std::string className, std::string name, 
+Item::Item(char symbol, Coord location, Item::Context context, std::string className, std::string name,
 			int type, bool canStack, bool canThrow, int weight)
 	: Item(symbol, location, context, className, name, name, type, canStack, canThrow, weight) {}
 

@@ -1,7 +1,7 @@
 /**
  * @file test.amulet.cpp
  * @author Team Rogue++
- * @date November 14, 2016
+ * @date November 29, 2016
  *
  * @brief Global members
  */ 
@@ -22,7 +22,7 @@ class AmuletTest : public Testable {
 
 			Amulet amuletCon = Amulet(Coord(0,0), Item::FLOOR);
 			assert(true, "Created Amulet");
-			
+
 			comment("Finished Amulet tests.");
 		}
 };

@@ -1,7 +1,7 @@
 /**
  * @file tiles.h
  * @author Team Rogue++
- * @date November 14, 2016
+ * @date November 29, 2016
  *
  * @brief Member declarations for the Corridor, Door, Floor, Wall classes
  */ 
