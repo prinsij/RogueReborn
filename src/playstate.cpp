@@ -22,6 +22,7 @@
 #include "include/helpscreen.h"
 #include "include/invscreen.h"
 #include "include/item.h"
+#include "include/controls.h"
 #include "include/level.h"
 #include "include/logscreen.h"
 #include "include/monster.h"
@@ -1011,11 +1012,11 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 		return this;
 	}
 	// Quitting
-	if (key.c == 'Q') {
+	if (key.c == KEYS::QUIT) {
 		return new QuitPrompt2(player, level);
 	}
 	// view inventory
-	if (key.c == 'i') {
+	if (key.c == KEYS::INV) {
 		return new InvScreen(player, level, [] (Item*) {return true;},
 											[] (Item*, PlayerChar* p, Level* l) {
 													return new PlayState(p, l);
@@ -1023,86 +1024,87 @@ UIState* PlayState::handleInput(TCOD_key_t key) {
 											true);
 	}
 	// view help
-	if (key.c == '?') {
+	if (key.c == KEYS::HELP) {
 		return new HelpScreen(player, level);
 	}
 	// view symbol explanations
-	if (key.c == '/') {
+	if (key.c == KEYS::SYMBOLS) {
 		return new SymbolScreen(player, level);
 	}
 	// view log
-	if (key.c == 'o') {
+	if (key.c == KEYS::LOG) {
 		return new LogScreen(player, level);
 	}
 	// view detailed character info
-	if (key.c == 'c') {
+	if (key.c == KEYS::INFO) {
 		return new StatusScreen(player, level);
 	}
 	// Rest action
-	if (key.c == '.') {
+	if (key.c == KEYS::REST) {
 		level->pushMob(player, turnTime);
 		player->appendLog(REST_MSG);
 		player->update();
 		return this;
 	}
 	// Search for secrets
-	if (key.c == 's') {
+	if (key.c == KEYS::SEARCH) {
 		return attemptSearch(turnTime);
 	}
 	// set the save flag
-	if (key.c == 'N') {
+	if (key.c == KEYS::TOGGLE_SAVE) {
 		return toggleSaveFlag();
 	}
 	// drop item
-	if (key.c == 'd') {
+	if (key.c == KEYS::DROP) {
 		return attemptDrop(turnTime);
 	}
 	// Quaff
-	if (key.c == 'q') {
+	if (key.c == KEYS::QUAFF) {
 		return attemptQuaff(turnTime);
 	}
 	// Read scroll
-	if (key.c == 'r') {
+	if (key.c == KEYS::READ) {
 		return attemptRead(turnTime);
 	}
 	// wield weapon
-	if (key.c == 'w') {
+	if (key.c == KEYS::WIELD) {
 		return attemptWield(turnTime);
 	}
 	// Wear armor
-	if (key.c == 'W') {
+	if (key.c == KEYS::WEAR) {
 		return attemptWear(turnTime);
 	}
 	// Take off armor
-	if (key.c == 'T') {
+	if (key.c == KEYS::TAKEOFF) {
 		return attemptTakeOff(turnTime);
 	}
 	// Remove ring
-	if (key.c == 'R') {
+	if (key.c == KEYS::REMOVE) {
 		return attemptRemove(turnTime);
 	}
 	// Put on ring
-	if (key.c == 'P') {
+	if (key.c == KEYS::PUT) {
 		return attemptPutOn(turnTime);
 	}
 	// stow weapon
-	if (key.c == 'S') {
+	if (key.c == KEYS::STOW) {
+		return attemptStow(turnTime);
 	}
 	// throw item
-	if (key.c == 't') {
+	if (key.c == KEYS::THROW) {
 		return attemptThrow(turnTime);
 	}
 	// use a wand
-	if (key.c == 'Z') {
+	if (key.c == KEYS::ZAP) {
 		return attemptZap(turnTime);
 	}
 	// eat food
-	if (key.c == 'e') {
+	if (key.c == KEYS::EAT) {
 		return attemptEat(turnTime);
 	}
 	// climb some stairs
-	if (key.c == '<' || key.c == '>') {
-		return attemptClimb(key.c == '>');
+	if (key.c == KEYS::ASCEND || key.c == KEYS::DESCEND) {
+		return attemptClimb(key.c == KEYS::DESCEND);
 	}
 	//Arrow/vi controls
 	auto newPos = player->getLocation().copy();
