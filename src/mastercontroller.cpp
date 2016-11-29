@@ -48,6 +48,9 @@ void MasterController::run() {
 		if (currState == NULL) {
 			break;
 		}
+		if (key.c == FULLSCREEN_TOGGLE) {
+			TCODConsole::setFullscreen(!TCODConsole::isFullscreen());
+		}
         TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS, &key, NULL);
 		floatCon->clear();
 		currState->draw(floatCon);

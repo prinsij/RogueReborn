@@ -28,4 +28,6 @@ class MasterController {
 		UIState* currState;
 		/** Max number of frames per second */
 		const int FPS_LIMIT = 60;
+		/** Key to toggle fullscreen. */
+		static constexpr char FULLSCREEN_TOGGLE = '~';
 };
