@@ -18,6 +18,7 @@
 #include "include/amulet.h"
 #include "include/armor.h"
 #include "include/coord.h"
+#include "include/debug.h"
 #include "include/feature.h"
 #include "include/food.h"
 #include "include/globals.h"
@@ -104,7 +105,9 @@ void Level::registerMob(Mob* mob) {
 }
 
 void Level::removeMob(Mob* mob) {
+#ifdef DEBUG
 	std::cout << "removeMob " << mob->getName() << "\n";
+#endif
 	for (auto it=mobs.begin(); it != mobs.end(); ++it) {
 		if (it->mob == mob) {
 			mobs.erase(it);
@@ -257,7 +260,9 @@ void Level::generate() {
 			char monsterSymbol = monsterSymbols[Generator::intFromRange(0, monsterSymbols.size() - 1)];
 
 			Mob* m = new Monster(monsterSymbol, randPos);
+#ifdef DEBUG
 			std::cout << "Creating " << m->getName() << " at: " << randPos.toString() << std::endl;
+#endif
 			registerMob(m);
 		}
 	}
@@ -297,7 +302,9 @@ void Level::generate() {
 							  gen.intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
 			features.push_back(new GoldPile(randPos, gen.intFromRange(1, 35)));
+#ifdef DEBUG
 			std::cout << "Put gold at " << randPos.toString() << std::endl;
+#endif
 			++i;
 		}
 	}
@@ -524,7 +531,9 @@ std::vector<Coord> Level::traceBack(Coord end, Coord start){
 		path.push_back(c_);
 
 		if (current == tiles[current[0]][current[1]].parent){
+#ifdef DEBUG
 			std::cout << "Dead end in trace-back" << std::endl;
+#endif
 			break;
 		}
 
@@ -533,7 +542,9 @@ std::vector<Coord> Level::traceBack(Coord end, Coord start){
 		count++;
 
 		if (count == 500){
+#ifdef DEBUG
 			std::cout << "Path too long! (500)" << std::endl;
+#endif
 			break;
 		}
 	}

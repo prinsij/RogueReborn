@@ -11,6 +11,7 @@
 #include <string>
 
 #include "include/coord.h"
+#include "include/debug.h"
 #include "include/room.h"
 #include "include/tiles.h"
 
@@ -72,10 +73,12 @@ bool Room::touches(Coord c){
 }
 
 void Room::printInfo(int numToDisplay){
+#ifdef DEBUG
 	std::cout << "ROOM " << numToDisplay  << " (" << roomIndex[0] << ", " << roomIndex[1] << ")" << std::endl;
 	std::cout << "Start: " << getPosition1()[0] << ", " << getPosition1()[1]<< std::endl;
 	std::cout << "End: " << getPosition2()[0] << ", " << getPosition2()[1]<< std::endl;
 	std::cout << "~~~~~~~~~~~~~~~~~~" << std::endl << std::endl;
+#endif
 }
 
 void Room::dig(Level& level) {

@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <time.h>
 
+#include "include/debug.h"
 #include "include/food.h"
 #include "include/globals.h"
 #include "include/level.h"
@@ -116,7 +117,9 @@ UIState* MainMenu::handleInput(TCOD_key_t key) {
 				auto pair = decode(line);
 				return new PlayState(std::get<0>(pair), std::get<1>(pair));
 			} else {
+#ifdef DEBUG
 				std::cout << "ERROR OPENING SAVEFILE\n";
+#endif
 				nameBuffer = "ERROR";
 			}
 		}

@@ -13,6 +13,7 @@
 
 #include "include/armor.h"
 #include "include/coord.h"
+#include "include/debug.h"
 #include "include/food.h"
 #include "include/globals.h"
 #include "include/item.h"
@@ -165,7 +166,9 @@ void PlayerChar::changeFoodLife(int amount) {
 }
 
 void PlayerChar::collectGold(GoldPile* goldpile) {
+#ifdef DEBUG
 	std::cout << "# PlayerChar Collected " << goldpile->getQuantity() << " Gold\n";
+#endif
 	this->appendLog("Collected " + std::to_string(goldpile->getQuantity()) + " gold");
 	this->gold += goldpile->getQuantity();
 }
@@ -176,8 +179,9 @@ bool PlayerChar::dropItem(Item* item, Level* level) {
 		this->itemRingRight == item ||
 		this->itemWeapon == item)
 		return false;
-
+#ifdef DEBUG
 	std::cout << "# PlayerChar Dropped Item " << item->getName() << "\n";
+#endif
 
 	this->inventory.remove(item);
 	item->setContext(Item::FLOOR);
@@ -197,35 +201,45 @@ void PlayerChar::dropLevel() {
 }
 
 void PlayerChar::eat(Food* food) {
+#ifdef DEBUG
 	std::cout << "# PlayerChar Ate: " << food->getName() << "\n";
+#endif
 
 	food->activate(this);
 	this->inventory.remove(food);
 }
 
 void PlayerChar::equipArmor(Armor* armor) {
+#ifdef DEBUG
 	std::cout << "# PlayerChar Equipped Armor: " << armor->getName() << "\n";
+#endif
 
 	this->itemArmor = armor;
 	this->armor += armor->getRating();
 }
 
 void PlayerChar::equipRingLeft(Ring* ring) {
+#ifdef DEBUG
 	std::cout << "# PlayerChar Equipped Left Ring: " << ring->getName() << "\n";
+#endif
 
 	ring->activate(this);
 	this->itemRingLeft = ring;
 }
 
 void PlayerChar::equipRingRight(Ring* ring) {
+#ifdef DEBUG
 	std::cout << "# PlayerChar Equipped Right Ring: " << ring->getName() << "\n";
+#endif
 
 	ring->activate(this);
 	this->itemRingRight = ring;
 }
 
 void PlayerChar::equipWeapon(Weapon* weapon) {
+#ifdef DEBUG
 	std::cout << "# PlayerChar Equipped Weapon: " << weapon->getName() << "\n";
+#endif
 
 	this->itemWeapon = weapon;
 
@@ -374,7 +388,9 @@ bool PlayerChar::pickupItem(Item* item) {
 }
 
 void PlayerChar::quaff(Potion* potion, Mob* mob) {
+#ifdef DEBUG
 	std::cout << "# PlayerChar Quaffed " << potion->getName() << "\n";
+#endif
 
 	potion->activate(mob);
 	this->inventory.remove(potion);
@@ -385,7 +401,9 @@ void PlayerChar::raiseLevel() {
 		this->exp = levelExpBounds[this->level - 1];
 		this->level++;
 		this->appendLog("Welcome to level " + std::to_string(this->level));
+#ifdef DEBUG
 		std::cout << "# PlayerChar is now at level " << this->level << "\n";
+#endif
 
 		int deltaHP = Generator::intFromRange(3, 9);
 		this->currentHP += deltaHP;
@@ -400,7 +418,9 @@ bool PlayerChar::removeArmor() {
 		return false;
 	}
 
+#ifdef DEBUG
 	std::cout << "# PlayerChar Removed Armor " << this->itemArmor->getName() << "\n";
+#endif
 
 	this->armor -= this->itemArmor->getRating();
 	this->itemArmor = NULL;
@@ -435,7 +455,9 @@ bool PlayerChar::removeRingLeft() {
 	if (this->itemRingLeft->hasEffect(Item::CURSED)) {
 		return false;
 	}
+#ifdef DEBUG
 	std::cout << "# PlayerChar Removed Left Ring " << this->itemRingLeft->getName() << "\n";
+#endif
 
 	this->itemRingLeft->deactivate(this);
 	this->itemRingLeft = NULL;
@@ -450,7 +472,9 @@ bool PlayerChar::removeRingRight() {
 		return false;
 	}
 
+#ifdef DEBUG
 	std::cout << "# PlayerChar Removed Right Ring " << this->itemRingRight->getName() << "\n";
+#endif
 
 	this->itemRingRight->deactivate(this);
 	this->itemRingRight = NULL;
@@ -465,7 +489,9 @@ bool PlayerChar::removeWeapon() {
 		return false;
 	}
 
+#ifdef DEBUG
 	std::cout << "# PlayerChar Removed Weapon " << this->itemWeapon->getName() << "\n";
+#endif
 
 	this->itemWeapon = NULL;
 
@@ -516,7 +542,9 @@ void PlayerChar::setFoodLife(int foodLife) {
 	}
 
 	if (oldStatus != this->foodStatus) {
+#ifdef DEBUG
 		std::cout << "New Food Message: " << foodMessage << std::endl;
+#endif
 		this->appendLog(foodMessage);
 	}
 }

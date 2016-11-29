@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include "include/armor.h"
+#include "include/debug.h"
 #include "include/playerchar.h"
 #include "include/level.h"
 #include "include/weapon.h"
@@ -53,9 +54,11 @@ tuple<PlayerChar*, Level*> decode(string encoding) {
 	while (getline(ss, segment, ',')) {
 		cells.push_back(segment);
 	}
+#ifdef DEBUG
 	for (auto i : cells) {
 		cout << '\t' << i << "\n";
 	}
+#endif
 	auto player = new PlayerChar(Coord(0,0), "jacoby");
 	player->gold = stoi(cells[0]);
 	player->foodLife = stoi(cells[1]);

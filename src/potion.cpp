@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "include/coord.h"
+#include "include/debug.h"
 #include "include/item.h"
 #include "include/monster.h"
 #include "include/playerchar.h"
@@ -191,7 +192,9 @@ bool Potion::activate(Mob* mob) {
 		player->removeCondition(PlayerChar::BLIND);
 		player->applyCondition(PlayerChar::SEE_INVISIBLE, -1);
 	} else {
+#ifdef DEBUG
 		std::cout << "Invalid Potion Type: " << this->type << "\n";
+#endif
 	}
 
 	return true;

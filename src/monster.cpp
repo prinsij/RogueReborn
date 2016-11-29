@@ -16,6 +16,7 @@
 
 #include "include/armor.h"
 #include "include/coord.h"
+#include "include/debug.h"
 #include "include/globals.h"
 #include "include/mob.h"
 #include "include/monster.h"
@@ -133,8 +134,10 @@ Monster::Monster(char symbol, Coord location)
 			case 'Z':
 				flags.insert(FREEZES);
 				break;
-			default:
+			default:;
+#ifdef DEBUG
 				std::cout << "Discovered invalid flag '" << *flagIt << "'";
+#endif
 		}
 	}
 	level = std::get<5>(monsterTuple);
@@ -250,7 +253,9 @@ void Monster::attackSteal(Level* level) {
 		inventory.remove(stolenItem);	
 
 		player->appendLog("Your supplies feel lighter");
+#ifdef DEBUG
 		std::cout << this->getName() << " stole \"" << stolenItem->getName() << "\"\n";
+#endif
 	
 		delete stolenItem;
 	} else {
@@ -260,7 +265,9 @@ void Monster::attackSteal(Level* level) {
 
 		player->setGold(player->getGold() - stealAmount);
 		player->appendLog("Your purse feels lighter");
+#ifdef DEBUG
 		std::cout << this->getName() << " stole " << stealAmount << " gold\n";
+#endif
 	}
 
 	this->addFlag(DISAPPEAR);

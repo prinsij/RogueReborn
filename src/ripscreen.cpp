@@ -13,6 +13,7 @@
 #include <sstream>
 #include <string>
 
+#include "include/debug.h"
 #include "include/globals.h"
 #include "include/playerchar.h"
 #include "include/random.h"
@@ -57,7 +58,9 @@ struct ScoreItem {
 
 	static bool readItem(std::stringstream& ss, std::string& str) {
 		if (!std::getline(ss, str, DELIM)) {
+#ifdef DEBUG
 			std::cerr << "error parsing score file\n";
+#endif
 			return false;
 		}
 		return true;
@@ -82,12 +85,16 @@ RIPScreen::RIPScreen(PlayerChar* player,
 			try {
 				scores.push_back(ScoreItem::decode(line));
 			} catch (const std::exception& e) {
+#ifdef DEBUG
 				std::cerr << "Error: " << e.what() << " while reading " << SCORE_FILE << "\n";
+#endif
 			}
 		}
 		scoreFile.close();
 	} else {
+#ifdef DEBUG
 		std::cerr << "could not open " << SCORE_FILE << "\n";
+#endif
 	}
 	scores.push_back(ScoreItem(player->getGold()+1000*(int)wasVictory, level->getDepth(), player->getName(), reason));
 	// create if not exist, otherwise append

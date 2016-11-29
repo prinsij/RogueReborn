@@ -1,3 +1,4 @@
+#include "include/debug.h"
 #include "include/savescreen.h"
 #include "include/playerchar.h"
 #include "include/level.h"
@@ -40,7 +41,9 @@ UIState* SaveScreen::handleInput(TCOD_key_t key) {
 			savefile.close();
 			return NULL;
 		} else {
+#ifdef DEBUG
 			std::cout << "FAILED TO OPEN SAVEFILE\n";
+#endif
 		}
 	} else if (key.c) {
 		if (VALID_NAME.find(key.c) != std::string::npos && nameBuffer.size() < NAME_LENGTH) {

@@ -11,6 +11,7 @@
 #include <string>
 
 #include "include/coord.h"
+#include "include/debug.h"
 #include "include/mob.h"
 
 Mob::Mob(char symbol, Coord location)
@@ -88,7 +89,9 @@ void Mob::hit(int damage) {
 
 	this->currentHP -= deltaHP;
 
+#ifdef DEBUG
     std::cout << "# " << this->getName() << " Hit for " << deltaHP << " / " << damage << ". Now at " << currentHP << " HP.\n";
+#endif
 
 	if (this->currentHP <= 0) {
 		this->dead = true;

@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "include/coord.h"
+#include "include/debug.h"
 #include "include/level.h"
 #include "include/random.h"
 #include "include/room.h"
@@ -200,7 +201,9 @@ Coord Tunnel::getDoorPlacement(Room* r, Tunnel::Direction dir){
 			break;
 
 		default:
+#ifdef DEBUG
 			std::cout << "There has been a VERY SERIOUS ERROR" << std::endl;
+#endif
 			return Coord(0,0);
 			break;
 	}
