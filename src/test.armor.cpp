@@ -23,7 +23,7 @@ class ArmorTest : public Testable {
 
 			for (auto i = 0; i < 10; i++){
 				Armor a = Armor(Coord(0,0));
-				assert(a.getRating() > 0, "Armor is meaningful");
+				assert(a.getRating() >= 0, "Armor is meaningful");
 			}
 		}
 };
