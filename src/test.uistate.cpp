@@ -7,7 +7,6 @@
  */ 
 
 #include <iostream>
-#include <typeinfo>
 
 #include "include/coord.h"
 #include "include/invscreen.h"
@@ -29,10 +28,7 @@ class UIStateTest : public Testable {
 			auto ps = new PlayState(player, level);
 			auto key = TCOD_key_t();
 			key.c = 'i';
-			//std::cerr << key.c << "\n";
-			//std::cerr << (player->hasCondition(PlayerChar::SLEEPING) == true) << "\n";
 			auto iscreen = ps->handleInput(key);
-			//std::cerr << typeid(iscreen).name() << "\n";
 			assert(dynamic_cast<InvScreen*>(iscreen) != NULL, "The 'i' key should open inventory");
 			key = TCOD_key_t();
 			key.vk = TCODK_ESCAPE;
@@ -40,7 +36,6 @@ class UIStateTest : public Testable {
 			key = TCOD_key_t();
 			key.c = 'y';
 			ps->handleInput(key);
-			//std::cerr << player->getLocation().toString() << "\n";
 			assert(player->getLocation() == Coord(9,9), "Movement should place player in correct location");
 
 			comment("Finished UIState tests.");
