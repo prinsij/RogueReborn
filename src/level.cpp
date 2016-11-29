@@ -92,8 +92,8 @@ bool Level::contains(Coord pos) {
 	return pos[0] >= 0 && pos[1] >= 0 && pos[0] < size[0] && pos[1] < size[1];
 }
 
-int Level::genGoldAmount(Generator gen) {
-	return 2 + gen.intFromRange(0, 50 + 10 * depth);
+int Level::genGoldAmount() {
+	return 2 + Generator::intFromRange(0, 50 + 10 * depth);
 }
 
 std::vector<Room>& Level::getRooms() {
@@ -166,7 +166,6 @@ std::vector<Mob*> Level::getMobs() {
 
 void Level::generate() {
 
-	Generator gen = Generator();
 	Coord maxRoomSize = Coord(size[0]/3, size[1]/3);
 	for (auto i=0; i < MAX_ROOMS; i++) {
 
@@ -179,38 +178,27 @@ void Level::generate() {
 		Coord legalTopLeft = totalTopLeft + padding;
 		Coord legalBottomRight = totalTopLeft + maxRoomSize - padding - Coord(1,1);
 
-		Coord roomSize = Coord( gen.intFromRange(MIN_ROOM_DIM, legalBottomRight[0] - legalTopLeft[0] + 1),
-								gen.intFromRange(MIN_ROOM_DIM, legalBottomRight[1] - legalTopLeft[1] + 1));
+		Coord roomSize = Coord( Generator::intFromRange(MIN_ROOM_DIM, legalBottomRight[0] - legalTopLeft[0] + 1),
+								Generator::intFromRange(MIN_ROOM_DIM, legalBottomRight[1] - legalTopLeft[1] + 1));
 
 		bool dne = false;
 
 		//If room DNE, set its size to 1x1
-		if (gen.rand() > ROOM_EXIST_CHANCE){
+		if (Generator::rand() > ROOM_EXIST_CHANCE){
 			roomSize = Coord(1,1);
 			dne = true;
 		}
 
-		Coord roomPosition = Coord( gen.intFromRange(legalTopLeft[0], legalBottomRight[0] - roomSize[0] + 1),
-							  gen.intFromRange(legalTopLeft[1], legalBottomRight[1] - roomSize[1] + 1));
+		Coord roomPosition = Coord( Generator::intFromRange(legalTopLeft[0], legalBottomRight[0] - roomSize[0] + 1),
+							  Generator::intFromRange(legalTopLeft[1], legalBottomRight[1] - roomSize[1] + 1));
 
 		//Really not sure what the purpose of this line is. Why is this being decided randomly?
-		Room::Darkness isDark = gen.intFromRange(0, 10) < depth - 1 ? Room::DARK : Room::LIT;
+		Room::Darkness isDark = Generator::intFromRange(0, 10) < depth - 1 ? Room::DARK : Room::LIT;
 
 
 		Room curRoom = Room(roomPosition, roomPosition + roomSize - Coord(1,1), isDark, Room::WORTHLESS, Room::VISIBLE, Coord(i%3, i/3), !dne);
 
 		curRoom.dig(*this);
-
-		/*
-
-		//put gold in current room
-		if (!dne && gen() < GOLD_CHANCE && (!player.hasAmulet() || depth >= player.maxDelved())) {
-			Coord goldPos = gen.randPosition(curRoom[0], curRoom[1]);
-			int goldAmount = genGoldAmount(gen);
-			golds.push_back(GoldPile(goldPos, goldAmount));
-		}
-
-		*/
 
 		//put monsters in current room
 		rooms.push_back(curRoom);
@@ -226,25 +214,25 @@ void Level::generate() {
 		//Down
 		j = i + 3;
 		if (j <= 8){
-			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i], gen);
+			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i]);
 		}
 
 		//Up
 		j = i - 3;
 		if (j >= 0){
-			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i], gen);
+			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i]);
 		}
 
 		//Left
 		j = i - 1;
 		if (j >= 0 && i / 3 == j / 3){
-			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i], gen);
+			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i]);
 		}
 
 		//Right
 		j = i + 1;
 		if (j >= 0 && i / 3 == j / 3){
-			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i], gen);
+			addTunnel(i, j, &symmetric[i][j], &symmetric[j][i]);
 		}
 	}
 
@@ -253,8 +241,8 @@ void Level::generate() {
 	}
 	// Place mobs
 	for (int i=0; i < 40; i++) {
-		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
-							  gen.intFromRange(0, Y_SIZE-1));
+		Coord randPos = Coord(Generator::intFromRange(0, X_SIZE-1),
+							  Generator::intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable && !monsterAt(randPos)) {
 			std::vector<char> monsterSymbols = Monster::getSymbolsForLevel(depth);
 			char monsterSymbol = monsterSymbols[Generator::intFromRange(0, monsterSymbols.size() - 1)];
@@ -268,8 +256,8 @@ void Level::generate() {
 	}
 	// Place staircase
 	while (true) {
-		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
-							  gen.intFromRange(0, Y_SIZE-1));
+		Coord randPos = Coord(Generator::intFromRange(0, X_SIZE-1),
+							  Generator::intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
 			for (Room& r : rooms) {
 				if (r.contains(randPos)) {
@@ -284,8 +272,8 @@ void Level::generate() {
 		Coord randPos;
 		do {
 			try_again:;
-			randPos = Coord(gen.intFromRange(0, X_SIZE-1),
-							  gen.intFromRange(0, Y_SIZE-1));
+			randPos = Coord(Generator::intFromRange(0, X_SIZE-1),
+							  Generator::intFromRange(0, Y_SIZE-1));
 			for (auto feat : features) {
 				if (feat->getLocation() == randPos) {
 					goto try_again;
@@ -298,10 +286,10 @@ void Level::generate() {
 	// Place gold
 	int i = 0;
 	while (i < THINGS_PER_KIND) {
-		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
-							  gen.intFromRange(0, Y_SIZE-1));
+		Coord randPos = Coord(Generator::intFromRange(0, X_SIZE-1),
+							  Generator::intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
-			features.push_back(new GoldPile(randPos, gen.intFromRange(1, 35)));
+			features.push_back(new GoldPile(randPos, Generator::intFromRange(1, 35*depth)));
 #ifdef DEBUG
 			std::cout << "Put gold at " << randPos.toString() << std::endl;
 #endif
@@ -310,8 +298,8 @@ void Level::generate() {
 	}
 	i = 0;
 	while (i < THINGS_PER_KIND) {
-		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
-							  gen.intFromRange(0, Y_SIZE-1));
+		Coord randPos = Coord(Generator::intFromRange(0, X_SIZE-1),
+							  Generator::intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
 			features.push_back(new Potion(randPos));
 			++i;
@@ -319,8 +307,8 @@ void Level::generate() {
 	}
 	i = 0;
 	while (i < THINGS_PER_KIND) {
-		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
-							  gen.intFromRange(0, Y_SIZE-1));
+		Coord randPos = Coord(Generator::intFromRange(0, X_SIZE-1),
+							  Generator::intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
 			features.push_back(new Trap(randPos, Generator::intFromRange(0, Trap::MAX_TYPE), false));
 			++i;
@@ -328,8 +316,8 @@ void Level::generate() {
 	}
 	i = 0;
 	while (i < THINGS_PER_KIND) {
-		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
-							  gen.intFromRange(0, Y_SIZE-1));
+		Coord randPos = Coord(Generator::intFromRange(0, X_SIZE-1),
+							  Generator::intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
 			features.push_back(new Food(randPos, Item::FLOOR));
 			++i;
@@ -337,8 +325,8 @@ void Level::generate() {
 	}
 	i = 0;
 	while (i < THINGS_PER_KIND) {
-		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
-							  gen.intFromRange(0, Y_SIZE-1));
+		Coord randPos = Coord(Generator::intFromRange(0, X_SIZE-1),
+							  Generator::intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
 			features.push_back(new Ring(randPos));
 			++i;
@@ -346,8 +334,8 @@ void Level::generate() {
 	}
 	i = 0;
 	while (i < THINGS_PER_KIND) {
-		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
-							  gen.intFromRange(0, Y_SIZE-1));
+		Coord randPos = Coord(Generator::intFromRange(0, X_SIZE-1),
+							  Generator::intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
 			features.push_back(new Armor(randPos));
 			++i;
@@ -355,8 +343,8 @@ void Level::generate() {
 	}
 	i = 0;
 	while (i < THINGS_PER_KIND) {
-		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
-							  gen.intFromRange(0, Y_SIZE-1));
+		Coord randPos = Coord(Generator::intFromRange(0, X_SIZE-1),
+							  Generator::intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
 			features.push_back(new Weapon(randPos));
 			++i;
@@ -364,8 +352,8 @@ void Level::generate() {
 	}
 	i = 0;
 	while (i < THINGS_PER_KIND) {
-		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
-							  gen.intFromRange(0, Y_SIZE-1));
+		Coord randPos = Coord(Generator::intFromRange(0, X_SIZE-1),
+							  Generator::intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
 			features.push_back(new Wand(randPos));
 			++i;
@@ -373,8 +361,8 @@ void Level::generate() {
 	}
 	i = 0;
 	while (i < THINGS_PER_KIND) {
-		Coord randPos = Coord(gen.intFromRange(0, X_SIZE-1),
-							  gen.intFromRange(0, Y_SIZE-1));
+		Coord randPos = Coord(Generator::intFromRange(0, X_SIZE-1),
+							  Generator::intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
 			features.push_back(new Scroll(randPos));
 			++i;
@@ -383,11 +371,11 @@ void Level::generate() {
 	this->placePlayerInStartingPosition();
 }
 
-void Level::addTunnel(int i, int j, bool* a, bool* b, Generator gen){
+void Level::addTunnel(int i, int j, bool* a, bool* b){
 	if (!(*a)){
 		*a = true;
 		*b = true;
-		tunnels.push_back(Tunnel(&rooms[i], &rooms[j], gen));
+		tunnels.push_back(Tunnel(&rooms[i], &rooms[j]));
 	}
 }
 
@@ -545,7 +533,8 @@ std::vector<Coord> Level::traceBack(Coord end, Coord start){
 #ifdef DEBUG
 			std::cout << "Path too long! (500)" << std::endl;
 #endif
-			break;
+			std::vector<Coord> nothing;
+			return nothing;//This used to just break. returning it MAY screw up the tunnel tests. Consult Ori Almog
 		}
 	}
 

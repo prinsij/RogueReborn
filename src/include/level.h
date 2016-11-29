@@ -288,7 +288,7 @@ class Level {
 		 */
 		std::vector<Feature*> features;
 
-		int genGoldAmount(Generator);
+		int genGoldAmount();
 
 		/**
 		 * @brief      Adds a tunnel.
@@ -299,7 +299,7 @@ class Level {
 		 * @param  bool*		Maintainer of tunnel transitivity property for B
 		 * @param  Generator	A generator to pass around (Might not need this anymore)
 		 */
-		void addTunnel(int, int, bool*, bool*, Generator);
+		void addTunnel(int, int, bool*, bool*);
 		Coord size;
 		int depth;
 

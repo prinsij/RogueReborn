@@ -32,9 +32,8 @@ class Tunnel {
 		 *
 		 * @param      Room*  The room to go FROM
 		 * @param      Room*  The room to go TO
-		 * @param      Generator  The random generator to use
 		 */
-		Tunnel(Room*, Room*, Generator);
+		Tunnel(Room*, Room*);
 
 		/**
 		 * @brief      Digs the specified tunnel in the given level
@@ -50,5 +49,4 @@ class Tunnel {
 		Coord posPlusDir(Coord, Tunnel::Direction);
 		Room* p;
 		Room* q;
-		Generator gen;
 };
