@@ -60,5 +60,5 @@ class ItemZone {
 		/** Return struct corresponding to given item. */
 		std::vector<Item*>* getItem(Item&);
 		/** Max weight of all inventory contents. */
-		static constexpr int MAX_WEIGHT = 35;
+		static constexpr int MAX_WEIGHT = 55;
 };
