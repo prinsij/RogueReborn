@@ -1,2 +1,0 @@
-#!/bin/bash
-for FILENAME in *.cpp; do mv $FILENAME src.$FILENAME; done

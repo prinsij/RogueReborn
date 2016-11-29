@@ -1,5 +1,0 @@
-#!/bin/bash
-if [ -d ".srcstore" ]; then
-	rm -f *.cpp
-	cp .srcstore/*.cpp .
-fi
