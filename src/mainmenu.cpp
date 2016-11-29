@@ -21,6 +21,7 @@
 #include "include/potion.h"
 #include "include/saving.h"
 #include "include/uistate.h"
+#include "include/wand.h"
 #include "include/weapon.h"
 #include "include/wizard.h"
 #include "libtcod/include/libtcod.hpp"
@@ -139,5 +140,6 @@ void MainMenu::setupPlayer(PlayerChar* player) {
 	player->pickupItem(new Potion(Coord(0,0)));
 #ifdef URAWIZARD
 	player->pickupItem(new Potion(Coord(0,0), Item::Context::INVENTORY, 7)); // halluc
+	player->pickupItem(new Wand(Coord(0,0), Item::Context::INVENTORY, 3)); // polymorph
 #endif
 }
