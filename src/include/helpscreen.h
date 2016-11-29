@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include <string>
+
 #include "../libtcod/include/libtcod.hpp"
 #include "uistate.h"
 
@@ -31,4 +33,8 @@ class HelpScreen : public UIState {
 		PlayerChar* player;
 		/** Reference to the level for when the game resumes. */
 		Level* level;
+		/** List of all hotkeys in the game. */
+		static const char hotkeys[];
+		/** Describes the commands that correspond to the hotkeys. */
+		static const std::string descs[];
 };
