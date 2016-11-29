@@ -935,6 +935,18 @@ void PlayState::handleWizardry(TCOD_key_t key) {
 			mob->setLocation(level->getRandomEmptyPosition());
 			level->registerMob(mob);
 		}
+	} else if (key.c == 'E') {
+		if (currRoom != NULL) {
+			Coord randPos;
+			int i = 0;
+			do {
+				randPos = Generator::randPosition(currRoom->getPosition1(), 
+												  currRoom->getPosition2());
+			} while (level->monsterAt(randPos) != NULL && ++i < 30);
+			if (i < 30) {
+				level->registerMob(new Monster('E', randPos));
+			}
+		}
 	} else if (key.c == '=') {
 		for (auto& pair : player->getInventory().getContents()) {
 			pair.second.front()->setIdentified(true);
