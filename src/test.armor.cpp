@@ -21,12 +21,9 @@ class ArmorTest : public Testable {
 
 			comment("Testing armor!");
 
-			assert(true, "");
-			assert(true, "");
-			assert(true, "");
-
-			assert(true, "");
-			assert(true, "");
-			assert(true, "");
+			for (auto i = 0; i < 10; i++){
+				Armor a = Armor(Coord(0,0));
+				assert(a.getRating() > 0, "Armor is meaningful");
+			}
 		}
 };
