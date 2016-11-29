@@ -19,7 +19,7 @@
 .idea/*
 
 # Score record file
-scores.txt
+#scores.txt
 
 # Boost
 src/boost_1_62_0/*
