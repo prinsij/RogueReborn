@@ -56,6 +56,11 @@ class Scroll : public Item {
 		 * @return     A value reflecting the success of the activation operation.
 		 */
 		std::tuple<bool, UIState*> activate(Level*);
+		
+		/**
+		 * Controls whether or not state transitions occur in activate.
+		 */
+		static bool ignoreTransitions; 
 
 	private:
 		/**

@@ -17,11 +17,14 @@
 using RING_TUPLE_TYPE = std::tuple<std::string>;
 
 class Level;
+class RingTest;
 
 /**
  * Represents rings.
  */
 class Ring : public Item {
+	friend RingTest;
+	
 	public:
 		/**
 		 * @brief      Constructs a Ring instance with a random type.

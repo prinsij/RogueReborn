@@ -14,10 +14,14 @@
 #include "item.h"
 #include "playerchar.h"
 
+class FoodTest;
+
 /**
  * Represents food.
  */
 class Food : public Item {
+	friend FoodTest;
+	
 	public:
 		/**
 		 * @brief      Constructs a Food instance.
@@ -38,13 +42,13 @@ class Food : public Item {
 
 	private:
 		/** Lower bound of food effect */
-		int FOOD_LOW = 750;
+		static const int FOOD_LOW = 750;
 
 		/** Middle bound of food effect */
-		int FOOD_MIDDLE = 950;
+		static const int FOOD_MIDDLE = 950;
 
 		/** Upper bound of food effect */
-		int FOOD_HIGH = 1150;
+		static const int FOOD_HIGH = 1150;
 
 		/** All food weighs the following value */
 		static constexpr int FOOD_WEIGHT = 2;

@@ -14,7 +14,7 @@
 
 class Testable {
 	public:
-		virtual void test() = 0;
+		virtual void test();
 
 		void assert(bool condition, std::string comment);
 
@@ -22,5 +22,6 @@ class Testable {
 
 	private:
 		int count = 0;
+
 		bool onlyShowFailures = false;
 };
