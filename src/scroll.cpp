@@ -7,6 +7,7 @@
  */ 
 
 #include <algorithm>
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -24,6 +25,7 @@
 #include "include/terrain.h"
 #include "include/uistate.h"
 #include "include/weapon.h"
+#include "test.testable.h"
 
 std::vector<SCROLL_TUPLE_TYPE > Scroll::typeVector = {
 	SCROLL_TUPLE_TYPE {"Scroll of Protect Armor"},
@@ -51,6 +53,8 @@ std::vector<std::string> Scroll::syllableVector = {
 	"Ichi", "Tims", "Ogr", "Oo", "Ighr",
 	"Coph", "Swerr", "Mihln", "Poxi"
 };
+
+bool Scroll::ignoreTransitions = false;
 
 std::vector<std::string> Scroll::nameVector = Scroll::initializeScrollNames();
 
@@ -85,7 +89,7 @@ std::tuple<bool, UIState*> Scroll::activate(Level* level) {
 
 	PlayerChar* player = level->getPlayer();
 
-	UIState* nextState = new PlayState(player, level);
+	UIState* nextState = Scroll::ignoreTransitions ? NULL : new PlayState(player, level);
 
 	// Protect Armor
 	if (this->type == 0) {
@@ -161,14 +165,16 @@ std::tuple<bool, UIState*> Scroll::activate(Level* level) {
 		player->appendLog("This is a scroll of identify");
 		for (auto pair : player->getInventory().getContents()) {
 			if (!pair.second.front()->isIdentified()) {
-				delete nextState;
-				nextState = new InvScreen(player, level, [] (Item* i) {return !i->isIdentified();},
+				if (!Scroll::ignoreTransitions) {
+					delete nextState;
+					nextState = new InvScreen(player, level, [] (Item* i) {return !i->isIdentified();},
 														  [] (Item* i, PlayerChar* p, Level* l) {
 																i->setIdentified(true);
 																return new PlayState(p, l);
 															},
 															false,
 															"Choose an item to identify");
+				}
 			}
 		}
 

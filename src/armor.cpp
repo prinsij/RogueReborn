@@ -40,6 +40,8 @@ Armor::Armor(Coord location, Item::Context context, int type)
 		} else if (chance <= 33) {
 			this->enchantProtection += Generator::intFromRange(0, 3);
 		}
+		
+		this->setIdentified(true);
 	}
 
 int Armor::getEnchantment() {
@@ -52,4 +54,10 @@ int Armor::getRating() {
 
 void Armor::setEnchantment(int enchantProtection) {
 	this->enchantProtection = enchantProtection;
+
+	if (enchantProtection < 0) {
+		this->applyEffect(Item::CURSED);
+	} else {
+		this->removeEffect(Item::CURSED);
+	}
 }

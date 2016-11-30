@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 
+#include "include/playerchar.h"
 #include "include/armor.h"
 #include "test.testable.h"
 
@@ -18,12 +19,21 @@ class ArmorTest : public Testable {
 		ArmorTest(){}
 
 		void test(){
+			comment("Commencing Armor tests...");
 
-			comment("Testing armor!");
+			Armor armorCon = Armor(Coord(0,0));
+			assert(true, "Created Armor (1)");
+			Armor armorCon2 = Armor(Coord(0,0), Item::FLOOR, 0);
+			assert(true, "Created Armor (2)");
 
-			for (auto i = 0; i < 10; i++){
-				Armor a = Armor(Coord(0,0));
-				assert(a.getRating() >= 0, "Armor is meaningful");
-			}
+			Armor armor = Armor(Coord(0,0), Item::FLOOR, 1);
+			armor.setEnchantment(-4);
+
+			assert (armor.isIdentified(), "Armor Identification Test");
+			assert (armor.hasEffect(Item::CURSED), "Armor Curse Test");
+			assert (armor.getEnchantment() == -4, "Get Armor Enchantment");
+			assert (armor.getRating() == 3 - 4, "Get Armor Rating");
+
+			comment("Finished Armor tests.");
 		}
 };

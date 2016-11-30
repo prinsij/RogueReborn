@@ -1,7 +1,4 @@
-0,1,Ian,Killed by a Kestrel
-43,2,Urist,retired
-94,4,mel gibson,Killed by a Orc
-524,12,Mikhail,Starved to death
-640,17,Ferris B,Killed by a Quagga
-805,24,Ori,Killed by a Dragon
-1967,1,S Smith,Retrieved the Amulet of Yendor
+0,0,wtf man,retired
+0,0,Sup,Killed by a Kestral
+67,2,Hello,Killed by a Zombie
+34,2,sdasads,Killed by a Zombie

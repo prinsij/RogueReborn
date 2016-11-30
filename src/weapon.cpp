@@ -38,6 +38,9 @@ Weapon::Weapon(Coord location, Item::Context context, int type)
 	int iterations = Generator::intFromRange(1, 3);
 	int increment = 0;
 
+	this->enchantHit = 0;
+	this->enchantDamage = 0;
+
 	if (chance <= 16) {
 		increment = -1;
 		this->applyEffect(Item::CURSED);

@@ -10,6 +10,7 @@ build:
       - src/
   script:
     - cd src/
+    - make clean
     - make
     - cd ..
 test:

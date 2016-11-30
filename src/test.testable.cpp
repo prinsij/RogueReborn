@@ -13,10 +13,10 @@
 #include "test.testable.h"
 
 void Testable::assert(bool condition, std::string comment) {
-	if (condition && !onlyShowFailures){
-		std::cout << "TESTER 0 Test " << std::to_string(++count) << " success: " << comment << std::endl;
-	} else {
+	if (!condition){
 		std::cout << "TESTER 1 Test " << std::to_string(++count) << " FAILURE: " << comment << std::endl;
+	} else if (!onlyShowFailures) {
+		std::cout << "TESTER 0 Test " << std::to_string(++count) << " success: " << comment << std::endl;
 	}
 }
 
@@ -26,4 +26,7 @@ void Testable::comment(std::string comment){
 	}
 }
 
+void Testable::test() {
+	std::cout << "TESTER # Test is not implemented yet." << std::endl;
+}
 Testable::~Testable(){}
