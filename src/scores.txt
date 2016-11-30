@@ -3,3 +3,5 @@
 67,2,Hello,Killed by a Zombie
 34,2,sdasads,Killed by a Zombie
 18,1,asd,Killed by a Hobgoblin
+0,1,Chris,Killed by a Hobgoblin
+1000,1,Ian,Retrieved the Amulet of Yendor

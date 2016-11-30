@@ -45,7 +45,7 @@ int main() {
 	tests.push_back(new LevelTest());
 	tests.push_back(new MobTest());
 	tests.push_back(new MonsterTest());
-	//tests.push_back(new PlayerCharTest());
+	tests.push_back(new PlayerCharTest());
 	tests.push_back(new PotionTest());
 	tests.push_back(new RingTest());
 	tests.push_back(new ScrollTest());
