@@ -18,17 +18,17 @@
 
 int main(){
 
-	ArmorTest a = ArmorTest();
-	a.test();
+	std::vector<Testable*> tests;
 
-	LevelTest l = LevelTest();
-	l.test();
+	tests.push_back(new ArmorTest());
+	tests.push_back(new CoordTest());
+	tests.push_back(new PlayerCharTest());
+	tests.push_back(new LevelTest());
 
-	PlayerCharTest pc = PlayerCharTest();
-	pc.test();
-
-	CoordTest ct = CoordTest();
-	ct.test();
+	for (Testable* t : tests){
+		t->test();
+		delete t;
+	}
 
 	return 0;
 }

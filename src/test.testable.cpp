@@ -25,3 +25,5 @@ void Testable::comment(std::string comment){
 		std::cout << "TESTER # " << comment << std::endl;
 	}
 }
+
+Testable::~Testable(){}
