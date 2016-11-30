@@ -165,6 +165,10 @@ void PlayerChar::changeFoodLife(int amount) {
 	this->setFoodLife(this->foodLife + amount);
 }
 
+void PlayerChar::clearConditions() {
+	PlayerChar::conditions.clear();
+}
+
 void PlayerChar::collectGold(GoldPile* goldpile) {
 #ifdef DEBUG
 	std::cout << "# PlayerChar Collected " << goldpile->getQuantity() << " Gold\n";

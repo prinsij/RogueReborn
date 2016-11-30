@@ -62,7 +62,10 @@ class PlayerChar : public Mob {
 			SLOWED,
 			STEALTHY,
 			SUSTAIN_STRENGTH};
-
+	
+		/** Clears the current conditions from the PlayerChar (regardless of equipped items) */
+		static void clearConditions();
+		
 		/**
 		 * @brief      Activates the provided item
 		 *
@@ -462,7 +465,7 @@ class PlayerChar : public Mob {
 	private:
 		/** Possible food states of the PlayerChar */
 		enum FoodStates {FULL, HUNGRY, WEAK, FAINT, STARVE};
-
+	
 		/** Current conditions acting upon the player (<Condition, Steps Left>) */
 		static std::map<Condition, int> conditions;
 

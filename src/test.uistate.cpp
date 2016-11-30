@@ -22,6 +22,7 @@ class UIStateTest : public Testable {
 		void test() {
 			comment("Testing UIState");
 
+			PlayerChar::clearConditions();
 			auto player = new PlayerChar(Coord(10, 10), "Test Char");
 			auto level = new Level(1, player);
 			level->registerMob(player);
