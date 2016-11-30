@@ -73,53 +73,8 @@ void Tunnel::dig(Level& level){
 
 	Coord target = posPlusDir(qDoor, dir);
 	Coord start = posPlusDir(pDoor, flip(dir));
-
-	//std::vector<Coord> path;
-
+	
 	std::vector<Coord> path = level.bfsPerp(start, target);
-
-	/*
-
-	//Coord nextPos = start.copy();
-	Coord current = start.copy();
-
-	std::vector<std::vector<double> > map;
-	for (auto x=0; x < level.getSize()[0]; x++) {
-		map.push_back(std::vector<double>());
-		for (auto y=0; y < level.getSize()[1]; y++) {
-			map[x].push_back(sqrt(
-				(target[0] - x)*(target[0] - x)+
-				(target[1] - y)*(target[1] - y)
-				));
-		}
-	}
-
-	int counter = 0;
-
-	do {
-
-		Coord delta = findNextStep(current, map);
-
-		//By some random chance AND it's not the first step
-		if (gen() < TUNNEL_CONFUSION && counter != 0){
-			delta *= -1;
-		}
-
-		//TODO: This is fine, but after the shuffle it might still break!
-		if (!p->touches(current + delta) && !q->touches(current + delta)){
-			path.push_back(delta);
-			current += delta;
-		}
-
-		counter++;
-
-	} while (current != target || counter > 5000);
-
-	*/
-
-
-	//Haha! Who knows why this works >:)
-	//gen.shuffle(&path);
 
 	for (Coord piece : path){
 		level[piece] = Floor();
