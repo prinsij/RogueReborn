@@ -1,13 +1,22 @@
-#include "include/debug.h"
-#include "include/savescreen.h"
-#include "include/playerchar.h"
-#include "include/level.h"
-#include "include/playstate.h"
-#include "include/globals.h"
-#include <string>
+/**
+ * @file savescreen.cpp
+ * @author Team Rogue++
+ * @date November 29, 2016
+ *
+ * @brief Member definitions for the SaveScreen class
+ */ 
+
 #include <fstream>
 #include <iostream>
+#include <string>
 #include <time.h>
+
+#include "include/debug.h"
+#include "include/globals.h"
+#include "include/level.h"
+#include "include/playerchar.h"
+#include "include/playstate.h"
+#include "include/savescreen.h"
 #include "include/saving.h"
 
 const std::string SaveScreen::PROMPT = "Enter save file: ";
@@ -51,7 +60,7 @@ UIState* SaveScreen::handleInput(TCOD_key_t key) {
 		}
 	}
 	if (key.vk == TCODK_BACKSPACE && nameBuffer.size() > 0) {
-		nameBuffer.resize(nameBuffer.size()-1); 
+		nameBuffer.resize(nameBuffer.size()-1);
 	}
 	return this;
 }

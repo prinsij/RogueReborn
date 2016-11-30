@@ -1,7 +1,7 @@
 /**
  * @file armor.cpp
  * @author Team Rogue++
- * @date November 14, 2016
+ * @date November 29, 2016
  *
  * @brief Member definitions for the Armor class
  */ 
@@ -40,7 +40,7 @@ Armor::Armor(Coord location, Item::Context context, int type)
 		} else if (chance <= 33) {
 			this->enchantProtection += Generator::intFromRange(0, 3);
 		}
-		
+
 		this->setIdentified(true);
 	}
 

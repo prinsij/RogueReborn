@@ -1,15 +1,15 @@
 /**
  * @file playstate.cpp
  * @author Team Rogue++
- * @date November 14, 2016
+ * @date November 29, 2016
  *
  * @brief Member definitions for the PlayState class
  */ 
 
 #include <algorithm>
 #include <assert.h>
-#include <math.h>
 #include <iostream>
+#include <math.h>
 #include <string>
 #include <sys/time.h>
 #include <time.h>
@@ -18,7 +18,6 @@
 #include "include/feature.h"
 #include "include/food.h"
 #include "include/globals.h"
-#include "include/wizard.h"
 #include "include/goldpile.h"
 #include "include/helpscreen.h"
 #include "include/invscreen.h"
@@ -31,17 +30,18 @@
 #include "include/potion.h"
 #include "include/ring.h"
 #include "include/ripscreen.h"
-#include "include/scroll.h"
 #include "include/savescreen.h"
+#include "include/scroll.h"
 #include "include/stairs.h"
 #include "include/statusscreen.h"
 #include "include/symbolscreen.h"
-#include "include/trap.h"
 #include "include/tiles.h"
+#include "include/trap.h"
 #include "include/uistate.h"
 #include "include/wand.h"
 #include "include/weapon.h"
 #include "include/weapon.h"
+#include "include/wizard.h"
 #include "libtcod/include/libtcod.hpp"
 
 class QuitPrompt2 : public PlayState {
@@ -364,11 +364,11 @@ void PlayState::draw(TCODConsole* con) {
 					}
 				}
 				if (player->hasCondition(PlayerChar::HALLUCINATING)) {
-					con->setCharForeground(scrPos[0], scrPos[1], 
-											TCODColor::lerp(TCODColor::orange, TCODColor::purple, 
+					con->setCharForeground(scrPos[0], scrPos[1],
+											TCODColor::lerp(TCODColor::orange, TCODColor::purple,
 															0.5+0.45*std::cos((milli+scrPos[0]*100)/200.0)));
-					con->setCharBackground(scrPos[0], scrPos[1], 
-											TCODColor::lerp(TCODColor::cyan, TCODColor::yellow, 
+					con->setCharBackground(scrPos[0], scrPos[1],
+											TCODColor::lerp(TCODColor::cyan, TCODColor::yellow,
 															0.5+0.45*std::cos((milli+scrPos[1]*100)/200.0)));
 				}
 			}
@@ -402,7 +402,7 @@ void PlayState::draw(TCODConsole* con) {
 }
 
 template<typename T>
-UIState* PlayState::attemptUse(std::string error, std::string invPrompt, 
+UIState* PlayState::attemptUse(std::string error, std::string invPrompt,
 								std::function<bool(Item*)> filter,
 								std::function<UIState*(T*)> makeUseOf) {
 	for (auto pair : player->getInventory().getContents()) {
@@ -429,7 +429,7 @@ UIState* PlayState::attemptWear(int turnTime) {
 		Armor* armor = dynamic_cast<Armor*>(pair.second.front());
 		if (armor != NULL) {
 			level->pushMob(player, turnTime);
-			return new InvScreen(player, level, 
+			return new InvScreen(player, level,
 									[] (Item* i) {return dynamic_cast<Armor*>(i)!=NULL;},
 									[] (Item* i, PlayerChar* p, Level* l) {
 										return new QuickUse<Armor>(p, l, i,
@@ -940,7 +940,7 @@ void PlayState::handleWizardry(TCOD_key_t key) {
 			Coord randPos;
 			int i = 0;
 			do {
-				randPos = Generator::randPosition(currRoom->getPosition1(), 
+				randPos = Generator::randPosition(currRoom->getPosition1(),
 												  currRoom->getPosition2());
 			} while (level->monsterAt(randPos) != NULL && ++i < 30);
 			if (i < 30) {
@@ -958,7 +958,7 @@ void PlayState::handleWizardry(TCOD_key_t key) {
 					level->addFeature(Trap::randomTrap(Coord(x,y)));
 				}
 			}
-		}	
+		}
 	}
 }
 

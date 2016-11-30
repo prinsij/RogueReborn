@@ -1,7 +1,7 @@
 /**
- * @file test.%s.cpp
+ * @file test.scroll.cpp
  * @author Team Rogue++
- * @date November 14, 2016
+ * @date November 29, 2016
  *
  * @brief Global members
  */ 
@@ -39,7 +39,7 @@ class ScrollTest : public Testable {
 				goodLength = goodLength && scrollName.length() >= 20;
 			}
 			assert(goodLength, "Scroll Name Lengths");
-			
+
 			std::vector<Scroll> scrolls;
 
 			for (int i = 0 ; i < 13 ; ++i) {
@@ -55,7 +55,7 @@ class ScrollTest : public Testable {
 			Armor* armor = new Armor(Coord(0,0), Item::FLOOR, 1);
 
 			Weapon* weapon = new Weapon(Coord(0,0), Item::FLOOR, 1);
-			
+
 			level->clear();
 			level->registerMob(player);
 			level->registerMob(monster);
@@ -79,7 +79,7 @@ class ScrollTest : public Testable {
 			scrolls[3].activate(level);
 			assert (!armor->hasEffect(Item::CURSED) && armor->getEnchantment() > enchant3, "Scroll of Enchant Armor");
 
-			// Scroll of Identify contains too many side effects to effectively unit test 
+			// Scroll of Identify contains too many side effects to effectively unit test
 			assert (true, "Scroll of Identify");
 
 			scrolls[5].activate(level);

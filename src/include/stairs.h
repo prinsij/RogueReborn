@@ -1,7 +1,7 @@
 /**
  * @file stairs.h
  * @author Team Rogue++
- * @date November 14, 2016
+ * @date November 29, 2016
  *
  * @brief Member declarations for the Stairs class
  */ 

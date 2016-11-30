@@ -1,7 +1,7 @@
 /**
  * @file invscreen.cpp
  * @author Team Rogue++
- * @date November 14, 2016
+ * @date November 29, 2016
  *
  * @brief Member definitions for the InvScreen class
  */ 
@@ -48,8 +48,8 @@ void InvScreen::draw(TCODConsole* con) {
 		++y;
 	}
 	if (prompt == "") {
-		con->print(1, y+1, ("Weight: " + std::to_string(player->getInventory().getCurrWeight()) + "/" + 
-										 std::to_string(player->getInventory().getMaxWeight()) + 
+		con->print(1, y+1, ("Weight: " + std::to_string(player->getInventory().getCurrWeight()) + "/" +
+										 std::to_string(player->getInventory().getMaxWeight()) +
 							" pounds"
 							).c_str());
 	} else {

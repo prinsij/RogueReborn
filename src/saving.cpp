@@ -1,23 +1,32 @@
-#include "include/saving.h"
-#include <string>
-#include <tuple>
+/**
+ * @file saving.cpp
+ * @author Team Rogue++
+ * @date November 29, 2016
+ *
+ * @brief Global members
+ */ 
+
 #include <iostream>
 #include <sstream>
+#include <string>
+#include <tuple>
+
 #include "include/armor.h"
-#include "include/debug.h"
-#include "include/playerchar.h"
-#include "include/level.h"
-#include "include/weapon.h"
 #include "include/coord.h"
+#include "include/debug.h"
 #include "include/item.h"
+#include "include/level.h"
+#include "include/playerchar.h"
+#include "include/saving.h"
+#include "include/weapon.h"
 
 using namespace std;
 
 string encode(PlayerChar* player, Level* level) {
 	string c = ",";
 	string result = "";
-	result += to_string(player->gold) 
-		+ c + to_string(player->foodLife) 
+	result += to_string(player->gold)
+		+ c + to_string(player->foodLife)
 		+ c + to_string(player->dexterity)
 		+ c + to_string(player->currentStr)
 		+ c + to_string(player->maxStr)

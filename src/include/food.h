@@ -1,7 +1,7 @@
 /**
  * @file food.h
  * @author Team Rogue++
- * @date November 14, 2016
+ * @date November 29, 2016
  *
  * @brief Member declarations for the Food class
  */ 
@@ -21,7 +21,7 @@ class FoodTest;
  */
 class Food : public Item {
 	friend FoodTest;
-	
+
 	public:
 		/**
 		 * @brief      Constructs a Food instance.

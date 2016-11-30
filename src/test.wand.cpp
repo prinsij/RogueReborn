@@ -1,7 +1,7 @@
 /**
  * @file test.wand.cpp
  * @author Team Rogue++
- * @date November 14, 2016
+ * @date November 29, 2016
  *
  * @brief Global members
  */ 
@@ -76,7 +76,7 @@ class WandTest : public Testable {
 			wands[10].activate(&level, &monsters[10]);
 			assert (true, "Wand of Fire");
 
-			
+
 			comment("Finished Wand tests.");
 		}
 };

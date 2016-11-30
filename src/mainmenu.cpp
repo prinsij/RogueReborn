@@ -1,14 +1,14 @@
 /**
  * @file mainmenu.cpp
  * @author Team Rogue++
- * @date November 14, 2016
+ * @date November 29, 2016
  *
  * @brief Member definitions for the MainMenu class
  */ 
 
+#include <fstream>
 #include <iostream>
 #include <sstream>
-#include <fstream>
 #include <stdio.h>
 #include <time.h>
 
@@ -61,7 +61,7 @@ void MainMenu::draw(TCODConsole* con) {
 	std::string strBot = "~ Rogue++ Productions ~";
 
 	int startTop = startX + WIDTH/2 + 5 - strTop.length()/2;
-	int startBot = startX + WIDTH/2 + 5 - strBot.length()/2; 
+	int startBot = startX + WIDTH/2 + 5 - strBot.length()/2;
 	int rowTop = 5;
 	int rowBot = 10;
 

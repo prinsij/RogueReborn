@@ -1,7 +1,7 @@
 /**
  * @file monster.h
  * @author Team Rogue++
- * @date November 14, 2016
+ * @date November 29, 2016
  *
  * @brief Member declarations for the Monster class
  */ 
@@ -140,7 +140,7 @@ class Monster : public Mob {
 		 * @param      player Reference to the PlayerChar
 		 */
 		void attackSting(PlayerChar*);
-	
+
 		/**
 		 * @brief      Calculates the damage of this Monster.
 		 *

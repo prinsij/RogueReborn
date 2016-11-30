@@ -1,7 +1,7 @@
 /**
  * @file level.cpp
  * @author Team Rogue++
- * @date November 14, 2016
+ * @date November 29, 2016
  *
  * @brief Member definitions for the Level class
  */ 
@@ -12,8 +12,8 @@
 #include <map>
 #include <math.h>
 #include <queue>
-#include <vector>
 #include <tuple>
+#include <vector>
 
 #include "include/amulet.h"
 #include "include/armor.h"
@@ -31,7 +31,6 @@
 #include "include/random.h"
 #include "include/ring.h"
 #include "include/room.h"
-#include "include/weapon.h"
 #include "include/scroll.h"
 #include "include/stairs.h"
 #include "include/terrain.h"
@@ -39,6 +38,7 @@
 #include "include/trap.h"
 #include "include/tunnel.h"
 #include "include/wand.h"
+#include "include/weapon.h"
 
 Level::Level(int depth, PlayerChar* player)
 	: player(player)

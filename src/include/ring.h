@@ -1,7 +1,7 @@
 /**
  * @file ring.h
  * @author Team Rogue++
- * @date November 14, 2016
+ * @date November 29, 2016
  *
  * @brief Member declarations for the Ring class
  */ 
@@ -24,7 +24,7 @@ class RingTest;
  */
 class Ring : public Item {
 	friend RingTest;
-	
+
 	public:
 		/**
 		 * @brief      Constructs a Ring instance with a random type.

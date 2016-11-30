@@ -1,7 +1,7 @@
 /**
  * @file monster.cpp
  * @author Team Rogue++
- * @date November 14, 2016
+ * @date November 29, 2016
  *
  * @brief Member definitions for the Monster class
  */ 
@@ -250,13 +250,13 @@ void Monster::attackSteal(Level* level) {
 
 		Item* stolenItem = playerItems[Generator::intFromRange(0, playerItems.size() - 1)];
 
-		inventory.remove(stolenItem);	
+		inventory.remove(stolenItem);
 
 		player->appendLog("Your supplies feel lighter");
 #ifdef DEBUG
 		std::cout << this->getName() << " stole \"" << stolenItem->getName() << "\"\n";
 #endif
-	
+
 		delete stolenItem;
 	} else {
 		if (player->getGold() <= 0 || Generator::intFromRange(0, 99) <= 10) return;

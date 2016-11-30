@@ -1,7 +1,7 @@
 /**
  * @file test.ring.cpp
  * @author Team Rogue++
- * @date November 14, 2016
+ * @date November 29, 2016
  *
  * @brief Global members
  */ 
@@ -20,7 +20,7 @@ class RingTest : public Testable {
 
 		void test(){
 			comment("Commencing Ring tests...");
-			
+
 			Ring ringCon = Ring(Coord(0,0));
 			assert(true, "Created Ring (1)");
 			Ring ringCon2 = Ring(Coord(0,0), Item::FLOOR, 0);

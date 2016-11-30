@@ -1,18 +1,18 @@
 /**
- * @file test.playstate.cpp
+ * @file test.uistate.cpp
  * @author Team Rogue++
- * @date November 14, 2016
+ * @date November 29, 2016
  *
  * @brief Global members
- */
+ */ 
 
 #include <iostream>
 #include <typeinfo>
 
 #include "include/coord.h"
+#include "include/invscreen.h"
 #include "include/playstate.h"
 #include "libtcod/include/libtcod.hpp"
-#include "include/invscreen.h"
 #include "test.testable.h"
 
 class UIStateTest : public Testable {
