@@ -48,7 +48,9 @@ PlayerChar::PlayerChar(Coord location, std::string name)
 	  maxStr(START_STR),
 	  moves(0),
 	  oocTurns(0)
-{}
+	{
+		PlayerChar::clearConditions();
+	}
 
 void PlayerChar::addExp(int exp) {
 	this->exp += exp;
