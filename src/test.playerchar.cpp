@@ -57,6 +57,7 @@ class PlayerCharTest : public Testable {
 
 			Weapon* w = new Weapon(pos, Item::INVENTORY, 5);
 			player->equipWeapon(w);
+			w->setEnchantments(1,1);
 
 			assert(player->calculateDamage() > 0, "Player can inflict damage with weapon (" + w->getName() + ")");
 			assert(player->removeWeapon(), "Player can remove weapon");
@@ -66,6 +67,7 @@ class PlayerCharTest : public Testable {
 
 			Armor* ar = new Armor(pos, Item::INVENTORY, 0);
 			player->equipArmor(ar);
+			ar->setEnchantment(1);
 
 			assert(player->removeArmor(), "Player can remove armor that is equipped");
 
