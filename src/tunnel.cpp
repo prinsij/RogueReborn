@@ -30,7 +30,6 @@ void Tunnel::dig(Level& level){
 
 	//1. Place doors
 	//2. Pathfind from A to B
-	//3. Occasionally make random move
 
 	Coord pi = p->getRoomIndex();
 	Coord qi = q->getRoomIndex();
@@ -73,41 +72,12 @@ void Tunnel::dig(Level& level){
 
 	Coord target = posPlusDir(qDoor, dir);
 	Coord start = posPlusDir(pDoor, flip(dir));
-	
+
 	std::vector<Coord> path = level.bfsPerp(start, target);
 
 	for (Coord piece : path){
 		level[piece] = Floor();
 	}
-}
-
-Coord Tunnel::findNextStep(Coord currPos, std::vector<std::vector<double> > map){
-
-	double currentScore = map[currPos[0]][currPos[1]];
-	Coord delta = Coord(0,0);
-
-	if (map[currPos[0]+1][currPos[1]] < currentScore){
-		currentScore = map[currPos[0]+1][currPos[1]];
-		delta = Coord(1,0);
-	}
-
-	if (map[currPos[0]-1][currPos[1]] < currentScore){
-		currentScore = map[currPos[0]-1][currPos[1]];
-		delta = Coord(-1,0);
-	}
-
-	if (map[currPos[0]][currPos[1]-1] < currentScore){
-		currentScore = map[currPos[0]][currPos[1]-1];
-		delta = Coord(0,-1);
-	}
-
-	if (map[currPos[0]][currPos[1]+1] < currentScore){
-		currentScore = map[currPos[0]][currPos[1]+1];
-		delta = Coord(0,+1);
-	}
-
-	return delta;
-
 }
 
 Tunnel::Direction Tunnel::flip(Tunnel::Direction dir){
