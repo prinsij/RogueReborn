@@ -118,8 +118,9 @@ class ScrollTest : public Testable {
 			assert (allSeen, "Scroll of Magic Mapping");
 
 			player->setLocation(Coord(0,0));
+			monster->setLocation(Coord(1,0));
 			scrolls[12].activate(level);
-			assert(monster->hasFlag(Monster::CONFUSED), "Scroll of Confuse Monster");
+			assert(player->hasCondition(PlayerChar::CONFUSE_MONSTER), "Scroll of Confuse Monster");
 
 			Scroll::ignoreTransitions = false;
 
