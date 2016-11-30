@@ -23,6 +23,7 @@
 #include "test.playerchar.cpp"
 #include "test.potion.cpp"
 #include "test.ring.cpp"
+#include "test.room.cpp"
 #include "test.scroll.cpp"
 #include "test.stairs.cpp"
 #include "test.terrain.cpp"
@@ -49,6 +50,7 @@ int main() {
 	tests.push_back(new PlayerCharTest());
 	tests.push_back(new PotionTest());
 	tests.push_back(new RingTest());
+	tests.push_back(new RoomTest());
 	tests.push_back(new ScrollTest());
 	tests.push_back(new StairsTest());
 	tests.push_back(new TerrainTest());
