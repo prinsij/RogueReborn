@@ -25,6 +25,7 @@
 #include "test.ring.cpp"
 #include "test.scroll.cpp"
 #include "test.stairs.cpp"
+#include "test.terrain.cpp"
 #include "test.testable.h"
 #include "test.trap.cpp"
 #include "test.uistate.cpp"
@@ -50,6 +51,7 @@ int main() {
 	tests.push_back(new RingTest());
 	tests.push_back(new ScrollTest());
 	tests.push_back(new StairsTest());
+	tests.push_back(new TerrainTest());
 	tests.push_back(new TrapTest());
 	tests.push_back(new WandTest());
 	tests.push_back(new WeaponTest());
