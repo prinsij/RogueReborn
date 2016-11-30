@@ -2,3 +2,4 @@
 0,0,Sup,Killed by a Kestral
 67,2,Hello,Killed by a Zombie
 34,2,sdasads,Killed by a Zombie
+18,1,asd,Killed by a Hobgoblin

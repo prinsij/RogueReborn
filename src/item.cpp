@@ -79,7 +79,7 @@ std::string Item::getDisplayName() {
 	if (Item::identified[this->className].find(this->type) == Item::identified[this->className].end()) {
 		return this->pseudoName;
 	} else {
-		return Item::identified[this->className][this->type] ?  this->name : this->pseudoName ;
+		return this->isIdentified() ? this->name : this->pseudoName ;
 	}
 }
 

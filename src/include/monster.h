@@ -21,12 +21,15 @@
 /** Tuple representing various Monster types (<Armor, Carry Chance, Attacks, XP, Flags, Monster Level, HP, Name, Dungeon Level Range>) */
 using MONSTER_TUPLE_TYPE = std::tuple<int, int, std::vector<std::pair<int, int> >, int, const char*, int, std::pair<int, int>, std::string, std::pair<int, int> >;
 
+class MonsterTest;
 class PlayerChar;
 
 /**
  * Models a monster in the dungeon.
  */
 class Monster : public Mob {
+	friend MonsterTest;
+
 	public:
 		/**
 		 * @brief      Constructs a Monster instance of the given symbol type.

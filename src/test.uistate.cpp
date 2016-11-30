@@ -29,19 +29,19 @@ class UIStateTest : public Testable {
 			auto ps = new PlayState(player, level);
 			auto key = TCOD_key_t();
 			key.c = 'i';
-			std::cerr << key.c << "\n";
-			std::cerr << (player->hasCondition(PlayerChar::SLEEPING) == true) << "\n";
+			//std::cerr << key.c << "\n";
+			//std::cerr << (player->hasCondition(PlayerChar::SLEEPING) == true) << "\n";
 			auto iscreen = ps->handleInput(key);
-			std::cerr << typeid(iscreen).name() << "\n";
-			assert(dynamic_cast<InvScreen*>(iscreen) != NULL, "i key should open inventory");
+			//std::cerr << typeid(iscreen).name() << "\n";
+			assert(dynamic_cast<InvScreen*>(iscreen) != NULL, "The 'i' key should open inventory");
 			key = TCOD_key_t();
 			key.vk = TCODK_ESCAPE;
-			assert(dynamic_cast<PlayState*>(ps->handleInput(key)) != NULL, "escape key should exit inventory");
+			assert(dynamic_cast<PlayState*>(ps->handleInput(key)) != NULL, "Escape key should exit inventory");
 			key = TCOD_key_t();
 			key.c = 'y';
 			ps->handleInput(key);
-			std::cerr << player->getLocation().toString() << "\n";
-			assert(player->getLocation() == Coord(9,9), "movement should place player in correct location");
+			//std::cerr << player->getLocation().toString() << "\n";
+			assert(player->getLocation() == Coord(9,9), "Movement should place player in correct location");
 
 			comment("Finished UIState tests.");
 		}

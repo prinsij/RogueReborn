@@ -15,6 +15,13 @@ TESTER 0 Test 2 success: Coordinate comparison (Equality)
 TESTER 0 Test 3 success: Coordinate comparison fail (Equality)
 TESTER 0 Test 4 success: Coordinate addition
 TESTER 0 Test 5 success: Coordinate subtraction
+TESTER # Commencing Feature tests...
+TESTER 0 Test 1 success: Created Feature
+TESTER 0 Test 2 success: Feature Symbol Check
+TESTER 0 Test 3 success: Feature Visible Check
+TESTER 0 Test 4 success: Feature Visible Check
+TESTER 0 Test 5 success: Feature Location Check
+TESTER # Finished Feature tests.
 TESTER # Commencing Food tests...
 TESTER 0 Test 1 success: Created Food
 TESTER 0 Test 2 success: Food increase bounds
@@ -28,6 +35,22 @@ TESTER 0 Test 9 success: Food increase bounds
 TESTER 0 Test 10 success: Food increase bounds
 TESTER 0 Test 11 success: Food increase bounds
 TESTER # Finished Food tests.
+TESTER # Commencing GoldPile tests...
+TESTER 0 Test 1 success: Created GoldPile
+TESTER 0 Test 2 success: GoldPile Quantity Check
+TESTER # Finished GoldPile tests.
+TESTER # Commencing Item tests...
+TESTER 0 Test 1 success: Created Item (1)
+TESTER 0 Test 2 success: Created Item (2)
+TESTER 0 Test 3 success: Shuffle Name Vector Check
+TESTER 0 Test 4 success: Item Cursed Check 1
+TESTER 0 Test 5 success: Item Cursed Check 2
+TESTER 0 Test 6 success: Item Cursed Check 3
+TESTER 0 Test 7 success: Item Identify Check 1
+TESTER 0 Test 8 success: Item Identify Check 2
+TESTER 0 Test 9 success: Item Display Name Check 1
+TESTER 0 Test 10 success: Item Display Name Check 2
+TESTER # Finished Item tests.
 TESTER # Testing level!
 TESTER 0 Test 1 success: Level pointer not null
 TESTER 0 Test 2 success: Level depth correct
@@ -71,6 +94,38 @@ TESTER 0 Test 39 success: Distance to nearby is 1
 TESTER 0 Test 40 success: Distance to nearby is 1
 TESTER 0 Test 41 success: Distance to nearby is 1
 TESTER 0 Test 42 success: Distance to nearby is 1
+TESTER # Commencing Mob tests...
+TESTER 0 Test 1 success: Created Mob
+TESTER 0 Test 2 success: Dice Sum Check 1
+TESTER 0 Test 3 success: Dice Sum Check 2
+TESTER 0 Test 4 success: Dice Sum Check 3
+TESTER 0 Test 5 success: Dice Sum Check 4
+TESTER 0 Test 6 success: Mob Armor Check
+TESTER 0 Test 7 success: Mob HP Check 1
+TESTER 0 Test 8 success: Mob Max HP Check
+TESTER 0 Test 9 success: Mob Level Check
+TESTER 0 Test 10 success: Mob Location Check
+TESTER 0 Test 11 success: Mob Location Check
+TESTER 0 Test 12 success: Mob Symbol Check
+TESTER 0 Test 13 success: Mob Set Max HP Check
+TESTER 0 Test 14 success: Mob Set Current HP Check
+TESTER 0 Test 15 success: Mob Dead Check 1
+TESTER 0 Test 16 success: Mob HP Check 2
+TESTER 0 Test 17 success: Mob Dead Check 2
+TESTER # Finished Mob tests.
+TESTER # Commencing Monster tests...
+TESTER 0 Test 1 success: Created Monster
+TESTER 0 Test 2 success: Monster Flag Add
+TESTER 0 Test 3 success: Monster Visible Check
+TESTER 0 Test 4 success: Aggravate Check
+TESTER 0 Test 5 success: Damage Check
+TESTER 0 Test 6 success: Hit Chance Check
+TESTER 0 Test 7 success: Armor Rating Check
+TESTER 0 Test 8 success: Monster Name Check 1
+TESTER 0 Test 9 success: Monster Name Check 2
+TESTER 0 Test 10 success: Monster Symbol Level Check
+TESTER 0 Test 11 success: Monster Treasure Level Check
+TESTER # Finished Monster tests.
 TESTER # Testing PlayerChar!
 TESTER 0 Test 1 success: Player does not start with amulet
 TESTER 0 Test 2 success: Player starts at max HP
@@ -82,7 +137,7 @@ TESTER 0 Test 7 success: Taking damage works
 TESTER 0 Test 8 success: Taking damage works
 TESTER 0 Test 9 success: Taking damage works
 TESTER 0 Test 10 success: Player cannot inflict damage with no weapon
-TESTER 0 Test 11 success: Player can inflict damage with weapon (+1/+1 Mace)
+TESTER 0 Test 11 success: Player can inflict damage with weapon (+0/+0 Mace)
 TESTER 0 Test 12 success: Player can remove weapon
 TESTER 0 Test 13 success: Player cannot inflict damage once weapon is removed
 TESTER 0 Test 14 success: Player cannot remove armor that is not equipped
@@ -149,6 +204,19 @@ TESTER 0 Test 14 success: Scroll of Aggravate Monster
 TESTER 0 Test 15 success: Scroll of Magic Mapping
 TESTER 0 Test 16 success: Scroll of Confuse Monster
 TESTER # Finished Scroll tests.
+TESTER # Commencing Stairs tests...
+TESTER 0 Test 1 success: Created Stairs
+TESTER 0 Test 2 success: Stairs Direction Check
+TESTER # Finished Stairs tests.
+TESTER # Commencing Trap tests...
+TESTER 0 Test 1 success: Created Trap
+TESTER 0 Test 2 success: Door Trap
+TESTER 0 Test 3 success: Rust Trap
+TESTER 0 Test 4 success: Sleep Trap
+TESTER 0 Test 5 success: Bear Trap
+TESTER 0 Test 6 success: Teleport Trap
+TESTER 0 Test 7 success: Dart Trap
+TESTER # Finished Trap tests.
 TESTER # Commencing Wand tests...
 TESTER 0 Test 1 success: Created Wand (1)
 TESTER 0 Test 2 success: Created Wand (2)
@@ -172,7 +240,8 @@ TESTER 0 Test 4 success: Weapon Curse Test
 TESTER 0 Test 5 success: Get Weapon Name
 TESTER 0 Test 6 success: Get Weapon Enchantments
 TESTER # Finished Weapon tests.
-TESTER # Testing PlayState
-TESTER 1 Test 1 FAILURE: i key should open inventory
-TESTER 0 Test 2 success: escape key should exit inventory
-TESTER 1 Test 3 FAILURE: movement should place player in correct location
+TESTER # Testing UIState
+TESTER 0 Test 1 success: The 'i' key should open inventory
+TESTER 0 Test 2 success: Escape key should exit inventory
+TESTER 0 Test 3 success: Movement should place player in correct location
+TESTER # Finished UIState tests.

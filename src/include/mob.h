@@ -14,12 +14,15 @@
 #include "coord.h"
 
 class Level;
+class MobTest;
 
 /**
  * Models a creature in the dungeon, could
  * be the player or a monster.
  */
 class Mob {
+	friend MobTest;
+
 	public:
 		/** Constructor used by monsters. */
 		Mob(char, Coord);

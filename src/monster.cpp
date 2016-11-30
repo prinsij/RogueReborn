@@ -394,7 +394,7 @@ bool Monster::isAwake() {
 }
 
 bool Monster::isVisible() {
-	return this->hasFlag(INVISIBLE);
+	return !this->hasFlag(INVISIBLE);
 }
 
 void Monster::relocate(Level* level) {
