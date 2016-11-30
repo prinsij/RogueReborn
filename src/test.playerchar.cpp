@@ -19,9 +19,7 @@
 class PlayerCharTest : public Testable {
 	public:
 		PlayerCharTest(){}
-
-		const int RANDOM_TEST_COUNT = 5;
-
+		
 		void test(){
 
 			comment("Testing PlayerChar!");
