@@ -533,7 +533,8 @@ std::vector<Coord> Level::traceBack(Coord end, Coord start){
 #ifdef DEBUG
 			std::cout << "Path too long! (500)" << std::endl;
 #endif
-			break;
+			std::vector<Coord> nothing;
+			return nothing;//This used to just break. returning it MAY screw up the tunnel tests. Consult Ori Almog
 		}
 	}
 

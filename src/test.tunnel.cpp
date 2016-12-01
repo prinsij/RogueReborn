@@ -17,29 +17,36 @@ class TunnelTest : public Testable {
 	public:
 		TunnelTest(){}
 
+		const int NUM_OF_TESTS = 5;
+
 		void test(){
 
 			comment("Commencing Tunnel tests");
 
 			PlayerChar* player = new PlayerChar(Coord(0,0), "TestMan");
-			Level* level = new Level(1, player);
 
-			Room* left = new Room(Coord(1,1), Coord(5,5));
-			Coord leftCenter = Coord(3,3);
+			Coord t = Generator::randPosition(Coord(0,0), Coord(10,10));
+			Room* a = new Room(t, t+Generator::randPosition(Coord(2,2), Coord(5,5)));
+			t = Generator::randPosition(Coord(10,10), Coord(20,20));
+			Room* b = new Room(Coord(11,1), Coord(15,5));
 
-			Room* right = new Room(Coord(11,1), Coord(15,5));
-			Coord rightCenter = Coord(13,3);
+			Tunnel tunnel = Tunnel(a, b);
 
+			Level* level;
 
-			Tunnel tunnel = Tunnel(left, right);
-			tunnel.dig(*level);
+			for (auto i = 0; i < NUM_OF_TESTS; i++){
 
-			assert(level->bfsPerp(leftCenter, rightCenter).size() > 0, "Tunnel digging works");
+				level = new Level(i+1, player);
+				tunnel.dig(*level);
 
-			delete level;
+				assert(level->bfsPerp(a->getPosition1(), b->getPosition2()).size() > 0, "Tunnel digging works");
+
+				delete level;
+			}
+
 			delete player;
-			delete left;
-			delete right;
+			delete a;
+			delete b;
 
 			comment("Finished Tunnel tests");
 
