@@ -31,11 +31,27 @@ class LevelGenTest : public Testable {
 				level = new Level(1, player);
 				level->generate();
 
+
 				bool probablyOk = true;
 				for (auto j = 0; j < NUMBER_OF_TIMES_TO_BFS; j++){
 					probablyOk *= level->bfsPerp(level->getRandomEmptyPosition(), level->getRandomEmptyPosition()).size() > 0;
 				}
-				assert(probablyOk, "Level is probably connected");
+				assert(probablyOk, "Level passes random path tests");
+
+
+
+				std::vector<Room> rooms = level->getRooms();
+				bool roomsConnected = true;
+				for (Room source : rooms){
+					for (Room target : rooms){
+						if (&source != &target){
+							roomsConnected *= level->bfsPerp(
+							Generator::randPosition(source.getPosition1(), source.getPosition2()),
+							Generator::randPosition(target.getPosition1(), target.getPosition2())).size() > 0;
+						}
+					}
+				}
+				assert(roomsConnected, "Level is connected");
 
 				delete level;
 			}
