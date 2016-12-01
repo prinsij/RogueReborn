@@ -5,3 +5,5 @@
 18,1,asd,Killed by a Hobgoblin
 0,1,Chris,Killed by a Hobgoblin
 1000,1,Ian,Retrieved the Amulet of Yendor
+0,1,fefman,Killed by a Ice Monster
+53,4,fef,Killed by a Hobgoblin

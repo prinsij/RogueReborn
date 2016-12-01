@@ -20,10 +20,9 @@
 #include "include/tiles.h"
 #include "include/tunnel.h"
 
-Tunnel::Tunnel(Room* p, Room* q, Generator gen)
+Tunnel::Tunnel(Room* p, Room* q)
 	: p(p)
 	, q(q)
-	, gen(gen)
 {}
 
 void Tunnel::dig(Level& level){
@@ -106,22 +105,22 @@ Coord Tunnel::getDoorPlacement(Room* r, Tunnel::Direction dir){
 
 	switch(dir){
 		case Tunnel::Left:
-			return gen.randPosition(r->getPosition1()+Coord(-1,0),
+			return Generator::randPosition(r->getPosition1()+Coord(-1,0),
 									r->getPosition1()+Coord(-1, r->getRoomSize()[1]-1));
 			break;
 
 		case Tunnel::Right:
-			return gen.randPosition(r->getPosition1()+Coord(r->getRoomSize()[0], 0),
+			return Generator::randPosition(r->getPosition1()+Coord(r->getRoomSize()[0], 0),
 									r->getPosition2()+Coord(1,0));
 			break;
 
 		case Tunnel::Up:
-			return gen.randPosition(r->getPosition1()+Coord(0,-1),
+			return Generator::randPosition(r->getPosition1()+Coord(0,-1),
 									r->getPosition1()+Coord(r->getRoomSize()[0]-1, -1));
 			break;
 
 		case Tunnel::Down:
-			return gen.randPosition(r->getPosition1()+Coord(0, r->getRoomSize()[1]),
+			return Generator::randPosition(r->getPosition1()+Coord(0, r->getRoomSize()[1]),
 									r->getPosition2()+Coord(0, 1));
 			break;
 
