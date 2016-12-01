@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "include/level.h"
+#include "include/stairs.h"
 #include "test.testable.h"
 
 class LevelGenTest : public Testable {
@@ -53,6 +54,32 @@ class LevelGenTest : public Testable {
 				}
 				assert(roomsConnected, "Level is connected");
 
+
+
+
+
+				std::vector<Feature*> features = level->getFeatures();
+
+				bool hasStairs = false;
+				for (Feature* f : features){
+  					Stairs* stair = dynamic_cast<Stairs*>(f);
+  					if (stair != NULL){
+  						hasStairs = true;
+  					}
+				}
+				assert(hasStairs, "Level has stairs");
+
+				bool hasAtLeastOneGold = false;
+				for (Feature* f : features){
+  					GoldPile* gp = dynamic_cast<GoldPile*>(f);
+  					if (gp != NULL){
+  						hasAtLeastOneGold = true;
+  					}
+				}
+				assert(hasAtLeastOneGold, "Level has at least one gold pile");
+
+				//All other features (wands, etc.) are placed the same way as gold
+				
 				delete level;
 			}
 

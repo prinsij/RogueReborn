@@ -289,7 +289,7 @@ void Level::generate() {
 		Coord randPos = Coord(Generator::intFromRange(0, X_SIZE-1),
 							  Generator::intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable) {
-			features.push_back(new GoldPile(randPos, Generator::intFromRange(1, 35)));
+			features.push_back(new GoldPile(randPos, Generator::intFromRange(1, 35*depth)));
 #ifdef DEBUG
 			std::cout << "Put gold at " << randPos.toString() << std::endl;
 #endif
