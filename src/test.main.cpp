@@ -29,6 +29,7 @@
 #include "test.terrain.cpp"
 #include "test.testable.h"
 #include "test.trap.cpp"
+#include "test.tunnel.cpp"
 #include "test.uistate.cpp"
 #include "test.wand.cpp"
 #include "test.weapon.cpp"
@@ -55,6 +56,7 @@ int main() {
 	tests.push_back(new StairsTest());
 	tests.push_back(new TerrainTest());
 	tests.push_back(new TrapTest());
+	tests.push_back(new TunnelTest());
 	tests.push_back(new WandTest());
 	tests.push_back(new WeaponTest());
 	tests.push_back(new UIStateTest());

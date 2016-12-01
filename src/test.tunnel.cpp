@@ -19,6 +19,8 @@ class TunnelTest : public Testable {
 
 		void test(){
 
+			comment("Commencing Tunnel tests");
+
 			PlayerChar* player = new PlayerChar(Coord(0,0), "TestMan");
 			Level* level = new Level(1, player);
 
@@ -29,11 +31,17 @@ class TunnelTest : public Testable {
 			Coord rightCenter = Coord(13,3);
 
 
+			Tunnel tunnel = Tunnel(left, right);
+			tunnel.dig(*level);
+
+			assert(level->bfsPerp(leftCenter, rightCenter).size() > 0, "Tunnel digging works");
 
 			delete level;
 			delete player;
 			delete left;
 			delete right;
+
+			comment("Finished Tunnel tests");
 
 		}
 };

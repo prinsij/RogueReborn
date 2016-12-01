@@ -24,6 +24,8 @@ class TerrainTest : public Testable {
 		//char
 
 		void test(){
+
+			comment("Commencing Terrain tests");
 			
 			Floor floor = Floor();
 			assert(floor.isPassable() == Terrain::Passable, "Floors are passable");
@@ -44,5 +46,7 @@ class TerrainTest : public Testable {
 			assert(door.isPassable() == Terrain::Blocked, "Doors are blocked");
 			assert(door.getSymbol() == '+', "Doors are plus signs");
 			assert(door.getVisibility() == Terrain::Corridor, "Doors are are of the special corridor visibility level");
+
+			comment("Finished Terrain tests");
 		}
 };

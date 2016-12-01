@@ -24,7 +24,7 @@ class LevelTest : public Testable {
 
 		void test(){
 
-			comment("Testing level!");
+			comment("Commencing Level tests");
 
 			Coord pos  = Coord(0,0);
 			PlayerChar player = PlayerChar(pos, "test");
@@ -112,5 +112,7 @@ class LevelTest : public Testable {
 				std::vector<Coord> path = l.bfsDiag(nearby, Coord(5,5));
 				assert(path.size() == uint(2), "Distance to nearby is 1");
 			}
+
+			comment("Finished Level tests");
 		}
 };
