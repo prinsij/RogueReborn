@@ -17,7 +17,7 @@ class RoomTest : public Testable {
 	public:
 		RoomTest(){}
 
-		const int NUM_OF_RANDOM_TESTS = 50;
+		const int NUM_OF_RANDOM_TESTS = 10;
 
 		bool lte(Coord a, Coord b){
 			return a[0] <= b[0] && a[1] <= b[1];

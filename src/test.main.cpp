@@ -18,6 +18,7 @@
 #include "test.goldpile.cpp"
 #include "test.item.cpp"
 #include "test.level.cpp"
+#include "test.levelgen.cpp"
 #include "test.mob.cpp"
 #include "test.monster.cpp"
 #include "test.playerchar.cpp"
@@ -44,6 +45,7 @@ int main() {
 									new GoldPileTest(),
 									new ItemTest(),
 									new LevelTest(),
+									new LevelGenTest(),
 									new MobTest(),
 									new MonsterTest(),
 									new PlayerCharTest(),
