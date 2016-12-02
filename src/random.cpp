@@ -28,12 +28,12 @@ bool Generator::randBool() {
 }
 
 Coord Generator::randPosition(Coord a, Coord b) {
-	return Coord(intFromRange(a[0], b[0]), intFromRange(a[1], b[1]));
-}
+	int minX = std::min(a[0], b[0]);
+	int maxX = std::max(a[0], b[0]);
+	int minY = std::min(a[1], b[1]);
+	int maxY = std::max(a[1], b[1]);
 
-template<typename T>
-void Generator::shuffle(std::vector<T>* s) {
-	std::random_shuffle(s->begin(), s->end());
+	return Coord(intFromRange(minX, maxX), intFromRange(minY, maxY));
 }
 
 int Generator::nDx(int numDice, int numFaces) {

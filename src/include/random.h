@@ -30,9 +30,6 @@ class Generator {
 		 *  bottomright.
 		 */
 		static Coord randPosition(Coord, Coord);
-		/** Randomly shuffle the vector provided */
-		template<typename T>
-		static void shuffle(std::vector<T>*);
 		/** Rolls the designated dice and returns sum. */
 		static int nDx(int numDice, int numFaces);
 	private:

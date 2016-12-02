@@ -24,6 +24,7 @@
 #include "test.monster.cpp"
 #include "test.playerchar.cpp"
 #include "test.potion.cpp"
+#include "test.random.cpp"
 #include "test.ring.cpp"
 #include "test.room.cpp"
 #include "test.scroll.cpp"
@@ -49,6 +50,7 @@ int main() {
 									new MonsterTest(),
 									new PlayerCharTest(),
 									new PotionTest(),
+									new RandomTest(),
 									new RingTest(),
 									new RoomTest(),
 									new ScrollTest(),
