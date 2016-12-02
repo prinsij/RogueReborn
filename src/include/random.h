@@ -26,6 +26,8 @@ class Generator {
 		static double rand();
 		/** Random boolean. */
 		static bool randBool();
+		/** Random percent from 0 to 100 */
+		static int randPercent();
 		/** Random coord in box deliniated by topleft,
 		 *  bottomright.
 		 */

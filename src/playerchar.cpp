@@ -81,7 +81,7 @@ void PlayerChar::attack(Monster* monster) {
 	if (this->getLocation().isAdjacentTo(monster->getLocation())) {
 		this->oocTurns = 0;
 
-		if (Generator::intFromRange(0, 99) <= this->calculateHitChance(monster)) {
+		if (Generator::randPercent() <= this->calculateHitChance(monster)) {
 			this->appendLog("You hit the " + monster->getName(this));
 
 			int damage = this->calculateDamage();
@@ -345,7 +345,7 @@ bool PlayerChar::hasCondition(PlayerChar::Condition condition) {
 void PlayerChar::hit(int damage) {
 	Mob::hit(damage);
 
-	if (this->currentHP > 0 && !this->hasCondition(MAINTAIN_ARMOR) && Generator::intFromRange(0, 99) <= 10) {
+	if (this->currentHP > 0 && !this->hasCondition(MAINTAIN_ARMOR) && Generator::randPercent() <= 10) {
 		this->armor = std::max(1, this->armor - 1);
 	}
 
@@ -376,7 +376,7 @@ bool PlayerChar::move(Coord location, Level* level) {
 		if (monster != NULL && this->location.distanceTo(monster->getLocation())) {
 			if (monster && !monster->isAwake()) {
 				int wakePercent = static_cast<int>(45/(3 + (this->hasCondition(STEALTHY) ? 1 : 0)));
-				monster->setAwake(Generator::intFromRange(0,99) <= wakePercent);
+				monster->setAwake(Generator::randPercent() <= wakePercent);
 			}
 		}
 
@@ -612,7 +612,7 @@ int PlayerChar::update() {
 				this->appendLog("You feel very weak.  You faint from the lack of food");
 				this->applyCondition(FAINTING, 1);
 
-				if (Generator::intFromRange(0, 99) <= 40) {
+				if (Generator::randPercent() <= 40) {
 					this->foodLife ++;
 				}
 			}

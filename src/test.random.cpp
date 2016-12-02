@@ -53,7 +53,14 @@ class RandomTest : public Testable {
 			}		
 			assert(condition == notCondition, "Random Bool Test");
 
-			
+			condition = true;
+			for (int i = 0 ; i < 40 && condition; i ++) {
+				randInt = Generator::randPercent();
+				condition &= randInt >= 0 && randInt <= 100;
+			}		
+			assert(condition, "Random Percent Test");
+
+
 			condition = true;
 			for (int i = 0 ; i < 10 && condition; i ++) {
 				Coord a = Coord(Generator::intFromRange(0, 100), Generator::intFromRange(0, 100));

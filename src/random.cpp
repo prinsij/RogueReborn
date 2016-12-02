@@ -27,6 +27,10 @@ bool Generator::randBool() {
 	return rand() < 0.5;
 }
 
+int Generator::randPercent() {
+	return std::uniform_int_distribution<>(0, 100)(gen);
+}
+
 Coord Generator::randPosition(Coord a, Coord b) {
 	int minX = std::min(a[0], b[0]);
 	int maxX = std::max(a[0], b[0]);

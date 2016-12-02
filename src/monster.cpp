@@ -167,7 +167,7 @@ void Monster::aggrevate() {
 }
 
 void Monster::attackConfuse(PlayerChar* player) {
-	if (Generator::intFromRange(0, 99) <= 55) {
+	if (Generator::randPercent() <= 55) {
 			player->applyCondition(PlayerChar::CONFUSED, Generator::intFromRange(12, 22));
 			player->appendLog("The gaze of the " + this->getName() + " confused you");
 	}
@@ -175,7 +175,7 @@ void Monster::attackConfuse(PlayerChar* player) {
 
 
 void Monster::attackDrainLife(PlayerChar* player) {
-	if (Generator::intFromRange(0, 99) <= 60 || player->getMaxHP() <= 30 || player->getHP() < 10) return;
+	if (Generator::randPercent() <= 60 || player->getMaxHP() <= 30 || player->getHP() < 10) return;
 
 	int selection = Generator::intFromRange(1, 3);
 
@@ -196,7 +196,7 @@ void Monster::attackDrainLife(PlayerChar* player) {
 
 
 void Monster::attackDropLevel(PlayerChar* player) {
-	if (Generator::intFromRange(0, 99) <= 80 || player->getLevel() <= 5) return;
+	if (Generator::randPercent() <= 80 || player->getLevel() <= 5) return;
 
 	player->dropLevel();
 }
@@ -205,7 +205,7 @@ void Monster::attackDropLevel(PlayerChar* player) {
 void Monster::attackFreeze(PlayerChar* player) {
 	int freezePercent = 99;
 
-	if (Generator::intFromRange(0, 99) <= 12) return;
+	if (Generator::randPercent() <= 12) return;
 
 	freezePercent -= player->getStrength()*3/2;
 	freezePercent -= 4*(player->getLevel() + player->getDexterity());
@@ -233,8 +233,8 @@ void Monster::attackRust(PlayerChar* player) {
 void Monster::attackSteal(Level* level) {
 	PlayerChar* player = level->getPlayer();
 
-	if (Generator::intFromRange(0, 99) <= 50) {
-		if (Generator::intFromRange(0, 99) <= 10) return;
+	if (Generator::randPercent() <= 50) {
+		if (Generator::randPercent() <= 10) return;
 
 		ItemZone& inventory = player->getInventory();
 
@@ -259,7 +259,7 @@ void Monster::attackSteal(Level* level) {
 
 		delete stolenItem;
 	} else {
-		if (player->getGold() <= 0 || Generator::intFromRange(0, 99) <= 10) return;
+		if (player->getGold() <= 0 || Generator::randPercent() <= 10) return;
 
 		int stealAmount = std::min(player->getGold(), Generator::intFromRange(10 * player->getLevel(), 30 * player->getLevel()));
 
@@ -280,7 +280,7 @@ void Monster::attackSting(PlayerChar* player) {
 
 	int stingChance = 70 - 6 * player->getArmorRating();
 
-	if (Generator::intFromRange(0, 99) <= stingChance) {
+	if (Generator::randPercent() <= stingChance) {
 		player->appendLog("The " + this->getName() + "'s bite has weakened you");
 		player->setStrength(player->getStrength() - 1);
 	}
@@ -296,7 +296,7 @@ void Monster::attack(Level* level) {
 	}
 
 	if (canAttack) {
-		if (Generator::intFromRange(0, 99) <= this->calculateHitChance(player)) {
+		if (Generator::randPercent() <= this->calculateHitChance(player)) {
 
 			player->appendLog("The " + this->getName(player) + " hit you");
 			player->hit(calculateDamage());
@@ -433,7 +433,7 @@ void Monster::relocate(Level* level) {
 		}
 	}
 
-	if (!this->chasing && Generator::intFromRange(0,99) <= 33) {
+	if (!this->chasing && Generator::randPercent() <= 33) {
 		bool moved = false;
 
 		if (this->hasFlag(GREEDY)) {

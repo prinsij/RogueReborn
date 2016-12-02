@@ -114,7 +114,7 @@ bool Wand::activate(Level* level, Mob* mob) {
 
 	// Cold
 	} else if (this->type == 9) {
-		if (Generator::intFromRange(0, 99) <= 33) {
+		if (Generator::randPercent() <= 33) {
 			player->appendLog("The ice ball misses the " + monster->getName());
 			return false;
 		}
@@ -139,7 +139,7 @@ bool Wand::activate(Level* level, Mob* mob) {
 
 	// Fire
 	} else if (this->type == 10) {
-		if (Generator::intFromRange(0, 99) <= 33) {
+		if (Generator::randPercent() <= 33) {
 			player->appendLog("The fire ball misses the " + monster->getName());
 			return false;
 		}

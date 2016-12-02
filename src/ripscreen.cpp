@@ -125,7 +125,7 @@ RIPScreen::RIPScreen(PlayerChar* player,
 
 	// Flowers
 	for (int x = 40 - GRAVE_WIDTH/2 - 2 ; x <= 40 + GRAVE_WIDTH/2 + 2 ; x ++) {
-		if (Generator::intFromRange(0, 99) <= 15) {
+		if (Generator::randPercent() <= 15) {
 			flowers += "*";
 		} else {
 			flowers += " ";
