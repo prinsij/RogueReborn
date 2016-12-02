@@ -1,10 +1,10 @@
 /**
- * @file test.uistate.cpp
+ * @file test.itemzone.cpp
  * @author Team Rogue++
- * @date November 29, 2016
+ * @date December 02, 2016
  *
- * @brief Tests for the itemzone module
- */
+ * @brief Global members
+ */ 
 
 #include "include/armor.h"
 #include "include/coord.h"
