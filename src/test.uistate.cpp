@@ -51,7 +51,7 @@ class UIStateTest : public Testable {
 			key.vk = TCODK_ESCAPE;
 			ps = sscreen->handleInput(key);
 			assert(dynamic_cast<PlayState*>(ps) != NULL, "Escape key should exit status screen");
-			
+
 			key = TCOD_key_t();
 			key.c = KEYS::ZAP;
 			ps->handleInput(key);
@@ -71,6 +71,30 @@ class UIStateTest : public Testable {
 			key.vk = TCODK_ESCAPE;
 			ps = zscreen->handleInput(key);
 			assert(dynamic_cast<PlayState*>(ps) != NULL, "Escape should exit wand prompt");
+
+			key = TCOD_key_t();
+			key.c = KEYS::ZAP;
+			ps = ps->handleInput(key);
+			key = TCOD_key_t();
+			key.vk = TCODK_LEFT;
+			ps = ps->handleInput(key);
+			key = TCOD_key_t();
+			auto charges = wand->getCharges();
+			for (auto pair : player->getInventory().getContents()) {
+				if (pair.second.front() == wand) {
+					key.c = pair.first;
+					goto found_item;
+				}
+			}
+			key.c = 'z';
+			found_item:;
+			ps = ps->handleInput(key);
+			ps = ps->handleInput(key);
+			assert(dynamic_cast<PlayState*>(ps) != NULL, "Casting wand should bring us back to a playstate");
+			assert(charges == 1 || wand->getCharges() == charges-1, "Casting wand should have reduced charges");
+
+			player->getInventory().remove(wand);
+			delete wand;
 
 			key = TCOD_key_t();
 			key.c = KEYS::QUIT;
