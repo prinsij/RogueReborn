@@ -28,3 +28,4 @@ L_max = L(maxlum)
 
 print "Min luminosity:", L_min
 print "Max luminosity:", L_max
+print "Diff: ", (L_max - L_min) / 255
