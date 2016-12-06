@@ -15,6 +15,7 @@
 #include <time.h>
 
 #include "include/armor.h"
+#include "include/debug.h"
 #include "include/feature.h"
 #include "include/food.h"
 #include "include/globals.h"
@@ -127,7 +128,7 @@ class QuickZap : public PlayState {
 			while (true) {
 				Coord next = newLoc+direction;
 				auto mob = level->monsterAt(next);
-				if (mob != NULL) {
+				if (mob != NULL || !level->contains(next)) {
 					wand->activate(level, mob);
 					player->appendLog("You zap with the " + wand->getName());
 					if (wand->getCharges() <= 0) {
@@ -136,12 +137,15 @@ class QuickZap : public PlayState {
 						delete wand;
 					}
 					break;
-				} else if (!level->contains(next)) {
-					assert(false && "zapped out of bounds somehow");
-					break;
 				} else if ((*level)[next].isPassable() != Terrain::Passable) {
 					wand->activate(level, NULL);
+					player->appendLog("You zap with the " + wand->getName());
 					player->appendLog("The wand charge fizzles against a wall");
+					if (wand->getCharges() <= 0) {
+						player->getInventory().remove(wand);
+						player->appendLog("Drained of magic, the wand crumbles to dust");
+						delete wand;
+					}
 					break;
 				}
 				newLoc += direction;
