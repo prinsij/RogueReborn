@@ -8,8 +8,10 @@
 
 #include <iostream>
 #include <string>
+#include <sys/time.h>
 
 #include "include/coord.h"
+#include "include/debug.h"
 #include "include/globals.h"
 #include "include/level.h"
 #include "include/mainmenu.h"
@@ -32,7 +34,25 @@ void MasterController::run() {
 	TCODSystem::setFps(FPS_LIMIT);
 	//Game loop
     TCOD_key_t key;
+#ifdef DEBUG
+	int maxFrameTime = 0;
+	int frameCount = 0;
+	// current timestamp in millsec
+	struct timeval tp;
+	gettimeofday(&tp, NULL);
+	auto previousFrame = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+#endif
 	while (!TCODConsole::isWindowClosed()) {
+#ifdef DEBUG
+		gettimeofday(&tp, NULL);
+		auto newFrame = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+		if (maxFrameTime < newFrame-previousFrame || ++frameCount == 100) {
+			maxFrameTime = newFrame-previousFrame;
+			std::cout << "frame time (ms): " << maxFrameTime << "\n";
+			frameCount = 0;
+		}
+		previousFrame = newFrame;
+#endif
 		// control-C overrides all
 		if ((key.rctrl || key.lctrl) && (key.c == 'c' || key.c == 'C')) {
 			break;
