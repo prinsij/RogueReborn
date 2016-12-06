@@ -1,0 +1,98 @@
+\documentclass[12pt, titlepage]{article}
+
+
+
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{indentfirst}
+\usepackage{listings}
+\usepackage[round]{natbib}
+\usepackage[usenames, dvipsnames]{color}
+\usepackage{tikz}
+
+% Setup
+
+\hypersetup{
+    colorlinks,
+    citecolor=blue,
+    filecolor=ForestGreen,
+    linkcolor=MidnightBlue,
+    urlcolor=blue
+}
+
+\lstset{
+	basicstyle=\ttfamily\footnotesize
+}
+
+\usepackage[round]{natbib}
+
+\title{SE 3XA3: Test Plan\\Rogue Reborn}
+
+\author{Group \#6, Team Rogue++\\\\
+	\begin{tabular} {l r}
+		Ian Prins & prinsij \\
+		Mikhail Andrenkov & andrem5 \\
+		Or Almog & almogo
+	\end{tabular}
+}
+
+\date{Due Wednesday, Dec 7\textsuperscript{st}, 2016}
+
+\input{../Comments}
+
+\begin{document}
+
+\maketitle
+
+\pagenumbering{roman}
+\tableofcontents
+\listoftables
+\listoffigures
+
+\begin{table}[bp]
+	\caption{\bf Revision History}
+	\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
+		\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
+		\midrule
+		Dec 6 & 0.1 & Initial draft\\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+
+\newpage
+
+\pagenumbering{arabic}
+
+This document...
+
+\section{Functional Requirements Evaluation}
+
+\section{Nonfunctional Requirements Evaluation}
+
+\subsection{Usability}
+		
+\subsection{Performance}
+
+\subsection{etc.}
+	
+\section{Comparison to Existing Implementation}
+
+\section{Unit Testing}
+
+\section{Changes Due to Testing}
+
+\section{Automated Testing}
+		
+\section{Trace to Requirements}
+		
+\section{Trace to Modules}		
+
+\section{Code Coverage Metrics}
+
+\bibliographystyle{plainnat}
+
+\bibliography{SRS}
+
+\end{document}
