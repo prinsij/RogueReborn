@@ -40,7 +40,7 @@ class MobTest : public Testable {
 			assert(mob->getMaxHP() == 20, "Mob Max HP Check");
 			assert(mob->getLevel() == 2, "Mob Level Check");
 			assert(mob->getLocation() == Coord(0,0), "Mob Location Check");
-			assert(mob->getName() == "name", "Mob Location Check");
+			assert(mob->getName() == "name", "Mob Name Check");
 			assert(mob->getSymbol() == 'B', "Mob Symbol Check");
 
 			mob->setMaxHP(50);
