@@ -1,4 +1,5 @@
 from PIL import Image
+# http://effbot.org/imagingbook/image.htm
 
 R_ = 0.299
 G_ = 0.587
@@ -23,9 +24,9 @@ def L(rgb):
 minlum = process('minlum.png')
 maxlum = process('maxlum.png')
 
-L_min = L(minlum)
-L_max = L(maxlum)
+L_min = L(minlum) / 255
+L_max = L(maxlum) / 255
 
-print "Min luminosity:", L_min
-print "Max luminosity:", L_max
-print "Diff: ", (L_max - L_min) / 255
+print "Min luminosity:", round(L_min,5)
+print "Max luminosity:", round(L_max,5)
+print "Diff:          ", round(L_max - L_min,5)
