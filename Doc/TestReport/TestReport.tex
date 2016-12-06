@@ -2,25 +2,41 @@
 
 \usepackage{booktabs}
 \usepackage{tabularx}
+\usepackage{float}
 \usepackage{hyperref}
+\usepackage{indentfirst}
+\usepackage{listings}
+\usepackage[round]{natbib}
+\usepackage[usenames, dvipsnames]{color}
+\usepackage{tikz}
+
+% Setup
+
 \hypersetup{
     colorlinks,
-    citecolor=black,
-    filecolor=black,
-    linkcolor=red,
+    citecolor=blue,
+    filecolor=ForestGreen,
+    linkcolor=MidnightBlue,
     urlcolor=blue
 }
-\usepackage[round]{natbib}
 
-\title{SE 3XA3: Test Report\\Title of Project}
-
-\author{Team \#, Team Name
-		\\ Student 1 name and macid
-		\\ Student 2 name and macid
-		\\ Student 3 name and macid
+\lstset{
+	basicstyle=\ttfamily\footnotesize
 }
 
-\date{\today}
+\usepackage[round]{natbib}
+
+\title{SE 3XA3: Test Plan\\Rogue Reborn}
+
+\author{Group \#6, Team Rogue++\\\\
+	\begin{tabular} {l r}
+		Ian Prins & prinsij \\
+		Mikhail Andrenkov & andrem5 \\
+		Or Almog & almogo
+	\end{tabular}
+}
+
+\date{Due Wednesday, Dec 7\textsuperscript{st}, 2016}
 
 \input{../Comments}
 
@@ -34,21 +50,20 @@
 \listoffigures
 
 \begin{table}[bp]
-\caption{\bf Revision History}
-\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
-\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
-\midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
-\bottomrule
-\end{tabularx}
+	\caption{\bf Revision History}
+	\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
+		\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
+		\midrule
+		Dec 6 & 0.1 & Initial draft\\
+		\bottomrule
+	\end{tabularx}
 \end{table}
 
 \newpage
 
 \pagenumbering{arabic}
 
-This document ...
+This document...
 
 \section{Functional Requirements Evaluation}
 
@@ -59,10 +74,8 @@ This document ...
 \subsection{Performance}
 
 \subsection{etc.}
-	
-\section{Comparison to Existing Implementation}	
 
-This section will not be appropriate for every project.
+\section{Comparison to Existing Implementation}
 
 \section{Unit Testing}
 
