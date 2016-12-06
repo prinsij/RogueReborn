@@ -1,7 +1,5 @@
 \documentclass[12pt, titlepage]{article}
 
-
-
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{float}
@@ -68,28 +66,101 @@
 This document...
 
 \section{Functional Requirements Evaluation}
+	Ori
 
 \section{Nonfunctional Requirements Evaluation}
+	Mikhail
 
-\subsection{Usability}
-		
-\subsection{Performance}
-
-\subsection{etc.}
+	\subsection{Usability}
+		Mikhail
+	\subsection{Performance}
+		Mikhail
+	\subsection{etc.}
+		Mikhail
 	
 \section{Comparison to Existing Implementation}
+	Ori
 
 \section{Unit Testing}
+	Mikhail
 
 \section{Changes Due to Testing}
+	Mikhail
 
 \section{Automated Testing}
+
+\subsection{Automated Testing Strategy}
+For this project we elected not to use a 3rd party testing library. We made this decision to ease configuration/installation problems and reduce our dependencies, as we judged it would not be necessary. Instead a series of files (labeled test.foobar.cpp) in the repository hold tests, which are run by our custom test runner. These automated tests are run on command by executing the produced executable, or by the continuous integration script run whenever changes are pushed to the central repository. The results of these tests are automatically reported, resulting in a failed or successful build.
+
+\subsection{Specific System Tests}
+The following is a list of all system tests in the project.
+
+\begin{center}
+
+\begin{tabular}{ l | l }
+\hline
+\textbf{Name:} & \\
+\textbf{Initial State:} & \\
+\textbf{Input:} & \\
+\textbf{Expected Output:} & \\
+\hline
+\end{tabular}
+
+\begin{tabular}{ l | l }
+\hline
+\textbf{Name:} & Amulet Construction\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & Coordinate, context value\\
+\textbf{Expected Output:} & Amulet object in valid initial state\\
+\hline
+\end{tabular}
+
+\begin{tabular}{ l | l }
+\hline
+\textbf{Name:} & Armor Construction 1\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & Coordinate\\
+\textbf{Expected Output:} & Armor object in valid initial state\\
+\hline
+\end{tabular}
+
+\begin{tabular}{ l | l }
+\hline
+\textbf{Name:} & Armor Construction 2\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & Coordinate, context value, type value\\
+\textbf{Expected Output:} & Armor object in valid initial state\\
+\hline
+\end{tabular}
+
+\begin{tabular}{ l | l }
+\hline
+\textbf{Name:} & Armor Identification\\
+\textbf{Initial State:} & Cursed Armor\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification that armor is identified\\
+\hline
+\end{tabular}
+
+\begin{tabular}{ l | l }
+\hline
+\textbf{Name:} & Armor Identification\\
+\textbf{Initial State:} & Cursed Armor\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification that armor is identified\\
+\hline
+\end{tabular}
+
+\end{center}
 		
 \section{Trace to Requirements}
-		
+	Ori
+
 \section{Trace to Modules}		
+	Ori
 
 \section{Code Coverage Metrics}
+	Ori
 
 \bibliographystyle{plainnat}
 
