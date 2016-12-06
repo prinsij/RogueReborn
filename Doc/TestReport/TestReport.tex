@@ -1,0 +1,147 @@
+\documentclass[12pt, titlepage]{article}
+
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=red,
+    urlcolor=blue
+}
+\usepackage[round]{natbib}
+
+\title{SE 3XA3: Test Report\\Title of Project}
+
+\author{Team \#, Team Name
+		\\ Student 1 name and macid
+		\\ Student 2 name and macid
+		\\ Student 3 name and macid
+}
+
+\date{\today}
+
+\input{../Comments}
+
+\begin{document}
+
+\maketitle
+
+\pagenumbering{roman}
+\tableofcontents
+\listoftables
+\listoffigures
+
+\begin{table}[bp]
+\caption{\bf Revision History}
+\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
+\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
+\midrule
+Date 1 & 1.0 & Notes\\
+Date 2 & 1.1 & Notes\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\newpage
+
+\pagenumbering{arabic}
+
+This document ...
+
+\section{Functional Requirements Evaluation}
+
+\section{Nonfunctional Requirements Evaluation}
+
+\subsection{Usability}
+		
+\subsection{Performance}
+
+\subsection{etc.}
+	
+\section{Comparison to Existing Implementation}	
+
+This section will not be appropriate for every project.
+
+\section{Unit Testing}
+
+\section{Changes Due to Testing}
+
+\section{Automated Testing}
+
+\subsection{Automated Testing Strategy}
+For this project we elected not to use a 3rd party testing library. We made this decision to ease configuration/installation problems and reduce our dependencies, as we judged it would not be necessary. Instead a series of files (labeled test.foobar.cpp) in the repository hold tests, which are run by our custom test runner. These automated tests are run on command by executing the produced executable, or by the continuous integration script run whenever changes are pushed to the central repository. The results of these tests are automatically reported, resulting in a failed or successful build.
+
+\subsection{Specific System Tests}
+The following is a list of all system tests in the project.
+
+\begin{center}
+
+\begin{tabular}{ l | l }
+\hline
+\textbf{Name:} & \\
+\textbf{Initial State:} & \\
+\textbf{Input:} & \\
+\textbf{Expected Output:} & \\
+\hline
+\end{tabular}
+
+\begin{tabular}{ l | l }
+\hline
+\textbf{Name:} & Amulet Construction\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & Coordinate, context value\\
+\textbf{Expected Output:} & Amulet object in valid initial state\\
+\hline
+\end{tabular}
+
+\begin{tabular}{ l | l }
+\hline
+\textbf{Name:} & Armor Construction 1\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & Coordinate\\
+\textbf{Expected Output:} & Armor object in valid initial state\\
+\hline
+\end{tabular}
+
+\begin{tabular}{ l | l }
+\hline
+\textbf{Name:} & Armor Construction 2\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & Coordinate, context value, type value\\
+\textbf{Expected Output:} & Armor object in valid initial state\\
+\hline
+\end{tabular}
+
+\begin{tabular}{ l | l }
+\hline
+\textbf{Name:} & Armor Identification\\
+\textbf{Initial State:} & Cursed Armor\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification that armor is identified\\
+\hline
+\end{tabular}
+
+\begin{tabular}{ l | l }
+\hline
+\textbf{Name:} & Armor Identification\\
+\textbf{Initial State:} & Cursed Armor\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification that armor is identified\\
+\hline
+\end{tabular}
+
+\end{center}
+		
+\section{Trace to Requirements}
+		
+\section{Trace to Modules}		
+
+\section{Code Coverage Metrics}
+
+\bibliographystyle{plainnat}
+
+\bibliography{SRS}
+
+\end{document}
