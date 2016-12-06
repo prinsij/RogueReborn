@@ -13,6 +13,7 @@
 #include "include/invscreen.h"
 #include "include/statusscreen.h"
 #include "include/playstate.h"
+#include "include/ripscreen.h"
 #include "libtcod/include/libtcod.hpp"
 #include "include/wand.h"
 #include "test.testable.h"
@@ -66,6 +67,18 @@ class UIStateTest : public Testable {
 			key.vk = TCODK_LEFT;
 			auto zscreen = ps->handleInput(key);
 			assert(dynamic_cast<InvScreen*>(zscreen) != NULL, "Zap button with wand should open dir prompt then inventory");
+			key = TCOD_key_t();
+			key.vk = TCODK_ESCAPE;
+			ps = zscreen->handleInput(key);
+			assert(dynamic_cast<PlayState*>(ps) != NULL, "Escape should exit wand prompt");
+
+			key = TCOD_key_t();
+			key.c = KEYS::QUIT;
+			ps = ps->handleInput(key);
+			key = TCOD_key_t();
+			key.c = 'Y';
+			auto ripscreen = ps->handleInput(key);
+			assert(dynamic_cast<RIPScreen*>(ripscreen) != NULL, "Quiting should bring us to rip screen");
 
 			comment("Finished UIState tests.");
 		}
