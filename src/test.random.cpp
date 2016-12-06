@@ -1,7 +1,7 @@
 /**
  * @file test.random.cpp
  * @author Team Rogue++
- * @date December 02, 2016
+ * @date December 06, 2016
  *
  * @brief Global members
  */ 
@@ -34,7 +34,7 @@ class RandomTest : public Testable {
 			for (int i = 0 ; i < 40 && condition ; i ++) {
 				randInt = Generator::intFromRange(0, 60);
 				condition &= randInt >= 0 && randInt <= 60;
-			}		
+			}
 			assert(condition, "Int From Range Test 3");
 
 
@@ -42,7 +42,7 @@ class RandomTest : public Testable {
 			for (int i = 0 ; i < 40 && condition; i ++) {
 				randFP = Generator::rand();
 				condition &= randFP >= 0 && randFP < 1;
-			}		
+			}
 			assert(condition, "Random Float Test");
 
 
@@ -50,14 +50,14 @@ class RandomTest : public Testable {
 			bool notCondition = !condition;
 			for (int i = 0 ; i < 10 && (condition != notCondition); i ++) {
 				condition = Generator::randBool();
-			}		
+			}
 			assert(condition == notCondition, "Random Bool Test");
 
 			condition = true;
 			for (int i = 0 ; i < 40 && condition; i ++) {
 				randInt = Generator::randPercent();
 				condition &= randInt >= 0 && randInt <= 100;
-			}		
+			}
 			assert(condition, "Random Percent Test");
 
 
@@ -74,7 +74,7 @@ class RandomTest : public Testable {
 				int maxY = std::max(a[1], b[1]);
 
 				condition &= r[0] >= minX && r[0] <= maxX && r[1] >= minY && r[1] <= maxY;
-			}		
+			}
 			assert(condition, "Random Position Test");
 
 			assert(Generator::nDx(1, 1) == 1, "nDx Test 1");
