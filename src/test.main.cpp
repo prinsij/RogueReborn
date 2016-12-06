@@ -45,8 +45,6 @@ int main() {
 									new FoodTest(),
 									new GoldPileTest(),
 									new ItemTest(),
-									new LevelTest(),
-									new LevelGenTest(),
 									new MobTest(),
 									new MonsterTest(),
 									new PlayerCharTest(),
@@ -61,7 +59,9 @@ int main() {
 									new WandTest(),
 									new WeaponTest(),
 									new UIStateTest(),
-									new ItemZoneTest()};
+									new ItemZoneTest(),
+									new LevelGenTest(),
+									new LevelTest()};
 
 	for (Testable* t : tests){
 		t->test();
