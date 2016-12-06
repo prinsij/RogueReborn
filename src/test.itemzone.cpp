@@ -34,10 +34,16 @@ class ItemZoneTest : public Testable {
 			assert(contents['b'].front() == pot2, "Second item should be bound to 'b', key");
 			assert(contents['a'].size() == 1, "Should only be 1 of first item");
 			assert(contents['b'].size() == 1, "Should only be 1 of second item");
+
 			zone.remove(pot);
+			delete pot;
+
 			contents = zone.getContents();
 			assert(contents.size() == 1, "First item should no longer be in the zone");
 			assert(contents['b'].front() == pot2, "Second item hotkey should not have changed");
+
+			zone.remove(pot2);
+			delete pot2;
 
 			std::vector<Armor*> armors;
 			for (int i = 0; i < 500; ++i) {
