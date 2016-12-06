@@ -1,3 +1,13 @@
+/**
+ * @file controls.h
+ * @author Team Rogue++
+ * @date December 02, 2016
+ *
+ * @brief Global members
+ */ 
+
+#pragma once
+
 #include "../libtcod/include/libtcod.hpp"
 
 namespace KEYS {

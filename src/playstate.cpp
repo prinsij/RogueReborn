@@ -1,7 +1,7 @@
 /**
  * @file playstate.cpp
  * @author Team Rogue++
- * @date November 29, 2016
+ * @date December 02, 2016
  *
  * @brief Member definitions for the PlayState class
  */ 
@@ -15,6 +15,7 @@
 #include <time.h>
 
 #include "include/armor.h"
+#include "include/controls.h"
 #include "include/debug.h"
 #include "include/feature.h"
 #include "include/food.h"
@@ -23,7 +24,6 @@
 #include "include/helpscreen.h"
 #include "include/invscreen.h"
 #include "include/item.h"
-#include "include/controls.h"
 #include "include/level.h"
 #include "include/logscreen.h"
 #include "include/monster.h"

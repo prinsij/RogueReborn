@@ -1,7 +1,7 @@
 /**
- * @file test.mob->cpp
+ * @file test.mob.cpp
  * @author Team Rogue++
- * @date November 29, 2016
+ * @date December 02, 2016
  *
  * @brief Global members
  */ 
@@ -29,7 +29,7 @@ class MobTest : public Testable {
 			mob->maxHP = 20;
 			mob->name = "name";
 			assert(true, "Created Mob");
-			
+
 			assert(Mob::diceSum(1, 1) == 1, "Dice Sum Check 1");
 			assert(Mob::diceSum(2, 1) == 2, "Dice Sum Check 2");
 			assert(Mob::diceSum(1, 2) >= 1 && Mob::diceSum(1, 2) <= 2, "Dice Sum Check 3");

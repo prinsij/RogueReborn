@@ -1,21 +1,21 @@
 /**
  * @file test.uistate.cpp
  * @author Team Rogue++
- * @date November 29, 2016
+ * @date December 02, 2016
  *
  * @brief Global members
  */ 
 
 #include <iostream>
 
-#include "include/coord.h"
 #include "include/controls.h"
+#include "include/coord.h"
 #include "include/invscreen.h"
-#include "include/statusscreen.h"
 #include "include/playstate.h"
 #include "include/ripscreen.h"
-#include "libtcod/include/libtcod.hpp"
+#include "include/statusscreen.h"
 #include "include/wand.h"
+#include "libtcod/include/libtcod.hpp"
 #include "test.testable.h"
 
 class UIStateTest : public Testable {
@@ -42,7 +42,7 @@ class UIStateTest : public Testable {
 			key.c = 'y';
 			ps->handleInput(key);
 			assert(player->getLocation() == Coord(9,9), "Movement should place player in correct location");
-			
+
 			key = TCOD_key_t();
 			key.c = KEYS::INFO;
 			auto sscreen = ps->handleInput(key);

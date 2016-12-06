@@ -1,7 +1,7 @@
 /**
  * @file random.h
  * @author Team Rogue++
- * @date November 29, 2016
+ * @date December 02, 2016
  *
  * @brief Member declarations for the Generator class
  */ 
@@ -26,13 +26,12 @@ class Generator {
 		static double rand();
 		/** Random boolean. */
 		static bool randBool();
+		/** Random percent from 0 to 100 */
+		static int randPercent();
 		/** Random coord in box deliniated by topleft,
 		 *  bottomright.
 		 */
 		static Coord randPosition(Coord, Coord);
-		/** Randomly shuffle the vector provided */
-		template<typename T>
-		static void shuffle(std::vector<T>*);
 		/** Rolls the designated dice and returns sum. */
 		static int nDx(int numDice, int numFaces);
 	private:

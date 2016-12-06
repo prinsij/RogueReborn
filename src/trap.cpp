@@ -1,7 +1,7 @@
 /**
  * @file trap.cpp
  * @author Team Rogue++
- * @date November 29, 2016
+ * @date December 02, 2016
  *
  * @brief Member definitions for the Trap class
  */ 
@@ -25,7 +25,7 @@ Level* Trap::activate(Mob* mob, Level* level) {
 	PlayerChar* player = dynamic_cast<PlayerChar*>(mob);
 
 	if (player) {
-		if (Generator::intFromRange(0,99) <= player->getLevel() + player->getDexterity()) {
+		if (Generator::randPercent() <= player->getLevel() + player->getDexterity()) {
 			player->appendLog("The trap failed");
 			return level;
 		}
@@ -88,7 +88,7 @@ Level* Trap::activate(Mob* mob, Level* level) {
 			player->appendLog("A small dart just hit you in the shoulder");
 
 			if (!player->hasCondition(PlayerChar::SUSTAIN_STRENGTH) &&
-				Generator::intFromRange(0, 99) <= 40 &&
+				Generator::randPercent() <= 40 &&
 				player->getStrength() >= 3) {
 				player->changeCurrentStrength(-1);
 			}

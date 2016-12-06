@@ -1,7 +1,7 @@
 /**
  * @file wand.cpp
  * @author Team Rogue++
- * @date November 29, 2016
+ * @date December 02, 2016
  *
  * @brief Member definitions for the Wand class
  */ 
@@ -114,7 +114,7 @@ bool Wand::activate(Level* level, Mob* mob) {
 
 	// Cold
 	} else if (this->type == 9) {
-		if (Generator::intFromRange(0, 99) <= 33) {
+		if (Generator::randPercent() <= 33) {
 			player->appendLog("The ice ball misses the " + monster->getName());
 			return false;
 		}
@@ -139,7 +139,7 @@ bool Wand::activate(Level* level, Mob* mob) {
 
 	// Fire
 	} else if (this->type == 10) {
-		if (Generator::intFromRange(0, 99) <= 33) {
+		if (Generator::randPercent() <= 33) {
 			player->appendLog("The fire ball misses the " + monster->getName());
 			return false;
 		}
