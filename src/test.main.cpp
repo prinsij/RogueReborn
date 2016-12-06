@@ -17,6 +17,7 @@
 #include "test.food.cpp"
 #include "test.goldpile.cpp"
 #include "test.item.cpp"
+#include "test.itemzone.cpp"
 #include "test.level.cpp"
 #include "test.levelgen.cpp"
 #include "test.mob.cpp"
@@ -59,7 +60,8 @@ int main() {
 									new TunnelTest(),
 									new WandTest(),
 									new WeaponTest(),
-									new UIStateTest()};
+									new UIStateTest(),
+									new ItemZoneTest()};
 
 	for (Testable* t : tests){
 		t->test();
