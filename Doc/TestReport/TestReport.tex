@@ -1,5 +1,9 @@
 \documentclass[12pt, titlepage]{article}
 
+
+% Packages
+
+ 
 \usepackage{booktabs}
 \usepackage{float}
 \usepackage{hyperref}
@@ -14,23 +18,8 @@
 \usepackage{tikz}
 \usepackage{longtable}
 
-
-
-\newcounter{acnum}
-\newcommand{\actheacnum}{AC\theacnum}
-\newcommand{\acref}[1]{\hyperref[#1]{AC\ref{#1}}}
-
-\newcounter{ucnum}
-\newcommand{\uctheucnum}{UC\theucnum}
-\newcommand{\uref}[1]{\hyperref[#1]{UC\ref{#1}}}
-
-\newcounter{mnum}
-\newcommand{\mhprint}[1]{\addtocounter{mnum}{1} #1 & \textbf{M\themnum}}
-\newcommand{\mdprint}[1]{\addtocounter{mnum}{1} #1 (M\themnum)}
-
-\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0em}}p{#1}}
-
 % Setup
+
 \hypersetup{
 	colorlinks,
 	citecolor=blue,
@@ -43,7 +32,16 @@
 	basicstyle=\ttfamily\footnotesize
 }
 
-\usepackage[round]{natbib}
+% Custom Commands
+
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0em}}p{#1}}
+
+\newcounter{mnum}
+\newcommand{\mhprint}[1]{\addtocounter{mnum}{1} #1 & \textbf{M\themnum}}
+\newcommand{\mdprint}[1]{\addtocounter{mnum}{1} #1 (M\themnum)}
+
+
+% Title Page Elements
 
 \title{SE 3XA3: Test Plan\\Rogue Reborn}
 
@@ -55,23 +53,27 @@
 	\end{tabular}
 }
 
-\date{Due Wednesday, Dec 7\textsuperscript{st}, 2016}
+\date{Due Wednesday, Dec 7\textsuperscript{th}, 2016}
+
 \input{../Comments}
 \pagenumbering{arabic}
 
 \begin{document}
 
+
+% Document Summary
+
 \maketitle
 
 \newpage
-\begin{table}
+\begin{table}[bp]
 	\caption{\bf Revision History}
 	\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 		\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 		\midrule
-		Dec 6 & 0.1 & Initial draft\\
-		Dec 6 & 0.2 & Automated Tests Up Through PlayerChar\\
-		Dec 6 & 0.3 & Functional requirements eval\\
+		12/06/16 & 0.1 & Initial Draft\\
+		12/06/16 & 0.2 & Automated Tests To PlayerChar\\
+		12/06/16 & 0.3 & Functional Requirements Evaluation\\
 		\bottomrule
 	\end{tabularx}
 \end{table}
@@ -872,8 +874,8 @@ The following is a list of all system tests in the project.
 \section{Code Coverage Metrics}
 	Ori
 
-\bibliographystyle{plainnat}
+%\bibliographystyle{plainnat}
 
-\bibliography{SRS}
+%\bibliography{TestReport2}
 
 \end{document}
