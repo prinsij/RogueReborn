@@ -52,16 +52,16 @@ int main() {
 	PlayerCharTest().test();
 	PotionTest().test();
 	RandomTest().test();
-	// RingTest().test();
-	// RoomTest().test();
-	// ScrollTest().test();
-	// StairsTest().test();
-	// TerrainTest().test();
-	TrapTest().test();
-	TunnelTest().test();
-	WandTest().test();
-	WeaponTest().test();
-	UIStateTest().test();
+	RingTest().test();
+	RoomTest().test();
+	ScrollTest().test();
+	StairsTest().test();
+	TerrainTest().test();
+	// TrapTest().test();
+	// TunnelTest().test();
+	// WandTest().test();
+	// WeaponTest().test();
+	// UIStateTest().test();
 
 	return 0;
 }
