@@ -6,6 +6,7 @@
  * @brief Member definitions for the RingTest class
  */ 
 
+#include <exception>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -21,10 +22,14 @@ class RingTest : public Testable {
 		void test(){
 			comment("Commencing Ring tests...");
 
-			Ring ringCon = Ring(Coord(0,0));
-			assert(true, "Created Ring (1)");
-			Ring ringCon2 = Ring(Coord(0,0), Item::FLOOR, 0);
-			assert(true, "Created Ring (2)");
+			try{
+				Ring ringCon = Ring(Coord(0,0));
+				assert(true, "Created Ring (1)");
+				Ring ringCon2 = Ring(Coord(0,0), Item::FLOOR, 0);
+				assert(true, "Created Ring (2)");
+			} catch (const std::exception& e) {
+				assert(false, "Failure creating Ring");
+			}
 
 			std::vector<Ring> rings;
 			std::vector<PlayerChar> players;
