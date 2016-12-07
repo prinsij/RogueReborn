@@ -52,7 +52,7 @@ int main() {
 	tests.push_back(new MonsterTest());
 	tests.push_back(new PlayerCharTest());
 	tests.push_back(new PotionTest());
-	tests.push_back(new RandomTest());
+	//tests.push_back(new RandomTest());
 	tests.push_back(new RingTest());
 	tests.push_back(new RoomTest());
 	tests.push_back(new ScrollTest());
