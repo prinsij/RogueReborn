@@ -17,3 +17,7 @@
 | [src/](src)                                 |  Source code           |
 | [ProjectSchedule/](ProjectSchedule)         |  Project schedule      |
 | [ReferenceMaterial/](ReferenceMaterial)     |  Reference material    |
+
+### Screenshot
+
+![](src/misc/luminosity/maxlum.png)
