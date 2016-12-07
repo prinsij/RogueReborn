@@ -44,7 +44,7 @@ int main() {
 	FoodTest().test();
 	GoldPileTest().test();
 	ItemTest().test();
-	// ItemZoneTest().test();
+	ItemZoneTest().test();
 	// LevelTest().test();
 	// LevelGenTest().test();
 	MobTest().test();
