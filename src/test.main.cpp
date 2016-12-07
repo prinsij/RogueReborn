@@ -52,11 +52,11 @@ int main() {
 	PlayerCharTest().test();
 	PotionTest().test();
 	RandomTest().test();
-	// RingTest().test();
-	// RoomTest().test();
-	// ScrollTest().test();
-	// StairsTest().test();
-	// TerrainTest().test();
+	RingTest().test();
+	RoomTest().test();
+	ScrollTest().test();
+	StairsTest().test();
+	TerrainTest().test();
 	// TrapTest().test();
 	// TunnelTest().test();
 	// WandTest().test();
