@@ -40,7 +40,6 @@ int& Coord::operator[](int dimension) {
 		case 1:
 			return this->y;
 	}
-	throw "bad dimension " + std::to_string(dimension);
 	return this->x;
 }
 
