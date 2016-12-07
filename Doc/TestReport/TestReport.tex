@@ -1,24 +1,42 @@
 \documentclass[12pt, titlepage]{article}
 
 \usepackage{booktabs}
-\usepackage{tabularx}
 \usepackage{float}
 \usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{longtable}
 \usepackage{indentfirst}
+\usepackage{multirow}
+\usepackage{tabularx}
 \usepackage{listings}
 \usepackage[round]{natbib}
 \usepackage[usenames, dvipsnames]{color}
 \usepackage{tikz}
 \usepackage{longtable}
 
-% Setup
 
+
+\newcounter{acnum}
+\newcommand{\actheacnum}{AC\theacnum}
+\newcommand{\acref}[1]{\hyperref[#1]{AC\ref{#1}}}
+
+\newcounter{ucnum}
+\newcommand{\uctheucnum}{UC\theucnum}
+\newcommand{\uref}[1]{\hyperref[#1]{UC\ref{#1}}}
+
+\newcounter{mnum}
+\newcommand{\mhprint}[1]{\addtocounter{mnum}{1} #1 & \textbf{M\themnum}}
+\newcommand{\mdprint}[1]{\addtocounter{mnum}{1} #1 (M\themnum)}
+
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0em}}p{#1}}
+
+% Setup
 \hypersetup{
-    colorlinks,
-    citecolor=blue,
-    filecolor=ForestGreen,
-    linkcolor=MidnightBlue,
-    urlcolor=blue
+	colorlinks,
+	citecolor=blue,
+	filecolor=ForestGreen,
+	linkcolor=MidnightBlue,
+	urlcolor=blue
 }
 
 \lstset{
@@ -30,7 +48,7 @@
 \title{SE 3XA3: Test Plan\\Rogue Reborn}
 
 \author{Group \#6, Team Rogue++\\\\
-	\begin{tabular} {l r}
+	\begin{tabular}{lr}
 		Ian Prins & prinsij \\
 		Mikhail Andrenkov & andrem5 \\
 		Or Almog & almogo
@@ -56,6 +74,7 @@
 		\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 		\midrule
 		Dec 6 & 0.1 & Initial draft\\
+		Dec 6 & 0.2 & Automated Tests Up Through PlayerChar\\
 		\bottomrule
 	\end{tabularx}
 \end{table}
@@ -514,10 +533,60 @@ The following is a list of all system tests in the project.
 \textbf{Input:} & Depth value\\
 \textbf{Expected Output:} & Set of symbols for monsters that are valid candidates for given depth for a treasure room\\
 \hline
-\textbf{Name:} & \\
-\textbf{Initial State:} & \\
-\textbf{Input:} & \\
-\textbf{Expected Output:} & \\
+\textbf{Name:} & PlayerChar Initial Amulet Check\\
+\textbf{Initial State:} & Just initialized playerchar object\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification the game does not believe the player has the amulet\\
+\hline
+\textbf{Name:} & PlayerChar Initial HP Check\\
+\textbf{Initial State:} & Just initialized playerchar object\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification playerchar has full hp\\
+\hline
+\textbf{Name:} & PlayerChar Level-Up Exp\\
+\textbf{Initial State:} & Playerchar object at initial level\\
+\textbf{Input:} & Exp input into playerchar object\\
+\textbf{Expected Output:} & Playerchar object with increased level\\
+\hline
+\textbf{Name:} & PlayerChar Level-Up Manual\\
+\textbf{Initial State:} & Playerchar object\\
+\textbf{Input:} & Level-up command\\
+\textbf{Expected Output:} & Playerchar object with increased level\\
+\hline
+\textbf{Name:} & PlayerChar Damage\\
+\textbf{Initial State:} & Playerchar object at full hp\\
+\textbf{Input:} & Series of damage commands applied to playerchar object\\
+\textbf{Expected Output:} & Playerchar object with less than full hp\\
+\hline
+\textbf{Name:} & PlayerChar UnArmed 1\\
+\textbf{Initial State:} & Unarmed playerchar object\\
+\textbf{Input:} & calculateDamage command\\
+\textbf{Expected Output:} & 0 damage value\\
+\hline
+\textbf{Name:} & PlayerChar Armed\\
+\textbf{Initial State:} & Playerchar object armed with weapon\\
+\textbf{Input:} & calculateDamage command\\
+\textbf{Expected Output:} & Damage value > 0\\
+\hline
+\textbf{Name:} & PlayerChar Stow Weapon\\
+\textbf{Initial State:} & Playerchar object armed with uncursed weapon\\
+\textbf{Input:} & removeWeapon command\\
+\textbf{Expected Output:} & PlayerChar object unarmed\\
+\hline
+\textbf{Name:} & PlayerChar UnArmed 2\\
+\textbf{Initial State:} & Armed playerchar object\\
+\textbf{Input:} & removeWeapon command, then calculateDamage\\
+\textbf{Expected Output:} & 0 damage value\\
+\hline
+\textbf{Name:} & PlayerChar Remove Non-Armor\\
+\textbf{Initial State:} & Playerchar object with no armor\\
+\textbf{Input:} & removeArmor command\\
+\textbf{Expected Output:} & Boolean indicating failure to remove armor\\
+\hline
+\textbf{Name:} & PlayerChar Remove Armor\\
+\textbf{Initial State:} & Playerchar object with uncursed armor\\
+\textbf{Input:} & removeArmor command\\
+\textbf{Expected Output:} & Playerchar object without armor\\
 \hline
 
 
@@ -535,8 +604,97 @@ The following is a list of all system tests in the project.
 \section{Trace to Requirements}
 	Ori
 
-\section{Trace to Modules}		
-	Ori
+\section{Trace to Modules}
+
+	The following table re-iterates the modules of the project, along with their respective domain and module ID. The module IDs are used to refer to modules in the trace.
+
+	\begin{table}[h!]
+		\caption{\bf Module Hierarchy}
+		\label{TblMH}
+		\bigskip
+		\centering
+		\def\arraystretch{1.2}
+		\begin{tabular}{p{0.3\textwidth} p{0.5\textwidth} R{0.10\textwidth}}
+			\toprule
+			\textbf{Level 1} & \multicolumn{2}{l}{\textbf{Level 2}}\\
+			\midrule
+
+			\multirow{2}{0.3\textwidth}{Hardware-Hiding Module}
+			& \mhprint{BasicIO}\\
+			& \mhprint{Doryen}\\
+			& \mhprint{Input Format}\\
+			\midrule
+
+			\multirow{6}{0.3\textwidth}{Behaviour-Hiding Module}
+			& \mhprint{External}\\
+			& \mhprint{Item}\\
+			& \mhprint{Level}\\
+			& \mhprint{LevelGen}\\
+			& \mhprint{MainMenu}\\  
+			& \mhprint{Monster}\\
+			& \mhprint{PlayerChar}\\
+			& \mhprint{RipScreen}\\
+			& \mhprint{PlayState}\\
+			& \mhprint{UIState}\\
+			\midrule
+
+			\multirow{9}{0.3\textwidth}{Software Decision Module}
+			& \mhprint{Coord}\\
+			& \mhprint{Feature}\\
+			& \mhprint{ItemZone}\\          
+			& \mhprint{MasterController}\\            
+			& \mhprint{Mob}\\
+			& \mhprint{Random}\\
+			& \mhprint{Terrain}\\
+			\bottomrule
+		\end{tabular}
+		 \setcounter{mnum}{0}
+	\end{table}
+
+	The following table maps test files, which implement tests, to specific modules, given by their IDs.\\
+
+	\begin{table}[h]
+		\caption{\bf Test-Module Trace}
+		\label{TblMH}
+		\bigskip
+		\centering
+		\def\arraystretch{1.2}
+			\begin{longtable}{lr}
+				\hline
+				File & Related Module(s)\\
+				\hline
+				test.amulet.cpp 		& M7, M12, M13\\
+				test.armor.cpp 			& M5, M10, M18\\
+				test.coord.cpp 			& M2, M5, M6, M7, M14, M19\\
+				test.feature.cpp 		& Related modules here\\
+				test.food.cpp 			& Related modules here\\
+				test.goldpile.cpp 		& Related modules here\\
+				test.item.cpp 			& Related modules here\\
+				test.itemzone.cpp 		& Related modules here\\
+				test.level.cpp 			& Related modules here\\
+				test.levelgen.cpp 		& Related modules here\\
+				test.main.cpp 			& Related modules here\\
+				test.mob.cpp 			& Related modules here\\
+				test.monster.cpp 		& Related modules here\\
+				test.playerchar.cpp 	& Related modules here\\
+				test.potion.cpp 		& Related modules here\\
+				test.ring.cpp 			& Related modules here\\
+				test.room.cpp 			& Related modules here\\
+				test.scroll.cpp 		& Related modules here\\
+				test.stairs.cpp 		& Related modules here\\
+				test.terrain.cpp 		& Related modules here\\
+				test.testable.cpp 		& Related modules here\\
+				test.testable.h 		& Related modules here\\
+				test.trap.cpp 			& Related modules here\\
+				test.tunnel.cpp 		& Related modules here\\
+				test.uistate.cpp 		& Related modules here\\
+				test.wand.cpp 			& Related modules here\\
+				test.weapon.cpp 		& Related modules here\\
+				\hline
+			\end{longtable}
+	\end{table}
+
+
 
 \section{Code Coverage Metrics}
 	Ori
