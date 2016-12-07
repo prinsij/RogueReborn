@@ -123,6 +123,12 @@
 \newpage
 \section{Automated Testing}
 
+\subsection{Automated Testing Strategy}
+For this project we elected not to use a 3rd party testing library. We made this decision to ease configuration/installation problems and reduce our dependencies, as we judged it would not be necessary. Instead a series of files (labeled test.foobar.cpp) in the repository hold tests, which are run by our custom test runner. These automated tests are run on command by executing the produced executable, or by the continuous integration script run whenever changes are pushed to the central repository. The results of these tests are automatically reported, resulting in a failed or successful build.
+
+\subsection{Specific System Tests}
+The following is a list of all system tests in the project.
+
 	\subsection{Automated Testing Strategy}
 	For this project we elected not to use a 3rd party testing library. We made this decision to ease configuration/installation problems and reduce our dependencies, as we judged it would not be necessary. Instead a series of files (labeled test.foobar.cpp) in the repository hold tests, which are run by our custom test runner. These automated tests are run on command by executing the produced executable, or by the continuous integration script run whenever changes are pushed to the central repository. The results of these tests are automatically reported, resulting in a failed or successful build.
 
@@ -601,6 +607,156 @@
 				\textbf{Initial State:} & Playerchar object with uncursed armor\\
 				\textbf{Input:} & removeArmor command\\
 				\textbf{Expected Output:} & Playerchar object without armor\\
+				\hline
+				\textbf{Name:} & Potion Construction 1\\
+				\textbf{Initial State:} & None\\
+				\textbf{Input:} & Coordinate\\
+				\textbf{Expected Output:} & Potion object in valid initial state\\
+				\hline
+				\textbf{Name:} & Potion Construction 2\\
+				\textbf{Initial State:} & None\\
+				\textbf{Input:} & Coordinate, item context value, item type specifier\\
+				\textbf{Expected Output:} & Potion object in valid initial state\\
+				\hline
+				\textbf{Name:} & Potion of Strength\\
+				\textbf{Initial State:} & Player object\\
+				\textbf{Input:} & Potion of strength\\
+				\textbf{Expected Output:} & Player with strength increased by 1\\
+				\hline
+				\textbf{Name:} & Potion of Restore Strength\\
+				\textbf{Initial State:} & Player object with reduced strength\\
+				\textbf{Input:} & Potion of restore strength\\
+				\textbf{Expected Output:} & Player object with pre-reduction strength\\
+				\hline
+				\textbf{Name:} & Potion of Healing\\
+				\textbf{Initial State:} & Player object with full hp\\
+				\textbf{Input:} & Potion of healing\\
+				\textbf{Expected Output:} & Player object with maxHP increased by 1\\
+				\hline
+				\textbf{Name:} & Potion of Extra Healing\\
+				\textbf{Initial State:} & Player object with full hp\\
+				\textbf{Input:} & Potion of extra healing\\
+				\textbf{Expected Output:} & Player object with maxHP increased by 2\\
+				\hline
+				\textbf{Name:} & Potion of Poison\\
+				\textbf{Initial State:} & Player object with strength > 0\\
+				\textbf{Input:} & Potion of poison\\
+				\textbf{Expected Output:} & Player object with reduced strength\\
+				\hline
+				\textbf{Name:} & Potion of Raise Level\\
+				\textbf{Initial State:} & Player object with less than max level\\
+				\textbf{Input:} & Potion or raise level\\
+				\textbf{Expected Output:} & Player object with level + 1\\
+				\hline
+				\textbf{Name:} & Potion of Blindness\\
+				\textbf{Initial State:} & Player object without the blindness condition\\
+				\textbf{Input:} & Potion of blindness\\
+				\textbf{Expected Output:} & Player object with the blindness condition\\
+				\hline
+				\textbf{Name:} & Potion of Hallucination\\
+				\textbf{Initial State:} & Player object without the hallucination condition\\
+				\textbf{Input:} & Potion of hallucination\\
+				\textbf{Expected Output:} & Player object with the hallucination condition\\
+				\hline
+				\textbf{Name:} & Potion of Detect Monster\\
+				\textbf{Initial State:} & Player object without the detect-monsters condition\\
+				\textbf{Input:} & Potion of detect monsters\\
+				\textbf{Expected Output:} & Player object with the detect-monsters condition\\
+				\hline
+				\textbf{Name:} & Potion of Detect Object\\
+				\textbf{Initial State:} & Player object without the detect-objects condition\\
+				\textbf{Input:} & Potion of detect objects\\
+				\textbf{Expected Output:} & Player object with the detect-objects condition\\
+				\hline
+				\textbf{Name:} & Potion of Confusion\\
+				\textbf{Initial State:} & Player object without the confusion condition\\
+				\textbf{Input:} & Potion of confusion\\
+				\textbf{Expected Output:} & Player object with the confusion condition\\
+				\hline
+				\textbf{Name:} & Potion of Confusion\\
+				\textbf{Initial State:} & Player object without the confusion condition\\
+				\textbf{Input:} & Potion of confusion\\
+				\textbf{Expected Output:} & Player object with the confusion condition\\
+				\hline
+				\textbf{Name:} & Potion of Levitation\\
+				\textbf{Initial State:} & Player object without the levitation condition\\
+				\textbf{Input:} & Potion of levitation\\
+				\textbf{Expected Output:} & Player object with the levitation condition\\
+				\hline
+				\textbf{Name:} & Potion of Haste\\
+				\textbf{Initial State:} & Player object without the haste condition\\
+				\textbf{Input:} & Potion of haste\\
+				\textbf{Expected Output:} & Player object with the haste condition\\
+				\hline
+				\textbf{Name:} & Potion of See-Invisible\\
+				\textbf{Initial State:} & Player object without the invisible-sight condition\\
+				\textbf{Input:} & Potion of invisible\\
+				\textbf{Expected Output:} & Player object with the invisible-sight condition\\
+				\hline
+				\textbf{Name:} & Random Range 1\\
+				\textbf{Initial State:} & None\\
+				\textbf{Input:} & Upper and lower bounds 0,0\\
+				\textbf{Expected Output:} & 0\\
+				\hline
+				\textbf{Name:} & Random Range 2\\
+				\textbf{Initial State:} & None\\
+				\textbf{Input:} & Upper and lower bounds 5,5\\
+				\textbf{Expected Output:} & 5\\
+				\hline
+				\textbf{Name:} & Random Range 3\\
+				\textbf{Initial State:} & None\\
+				\textbf{Input:} & Upper and lower bounds 0,60, repeated 40 times\\
+				\textbf{Expected Output:} & 0 <= result <= 60\\
+				\hline
+				\textbf{Name:} & Random Float\\
+				\textbf{Initial State:} & None\\
+				\textbf{Input:} & 40 repeats\\
+				\textbf{Expected Output:} & 0 <= result <= 1\\
+				\hline
+				\textbf{Name:} & Random Boolean\\
+				\textbf{Initial State:} & None\\
+				\textbf{Input:} & 10 repeats\\
+				\textbf{Expected Output:} & Both true and false are generated\\
+				\hline
+				\textbf{Name:} & Random Percent\\
+				\textbf{Initial State:} & None\\
+				\textbf{Input:} & 40 repeats\\
+				\textbf{Expected Output:} & 0 <= result <= 100\\
+				\hline
+				\textbf{Name:} & Random Position\\
+				\textbf{Initial State:} & None\\
+				\textbf{Input:} & Two coordinates, as top-left and bottom-right of rectangle, 10 repeats\\
+				\textbf{Expected Output:} & Random coordinates within the bounds\\
+				\hline
+				\textbf{Name:} & Ring Construction 1\\
+				\textbf{Initial State:} & None\\
+				\textbf{Input:} & Coordinate\\
+				\textbf{Expected Output:} & Ring object with valid initial state\\
+				\hline
+				\textbf{Name:} & Ring Construction 2\\
+				\textbf{Initial State:} & None\\
+				\textbf{Input:} & Coordinate, item context value, type identifier\\
+				\textbf{Expected Output:} & Ring object with valid initial state\\
+				\hline
+				\textbf{Name:} & Ring of Stealth\\
+				\textbf{Initial State:} & Player object without stealth condition\\
+				\textbf{Input:} & Activate ring of stealth\\
+				\textbf{Expected Output:} & Player object with the stealth condition\\
+				\hline
+				\textbf{Name:} & Ring of Teleportation\\
+				\textbf{Initial State:} & Player object without random teleportation condition\\
+				\textbf{Input:} & Activate ring of teleportation\\
+				\textbf{Expected Output:} & Player object with the random teleportation condition\\
+				\hline
+				\textbf{Name:} & Ring of Regeneration\\
+				\textbf{Initial State:} & Player object without regeneration condition\\
+				\textbf{Input:} & Activate ring of regeneration\\
+				\textbf{Expected Output:} & Player object with the regeneration condition\\
+				\hline
+				\textbf{Name:} & Ring of Digestion\\
+				\textbf{Initial State:} & Player object without digestion condition\\
+				\textbf{Input:} & Activate ring of digestion\\
+				\textbf{Expected Output:} & Player object with the digestion condition\\
 				\hline
 
 
