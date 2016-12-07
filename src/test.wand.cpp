@@ -67,19 +67,31 @@ class WandTest : public Testable {
 			wands[6].activate(&level, &monsters[6]);
 			assert (monsters[6].hasFlag(Monster::CANCELLED), "Wand of Cancellation");
 
-			wands[7].activate(&level, &monsters[7]);
-			assert (true, "Wand of Do Nothing");
+			try {
+				wands[7].activate(&level, &monsters[7]);
+				assert (true, "Wand of Do Nothing");
+			} catch (const std::exception& e) {
+				assert(false, "Exception during Wand of Do Nothing");
+			}
 
 			int playerHP8 = player.getHP();
 			int monstersHP8 = monsters[8].getHP();
 			wands[8].activate(&level, &monsters[8]);
 			assert (player.getHP() < playerHP8 && monsters[8].getHP() < monstersHP8, "Wand of Drain Life");
 
-			wands[9].activate(&level, &monsters[9]);
-			assert (true, "Wand of Cold");
+			try {
+				wands[9].activate(&level, &monsters[9]);
+				assert (true, "Wand of Cold");
+			} catch (const std::exception& e) {
+				assert(false, "Exception during Wand of Cold");
+			}
 
-			wands[10].activate(&level, &monsters[10]);
-			assert (true, "Wand of Fire");
+			try {
+				wands[10].activate(&level, &monsters[10]);
+				assert (true, "Wand of Fire");
+			} catch (const std::exception& e) {
+				assert(false, "Exception during Wand of Fire");
+			}
 
 
 			comment("Finished Wand tests.");
