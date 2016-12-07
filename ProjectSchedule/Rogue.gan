@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Rogue" company="Team Rogue++" webLink="" view-date="2016-10-16" view-index="0" gantt-divider-location="489" resource-divider-location="431" version="2.8.1" locale="en_US">
+<?xml version="1.0" encoding="UTF-8"?><project name="Rogue" company="Team Rogue++" webLink="" view-date="2016-10-23" view-index="0" gantt-divider-location="489" resource-divider-location="431" version="2.8.1" locale="en_US">
     <description><![CDATA[3XA3 Cornerstone]]></description>
-    <view zooming-state="default:6" id="gantt-chart">
+    <view zooming-state="default:5" id="gantt-chart">
         <field id="tpd3" name="Name" width="259" order="0"/>
         <field id="tpd4" name="Begin date" width="99" order="1"/>
         <field id="tpd5" name="End date" width="112" order="2"/>
@@ -93,7 +93,7 @@ See src/Class_Outline.txt for rough implementation responsibilities outline.]]><
     - Game over screens
     - 100% test success rate]]></notes>
             </task>
-            <task id="312" name="Module Implementation" meeting="false" start="2016-10-10" duration="27" complete="0" expand="false">
+            <task id="312" name="Module Implementation" meeting="false" start="2016-10-10" duration="34" complete="0" expand="true">
                 <task id="314" name="Level" color="#8cb6ce" meeting="false" start="2016-10-14" duration="23" complete="0" expand="true"/>
                 <task id="315" name="LevelGen" color="#8cb6ce" meeting="false" start="2016-10-17" duration="22" complete="0" expand="true"/>
                 <task id="316" name="Item" color="#8cb6ce" meeting="false" start="2016-11-14" duration="2" complete="0" expand="true"/>
@@ -109,6 +109,7 @@ See src/Class_Outline.txt for rough implementation responsibilities outline.]]><
                 <task id="324" name="Coord" color="#8cb6ce" meeting="false" start="2016-10-19" duration="3" complete="0" expand="true"/>
                 <task id="325" name="Feature" color="#8cb6ce" meeting="false" start="2016-11-01" duration="11" complete="0" expand="true"/>
                 <task id="326" name="Random" color="#8cb6ce" meeting="false" start="2016-10-11" duration="2" complete="0" expand="true"/>
+                <task id="329" name="SaveScreen" color="#8cb6ce" meeting="false" start="2016-11-17" duration="6" complete="0" expand="true"/>
             </task>
             <task id="137" name="Due: Demonstration (Dev Milestone 1)" color="#cc3300" meeting="true" start="2016-11-16" duration="0" complete="0" expand="true"/>
             <task id="160" name="Final Development" color="#cc3300" meeting="false" start="2016-11-15" duration="11" complete="0" expand="true">
@@ -244,6 +245,7 @@ See src/Class_Outline.txt for rough implementation responsibilities outline.]]><
         <allocation task-id="327" resource-id="6" function="Default:0" responsible="true" load="5.0"/>
         <allocation task-id="328" resource-id="6" function="Default:0" responsible="true" load="25.0"/>
         <allocation task-id="307" resource-id="6" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="329" resource-id="6" function="Default:0" responsible="true" load="10.0"/>
     </allocations>
     <vacations/>
     <previous/>
