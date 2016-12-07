@@ -16,3 +16,5 @@
 0,1,Test Char,retired
 0,2,Testman,retired
 0,1,Man,Killed by a Ice Monster
+0,1,Test Char,retired
+0,1,Test Char,retired
