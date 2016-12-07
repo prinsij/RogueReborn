@@ -39,7 +39,7 @@
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0em}}p{#1}}
 
 \newcounter{mnum}
-\newcommand{\mhprint}[1]{\addtocounter{mnum}{1} #1 & \textbf{M\themnum}}
+\newcommand{\mhprint}[2]{\addtocounter{mnum}{1} #1 & \textbf{M#2}}
 \newcommand{\mdprint}[1]{\addtocounter{mnum}{1} #1 (M\themnum)}
 
 \newcommand{\newsection}[1]{
@@ -1282,32 +1282,33 @@ The following is a list of all automated tests in the project.
 			\midrule
 
 			\multirow{2}{0.3\textwidth}{Hardware-Hiding Module}
-			& \mhprint{BasicIO}\\
-			& \mhprint{Doryen}\\
-			& \mhprint{Input Format}\\
+			& \mhprint{BasicIO}{1}\\
+			& \mhprint{Doryen}{2}\\
+			& \mhprint{Input Format}{3}\\
 			\midrule
 
 			\multirow{6}{0.3\textwidth}{Behaviour-Hiding Module}
-			& \mhprint{External}\\
-			& \mhprint{Item}\\
-			& \mhprint{Level}\\
-			& \mhprint{LevelGen}\\
-			& \mhprint{MainMenu}\\  
-			& \mhprint{Monster}\\
-			& \mhprint{PlayerChar}\\
-			& \mhprint{RipScreen}\\
-			& \mhprint{PlayState}\\
-			& \mhprint{UIState}\\
+			& \mhprint{External}{4}\\
+			& \mhprint{Item}{5}\\
+			& \mhprint{Level}{6}\\
+			& \mhprint{LevelGen}{7}\\
+			& \mhprint{MainMenu}{8}\\            
+			& \mhprint{Mob}{18}\\  
+			& \mhprint{Monster}{9}\\
+			& \mhprint{PlayerChar}{10}\\
+			& \mhprint{RipScreen}{11}\\
+			& \mhprint{PlayState}{12}\\
+			& \mhprint{SaveScreen}{21}\\
+			& \mhprint{UIState}{13}\\
 			\midrule
 
 			\multirow{9}{0.3\textwidth}{Software Decision Module}
-			& \mhprint{Coord}\\
-			& \mhprint{Feature}\\
-			& \mhprint{ItemZone}\\          
-			& \mhprint{MasterController}\\            
-			& \mhprint{Mob}\\
-			& \mhprint{Random}\\
-			& \mhprint{Terrain}\\
+			& \mhprint{Coord}{14}\\
+			& \mhprint{Feature}{15}\\
+			& \mhprint{ItemZone}{16}\\          
+			& \mhprint{MasterController}{17}\\
+			& \mhprint{Random}{19}\\
+			& \mhprint{Terrain}{20}\\
 			\bottomrule
 		\end{tabular}
 		 \setcounter{mnum}{0}
