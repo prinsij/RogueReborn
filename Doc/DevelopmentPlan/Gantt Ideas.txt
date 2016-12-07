@@ -1,8 +1,0 @@
-Require Docs				Sep 26		Oct 7
-Milestone 1	(Rev -1)		Oct 10		Oct 14 (Break)
-Explore Tech				Oct 17		Oct 21
-BOOST + Test Plan			Oct 24		Oct 28
-Design Doc 					Oct 31		Nov 11
-Rev 0 (Milestone 2)			Oct 21		Nov 19
-Rev 1 fixes	(Milestone 3)	Nov 18		Nov 30
-Design Doc Final			Nov 26		Dec 7
