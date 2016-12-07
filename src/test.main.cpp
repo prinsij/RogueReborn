@@ -46,7 +46,7 @@ int main() {
 	ItemTest().test();
 	ItemZoneTest().test();
 	LevelTest().test();
-	// LevelGenTest().test();
+	LevelGenTest().test();
 	MobTest().test();
 	MonsterTest().test();
 	PlayerCharTest().test();
