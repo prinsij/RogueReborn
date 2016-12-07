@@ -800,9 +800,9 @@ The following is a list of all system tests in the project.
 			test.main.cpp 			& Put everything together\\
 			test.mob.cpp 			& FR.37, FR.38, FR.39\\
 			test.monster.cpp 		& FR.35-39\\
-			test.playerchar.cpp 	& FR.9-15, FR.26-34\\
-			test.potion.cpp 		& FR.5, FR.13, FR.14, FR.15, FR.25, FR.31\\\\
-			test.ring.cpp 			& FR.5, FR.13, FR.14, FR.15, FR.25, FR.31\\\\
+			test.playerchar.cpp 	& FR.9-15, FR.26-34, NFR.5\\
+			test.potion.cpp 		& FR.5, FR.13, FR.14, FR.15, FR.25, FR.31\\
+			test.ring.cpp 			& FR.5, FR.13, FR.14, FR.15, FR.25, FR.31\\
 			test.room.cpp 			& FR.17, FR.18, FR.19, FR.21\\
 			test.scroll.cpp 		& FR.5, FR.13, FR.14, FR.15, FR.25, FR.31\\\\
 			test.stairs.cpp 		& FR.18, FR.19\\
@@ -811,9 +811,9 @@ The following is a list of all system tests in the project.
 			test.testable.h 		& Defines test-suite\\
 			test.trap.cpp 			& FR.12, FR.15, FR.19, FR.20, FR.23, FR.24, FR.34\\
 			test.tunnel.cpp 		& FR.17, FR.19\\
-			test.uistate.cpp 		& FR.1-4, FR.6-10\\
-			test.wand.cpp 			& FR.5, FR.13, FR.14, FR.15, FR.25, FR.31\\\\
-			test.weapon.cpp 		& FR.5, FR.13, FR.14, FR.15, FR.25, FR.31\\\\
+			test.uistate.cpp 		& FR.1-4, FR.6-10, NFR.1, NFR.3, NFR.5\\
+			test.wand.cpp 			& FR.5, FR.13, FR.14, FR.15, FR.25, FR.31\\
+			test.weapon.cpp 		& FR.5, FR.13, FR.14, FR.15, FR.25, FR.31\\
 			\hline
 		\end{longtable}
 	\end{table}
@@ -911,9 +911,13 @@ The following is a list of all system tests in the project.
 
 \newpage
 \section{Code Coverage Metrics}
-	Cross-referencing the test-module trace above with the module-requirements trace given in the Module Guide, it is possible to determine exactly which functional and non-functional requirements were satisfied with the test cases we created.\\
+	By looking at the test-requirements matrix, and also cross-referencing the test-module trace above with the module-requirements trace given in the Module Guide, it is possible to determine exactly which functional and non-functional requirements were satisfied with the test cases we created.\\
 
-	As can be expected, near \textbf{complete coverage} of both functional and non-functional requirements in achieved. Except for a few non-functional requirements, the modules reflected in the test cases offer a complete coverage of the requirements. This is good news, as it means that, while perhaps indirectly, the specified test cases 
+	As can be expected, near \textbf{complete coverage} of both functional and non-functional requirements is achieved. Except for a few non-functional requirements, the modules and direct requirements reflected in the test cases offer a complete coverage of the requirements. Some (in particular, non-functional) requirements are nigh impossible to test using code. An example includes NFR.2: "The Rogue Reborn game shall be fun and entertaining." Whatever software exists that can determine such a thing would never pass the Turing test, and thus can be deemed an impossibility as of current technology. But while it is impossible to test with code, such a thing is easily testable with human playtesters.\\
+
+	Along with NFR.2, several non-functional requirements were not feasible to assert with software, but all were correctly proven by other means, most of which involved manual human labor.\\
+
+	To expand on the previous statements, we encountered some requirements where the achievable target was difficult to materialize, but still algorithmic and computational in nature. A prime example of this is the luminosity constraint, which ruled that no two consecutive frames may have a change in brightness greater than some defined delta. In order to properly measure this, we had to go outside of the program, and write a separate script to do the hard work. We used python to calculate the pixel-accurate luminosity of some key screenshots, and using the calculation proposed by the non-functional requirement, arrived at correct results. The results were deemed close enough to the predefined delta, which itself was based more or less on our intuition.
 
 %\bibliographystyle{plainnat}
 
