@@ -8,3 +8,4 @@ The folders and files for the Module Guide (MG).
 | **MG.pdf** | Official Module Guide (MG) document |
 | MG.tex | TeX file which generates the MG PDF |
 | MG.bib | Bibliography information for the MG |
+| UH.png | Uses Hierarchy (see MG.pdf) |

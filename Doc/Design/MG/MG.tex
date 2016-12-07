@@ -19,6 +19,8 @@
 
 % Setup
 
+\definecolor{RevisionColour}{rgb}{0.0, 0.5, 0.2}
+\newcommand{\rev}[1]{\textcolor{RevisionColour}{#1}}
 
 \definecolor{DarkBlue}{rgb}{0.1, 0.2, 0.5}
 
@@ -100,6 +102,7 @@
         11/12/16 & 0.4 & Added Introduction\\
         11/12/16 & 0.5 & Added Use Hierarchy\\
         11/13/16 & 0.6 & Proofread and Editing\\
+        \rev{12/06/16} & \rev{1.0} & \rev{Revision 1 Update}\\
         \bottomrule
     \end{tabularx}
 \end{table}
@@ -252,10 +255,12 @@
             & \mhprint{Level}\\
             & \mhprint{LevelGen}\\
             & \mhprint{MainMenu}\\  
+            & \mhprint{\rev{Mob}}\\
             & \mhprint{Monster}\\
             & \mhprint{PlayerChar}\\
             & \mhprint{RipScreen}\\
             & \mhprint{PlayState}\\
+            & \mhprint{\rev{SaveScreen}}\\
             & \mhprint{UIState}\\
             \midrule
 
@@ -264,7 +269,6 @@
             & \mhprint{Feature}\\
             & \mhprint{ItemZone}\\          
             & \mhprint{MasterController}\\            
-            & \mhprint{Mob}\\
             & \mhprint{Random}\\
             & \mhprint{Terrain}\\
             \bottomrule
@@ -353,6 +357,13 @@
         \end{description}
 
         \bigskip\begin{description}
+            \item[\rev{Name:}]\mdprint{\rev{Mob}}
+            \item[\rev{Secrets:}]\rev{Internal data structure and behavior of creatures.}
+            \item[\rev{Services:}]\rev{Serves as the base module for all creatures in the dungeon (including the player character).  This module provides interfaces for movement, combat, and various statistics, and also includes several implementations of generic actions.}
+            \item[\rev{Implemented By:}]\href{run:../../../src/include/mob.h}{mob.h}
+        \end{description}
+
+        \bigskip\begin{description}
             \item[Name:]\mdprint{Monster}
             \item[Secrets:]Monster type data structure and behaviour implementation
             \item[Services:]Customizes the behaviour of various monsters act aggressively towards players, regenerate health, seek gold, etc.  This module also stores the data to define various monster templates (e.g., all dragon share a common behavior pattern, name, HP quantity, etc.)
@@ -378,6 +389,13 @@
             \item[Secrets:]Score computation and storage
             \item[Services:]Handles reading and writing from the score record file; the nature and location of the score table is only known to this module.
             \item[Implemented By:]\href{run:../../../src/include/ripscreen.h}{ripscreen.h}
+        \end{description}
+
+        \bigskip\begin{description}
+            \item[\rev{Name:}]\mdprint{\rev{SaveScreen}}
+            \item[\rev{Secrets:}]\rev{Game state serialization and deserialization}
+            \item[\rev{Services:}]\rev{Handles reading and writing to the saved game files.}
+            \item[\rev{Implemented By:}]\href{run:../../../src/include/savescreen.h}{savescreen.h}
         \end{description}
 
         \bigskip\begin{description}
@@ -418,13 +436,6 @@
         \end{description}
 
         \bigskip\begin{description}
-            \item[Name:]\mdprint{Mob}
-            \item[Secrets:]Internal data structure and behavior of creatures.
-            \item[Services:]Serves as the base module for all creatures in the dungeon (including the player character).  This module provides interfaces for movement, combat, and various statistics, and also includes several implementations of generic actions.
-            \item[Implemented By:]\href{run:../../../src/include/mob.h}{mob.h}
-        \end{description}
-
-        \bigskip\begin{description}
             \item[Name:]\mdprint{Random}
             \item[Secrets:]Random number generation details
             \item[Services:]Generates random numbers as a utility service for the remainder of the application.  The algorithm used and state of the PRNG are not exposed.
@@ -456,7 +467,7 @@
             \midrule
 
             FR 1, FR 4, FR 7 & MasterController, Coord\\
-            FR 2, FR 3 & RipScreen\\
+            FR 2, FR 3 & RipScreen, \rev{SaveScreen}\\
             FR 5 & MainMenu\\
             FR 6, FR 8, FR 9, FR 10 & UIState, Doryen, Coord, PlayState\\
             FR 11, FR 12 & PlayerChar\\
@@ -517,7 +528,7 @@
         \caption{\bf Use Hierarchy}
         \centering
         \bigskip
-        \includegraphics[width=0.85\textwidth]{./UH.png}
+        \includegraphics[width=0.95\textwidth]{./UH.png}
     \end{figure}
 
 \newSection{References} \label{SecRef}

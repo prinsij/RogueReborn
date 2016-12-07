@@ -13,6 +13,9 @@
 \usepackage{tikz}
 
 % Setup
+ 
+\definecolor{RevisionColour}{rgb}{0.0, 0.5, 0.2}
+\newcommand{\rev}[1]{\textcolor{RevisionColour}{#1}}
 
 \hypersetup{
     colorlinks,
@@ -131,6 +134,7 @@
 		10/30/16 & 0.5.1 & Added Bibliography \\
 		10/31/16 & 0.6 & Added Names to Test Template \\
 		10/31/16 & 0.7 & Proofread and Editing \\
+		\rev{12/06/16} & \rev{1.0} & \rev{Revision 1 Update}\\
 		\bottomrule
 	\end{tabularx}
 \end{table}
@@ -298,7 +302,7 @@
 
 	\bigskip
 
-	As an extra safety measure, the Rogue++ team will also be utilizing a tool called \textit{Valgrind} in the testing procedure.  Valgrind is a powerful analysis tool that tests the amount of memory a C++ program utilizes and detects memory allocation errors such as memory leaks ~\citep{ValgrindHome}.  C++, unlike Java and other high level languages, does not include a built-in garbage collector (otherwise there would be nothing left!) to give programmers total control over their application lifetime.  Consequently, it is a common mistake to accidentally leave unreferenced objects in memory and cause a memory leak in the program.\\
+	As an extra safety measure, the Rogue++ team will also be utilizing a tool called \textit{Valgrind} in the testing procedure.  Valgrind is a powerful analysis tool that tests the amount of memory a C++ program utilizes and detects memory allocation errors such as memory leaks ~\citep{ValgrindHome}.  C++, unlike Java and other high level languages, does not include a built-in garbage collector (otherwise there would be nothing left!) to give programmers total control over their application lifetime.  Consequently, it is a common mistake to accidentally leave unreferenced objects in memory and cause a memory leak in the program.  \rev{In the event that a memory leak error is detected, the Rogue++ team will resort to the GDB (GNU Project Debugger) tool which boasts a comprehensive set of features for performing tasks such as detecting the source of such memory leaks.  ~\citep{GDBHome}}\\
 
 	At the time of writing, the Rogue Reborn application occupies approximately 1 MB of RAM during peak execution.  Although this is a minute quantity, memory leaks are representative of a larger issue: incorrect code!  By using Valgrind, the Rogue++ team will be able to detect the presence of these errors and indicate the direction of the next crucial bug fix.
 
@@ -372,7 +376,7 @@
 
 			\test{F}{Identification \& Naming}{Dynamic}{Manual}{Black}{Gameplay State}{Users are instructed to pronounce the names of all items they collect.}{Users are unable to pronounce items they have yet to identify.}{Users will be asked to pronounce the generated names to the best of their ability to ensure they are nonsensical.}
 
-			\test{F}{Armor \& Deterioration}{Dynamic}{Manual}{Black}{Gameplay State}{Users are assured that their armor is invincible.}{Users should complain that their armor loses effectiveness over time.}{Aquators and traps possess the capability to destroy player armor. Users should begin to encounter such setbacks (starting at level 6) and report their findings.}
+			\test{F}{Armor \& Deterioration}{Dynamic}{Manual}{Black}{Gameplay State}{Users are assured that their armor is invincible.}{Users should complain that their armor loses effectiveness over time.}{Aquators and traps possess the capability to destroy player armor. Users should begin to encounter such setbacks (starting at level \hyperref[symbolicParameters]{\rev{DETERIORATE\_LEVEL}}) and report their findings.}
 
 		\subsubsection{Combat}
 
@@ -426,7 +430,7 @@
 
 		\subsubsection{Security Requirements}
 			% Integrity
-			\test{N}{Illegal Records Check}{Dynamic}{Manual}{White}{Seasoned State}{A corrupted high score record file.}{Rogue Reborn GUI displaying the top high scores.}{The Rogue++ team will illegally modify a high score record file by manually altering or adding values such that the expected format or value integrity is violated.  These modifications should include negative high score values, missing text, and incorrect delimiter usage.  The game will then be played until the high score screen is revealed; all invalid record file contents should be ignored and amended in the next write to the record file.}
+			\test{N}{Illegal Records Check}{Dynamic}{Manual}{White}{Seasoned State}{A corrupted high score record file.}{Rogue Reborn GUI displaying the top high scores.}{The Rogue++ team will illegally modify a high score record file by manually altering or adding values such that the expected format or value integrity is violated.  These modifications should include negative high score values, missing text, and incorrect delimiter usage.  The game will then be played until the high score screen is revealed; \rev{all invalid record file contents should be ignored by the display and then later discarded in the next write to the record file.}}
 
 		\subsubsection{Legal Requirements}
 			% Compliance
@@ -469,23 +473,23 @@
 \section{Comparison to Existing Implementation}	
 \label{section5}
 	
-	\textcolor{red}{It may helpful to specify what tests you refer to when speaking of these high level tests like GUI design, attacking... etc. - CM} \\
+	%\textcolor{red}{It may helpful to specify what tests you refer to when speaking of these high level tests like GUI design, attacking... etc. - CM} \\
 	The original \textit{Rogue} contains an abundance of features, and luckily, is open source.  This means that the vast majority of features in Rogue Reborn can be tested in accordance to their similarity to the original game. Some examples of such occurrences are discussed below.\\
 
-	An attempt has been made to replicate nearly one-for-one the items, loot, and treasure obtainable in the original \textit{Rogue}.  Wands, staffs, rings, potions, ammunition, weapons, armor and more were all implemented with the same values and parameters.  Regarding the items available for collection, players of the original game should feel comfortable with the remastered Rogue Reborn experience.  Unlike some contemporary games, the original \textit{Rogue} does not specify the effectiveness of an attack (besides its hit or miss), as does Rogue Reborn.  Consequently, a user who is experienced with the original game may expect certain behavior out of a weapon or item, and find a difference in its effectiveness, despite the near one-to-one transition.  This phenomenon could stem from a variety of sources, the most likely of which being a bug in the new implementation.\\
+	An attempt has been made to replicate nearly one-for-one the items, loot, and treasure obtainable in the original \textit{Rogue}.  Wands, staffs, rings, potions, ammunition, weapons, armor and more were all implemented with the same values and parameters.  Regarding the items available for collection, players of the original game should feel comfortable with the remastered Rogue Reborn experience.  Unlike some contemporary games, the original \textit{Rogue} does not specify the effectiveness of an attack \rev{(i.e., the damage it inflicts)} besides whether it hit or missed, as does Rogue Reborn.  Consequently, a user who is experienced with the original game may expect certain behavior out of a weapon or item, and find a difference in its effectiveness, despite the near one-to-one transition.  This phenomenon could stem from a variety of sources, the most likely of which being a bug in the new implementation.  \rev{One possible avenue to exposing these subtle inconsistencies is to allow an experienced \textit{Rogue} player to try their hand at Rogue Reborn.  Afterwards, they can be questioned about their perceived effectiveness of particular items.}\\
 
-	Another aspect of the game that was replicated from the original source code is the dungeon generation.  Of course, the modern Rogue Reborn makes use of a more advanced data structure with several capabilities that were not available for the C of 1980, but the data structures are still conceptually similar.  The process followed for dungeon generation in 1980 was somewhat ill-conceived and convoluted.  Despite this, its discernible aspects were used as an inspiration for the algorithm used in Rogue Reborn.  While at the end of the day the two do not follow exactly the same procedure, the end results are quite close, and the included functional test cases ensure that all properties of the old \textit{Rogue} are satisfied in Rogue Reborn.\\
+	Another aspect of the game that was replicated from the original source code is the dungeon generation.  Of course, the modern Rogue Reborn makes use of a more advanced data structure with several capabilities that were not available for the C of 1980, but the data structures are still conceptually similar.  The process followed for dungeon generation in 1980 was somewhat ill-conceived and convoluted.  Despite this, its discernible aspects were used as an inspiration for the algorithm used in Rogue Reborn.  While at the end of the day the two do not follow exactly the same procedure, the end results are quite close, and the included functional test cases ensure that all properties of the old \textit{Rogue} are satisfied in Rogue Reborn.  \rev{For example, the requirements ensure that every room generated in a level is connected through tunnels (that only travel in the cardinal directions).}\\
 
 	Another way Rogue Reborn can be compared to the original \textit{Rogue} is by its controls.  This is a feature that can be automatically tested, and can be guaranteed to function exactly as intended.  Every key in \textit{Rogue} is mapped to a specific action, which can be replicated one-for-one in Rogue Reborn.  This kind of relationship allows for the creation of easy, maintainable tests whose implementation are nearly trivial.\\
 
-	The final comparison to be discussed is the software environment.  The original \textit{Rogue} was executed in the terminal, and still does so on UNIX-like machines.  Rogue Reborn, however, runs in a window handled by \textit{libtcod}.  The differences may not be apparent to a standard end-user, but this is extremely significant for the developers of the application.  There are many dozens of different terminals, each with its own special display characteristics, features, macros, and  more.  The different software environment may slightly alter response time, save and load times, and several other factors, although these changes can only improve the user experience.  The differences between the terminal \textit{Rogue} and the \textit{libtcod} Rogue will be exactly the features the Rogue++ team will attempt to discover with a solid foundation and tests and implementation experiments.
+	The final comparison to be discussed is the software environment.  The original \textit{Rogue} was executed in the terminal, and still does so on UNIX-like machines.  Rogue Reborn, however, runs in a window handled by \textit{libtcod}.  The differences may not be apparent to a standard end-user, but this is extremely significant for the developers of the application.  There are many dozens of different terminals, each with its own special display characteristics, features, macros, and  more.  The different software environment may slightly alter response time, save and load times, and several other factors, although these changes can only improve the user experience.  The differences between the terminal \textit{Rogue} and the \textit{libtcod} Rogue will be exactly the features the Rogue++ team will attempt to discover with a solid foundation and tests and implementation experiments.  \rev{Although aesthetic testing does not lend itself well to automation, the similarity between the two applications can be determined by asking a playtesting group about the similarities (or differences) among the colours, textures, fonts, etc.}\\
 	
 	
 \newpage
 \section{Unit Testing Plan}
 \label{section6}
 	
-	After examining the Boost library's utilities for unit testing, it was decided that integrating an existing unit testing framework was not in the project's best interests.  The Rogue++ team concluded that adding a framework would significantly decrease \textcolor{red}{(decrease? - CM)} the amount of work to be done, while at the same time reducing flexibility and causing potential installation difficulties.  As a consequence of this fact, test drivers will be manually written.  Stubs will also be produced when necessary to simulate system components; since there are no database or network connections, stubs should be kept minimalistic and clean.  It is important to note that additional functions may be required to construct objects in states suitable for easy testing (e.g. creating a level or player character with certain known properties rather than by random generation).
+	After examining the Boost library's utilities for unit testing, it was decided that integrating an existing unit testing framework was not in the project's best interests.  The Rogue++ team concluded that adding a framework would significantly \rev{increase} the amount of work to be done, while at the same time reducing flexibility and causing potential installation difficulties.  As a consequence of this fact, test drivers will be manually written.  Stubs will also be produced when necessary to simulate system components; since there are no database or network connections, stubs should be kept minimalistic and clean.  It is important to note that additional functions may be required to construct objects in states suitable for easy testing (e.g. creating a level or player character with certain known properties rather than by random generation).
 	
 	\subsection{Unit Testing of Internal Functions}
 		Internal functions in the product will be unit tested.  This will be reserved for more complex functions in order to not avoid wasting valuable development time.  Given that complete code coverage is not a realistic goal, generic code coverage metrics will not be used.  Instead, care will be taken that complex functions are covered by unit test cases.  The following list highlights several examples of internal functions that are solid initial candidates for unit testing:
@@ -526,7 +530,7 @@
 				\bottomrule
 				\textbf{Parameter} & \textbf{Value} \\
 				\hline
-				ROOMS\_PER\_LEVEL & 9 \\
+				\rev{DETERIORATE\_LEVEL} & \rev{6} \\
 				FINAL\_LEVEL & 26 \\
 				HEIGHT\_RESOLUTION & 400 \\
 				LUMINOSITY\_DELTA & 0.5 \\
@@ -537,6 +541,7 @@
 				PLAYTEST\_MEDIUM\_RANGE & 10-20 \\
 				PLAYTEST\_LONG\_TIME & 3 \\
 				REGEX\_INTEGER & \lstinline$(char|int|long).*(,|;)$ \\
+				ROOMS\_PER\_LEVEL & 9 \\
 				START\_LEVEL & 1 \\
 				VIEW\_DISTANCE & 1 \\
 				WIDTH\_RESOLUTION & 1280 \\
