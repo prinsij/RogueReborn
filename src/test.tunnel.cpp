@@ -1,7 +1,7 @@
 /**
  * @file test.tunnel.cpp
  * @author Team Rogue++
- * @date December 07, 2016
+ * @date December 08, 2016
  *
  * @brief Member definitions for the TunnelTest class
  */ 
@@ -13,6 +13,9 @@
 #include "include/tunnel.h"
 #include "test.testable.h"
 
+/**
+ * @brief      Tests the Tunnel class.
+ */
 class TunnelTest : public Testable {
 	public:
 		TunnelTest(){}

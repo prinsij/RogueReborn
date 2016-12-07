@@ -1,7 +1,7 @@
 /**
  * @file test.feature.cpp
  * @author Team Rogue++
- * @date December 07, 2016
+ * @date December 08, 2016
  *
  * @brief Member definitions for the FeatureTest class
  */ 
@@ -14,6 +14,9 @@
 #include "include/feature.h"
 #include "test.testable.h"
 
+/**
+ * @brief      Tests the Feature class.
+ */
 class FeatureTest : public Testable {
 	public:
 		FeatureTest(){}

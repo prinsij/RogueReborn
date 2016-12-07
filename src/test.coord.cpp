@@ -1,7 +1,7 @@
 /**
  * @file test.coord.cpp
  * @author Team Rogue++
- * @date December 07, 2016
+ * @date December 08, 2016
  *
  * @brief Member definitions for the CoordTest class
  */ 
@@ -13,6 +13,9 @@
 #include "include/coord.h"
 #include "test.testable.h"
 
+/**
+ * @brief      Tests the Coord class.
+ */
 class CoordTest : public Testable {
 	public:
 		CoordTest(){}

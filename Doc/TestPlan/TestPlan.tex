@@ -526,21 +526,21 @@
 			\def\arraystretch{1.6}
 
 
-			\begin{tabular}{| c | c |}
+			\begin{tabular}{| C{18em} | C{15em} |}
 				\bottomrule
 				\textbf{Parameter} & \textbf{Value} \\
 				\hline
 				\rev{DETERIORATE\_LEVEL} & \rev{6} \\
 				FINAL\_LEVEL & 26 \\
 				HEIGHT\_RESOLUTION & 400 \\
-				LUMINOSITY\_DELTA & 0.5 \\
+				LUMINOSITY\_DELTA & \rev{0.6} \\
 				MINIMUM\_ENTERTAINMENT\_TIME & 20 \\
 				MINIMUM\_RESPONSE\_SPEED & 30 \\
 				HIGH\_SCORE\_CAPACITY & 15 \\
 				PLAYTEST\_SHORT\_TIME & 5 \\
 				PLAYTEST\_MEDIUM\_RANGE & 10-20 \\
 				PLAYTEST\_LONG\_TIME & 3 \\
-				REGEX\_INTEGER & \lstinline$(char|int|long).*(,|;)$ \\
+				REGEX\_INTEGER & \rev{\lstinline$(unsigned|int|long)\\s+$ \newline \lstinline$[A-Za-z]+\\s*(,|;|=.*)\\s*$} \\
 				ROOMS\_PER\_LEVEL & 9 \\
 				START\_LEVEL & 1 \\
 				VIEW\_DISTANCE & 1 \\

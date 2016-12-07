@@ -1,7 +1,7 @@
 /**
  * @file test.levelgen.cpp
  * @author Team Rogue++
- * @date December 07, 2016
+ * @date December 08, 2016
  *
  * @brief Member definitions for the LevelGenTest class
  */ 
@@ -14,6 +14,9 @@
 #include "include/stairs.h"
 #include "test.testable.h"
 
+/**
+ * @brief      Tests the Level class (generation algorithms).
+ */
 class LevelGenTest : public Testable {
 	public:
 		LevelGenTest(){}

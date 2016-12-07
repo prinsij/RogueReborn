@@ -1,7 +1,7 @@
 /**
  * @file room.h
  * @author Team Rogue++
- * @date December 07, 2016
+ * @date December 08, 2016
  *
  * @brief Member declarations for the Room class
  */ 

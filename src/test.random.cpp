@@ -1,7 +1,7 @@
 /**
  * @file test.random.cpp
  * @author Team Rogue++
- * @date December 07, 2016
+ * @date December 08, 2016
  *
  * @brief Member definitions for the RandomTest class
  */ 
@@ -15,6 +15,9 @@
 #include "include/random.h"
 #include "test.testable.h"
 
+/**
+ * @brief      Tests the Random class.
+ */
 class RandomTest : public Testable {
 	public:
 		RandomTest(){}

@@ -1,7 +1,7 @@
 /**
  * @file test.trap.cpp
  * @author Team Rogue++
- * @date December 07, 2016
+ * @date December 08, 2016
  *
  * @brief Member definitions for the TrapTest class
  */ 
@@ -17,6 +17,9 @@
 #include "include/trap.h"
 #include "test.testable.h"
 
+/**
+ * @brief      Tests the Trap class.
+ */
 class TrapTest : public Testable {
 	public:
 		TrapTest(){}

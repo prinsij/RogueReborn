@@ -1,7 +1,7 @@
 /**
  * @file test.uistate.cpp
  * @author Team Rogue++
- * @date December 07, 2016
+ * @date December 08, 2016
  *
  * @brief Member definitions for the UIStateTest class
  */ 
@@ -18,6 +18,9 @@
 #include "libtcod/include/libtcod.hpp"
 #include "test.testable.h"
 
+/**
+ * @brief      Tests the UIState class.
+ */
 class UIStateTest : public Testable {
 	public:
 		UIStateTest() {};

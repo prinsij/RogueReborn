@@ -1,7 +1,7 @@
 /**
  * @file monster.cpp
  * @author Team Rogue++
- * @date December 07, 2016
+ * @date December 08, 2016
  *
  * @brief Member definitions for the Monster class
  */ 
@@ -426,7 +426,7 @@ void Monster::relocate(Level* level) {
 		//MAGIC NUMBER
 		if (path.size() < 5 || level->canSee(this->location, level->getPlayer()->getLocation())){
 			if (level->contains(path[1])){
-				
+
 				//path[1] is 100% inside path
 				if (level->tileAt(path[1]).isPassable() == Terrain::Passable && !level->monsterAt(path[1])){
 					this->location = path[1];

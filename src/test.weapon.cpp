@@ -1,7 +1,7 @@
 /**
  * @file test.weapon.cpp
  * @author Team Rogue++
- * @date December 07, 2016
+ * @date December 08, 2016
  *
  * @brief Member definitions for the WeaponTest class
  */ 
@@ -15,6 +15,9 @@
 #include "include/weapon.h"
 #include "test.testable.h"
 
+/**
+ * @brief      Tests the Weapon class.
+ */
 class WeaponTest : public Testable {
 	public:
 		WeaponTest(){}
