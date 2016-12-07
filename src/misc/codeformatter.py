@@ -12,7 +12,9 @@ RE_PATH_IGNORE = re.compile(r"libtcod|ParseTest|html|misc|assets")
 ## C++ file extensions
 RE_EXTENSION = re.compile(r"\.(cpp|h)")
 ## C++ header file
-RE_HEADER_EXTENSION = re.compile(r"\.h$") 
+RE_HEADER_EXTENSION = re.compile(r"\.h$")
+## C++ test file 
+RE_TEST_FILE = re.compile(r"test\..+\.cpp$") 
 ## C++ header class declaration
 RE_HEADER_CLASS = re.compile(r"class\s+(?P<className>[a-zA-Z]+)\s+(:|{)")
 ## C++ source class declaration 
@@ -116,11 +118,12 @@ def addHeader(cppFile, content):
 		return content
 
 	isHeader = RE_HEADER_EXTENSION.search(cppFile)
+	isTest = RE_TEST_FILE.search(cppFile)
 
 	cppName = cppFile[cppFile.rfind("/") + 1:]
 
 	classNames = set()
-	RE_CLASS_SEARCH = RE_HEADER_CLASS if isHeader else RE_SRC_CLASS
+	RE_CLASS_SEARCH = RE_HEADER_CLASS if isHeader or isTest else RE_SRC_CLASS
 	for line in content:
 		classResult = RE_CLASS_SEARCH.search(line)
 		if classResult:

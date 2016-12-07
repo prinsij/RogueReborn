@@ -1,5 +1,9 @@
 \documentclass[12pt, titlepage]{article}
 
+
+% Packages
+
+ 
 \usepackage{booktabs}
 \usepackage{float}
 \usepackage{hyperref}
@@ -14,23 +18,8 @@
 \usepackage{tikz}
 \usepackage{longtable}
 
-
-
-\newcounter{acnum}
-\newcommand{\actheacnum}{AC\theacnum}
-\newcommand{\acref}[1]{\hyperref[#1]{AC\ref{#1}}}
-
-\newcounter{ucnum}
-\newcommand{\uctheucnum}{UC\theucnum}
-\newcommand{\uref}[1]{\hyperref[#1]{UC\ref{#1}}}
-
-\newcounter{mnum}
-\newcommand{\mhprint}[1]{\addtocounter{mnum}{1} #1 & \textbf{M\themnum}}
-\newcommand{\mdprint}[1]{\addtocounter{mnum}{1} #1 (M\themnum)}
-
-\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0em}}p{#1}}
-
 % Setup
+
 \hypersetup{
 	colorlinks,
 	citecolor=blue,
@@ -43,7 +32,40 @@
 	basicstyle=\ttfamily\footnotesize
 }
 
-\usepackage[round]{natbib}
+% Custom Commands
+
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0em}}p{#1}}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0em}}p{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0em}}p{#1}}
+
+\newcounter{mnum}
+\newcommand{\mhprint}[1]{\addtocounter{mnum}{1} #1 & \textbf{M\themnum}}
+\newcommand{\mdprint}[1]{\addtocounter{mnum}{1} #1 (M\themnum)}
+
+\newcommand{\newsection}[1]{
+  \newpage
+  \section{#1}
+}
+
+\newcommand{\nfrt}[1]{
+	\textit{NFRT #1}
+}
+
+\newcommand{\nfrtc}[3]{
+	\begin{center}
+		\def\arraystretch{1.6}
+		\begin{tabular}{| R{6em} L{23em} |}
+			\bottomrule
+			\multicolumn{2}{| c |}{\textbf{Non-Functional Requirement Test} \# #1 \textbf{Summary}}  \\
+			\hline
+			\textit{Description:} & #2 \\
+			\textit{Results:} & #3 \\
+			\toprule
+		\end{tabular}
+	\end{center}
+}
+
+% Title Page Elements
 
 \title{SE 3XA3: Test Plan\\Rogue Reborn}
 
@@ -55,24 +77,30 @@
 	\end{tabular}
 }
 
-\date{Due Wednesday, Dec 7\textsuperscript{st}, 2016}
+\date{Due Wednesday, December 7\textsuperscript{th}, 2016}
+
 \input{../Comments}
 \pagenumbering{arabic}
 
 \begin{document}
 
+
+% Document Summary
+
 \maketitle
 
 \newpage
-\begin{table}
+\begin{table}[bp]
 	\caption{\bf Revision History}
 	\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 		\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 		\midrule
-		Dec 6 & 0.1 & Initial draft\\
-		Dec 6 & 0.2 & Automated Tests Up Through PlayerChar\\
-		Dec 6 & 0.3 & Functional requirements eval\\
-		Dec 7 & 0.4 & Last of Automated Tests\\
+		12/06/16 & 0.1 & Initial draft\\
+		12/06/16 & 0.2 & Automated Tests Up Through PlayerChar\\
+		12/06/16 & 0.3 & Functional requirements eval\\
+		12/06/16 & 0.3 & Functional Requirements Evaluation\\
+		12/07/16 & 0.4 & Introduction\\
+		12/07/16 & 0.5 & Last of Automated Tests\\
 		\bottomrule
 	\end{tabularx}
 \end{table}
@@ -86,11 +114,32 @@
 \newpage
 \listoffigures
 
-\newpage
-\section{Functional Requirements Evaluation}
+\newsection{Introduction} \label{Section_Intro}
+
+	\subsection{Overview}
+	The primary objective of this document is to provide a comprehensive summary of the verification process with respect to the Rogue Reborn project.  Interested parties are welcome to analyze this paper as a means of evaluating the success of the final application regarding the requirements described in the \href{run:../SRS/SRS.pdf}{SRS} and tests prescribed in the \href{run:../TestPlan/TestPlan.pdf}{Test Plan}.  After reviewing the document, the reader should understand the strengths and weaknesses of the Rogue Project as it relates to the expectations of the client.
+
+	\subsection{Sections}
+	A brief description of each Test Report section is provided below:
+
+	\begin{itemize}
+		\item [] \hyperref[Section_Intro]{\S 1} Brief overview of the Test Report
+		\item [] \hyperref[Section_FR_Evaluation]{\S 2} Functional evaluation of Rogue Reborn
+		\item [] \hyperref[Section_NFR_Evaluation]{\S 3} Non-functional evaluation of Rogue Reborn
+		\item [] \hyperref[Section_Comparison]{\S 4} Description of relationship to original \textit{Rogue} with respect to testing 
+		\item [] \hyperref[Section_UT]{\S 5} Explanation of unit testing in Rogue Reborn
+		\item [] \hyperref[Section_Changes]{\S 6} List of changes that were performed as a consequence of testing
+		\item [] \hyperref[Section_Automated]{\S 7} Tabular depiction of automated tests
+		\item [] \hyperref[Section_R_Trace]{\S 8} Justification of test files with respect to functional requirements
+		\item [] \hyperref[Section_M_Trace]{\S 9} Decomposition of modules and trace to test files
+		\item [] \hyperref[Section_Metrics]{\S 10} Summary of code coverage metrics
+
+	\end{itemize}
+
+\newsection{Functional Requirements Evaluation} \label{Section_FR_Evaluation}
 	Overall, an evaluation of functional requirements reveals near, if not complete coverage. The tests written for the projects turned out to be quite useful, as many caught bugs or business-errors that would have otherwise gone unnoticed. Those will be discussed below. As for the rest of the functional requirements, many were mundane, general, or crucial enough to have already been satisfied earlier. Those will not be discussed, as their complete satisfaction has already been verified countless times.\\
 
-	The list below refers to each functional requirement by its numerical identifier, as listed in the System Requirements Specification. Please refer to the SRS if any confusion arises due to this.
+	The list below refers to each functional requirement by its numerical identifier, as listed in the System Requirements Specification. Please refer to the \href{run:../SRS/SRS.pdf}{SRS} document if any confusion arises.
 
 	\begin{itemize}
 		\item[] \textbf{FR.16}: When performing level tests, a strange anomaly led to one test constantly failing. The test revealed that the player, in fact, did not begin at the first level. Due to an off-by-one error and slight miscommunication between developers, the current level depth the player was on was $i$ in some places and $i+1$ in others. As soon as the test revealed this, the problem was remedied globally.
@@ -98,31 +147,37 @@
 		\item[] \textbf{FR.39}: Working with C++ has its benefits, but also its drawbacks. An anomaly in the way C++ handles integers revealed a very serious bug in the code, in which player armor could reach utterly ridiculous values, rendering the player effectively invincible. By simulating every possibility of armor that can be made, this bug was caught and patched. To elaborate, the reason the bug even existed was because an unsigned integer was allowed to be reduced to a negative value, which of course means that it was not reduced to a negative number and instead went to the highest value an integer can be.
 	\end{itemize}
 
-\newpage
-\section{Nonfunctional Requirements Evaluation}
-	Mikhail
 
-	\subsection{Usability}
-		Mikhail
+\newsection{Non-Functional Requirements Evaluation} \label{Section_NFR_Evaluation}
+	The following subsections evaluate the significant non-functional qualities of Rogue Reborn.  To simplify notation, \textit{NFRT $i$} is used to denote ``Non-Functional Requirements Test $i$'' from the \href{run:../TestPlan/TestPlan.pdf}{Test Plan} document.  Note that the usability and playtesting surveys described in \nfrt{1}, \nfrt{2}, \nfrt{4}, \nfrt{7}, \nfrt{10} were not performed as a direct consequence of the time constraints imposed on the project (the \href{run:../../ProjectSchedule/rogue.gan}{Gantt Chart} schedules this survey to be released in early January, 2017).
+
+	\subsection{Usability and Aesthetics}
+		Overall, the visual appearance of the application was well-received by the Rogue Reborn stakeholders.  This was deduced through the interactions between the Rogue++ team and the \textit{SFWRENG 3XA3} instructor staff, as well as informal conversations with other colleagues.  Unfortunately, the usability survey described in \nfrt{1} will be carried out in the future, so the impressions of the general public are not yet known.\\
+
+		Since the usability of the original \textit{Rogue} was relatively poor due to its seemingly-arbitrary key bindings, the Rogue Reborn application made goals to improve this area.  Specifically, the application featured arrow key bindings for some of player character movements in order to accommodate a more standard and intuitive keyboard layout.  However, due to the plethora of other key bindings, the Rogue++ team was \textit{not} successful in alleviating this issue completely.  A summary of the remaining non-functional test \nfrt{3} is given below.
+
+		\nfrtc{3}
+		{All strings in the Rogue Reborn source code were extracted and placed in a text file, where a developer later corrected all indicated errors that were potentially associated with a GUI output using Microsoft Word.  The script that performed the string extraction is located under the \lstinline$src/misc$ under the name \href{run:../../src/misc/stringfinder.py}{stringfinder.py}.}
+		{The aforementioned script managed to located approximately 1400 strings.  After manually verifying the grammatical correctness and spelling of each string in Word, it was determined that the GUI output is free of linguistic errors.}
+
 	\subsection{Performance}
 		Mikhail
-	\subsection{etc.}
+
+	\subsection{Robustness and Maintainability}
 		Mikhail
 	
-\newpage
-\section{Comparison to Existing Implementation}
-	Ori
+	\subsection{Safety}
+		Mikhail
 
-\newpage
-\section{Unit Testing}
+\newsection{Comparison to Existing Implementation} \label{Section_Comparison}
+
+\newsection{Unit Testing} \label{Section_UT}
 	Mikhail
 
-\newpage
-\section{Changes Due to Testing}
+\newsection{Changes Due to Testing} \label{Section_Changes}
 	Mikhail
 
-\newpage
-\section{Automated Testing}
+\newsection{Automated Testing} \label{Section_Automated}
 
 \subsection{Automated Testing Strategy}
 For this project we elected not to use a 3rd party testing library. We made this decision to ease configuration/installation problems and reduce our dependencies, as we judged it would not be necessary. Instead a series of files (labeled test.foobar.cpp) in the repository hold tests, which are run by our custom test runner. These automated tests are run on command by executing the produced executable, or by the continuous integration script run whenever changes are pushed to the central repository. The results of these tests are automatically reported, resulting in a failed or successful build.
@@ -1168,12 +1223,51 @@ The following is a list of all automated tests in the project.
 
 		\end{center}
 
-\newpage
-\section{Trace to Requirements}
-	Ori
+\newsection{Trace to Requirements} \label{Section_R_Trace}
 
-\newpage
-\section{Trace to Modules}
+	The following table maps each implemented test file to a set of functional and non-functional requirements 
+
+	\begin{table}[h!]
+		\caption{\bf Test-Requirement Trace}
+		\label{TblMH}
+		\bigskip
+		\centering
+		\begin{longtable}{lr}
+			\hline
+			File & Related Requirement(s)\\
+			\hline
+			test.amulet.cpp 		& FR.25\\
+			test.armor.cpp 			& FR.29, FR.34, FR.39,\\
+			test.coord.cpp 			& FR.17\\
+			test.feature.cpp 		& FR.5, FR.13, FR.14, FR.15, FR.25, FR.31\\
+			test.food.cpp 			& FR.5, FR.31\\
+			test.goldpile.cpp 		& FR.5\\
+			test.item.cpp 			& FR.5, FR.13, FR.14, FR.15, FR.25, FR.30 FR.31\\
+			test.itemzone.cpp 		& FR.5, FR.9, FR.26\\
+			test.level.cpp 			& FR.16-19\\
+			test.levelgen.cpp 		& FR.16-19\\
+			test.main.cpp 			& Put everything together\\
+			test.mob.cpp 			& FR.37, FR.38, FR.39\\
+			test.monster.cpp 		& FR.35-39\\
+			test.playerchar.cpp 	& FR.9-15, FR.26-34, NFR.5\\
+			test.potion.cpp 		& FR.5, FR.13, FR.14, FR.15, FR.25, FR.31\\
+			test.ring.cpp 			& FR.5, FR.13, FR.14, FR.15, FR.25, FR.31\\
+			test.room.cpp 			& FR.17, FR.18, FR.19, FR.21\\
+			test.scroll.cpp 		& FR.5, FR.13, FR.14, FR.15, FR.25, FR.31\\\\
+			test.stairs.cpp 		& FR.18, FR.19\\
+			test.terrain.cpp 		& FR.13, FR.15, FR.18, FR.19, FR.23, FR.24\\
+			test.testable.cpp 		& Defines test-suite\\
+			test.testable.h 		& Defines test-suite\\
+			test.trap.cpp 			& FR.12, FR.15, FR.19, FR.20, FR.23, FR.24, FR.34\\
+			test.tunnel.cpp 		& FR.17, FR.19\\
+			test.uistate.cpp 		& FR.1-4, FR.6-10, NFR.1, NFR.3, NFR.5\\
+			test.wand.cpp 			& FR.5, FR.13, FR.14, FR.15, FR.25, FR.31\\
+			test.weapon.cpp 		& FR.5, FR.13, FR.14, FR.15, FR.25, FR.31\\
+			\hline
+		\end{longtable}
+	\end{table}
+
+\newsection{Trace to Modules} \label{Section_M_Trace}
 
 	The following table re-iterates the modules of the project, along with their respective domain and module ID. The module IDs are used to refer to modules in the trace. More about the modules can be found in the Module Guide.\\
 
@@ -1219,8 +1313,6 @@ The following is a list of all automated tests in the project.
 		 \setcounter{mnum}{0}
 	\end{table}
 
-	\newpage
-
 	The following table maps test files, which implement tests, to specific modules, given by their IDs.\\
 
 	\begin{table}[h!]
@@ -1265,12 +1357,17 @@ The following is a list of all automated tests in the project.
 
 
 
-\newpage
-\section{Code Coverage Metrics}
-	Ori
+\newsection{Code Coverage Metrics} \label{Section_Metrics}
+	By looking at the test-requirements matrix, and also cross-referencing the test-module trace above with the module-requirements trace given in the Module Guide, it is possible to determine exactly which functional and non-functional requirements were satisfied with the test cases we created.\\
 
-\bibliographystyle{plainnat}
+	As can be expected, near \textbf{complete coverage} of both functional and non-functional requirements is achieved. Except for a few non-functional requirements, the modules and direct requirements reflected in the test cases offer a complete coverage of the requirements. Some (in particular, non-functional) requirements are nigh impossible to test using code. An example includes NFR.2: "The Rogue Reborn game shall be fun and entertaining." Whatever software exists that can determine such a thing would never pass the Turing test, and thus can be deemed an impossibility as of current technology. But while it is impossible to test with code, such a thing is easily testable with human playtesters.\\
 
-\bibliography{SRS}
+	Along with NFR.2, several non-functional requirements were not feasible to assert with software, but all were correctly proven by other means, most of which involved manual human labor.\\
+
+	To expand on the previous statements, we encountered some requirements where the achievable target was difficult to materialize, but still algorithmic and computational in nature. A prime example of this is the luminosity constraint, which ruled that no two consecutive frames may have a change in brightness greater than some defined delta. In order to properly measure this, we had to go outside of the program, and write a separate script to do the hard work. We used python to calculate the pixel-accurate luminosity of some key screenshots, and using the calculation proposed by the non-functional requirement, arrived at correct results. The results were deemed close enough to the predefined delta, which itself was based more or less on our intuition.
+
+%\bibliographystyle{plainnat}
+
+%\bibliography{TestReport2}
 
 \end{document}
