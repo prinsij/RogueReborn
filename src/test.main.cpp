@@ -42,11 +42,11 @@ int main() {
 	CoordTest().test();
 	FeatureTest().test();
 	FoodTest().test();
-	// GoldPileTest().test();
-	// ItemTest().test();
-	// ItemZoneTest().test();
-	// LevelTest().test();
-	// LevelGenTest().test();
+	GoldPileTest().test();
+	ItemTest().test();
+	ItemZoneTest().test();
+	LevelTest().test();
+	LevelGenTest().test();
 	// MobTest().test();
 	// MonsterTest().test();
 	// PlayerCharTest().test();
