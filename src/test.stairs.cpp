@@ -1,9 +1,9 @@
 /**
  * @file test.stairs.cpp
  * @author Team Rogue++
- * @date December 06, 2016
+ * @date December 07, 2016
  *
- * @brief Global members
+ * @brief Member definitions for the StairsTest class
  */ 
 
 #include <iostream>
