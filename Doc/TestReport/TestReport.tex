@@ -39,8 +39,8 @@
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0em}}p{#1}}
 
 \newcounter{mnum}
-\newcommand{\mhprint}[1]{\addtocounter{mnum}{1} #1 & \textbf{M\themnum}}
-\newcommand{\mdprint}[1]{\addtocounter{mnum}{1} #1 (M\themnum)}
+\newcommand{\mhprint}[2]{\addtocounter{mnum}{1} #1 & \textbf{M#2}}
+\newcommand{\mdprint}[1]{\addtocounter{mnum}{1} #1 & \textbf{M\themnum}}
 
 \newcommand{\newsection}[1]{
   \newpage
@@ -90,20 +90,6 @@
 \maketitle
 
 \newpage
-\begin{table}[bp]
-	\caption{\bf Revision History}
-	\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
-		\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
-		\midrule
-		12/06/16 & 0.1 & Initial Draft\\
-		12/06/16 & 0.2 & Automated Tests To PlayerChar\\
-		12/06/16 & 0.3 & Functional Requirements Evaluation\\
-		12/07/16 & 0.4 & Introduction\\
-		\bottomrule
-	\end{tabularx}
-\end{table}
-
-\newpage
 \tableofcontents
 
 \newpage
@@ -111,6 +97,20 @@
 
 \newpage
 \listoffigures
+\begin{table}[bp]
+	\caption{\bf Revision History}
+	\bigskip
+	\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
+		\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
+		\midrule
+		12/06/16 & 0.1 & Initial Draft\\
+		12/06/16 & 0.2 & Automated Tests To PlayerChar\\
+		12/06/16 & 0.3 & Functional Requirements Evaluation\\
+		12/07/16 & 0.4 & Introduction\\
+		12/07/16 & 0.5 & Finished Automated Tests\\
+		\bottomrule
+	\end{tabularx}
+\end{table}
 
 \newsection{Introduction} \label{Section_Intro}
 
@@ -181,7 +181,7 @@
 For this project we elected not to use a 3rd party testing library. We made this decision to ease configuration/installation problems and reduce our dependencies, as we judged it would not be necessary. Instead a series of files (labeled test.foobar.cpp) in the repository hold tests, which are run by our custom test runner. These automated tests are run on command by executing the produced executable, or by the continuous integration script run whenever changes are pushed to the central repository. The results of these tests are automatically reported, resulting in a failed or successful build.
 
 \subsection{Specific System Tests}
-The following is a list of all system tests in the project.
+The following is a list of all automated tests in the project.
 
 	\subsection{Automated Testing Strategy}
 	For this project we elected not to use a 3rd party testing library. We made this decision to ease configuration/installation problems and reduce our dependencies, as we judged it would not be necessary. Instead a series of files (labeled test.foobar.cpp) in the repository hold tests, which are run by our custom test runner. These automated tests are run on command by executing the produced executable, or by the continuous integration script run whenever changes are pushed to the central repository. The results of these tests are automatically reported, resulting in a failed or successful build.
@@ -191,7 +191,7 @@ The following is a list of all system tests in the project.
 
 		\begin{center}
 
-			\begin{longtable}{ l | l }
+			\begin{longtable}{ l | p{10cm} }
 				\hline
 				\textbf{Name:} & Amulet Construction\\
 				\textbf{Initial State:} & None\\
@@ -207,11 +207,6 @@ The following is a list of all system tests in the project.
 				\textbf{Initial State:} & None\\
 				\textbf{Input:} & Coordinate, context value, type value\\
 				\textbf{Expected Output:} & Armor object in valid initial state\\
-				\hline
-				\textbf{Name:} & Armor Identification\\
-				\textbf{Initial State:} & Cursed Armor\\
-				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification that armor is identified\\
 				\hline
 				\textbf{Name:} & Armor Identification\\
 				\textbf{Initial State:} & Cursed Armor\\
@@ -794,31 +789,432 @@ The following is a list of all system tests in the project.
 				\hline
 				\textbf{Name:} & Ring of Stealth\\
 				\textbf{Initial State:} & Player object without stealth condition\\
-				\textbf{Input:} & Activate ring of stealth\\
+				\textbf{Input:} & Ring of stealth\\
 				\textbf{Expected Output:} & Player object with the stealth condition\\
+				\hline
+				\textbf{Name:} & Ring of Stealth Deactivate\\
+				\textbf{Initial State:} & Player object with ring of stealth\\
+				\textbf{Input:} & Remove ring\\
+				\textbf{Expected Output:} & Player object without the stealth condition\\
 				\hline
 				\textbf{Name:} & Ring of Teleportation\\
 				\textbf{Initial State:} & Player object without random teleportation condition\\
-				\textbf{Input:} & Activate ring of teleportation\\
+				\textbf{Input:} & Ring of teleportation\\
 				\textbf{Expected Output:} & Player object with the random teleportation condition\\
+				\hline
+				\textbf{Name:} & Ring of Teleportation Deactivate\\
+				\textbf{Initial State:} & Player object with ring of teleportation\\
+				\textbf{Input:} & Remove ring\\
+				\textbf{Expected Output:} & Player object without the random teleportation condition\\
 				\hline
 				\textbf{Name:} & Ring of Regeneration\\
 				\textbf{Initial State:} & Player object without regeneration condition\\
-				\textbf{Input:} & Activate ring of regeneration\\
+				\textbf{Input:} & Ring of regeneration\\
 				\textbf{Expected Output:} & Player object with the regeneration condition\\
+				\hline
+				\textbf{Name:} & Ring of Regeneration Deactivate\\
+				\textbf{Initial State:} & Player object with ring of regeneration\\
+				\textbf{Input:} & Remove ring\\
+				\textbf{Expected Output:} & Player object without the regeneration condition\\
 				\hline
 				\textbf{Name:} & Ring of Digestion\\
 				\textbf{Initial State:} & Player object without digestion condition\\
-				\textbf{Input:} & Activate ring of digestion\\
+				\textbf{Input:} & Ring of digestion\\
 				\textbf{Expected Output:} & Player object with the digestion condition\\
 				\hline
-
-
-
-				\textbf{Name:} & \\
-				\textbf{Initial State:} & \\
-				\textbf{Input:} & \\
-				\textbf{Expected Output:} & \\
+				\textbf{Name:} & Ring of Digestion Deactivate\\
+				\textbf{Initial State:} & Player object with ring of digestion\\
+				\textbf{Input:} & Remove ring\\
+				\textbf{Expected Output:} & Player object without the digestion condition\\
+				\hline
+				\textbf{Name:} & Ring of Dexterity\\
+				\textbf{Initial State:} & Player object\\
+				\textbf{Input:} & Ring of dexterity\\
+				\textbf{Expected Output:} & Player object with dexterity increased by the appropriate amount\\
+				\hline
+				\textbf{Name:} & Ring of Dexterity Deactivate\\
+				\textbf{Initial State:} & Player object with ring of dexterity\\
+				\textbf{Input:} & Remove ring\\
+				\textbf{Expected Output:} & Player object with normal dexterity\\
+				\hline
+				\textbf{Name:} & Ring of Adornment\\
+				\textbf{Initial State:} & Player object\\
+				\textbf{Input:} & Ring of adornment\\
+				\textbf{Expected Output:} & Identical player object\\
+				\hline
+				\textbf{Name:} & Ring of Adornment\\
+				\textbf{Initial State:} & Player object with ring of adornment\\
+				\textbf{Input:} & Remove ring\\
+				\textbf{Expected Output:} & Identical player object\\
+				\hline
+				\textbf{Name:} & Ring of See-Invisible\\
+				\textbf{Initial State:} & Player object without the see-invisible condition\\
+				\textbf{Input:} & Ring of see-invisible\\
+				\textbf{Expected Output:} & Player object with the see-invisible condition\\
+				\hline
+				\textbf{Name:} & Ring of See-Invisible Deactivate\\
+				\textbf{Initial State:} & Player object with ring of see-invisible\\
+				\textbf{Input:} & Remove ring\\
+				\textbf{Expected Output:} & Player object without the see-invisible condition\\
+				\hline
+				\textbf{Name:} & Ring of Maintain-Armor\\
+				\textbf{Initial State:} & Player object without the maintain-armor condition\\
+				\textbf{Input:} & Ring of maintain-armor\\
+				\textbf{Expected Output:} & Player object with the maintain-armor condition\\
+				\hline
+				\textbf{Name:} & Ring of Maintain-Armor Deactivate\\
+				\textbf{Initial State:} & Player object with ring of maintain-armor\\
+				\textbf{Input:} & Remove ring\\
+				\textbf{Expected Output:} & Player object without the maintain-armor condition\\
+				\hline
+				\textbf{Name:} & Ring of Searching\\
+				\textbf{Initial State:} & Player object without the auto-search condition\\
+				\textbf{Input:} & Ring of searching\\
+				\textbf{Expected Output:} & Player object with the auto-search condition\\
+				\hline
+				\textbf{Name:} & Ring of Searching Deactivate\\
+				\textbf{Initial State:} & Player object with ring of searching\\
+				\textbf{Input:} & Remove ring\\
+				\textbf{Expected Output:} & Player object without the auto-search condition\\
+				\hline
+				\textbf{Name:} & Room Construction Check 1\\
+				\textbf{Initial State:} & Randomly generated room\\
+				\textbf{Input:} & None\\
+				\textbf{Expected Output:} & Verification that room's size is in valid range\\
+				\hline
+				\textbf{Name:} & Room Construction Check 2\\
+				\textbf{Initial State:} & Randomly generated room\\
+				\textbf{Input:} & None\\
+				\textbf{Expected Output:} & Verification that room edges are within valid bounds\\
+				\hline
+				\textbf{Name:} & Scroll Construction 1\\
+				\textbf{Initial State:} & None\\
+				\textbf{Input:} & Coordinate\\
+				\textbf{Expected Output:} & Scroll object in valid initial state\\
+				\hline
+				\textbf{Name:} & Scroll Construction 2\\
+				\textbf{Initial State:} & None\\
+				\textbf{Input:} & Coordinate, item context value, type identifier\\
+				\textbf{Expected Output:} & Scroll object in valid initial state\\
+				\hline
+				\textbf{Name:} & Scroll PseudoNames\\
+				\textbf{Initial State:} & Scrolls are uninitialized\\
+				\textbf{Input:} & initializeScrollNames command\\
+				\textbf{Expected Output:} & Vector of valid scroll psuedonames\\
+				\hline
+				\textbf{Name:} & Scroll of Protect Armor\\
+				\textbf{Initial State:} & Player with cursed armor \\
+				\textbf{Input:} & Scroll of protect armor\\
+				\textbf{Expected Output:} & Player with uncursed armor with protect-armor effect\\
+				\hline
+				\textbf{Name:} & Scroll of Hold Monster\\
+				\textbf{Initial State:} & Monster without the held flag\\
+				\textbf{Input:} & Scroll of hold monster\\
+				\textbf{Expected Output:} & Monster with the held flag\\
+				\hline
+				\textbf{Name:} & Scroll of Enchant Weapon\\
+				\textbf{Initial State:} & Player with weapon\\
+				\textbf{Input:} & Scroll of enchant weapon\\
+				\textbf{Expected Output:} & Player with uncursed weapon with higher enchant level\\
+				\hline
+				\textbf{Name:} & Scroll of Enchant Armor\\
+				\textbf{Initial State:} & Player with armor\\
+				\textbf{Input:} & Scroll of enchant armor\\
+				\textbf{Expected Output:} & Player with uncursed armor with higher enchant level\\
+				\hline
+				\textbf{Name:} & Scroll of Identity\\
+				\textbf{Initial State:} & None\\
+				\textbf{Input:} & Scroll identity\\
+				\textbf{Expected Output:} & No exceptions\\
+				\hline
+				\textbf{Name:} & Scroll of Teleportation\\
+				\textbf{Initial State:} & Player at coordinate (0,0)\\
+				\textbf{Input:} & Scroll of teleportation\\
+				\textbf{Expected Output:} & Player at coordinate != (0,0)\\
+				\hline
+				\textbf{Name:} & Scroll of Sleep\\
+				\textbf{Initial State:} & Player without the sleep condition\\
+				\textbf{Input:} & Scroll of sleep\\
+				\textbf{Expected Output:} & Player with the sleep condition\\
+				\hline
+				\textbf{Name:} & Scroll of Scare Monster\\
+				\textbf{Initial State:} & None\\
+				\textbf{Input:} & Scroll of scare monster\\
+				\textbf{Expected Output:} & No exceptions\\
+				\hline
+				\textbf{Name:} & Scroll of Remove Curse\\
+				\textbf{Initial State:} & Player with cursed weapon\\
+				\textbf{Input:} & Scroll of remove curse\\
+				\textbf{Expected Output:} & Player with uncursed weapon\\
+				\hline
+				\textbf{Name:} & Scroll of Create Monster\\
+				\textbf{Initial State:} & Level object\\
+				\textbf{Input:} & Scroll of create monster\\
+				\textbf{Expected Output:} & Level with 1 additional monster\\
+				\hline
+				\textbf{Name:} & Scroll of Aggravate Monster\\
+				\textbf{Initial State:} & Level with sleeping monsters\\
+				\textbf{Input:} & Scroll of aggravate monster\\
+				\textbf{Expected Output:} & Level with no sleeping monsters\\
+				\hline
+				\textbf{Name:} & Scroll of Magic Mapping\\
+				\textbf{Initial State:} & Unrevealed level\\
+				\textbf{Input:} & Scroll of magic mapping\\
+				\textbf{Expected Output:} & Level where all tiles have been revealed\\
+				\hline
+				\textbf{Name:} & Scroll of Confuse Monster\\
+				\textbf{Initial State:} & Player without the confuse-monster condition\\
+				\textbf{Input:} & Scroll of confuse monster\\
+				\textbf{Expected Output:} & Player with the confuse-monster condition\\
+				\hline
+				\textbf{Name:} & Stair Construction\\
+				\textbf{Initial State:} & None\\
+				\textbf{Input:} & Coordinate, direction value\\
+				\textbf{Expected Output:} & Stair object in valid initial state\\
+				\hline
+				\textbf{Name:} & Stair Direction Check\\
+				\textbf{Initial State:} & Stair constructed with direction\\
+				\textbf{Input:} & Direction value\\
+				\textbf{Expected Output:} & Verification stair has given direction value\\
+				\hline
+				\textbf{Name:} & Floor Passability Check\\
+				\textbf{Initial State:} & Floor object\\
+				\textbf{Input:} & None\\
+				\textbf{Expected Output:} & Verification floor is passable\\
+				\hline
+				\textbf{Name:} & Floor Symbol Check\\
+				\textbf{Initial State:} & Floor object\\
+				\textbf{Input:} & None\\
+				\textbf{Expected Output:} & Verification floor has correct symbol\\
+				\hline
+				\textbf{Name:} & Floor Transparency Check\\
+				\textbf{Initial State:} & Floor object\\
+				\textbf{Input:} & None\\
+				\textbf{Expected Output:} & Verification floor is transparent\\
+				\hline
+				\textbf{Name:} & Wall Passability Check\\
+				\textbf{Initial State:} & Wall object\\
+				\textbf{Input:} & None\\
+				\textbf{Expected Output:} & Verification wall is not passable\\
+				\hline
+				\textbf{Name:} & Wall Symbol Check\\
+				\textbf{Initial State:} & Wall object\\
+				\textbf{Input:} & None\\
+				\textbf{Expected Output:} & Verification wall has correct symbol\\
+				\hline
+				\textbf{Name:} & Wall Opacity Check\\
+				\textbf{Initial State:} & Wall object\\
+				\textbf{Input:} & None\\
+				\textbf{Expected Output:} & Verification wall is transparent\\
+				\textbf{Name:} & Corridor Passability Check\\
+				\textbf{Initial State:} & Corridor object\\
+				\textbf{Input:} & None\\
+				\textbf{Expected Output:} & Verification corridor is passable\\
+				\hline
+				\textbf{Name:} & Corridor Symbol Check\\
+				\textbf{Initial State:} & Corridor object\\
+				\textbf{Input:} & None\\
+				\textbf{Expected Output:} & Verification corrido has correct symbol\\
+				\hline
+				\textbf{Name:} & Corridor Transparency Check\\
+				\textbf{Initial State:} & Corridor object\\
+				\textbf{Input:} & None\\
+				\textbf{Expected Output:} & Verification corridor has special corridor transparency\\
+				\hline
+				\textbf{Name:} & Door Passability Check\\
+				\textbf{Initial State:} & Door object\\
+				\textbf{Input:} & None\\
+				\textbf{Expected Output:} & Verification door is not passable\\
+				\hline
+				\textbf{Name:} & Door Symbol Check\\
+				\textbf{Initial State:} & Door object\\
+				\textbf{Input:} & None\\
+				\textbf{Expected Output:} & Verification corridor has correct symbol\\
+				\hline
+				\textbf{Name:} & Door Transparency Check\\
+				\textbf{Initial State:} & Door object\\
+				\textbf{Input:} & None\\
+				\textbf{Expected Output:} & Verification Door has special corridor transparency\\
+				\hline
+				\textbf{Name:} & Door Trap\\
+				\textbf{Initial State:} & Player and level\\
+				\textbf{Input:} & Door trap\\
+				\textbf{Expected Output:} & Player at a level with depth + 1\\
+				\hline
+				\textbf{Name:} & Rust Trap\\
+				\textbf{Initial State:} & Player with enchanted weapon\\
+				\textbf{Input:} & Rust trap\\
+				\textbf{Expected Output:} & Player with unenchanted weapon\\
+				\hline
+				\textbf{Name:} & Sleep Trap\\
+				\textbf{Initial State:} & Player without the sleep condition\\
+				\textbf{Input:} & Sleep trap\\
+				\textbf{Expected Output:} & Player with the sleep condition\\
+				\hline
+				\textbf{Name:} & Bear Trap\\
+				\textbf{Initial State:} & Player without the immobilized condition\\
+				\textbf{Input:} & Bear trap\\
+				\textbf{Expected Output:} & Player with the immobilized condition\\
+				\hline
+				\textbf{Name:} & Teleport Trap\\
+				\textbf{Initial State:} & Player\\
+				\textbf{Input:} & Teleport trap\\
+				\textbf{Expected Output:} & Player at a different location\\
+				\hline
+				\textbf{Name:} & Dart Trap\\
+				\textbf{Initial State:} & Player\\
+				\textbf{Input:} & Dart trap\\
+				\textbf{Expected Output:} & Player with less hp\\
+				\hline
+				\textbf{Name:} & Tunnel Digging\\
+				\textbf{Initial State:} & Level and pair of unconnected rooms\\
+				\textbf{Input:} & Dig command\\
+				\textbf{Expected Output:} & Valid path between the two rooms\\
+				\hline
+				\textbf{Name:} & Open Inventory Screen\\
+				\textbf{Initial State:} & Playstate, player, empty level\\
+				\textbf{Input:} & Inventory key\\
+				\textbf{Expected Output:} & Inventory screen\\
+				\hline
+				\textbf{Name:} & Close Inventory Screen\\
+				\textbf{Initial State:} & Inventory screen, player, empty level\\
+				\textbf{Input:} & Exit key\\
+				\textbf{Expected Output:} & Playstate\\
+				\hline
+				\textbf{Name:} & Movement\\
+				\textbf{Initial State:} & Playstate, player, empty level\\
+				\textbf{Input:} & Movement key\\
+				\textbf{Expected Output:} & Player should be in expected location in the level\\
+				\hline
+				\textbf{Name:} & Open Status Screen\\
+				\textbf{Initial State:} & Playstate, player, empty level\\
+				\textbf{Input:} & Status key\\
+				\textbf{Expected Output:} & Status screen\\
+				\hline
+				\textbf{Name:} & Exit Status Screen\\
+				\textbf{Initial State:} & Status Screen, player, empty level\\
+				\textbf{Input:} & Exit key\\
+				\textbf{Expected Output:} & Playstate\\
+				\hline
+				\textbf{Name:} & No Wand Zap\\
+				\textbf{Initial State:} & Playstate, player with no wand\\
+				\textbf{Input:} & Zap key\\
+				\textbf{Expected Output:} & Unchanged playstate\\
+				\hline
+				\textbf{Name:} & Zap Wand Select\\
+				\textbf{Initial State:} & Playstate, player with wand, empty level \\
+				\textbf{Input:} & Zap key, then direction key\\
+				\textbf{Expected Output:} & Inventory Screen\\
+				\hline
+				\textbf{Name:} & Zap Wand Fire 1\\
+				\textbf{Initial State:} & Inventory wand select\\
+				\textbf{Input:} & Item select hotkey\\
+				\textbf{Expected Output:} & Playstate\\
+				\hline
+				\textbf{Name:} & Zap Wand Fire 2\\
+				\textbf{Initial State:} & Inventory wand select\\
+				\textbf{Input:} & Item select hotkey\\
+				\textbf{Expected Output:} & wand with charges - 1\\
+				\hline
+				\textbf{Name:} & Game Quit\\
+				\textbf{Initial State:} & Playstate\\
+				\textbf{Input:} & Quit key and confirmation key\\
+				\textbf{Expected Output:} & RIPScreen\\
+				\hline
+				\textbf{Name:} & Wand Construction 1\\
+				\textbf{Initial State:} & None\\
+				\textbf{Input:} & Coordinate\\
+				\textbf{Expected Output:} & Wand in valid initial state\\
+				\hline
+				\textbf{Name:} & Wand Construction 2\\
+				\textbf{Initial State:} & None\\
+				\textbf{Input:} & Coordinate, item context value, type specifier\\
+				\textbf{Expected Output:} & Wand in valid initial state\\
+				\hline
+				\textbf{Name:} & Wand of Teleport Away\\
+				\textbf{Initial State:} & Player, nearby monster\\
+				\textbf{Input:} & Wand of teleport away\\
+				\textbf{Expected Output:} & Monster has distance to player >= 20\\
+				\hline
+				\textbf{Name:} & Wand of Slow Monster\\
+				\textbf{Initial State:} & Player, monster without slowed flag\\
+				\textbf{Input:} & Wand of slow monster\\
+				\textbf{Expected Output:} & Monster has slowed flag\\
+				\hline
+				\textbf{Name:} & Wand of Invisibility\\
+				\textbf{Initial State:} & Player, monster without invisible flag\\
+				\textbf{Input:} & Wand of invisibility\\
+				\textbf{Expected Output:} & Monster with invisible flag\\
+				\hline
+				\textbf{Name:} & Wand of Polymorph\\
+				\textbf{Initial State:} & Player, monster\\
+				\textbf{Input:} & Wand of polymorph\\
+				\textbf{Expected Output:} & Different monster at previous monster's locations\\
+				\hline
+				\textbf{Name:} & Wand of Haste Monster\\
+				\textbf{Initial State:} & Player, monster without haste flag\\
+				\textbf{Input:} & Wand of haste monster\\
+				\textbf{Expected Output:} & Monster with haste flag\\
+				\hline
+				\textbf{Name:} & Wand of Magic Missile\\
+				\textbf{Initial State:} & Player, monster\\
+				\textbf{Input:} & Wand of magic missile\\
+				\textbf{Expected Output:} & Monster with reduced hp\\
+				\hline
+				\textbf{Name:} & Wand of Cancellation\\
+				\textbf{Initial State:} & Player, monster without cancelled flag\\
+				\textbf{Input:} & Wand of cancellation\\
+				\textbf{Expected Output:} & Monster with cancelled flag\\
+				\hline
+				\textbf{Name:} & Wand of Do Nothing\\
+				\textbf{Initial State:} & Player, monster\\
+				\textbf{Input:} & Wand of do nothing\\
+				\textbf{Expected Output:} & No exceptions\\
+				\hline
+				\textbf{Name:} & Wand of Drain Life\\
+				\textbf{Initial State:} & Player with reduced health, monster\\
+				\textbf{Input:} & Wand of drain life\\
+				\textbf{Expected Output:} & Player with increased health, monster with reduced health\\
+				\hline
+				\textbf{Name:} & Wand of Cold\\
+				\textbf{Initial State:} & Player, monster\\
+				\textbf{Input:} & Wand of cold\\
+				\textbf{Expected Output:} & No exceptions\\
+				\hline
+				\textbf{Name:} & Wand of Fire\\
+				\textbf{Initial State:} & Player, monster\\
+				\textbf{Input:} & Wand of fire\\
+				\textbf{Expected Output:} & No exceptions\\
+				\hline
+				\textbf{Name:} & Weapon Construction 1\\
+				\textbf{Initial State:} & None\\
+				\textbf{Input:} & Coordinate\\
+				\textbf{Expected Output:} & Weapon in valid initial state\\
+				\hline
+				\textbf{Name:} & Weapon Construction 2\\
+				\textbf{Initial State:} & None\\
+				\textbf{Input:} & Coordinate, item context value, type specifier\\
+				\textbf{Expected Output:} & Weapon in valid initial state\\
+				\hline
+				\textbf{Name:} & Weapon Identification Check\\
+				\textbf{Initial State:} & Identified weapon\\
+				\textbf{Input:} & None\\
+				\textbf{Expected Output:} & Verification that weapon is identified\\
+				\hline
+				\textbf{Name:} & Weapon Curse Check\\
+				\textbf{Initial State:} & Cursed weapon\\
+				\textbf{Input:} & None\\
+				\textbf{Expected Output:} & Verification that weapon is cursed\\
+				\hline
+				\textbf{Name:} & Weapon Name Check\\
+				\textbf{Initial State:} & Weapon\\
+				\textbf{Input:} & None\\
+				\textbf{Expected Output:} & Verification that weapon has valid name\\
+				\hline
+				\textbf{Name:} & Weapon Enchantment Check\\
+				\textbf{Initial State:} & Cursed weapon\\
+				\textbf{Input:} & None\\
+				\textbf{Expected Output:} & Verification that weapon has expected enchantment values\\
 				\hline
 
 			\end{longtable}
@@ -873,7 +1269,7 @@ The following is a list of all system tests in the project.
 
 	The following table re-iterates the modules of the project, along with their respective domain and module ID. The module IDs are used to refer to modules in the trace. More about the modules can be found in the Module Guide.\\
 
-	\begin{table}[h!]
+	\begin{table}[H]
 		\caption{\bf Module Hierarchy}
 		\label{TblMH}
 		\bigskip
@@ -883,41 +1279,44 @@ The following is a list of all system tests in the project.
 			\textbf{Level 1} & \multicolumn{2}{l}{\textbf{Level 2}}\\
 			\midrule
 
-			\multirow{2}{0.3\textwidth}{Hardware-Hiding Module}
-			& \mhprint{BasicIO}\\
-			& \mhprint{Doryen}\\
-			& \mhprint{Input Format}\\
+			\multirow{1}{0.3\textwidth}{Hardware-Hiding Module}
+			& \mdprint{BasicIO}\\
+			& \mdprint{Doryen}\\
+			& \mdprint{Input Format}\\
 			\midrule
 
-			\multirow{6}{0.3\textwidth}{Behaviour-Hiding Module}
-			& \mhprint{External}\\
-			& \mhprint{Item}\\
-			& \mhprint{Level}\\
-			& \mhprint{LevelGen}\\
-			& \mhprint{MainMenu}\\  
-			& \mhprint{Monster}\\
-			& \mhprint{PlayerChar}\\
-			& \mhprint{RipScreen}\\
-			& \mhprint{PlayState}\\
-			& \mhprint{UIState}\\
+			\multirow{1}{0.3\textwidth}{Behaviour-Hiding Module}
+			& \mdprint{External}\\
+			& \mdprint{Item}\\
+			& \mdprint{Level}\\
+			& \mdprint{LevelGen}\\
+			& \mdprint{MainMenu}\\            
+			& \mdprint{Mob}\\  
+			& \mdprint{Monster}\\
+			& \mdprint{PlayerChar}\\
+			& \mdprint{RipScreen}\\
+			& \mdprint{PlayState}\\
+			& \mdprint{SaveScreen}\\
+			& \mdprint{UIState}\\
 			\midrule
 
-			\multirow{9}{0.3\textwidth}{Software Decision Module}
-			& \mhprint{Coord}\\
-			& \mhprint{Feature}\\
-			& \mhprint{ItemZone}\\          
-			& \mhprint{MasterController}\\            
-			& \mhprint{Mob}\\
-			& \mhprint{Random}\\
-			& \mhprint{Terrain}\\
+			\multirow{1}{0.3\textwidth}{Software Decision Module}
+			& \mdprint{Coord}\\
+			& \mdprint{Feature}\\
+			& \mdprint{ItemZone}\\          
+			& \mdprint{MasterController}\\
+			& \mdprint{Random}\\
+			& \mdprint{Terrain}\\
 			\bottomrule
 		\end{tabular}
 		 \setcounter{mnum}{0}
 	\end{table}
 
+	%I am but a comment
+
 	The following table maps test files, which implement tests, to specific modules, given by their IDs.\\
 
-	\begin{table}[h!]
+	\begin{table}[H]
 		\caption{\bf Test-Module Trace}
 		\label{TblMH}
 		\bigskip
@@ -926,33 +1325,33 @@ The following is a list of all system tests in the project.
 			\hline
 			File & Related Module(s)\\
 			\hline
-			test.amulet.cpp 		& M7, M12, M13\\
-			test.armor.cpp 			& M5, M10, M18\\
-			test.coord.cpp 			& M2, M5, M6, M7, M14, M19\\
-			test.feature.cpp 		& M5, M15, M16, M10\\
-			test.food.cpp 			& M5, M6, M7, M10, M12\\
-			test.goldpile.cpp 		& M5, M6, M7, M9, M10, M15, M16\\
-			test.item.cpp 			& M5, M15\\
-			test.itemzone.cpp 		& M5, M6, M14, M15, M16\\
-			test.level.cpp 			& M5, M6, M9, M10, M14, M15, M19\\
-			test.levelgen.cpp 		& M5, M6, M9, M14, M15, M19, M20\\
-			test.main.cpp 			& None (Puts everything together)\\
-			test.mob.cpp 			& M9, M10, M12, M13, M14, M18\\
-			test.monster.cpp 		& M9, M14, M18\\
-			test.playerchar.cpp 	& M5, M6, M10, M11, M12, M13, M14, M15, M16, M17, M18\\
-			test.potion.cpp 		& M5, M6, M7, M9, M10, M15, M16\\
-			test.ring.cpp 			& M5, M6, M7, M9, M10, M15, M16\\
-			test.room.cpp 			& M6, M7, M14, M19\\
-			test.scroll.cpp 		& M5, M6, M7, M9, M10, M15, M16\\
-			test.stairs.cpp 		& M7, M15, M17, M20\\
-			test.terrain.cpp 		& M6, M7, M19, M20\\
-			test.testable.cpp 		& Defines test-suite\\
-			test.testable.h 		& Defines test-suite\\
-			test.trap.cpp 			& M6, M7, M10, M13, M15\\
-			test.tunnel.cpp 		& M6, M5, M14\\
-			test.uistate.cpp 		& M4, M8, M11, M12, M13, M17\\
-			test.wand.cpp 			& M5, M6, M7, M9, M10, M15, M16\\
-			test.weapon.cpp 		& M5, M6, M7, M9, M10, M15, M16\\
+            test.amulet.cpp         & M7, M13, M15\\
+            test.armor.cpp          & M5, M9, M11\\
+            test.coord.cpp          & M2, M5, M6, M7, M16, M20\\
+            test.feature.cpp        & M5, M11, M17, M18\\
+            test.food.cpp           & M5, M6, M7, M11, M13\\
+            test.goldpile.cpp       & M5, M6, M7, M10, M11, M17, M18\\
+            test.item.cpp           & M5, M17\\
+            test.itemzone.cpp       & M5, M6, M16, M17, M18\\
+            test.level.cpp          & M5, M6, M10, M11, M16, M17, M20\\
+            test.levelgen.cpp       & M5, M6, M10, M16, M17, M20, M21\\
+            test.main.cpp           & None (Puts everything together)\\
+            test.mob.cpp            & M9, M10, M11, M13, M15, M16\\
+            test.monster.cpp        & M9, M10, M16\\
+            test.playerchar.cpp     & M5, M6, M9, M11, M12, M13, M15, M16, M17, M18, M19\\
+            test.potion.cpp         & M5, M6, M7, M10, M11, M17, M18\\
+            test.ring.cpp           & M5, M6, M7, M10, M11, M17, M18\\
+            test.room.cpp           & M6, M7, M16, M20\\
+            test.scroll.cpp         & M5, M6, M7, M10, M11, M17, M18\\
+            test.stairs.cpp         & M7, M17, M19, M21\\
+            test.terrain.cpp        & M6, M7, M20, M21\\
+            test.testable.cpp       & Defines test-suite\\
+            test.testable.h         & Defines test-suite\\
+            test.trap.cpp           & M6, M7, M11, M15, M17\\
+            test.tunnel.cpp         & M5, M6, M16\\
+            test.uistate.cpp        & M4, M8, M12, M13, M15, M19\\
+            test.wand.cpp           & M5, M6, M7, M10, M11, M17, M18\\
+            test.weapon.cpp         & M5, M6, M7, M10, M11, M17, M18\\
 			\hline
 		\end{longtable}
 	\end{table}
