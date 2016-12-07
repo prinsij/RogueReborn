@@ -40,6 +40,10 @@
 \newcommand{\mhprint}[1]{\addtocounter{mnum}{1} #1 & \textbf{M\themnum}}
 \newcommand{\mdprint}[1]{\addtocounter{mnum}{1} #1 (M\themnum)}
 
+\newcommand{\newsection}[1]{
+  \newpage
+  \section{#1}
+}
 
 % Title Page Elements
 
@@ -53,7 +57,7 @@
 	\end{tabular}
 }
 
-\date{Due Wednesday, Dec 7\textsuperscript{th}, 2016}
+\date{Due Wednesday, December 7\textsuperscript{th}, 2016}
 
 \input{../Comments}
 \pagenumbering{arabic}
@@ -74,6 +78,7 @@
 		12/06/16 & 0.1 & Initial Draft\\
 		12/06/16 & 0.2 & Automated Tests To PlayerChar\\
 		12/06/16 & 0.3 & Functional Requirements Evaluation\\
+		12/07/16 & 0.4 & Introduction\\
 		\bottomrule
 	\end{tabularx}
 \end{table}
@@ -87,8 +92,29 @@
 \newpage
 \listoffigures
 
-\newpage
-\section{Functional Requirements Evaluation}
+\newsection{Introduction} \label{Section_Intro}
+
+	\subsection{Overview}
+	The primary objective of this document is to provide a comprehensive summary of the verification process with respect to the Rogue Reborn project.  Interested parties are welcome to analyze this paper as a means of evaluating the success of the final application regarding the requirements described in the \href{run:../SRS/SRS.pdf}{SRS}.  After reviewing the document, the reader should understand the strengths and weaknesses of the Rogue Project as it relates to the expectations of the client.
+
+	\subsection{Sections}
+	A brief description of each Test Report section is provided below:
+
+	\begin{itemize}
+		\item [] \hyperref[Section_Intro]{\S 1} Brief overview of the Test Report
+		\item [] \hyperref[Section_FR_Evaluation]{\S 2} Functional evaluation of Rogue Reborn
+		\item [] \hyperref[Section_NFR_Evaluation]{\S 3} Non-functional evaluation of Rogue Reborn
+		\item [] \hyperref[Section_Comparison]{\S 4} Description of relationship to original \textit{Rogue} with respect to testing 
+		\item [] \hyperref[Section_UT]{\S 5} Explanation of unit testing in Rogue Reborn
+		\item [] \hyperref[Section_Changes]{\S 6} List of changes that were performed as a consequence of testing
+		\item [] \hyperref[Section_Automated]{\S 7} Tabular depiction of automated tests
+		\item [] \hyperref[Section_R_Trace]{\S 8} Justification of test files with respect to functional requirements
+		\item [] \hyperref[Section_M_Trace]{\S 9} Decomposition of modules and trace to test files
+		\item [] \hyperref[Section_Metrics]{\S 10} Summary of code coverage metrics
+
+	\end{itemize}
+
+\newsection{Functional Requirements Evaluation} \label{Section_FR_Evaluation}
 	Overall, an evaluation of functional requirements reveals near, if not complete coverage. The tests written for the projects turned out to be quite useful, as many caught bugs or business-errors that would have otherwise gone unnoticed. Those will be discussed below. As for the rest of the functional requirements, many were mundane, general, or crucial enough to have already been satisfied earlier. Those will not be discussed, as their complete satisfaction has already been verified countless times.\\
 
 	The list below refers to each functional requirement by its numerical identifier, as listed in the System Requirements Specification. Please refer to the SRS if any confusion arises due to this.
@@ -99,8 +125,8 @@
 		\item[] \textbf{FR.39}: Working with C++ has its benefits, but also its drawbacks. An anomaly in the way C++ handles integers revealed a very serious bug in the code, in which player armor could reach utterly ridiculous values, rendering the player effectively invincible. By simulating every possibility of armor that can be made, this bug was caught and patched. To elaborate, the reason the bug even existed was because an unsigned integer was allowed to be reduced to a negative value, which of course means that it was not reduced to a negative number and instead went to the highest value an integer can be.
 	\end{itemize}
 
-\newpage
-\section{Nonfunctional Requirements Evaluation}
+
+\newsection{Non-Functional Requirements Evaluation} \label{Section_NFR_Evaluation}
 	Mikhail
 
 	\subsection{Usability}
@@ -110,20 +136,15 @@
 	\subsection{etc.}
 		Mikhail
 	
-\newpage
-\section{Comparison to Existing Implementation}
-	Ori
+\newsection{Comparison to Existing Implementation} \label{Section_Comparison}
 
-\newpage
-\section{Unit Testing}
+\newsection{Unit Testing} \label{Section_UT}
 	Mikhail
 
-\newpage
-\section{Changes Due to Testing}
+\newsection{Changes Due to Testing} \label{Section_Changes}
 	Mikhail
 
-\newpage
-\section{Automated Testing}
+\newsection{Automated Testing} \label{Section_Automated}
 
 \subsection{Automated Testing Strategy}
 For this project we elected not to use a 3rd party testing library. We made this decision to ease configuration/installation problems and reduce our dependencies, as we judged it would not be necessary. Instead a series of files (labeled test.foobar.cpp) in the repository hold tests, which are run by our custom test runner. These automated tests are run on command by executing the produced executable, or by the continuous integration script run whenever changes are pushed to the central repository. The results of these tests are automatically reported, resulting in a failed or successful build.
@@ -773,8 +794,7 @@ The following is a list of all system tests in the project.
 
 		\end{center}
 
-\newpage
-\section{Trace to Requirements}
+\newsection{Trace to Requirements} \label{Section_R_Trace}
 
 	The following table maps each implemented test file to a set of functional and non-functional requirements 
 
@@ -818,8 +838,7 @@ The following is a list of all system tests in the project.
 		\end{longtable}
 	\end{table}
 
-\newpage
-\section{Trace to Modules}
+\newsection{Trace to Modules} \label{Section_M_Trace}
 
 	The following table re-iterates the modules of the project, along with their respective domain and module ID. The module IDs are used to refer to modules in the trace. More about the modules can be found in the Module Guide.\\
 
@@ -909,8 +928,7 @@ The following is a list of all system tests in the project.
 
 
 
-\newpage
-\section{Code Coverage Metrics}
+\newsection{Code Coverage Metrics} \label{Section_Metrics}
 	By looking at the test-requirements matrix, and also cross-referencing the test-module trace above with the module-requirements trace given in the Module Guide, it is possible to determine exactly which functional and non-functional requirements were satisfied with the test cases we created.\\
 
 	As can be expected, near \textbf{complete coverage} of both functional and non-functional requirements is achieved. Except for a few non-functional requirements, the modules and direct requirements reflected in the test cases offer a complete coverage of the requirements. Some (in particular, non-functional) requirements are nigh impossible to test using code. An example includes NFR.2: "The Rogue Reborn game shall be fun and entertaining." Whatever software exists that can determine such a thing would never pass the Turing test, and thus can be deemed an impossibility as of current technology. But while it is impossible to test with code, such a thing is easily testable with human playtesters.\\
