@@ -1,10 +1,26 @@
 \documentclass{article}
 
 \usepackage{booktabs}
+\usepackage[usenames, dvipsnames]{color}
 \usepackage{tabularx}
 \usepackage{indentfirst}
 \usepackage{hyperref}
-\usepackage{color}
+
+
+\definecolor{RevisionColour}{rgb}{0.0, 0.5, 0.2}
+\newcommand{\rev}[1]{\textcolor{RevisionColour}{#1}}
+
+% Setup
+
+\hypersetup{
+    colorlinks,
+    citecolor=blue,
+    filecolor=ForestGreen,
+    linkcolor=MidnightBlue,
+    urlcolor=blue
+}
+
+% Document
 
 \title{SE 3XA3: Development Plan\\Rogue Reborn}
 
@@ -22,21 +38,21 @@
 
 \begin{document}
 
-\begin{table}[hp]s
+\begin{table}[hp]
 	\caption{Revision History} \label{TblRevisionHistory}
 	\begin{tabularx}{\textwidth}{llX}
 		\toprule
 		\textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
 		\midrule
 		09/23/2016 & Or & Created outline .tex\\
-		09/25/2016 & Ian & Added Meeting Plan, Team Roles, and Proof of Concept Plan \\
+		09/25/2016 & Ian & Added Meeting Plan, Roles, and PoC Plan \\
 		09/25/2016 & Mikhail & Added Communication Plan and Technology\\
 		09/26/2016 & Mikhail & Added Git Workflow Plan\\
 		09/30/2016 & Mikhail & Edited and Proofread Document\\
 		09/30/2016 & Or & Added Coding Style \& Project Schedule\\
 		09/30/2016 & Or & Fixed typos\\
 		09/30/2016 & Mikhail & Added More Hyperlinks\\
-		... & ... & ...\\
+		\rev{12/06/2016} & \rev{Mikhail} & \rev{Revision 1 Update}\\
 		\bottomrule
 	\end{tabularx}
 \end{table}
@@ -45,7 +61,9 @@
 
 \maketitle
 
-\textcolor{red}{This text can be in a \textit{Abstract} section - CM} \\
+% \textcolor{red}{This text can be in a \textit{Abstract} section - CM} \\
+\section{\rev{Abstract}}
+\label{abstract_label}
 \indent
 The Rogue Reborn project aims to rewrite the classic video game \textit{Rogue} in a modern programming language using contemporary software development techniques.  The purpose of this document is to outline the development plan of the project.  Included below are the strategies for \hyperref[communication_label]{team coordination} and \hyperref[roles_label]{work partitioning}, details of the \hyperref[tech_label]{technology} and \hyperref[workflow_label]{development process}, and an overview of the \hyperref[schedule_label]{project schedule} including details of the requirements for the \hyperref[poc_label]{proof of concept} deadline.
 
@@ -104,7 +122,7 @@ With respect to the environment of the technology, the Rogue++ team agreed to us
 
 \section{Coding Style}
 \label{style_label}
-\textcolor{red}{Consider colouring hyperlinks to aid reader - CM} \\
+% \textcolor{red}{Consider colouring hyperlinks to aid reader - CM} \\
 \indent
 In any large-scale project, it is vital for all members to be on the same page.  This is especially true for a software project, where every team member must be able to read, understand, and analyze everyone else's code.  The Rogue++ project will be utilizing \href{https://google.github.io/styleguide/cppguide.html}{Google's C++ Style Guide} to format and organize the source code.  Google offers style guides that span dozens of programming languages and are a professional standard used in every corner of the software industry. Despite its excellence, the team will implement one change to the guide.\\
 
@@ -117,6 +135,12 @@ Google's C++ Style Guide calls for inline comments describing classes, functions
 The project schedule is found at \href{run:../../ProjectSchedule/Rogue.gan}{this location}.
 
 \section{Project Review}
+%\textcolor{red}{Fantastic development plan, do not think the lack of comments is from a lack of effort to make them but rather the lack of anything wrong. Keep this up, I am very impressed and excited to see how this project pans out. - CM} \\
 
-\textcolor{red}{Fantastic development plan, do not think the lack of comments is from a lack of effort to make them but rather the lack of anything wrong. Keep this up, I am very impressed and excited to see how this project pans out. - CM} \\
+\rev{In hindsight, the Rogue Reborn project achieved appreciable success across nearly all applicable metrics.  The implementation of the game with respect to its scope, features, and miscellaneous qualities exceeded the expectations of the entire Rogue++ team and was successful in delivering a truly authentic and pleasurable experience.  In a similar vein, the documentation that supported the project was also rich, thoughtful, and appropriately tailored for its respective audiences.  Above all else, the Rogue++ team derived immense enjoyment and satisfaction from the process and learned a large variety of strategies to manage the development of team projects.  The collaborative success of the team was primarily enabled by a passion for overcoming difficult challenges and exploring new technologies, not to mention frequent communication, honest feedback, and an unparalleled desire for quality.} \\
+
+\rev{One element of the Rogue Reborn development process that could have benefited from extra care was time management.  As revealed by the commit history, the overwhelming majority of contributions were made within a day of each major deadline.  Although a Gantt chart was periodically updated throughout the term, it was usually ignored because it did not accurately account for external workload influences outside of the project.} \\
+
+\rev{On the whole, the contents of the development plan were faithful to the actual progression of the project.  The entirety of the Rogue++ team respected the commitments stated in the document and found the interpersonal aspects to be helpful in steering discussion and assigning accountability.  Given the success of the development process, there are no significant revisions that would improve the quality or effectiveness of this document.}
+
 \end{document}
