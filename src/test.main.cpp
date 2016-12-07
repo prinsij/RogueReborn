@@ -39,31 +39,32 @@
 
 int main() {
 
-	std::vector<Testable*> tests = {new ArmorTest(),
-									new AmuletTest(),
-									new CoordTest(),
-									new FeatureTest(),
-									new FoodTest(),
-									new GoldPileTest(),
-									new ItemTest(),
-									new ItemZoneTest(),
-									new LevelTest(),
-									new LevelGenTest(),
-									new MobTest(),
-									new MonsterTest(),
-									new PlayerCharTest(),
-									new PotionTest(),
-									new RandomTest(),
-									new RingTest(),
-									new RoomTest(),
-									new ScrollTest(),
-									new StairsTest(),
-									new TerrainTest(),
-									new TrapTest(),
-									new TunnelTest(),
-									new WandTest(),
-									new WeaponTest(),
-									new UIStateTest()};
+	std::vector<Testable*> tests;
+	tests.push_back(new ArmorTest());
+	tests.push_back(new AmuletTest());
+	tests.push_back(new CoordTest());
+	tests.push_back(new FeatureTest());
+	tests.push_back(new FoodTest());
+	tests.push_back(new GoldPileTest());
+	tests.push_back(new ItemTest());
+	tests.push_back(new ItemZoneTest());
+	tests.push_back(new LevelTest());
+	tests.push_back(new LevelGenTest());
+	tests.push_back(new MobTest());
+	tests.push_back(new MonsterTest());
+	tests.push_back(new PlayerCharTest());
+	tests.push_back(new PotionTest());
+	tests.push_back(new RandomTest());
+	tests.push_back(new RingTest());
+	tests.push_back(new RoomTest());
+	tests.push_back(new ScrollTest());
+	tests.push_back(new StairsTest());
+	tests.push_back(new TerrainTest());
+	tests.push_back(new TrapTest());
+	tests.push_back(new TunnelTest());
+	tests.push_back(new WandTest());
+	tests.push_back(new WeaponTest());
+	tests.push_back(new UIStateTest());
 
 	for (Testable* t : tests){
 		t->test();
