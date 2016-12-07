@@ -50,7 +50,7 @@ class WandTest : public Testable {
 
 			level.registerMob(&monsters[3]);
 			wands[3].activate(&level, &monsters[3]);
-			assert (level.monsterAt(Coord(1,0)), "Wand of Polymorph");
+			assert (level.monsterAt(Coord(1,0)) != &monsters[3], "Wand of Polymorph");
 
 			wands[4].activate(&level, &monsters[4]);
 			assert (monsters[4].hasFlag(Monster::HASTED), "Wand of Haste Monster");
