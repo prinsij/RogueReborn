@@ -570,6 +570,71 @@ The following is a list of all system tests in the project.
 \textbf{Input:} & removeArmor command\\
 \textbf{Expected Output:} & Playerchar object without armor\\
 \hline
+\textbf{Name:} & Potion Construction 1\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & Coordinate\\
+\textbf{Expected Output:} & Potion object in valid initial state\\
+\hline
+\textbf{Name:} & Potion Construction 2\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & Coordinate, item context value, item type specifier\\
+\textbf{Expected Output:} & Potion object in valid initial state\\
+\hline
+\textbf{Name:} & Potion of Strength\\
+\textbf{Initial State:} & Player object\\
+\textbf{Input:} & Potion of strength\\
+\textbf{Expected Output:} & Player with strength increased by 1\\
+\hline
+\textbf{Name:} & Potion of Restore Strength\\
+\textbf{Initial State:} & Player object with reduced strength\\
+\textbf{Input:} & Potion of restore strength\\
+\textbf{Expected Output:} & Player object with pre-reduction strength\\
+\hline
+\textbf{Name:} & Potion of Healing\\
+\textbf{Initial State:} & Player object with full hp\\
+\textbf{Input:} & Potion of healing\\
+\textbf{Expected Output:} & Player object with maxHP increased by 1\\
+\hline
+\textbf{Name:} & Potion of Extra Healing\\
+\textbf{Initial State:} & Player object with full hp\\
+\textbf{Input:} & Potion of extra healing\\
+\textbf{Expected Output:} & Player object with maxHP increased by 2\\
+\hline
+\textbf{Name:} & Potion of Poison\\
+\textbf{Initial State:} & Player object with strength > 0\\
+\textbf{Input:} & Potion of poison\\
+\textbf{Expected Output:} & Player object with reduced strength\\
+\hline
+\textbf{Name:} & Potion of Raise Level\\
+\textbf{Initial State:} & Player object with less than max level\\
+\textbf{Input:} & Potion or raise level\\
+\textbf{Expected Output:} & Player object with level + 1\\
+\hline
+\textbf{Name:} & Potion of Blindness\\
+\textbf{Initial State:} & Player object without the blindness condition\\
+\textbf{Input:} & Potion of blindness\\
+\textbf{Expected Output:} & Player object with the blindness condition\\
+\hline
+\textbf{Name:} & Potion of Hallucination\\
+\textbf{Initial State:} & Player object without the hallucination condition\\
+\textbf{Input:} & Potion of hallucination\\
+\textbf{Expected Output:} & Player object with the hallucination condition\\
+\hline
+\textbf{Name:} & Potion of Detect Monster\\
+\textbf{Initial State:} & Player object without the detect-monsters condition\\
+\textbf{Input:} & Potion of detect monsters\\
+\textbf{Expected Output:} & Player object with the detect-monsters condition\\
+\hline
+\textbf{Name:} & Potion of Detect Object\\
+\textbf{Initial State:} & Player object without the detect-objects condition\\
+\textbf{Input:} & Potion of detect objects\\
+\textbf{Expected Output:} & Player object with the detect-objects condition\\
+\hline
+\textbf{Name:} & Potion of Confusion\\
+\textbf{Initial State:} & Player object without the confusion condition\\
+\textbf{Input:} & Potion of confusion\\
+\textbf{Expected Output:} & Player object with the confusion condition\\
+\hline
 
 
 
