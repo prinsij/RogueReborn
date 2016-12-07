@@ -8,7 +8,7 @@
 import datetime, os, re, sys
 
 ## Ignored paths
-RE_PATH_IGNORE = re.compile(r"libtcod|ParseTest|html")
+RE_PATH_IGNORE = re.compile(r"libtcod|ParseTest|html|misc|assets")
 ## C++ file extensions
 RE_EXTENSION = re.compile(r"\.(cpp|h)")
 ## C++ header file
@@ -69,6 +69,9 @@ def sortIncludes(content):
 
 		lineIndex += 1
 
+	if not includeLib and not includeCustom:
+		return content or [""]
+
 	newIncludes = []
 
 	for lineLib in sorted(includeLib):
@@ -94,7 +97,7 @@ def trim(content):
 
 	while lineIndex < len(content):
 		line = content[lineIndex]
-		if re.search(r"^(#.*|[A-Z]|[a-z])", line):
+		if re.search(r"^(#\s*|[A-Za-z])", line):
 			return content[lineIndex:]
 		lineIndex += 1
 
@@ -181,18 +184,18 @@ def formatFiles(cppFiles):
 #
 def findFiles():
 	cppFiles = []
-	exploreDirs = ["."]
+	exploreDirs = ["../."]
 
 	while exploreDirs:
 		currentDir = exploreDirs.pop()
 
 		allFiles = os.listdir(currentDir)
 
-		for nextDir in filter(lambda name: os.path.isdir(name), allFiles):
+		for nextDir in filter(lambda name: os.path.isdir(currentDir + "/" + name), allFiles):
 			if not RE_PATH_IGNORE.search(nextDir):
 				exploreDirs.append(currentDir + "/" + nextDir)
 
-		for nextFile in filter(lambda name: not os.path.isdir(name), allFiles):
+		for nextFile in filter(lambda name: not os.path.isdir(currentDir + "/" + name), allFiles):
 			if RE_EXTENSION.search(nextFile):
 				cppFiles.append(currentDir + "/" + nextFile)
 

@@ -1,7 +1,7 @@
 /**
  * @file test.trap.cpp
  * @author Team Rogue++
- * @date November 29, 2016
+ * @date December 02, 2016
  *
  * @brief Global members
  */ 
@@ -32,7 +32,7 @@ class TrapTest : public Testable {
 				traps.push_back(Trap(Coord(0,0), i, true));
 			}
 
-			PlayerChar* player = new PlayerChar(Coord(0,0), "Player Trap"); 
+			PlayerChar* player = new PlayerChar(Coord(0,0), "Player Trap");
 			player->setDexterity(-5);
 
 			Level* level = new Level(1, player);
