@@ -6,12 +6,11 @@
  * @brief Global members
  */ 
 
-#include <iostream>
-#include <string>
 #include <vector>
 
-#include "test.amulet.cpp"
+#include "test.testable.h"
 #include "test.armor.cpp"
+#include "test.amulet.cpp"
 #include "test.coord.cpp"
 #include "test.feature.cpp"
 #include "test.food.cpp"
@@ -30,7 +29,6 @@
 #include "test.scroll.cpp"
 #include "test.stairs.cpp"
 #include "test.terrain.cpp"
-#include "test.testable.h"
 #include "test.trap.cpp"
 #include "test.tunnel.cpp"
 #include "test.uistate.cpp"
