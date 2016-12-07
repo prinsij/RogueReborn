@@ -47,11 +47,11 @@ int main() {
 	// ItemZoneTest().test();
 	// LevelTest().test();
 	// LevelGenTest().test();
-	MobTest().test();
-	MonsterTest().test();
-	PlayerCharTest().test();
-	PotionTest().test();
-	RandomTest().test();
+	// MobTest().test();
+	// MonsterTest().test();
+	// PlayerCharTest().test();
+	// PotionTest().test();
+	// RandomTest().test();
 	RingTest().test();
 	RoomTest().test();
 	ScrollTest().test();
