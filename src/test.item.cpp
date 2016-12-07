@@ -6,6 +6,7 @@
  * @brief Member definitions for the ItemTest class
  */ 
 
+#include <exception>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -20,10 +21,16 @@ class ItemTest : public Testable {
 		void test(){
 			comment("Commencing Item tests...");
 
+			try {
+				Item item = Item('~', Coord(0,0), Item::FLOOR, "className", "name", "pseudoName", 0, true, true, 1);
+				assert(true, "Created Item (1)");
+				Item itemCon = Item('~', Coord(0,0), Item::FLOOR, "className", "name", 0, true, true, 1);
+				assert(true, "Created Item (2)");
+			} catch (const std::exception& e) {
+				assert(false, "Failure creating Item");
+			}
+
 			Item item = Item('~', Coord(0,0), Item::FLOOR, "className", "name", "pseudoName", 0, true, true, 1);
-			assert(true, "Created Item (1)");
-			Item itemCon = Item('~', Coord(0,0), Item::FLOOR, "className", "name", 0, true, true, 1);
-			assert(true, "Created Item (2)");
 
 			std::vector<std::string> stringVector = {"A", "B", "C", "D"};
 			stringVector = Item::shuffleNameVector(stringVector);
