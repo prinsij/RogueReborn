@@ -6,6 +6,7 @@
  * @brief Member definitions for the ArmorTest class
  */ 
 
+#include <exception>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -21,10 +22,14 @@ class ArmorTest : public Testable {
 		void test(){
 			comment("Commencing Armor tests...");
 
-			Armor armorCon = Armor(Coord(0,0));
-			assert(true, "Created Armor (1)");
-			Armor armorCon2 = Armor(Coord(0,0), Item::FLOOR, 0);
-			assert(true, "Created Armor (2)");
+			try {
+				Armor armorCon = Armor(Coord(0,0));
+				assert(true, "Created Armor (1)");
+				Armor armorCon2 = Armor(Coord(0,0), Item::FLOOR, 0);
+				assert(true, "Created Armor (2)");
+			} catch (const std::exception& e ) {
+				assert(false, "Failure to create Armor");
+			}
 
 			Armor armor = Armor(Coord(0,0), Item::FLOOR, 1);
 			armor.setEnchantment(-4);
