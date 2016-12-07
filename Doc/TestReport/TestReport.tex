@@ -617,7 +617,48 @@
 
 \newpage
 \section{Trace to Requirements}
-	Ori
+
+	The following table maps each implemented test file to a set of functional and non-functional requirements 
+
+	\begin{table}[h!]
+		\caption{\bf Test-Requirement Trace}
+		\label{TblMH}
+		\bigskip
+		\centering
+		\begin{longtable}{lr}
+			\hline
+			File & Related Requirement(s)\\
+			\hline
+			test.amulet.cpp 		& FR\\
+			test.armor.cpp 			& FR\\
+			test.coord.cpp 			& FR\\
+			test.feature.cpp 		& FR\\
+			test.food.cpp 			& FR\\
+			test.goldpile.cpp 		& FR\\
+			test.item.cpp 			& FR\\
+			test.itemzone.cpp 		& FR\\
+			test.level.cpp 			& FR\\
+			test.levelgen.cpp 		& FR\\
+			test.main.cpp 			& FR\\
+			test.mob.cpp 			& FR\\
+			test.monster.cpp 		& FR\\
+			test.playerchar.cpp 	& FR\\
+			test.potion.cpp 		& FR\\
+			test.ring.cpp 			& FR\\
+			test.room.cpp 			& FR\\
+			test.scroll.cpp 		& FR\\
+			test.stairs.cpp 		& FR\\
+			test.terrain.cpp 		& FR\\
+			test.testable.cpp 		& FR\\
+			test.testable.h 		& FR\\
+			test.trap.cpp 			& FR\\
+			test.tunnel.cpp 		& FR\\
+			test.uistate.cpp 		& FR\\
+			test.wand.cpp 			& FR\\
+			test.weapon.cpp 		& FR\\
+			\hline
+		\end{longtable}
+	\end{table}
 
 \newpage
 \section{Trace to Modules}
@@ -714,7 +755,9 @@
 
 \newpage
 \section{Code Coverage Metrics}
-	Ori
+	Cross-referencing the test-module trace above with the module-requirements trace given in the Module Guide, it is possible to determine exactly which functional and non-functional requirements were satisfied with the test cases we created.\\
+
+	As can be expected, near \textbf{complete coverage} of both functional and non-functional requirements in achieved. Except for a few non-functional requirements, the modules reflected in the test cases offer a complete coverage of the requirements. This is good news, as it means that, while perhaps indirectly, the specified test cases 
 
 \bibliographystyle{plainnat}
 
