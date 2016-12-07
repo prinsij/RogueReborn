@@ -12,10 +12,13 @@
 #include "include/coord.h"
 #include "include/random.h"
 
-std::mt19937 Generator::gen = std::mt19937(std::random_device()());
 
 //inclusive
 int Generator::intFromRange(int lower, int upper) {
+	std::cout << lower << upper << "\n";
+	if (upper <= lower) {
+		return lower;
+	}
 	return std::uniform_int_distribution<>(lower, upper)(gen);
 }
 
