@@ -6,6 +6,7 @@
  * @brief Member definitions for the WandTest class
  */ 
 
+#include <exception>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -22,10 +23,14 @@ class WandTest : public Testable {
 		void test(){
 			comment("Commencing Wand tests...");
 
-			Wand wandCon = Wand(Coord(0,0));
-			assert(true, "Created Wand (1)");
-			Wand wandCon2 = Wand(Coord(0,0), Item::FLOOR, 0);
-			assert(true, "Created Wand (2)");
+			try {
+				Wand wandCon = Wand(Coord(0,0));
+				assert(true, "Created Wand (1)");
+				Wand wandCon2 = Wand(Coord(0,0), Item::FLOOR, 0);
+				assert(true, "Created Wand (2)");
+			} catch (const std::exception& e) {
+				assert(false, "Failure creating Wand");
+			}
 
 			std::vector<Wand> wands;
 			std::vector<Monster> monsters;
