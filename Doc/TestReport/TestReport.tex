@@ -310,7 +310,7 @@ The following is a list of all system tests in the project.
 \textbf{Expected Output:} & Verification that second item is still bound to 'b'\\
 \hline
 \textbf{Name:} & ItemZone Weight Enforcement\\
-\textbf{Initial State:} & ItemZone with 1 item\\
+\textbf{Initial State:} & Empty ItemZone\\
 \textbf{Input:} & Attempt to add 500 pieces of armor to ItemZone\\
 \textbf{Expected Output:} & ItemZone with max-weight worth of armor\\
 \hline
@@ -363,6 +363,156 @@ The following is a list of all system tests in the project.
 \textbf{Initial State:} & Empty level object\\
 \textbf{Input:} & Coordinate\\
 \textbf{Expected Output:} & List of coordinates orthogonally adjacent to given coordinate\\
+\hline
+\textbf{Name:} & Level Path Generation\\
+\textbf{Initial State:} & Player object and generated level\\
+\textbf{Input:} & Series of path requests between random coordinates\\
+\textbf{Expected Output:} & Valid paths between locations\\
+\hline
+\textbf{Name:} & Level Connectedness\\
+\textbf{Initial State:} & Player object and generated level\\
+\textbf{Input:} & Series of path requests between all rooms in the level\\
+\textbf{Expected Output:} & Valid paths between each room\\
+\hline
+\textbf{Name:} & Level Staircase Check\\
+\textbf{Initial State:} & Player object and generated level\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification that level contains a staircase\\
+\hline
+\textbf{Name:} & Level GoldPile Check\\
+\textbf{Initial State:} & Player object and generated level\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification that level contains at least one goldpile\\
+\hline
+\textbf{Name:} & Monster Construction\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & Symbol, coordinate, armor value, HP value, exp value, level value, maxHP value, name value\\
+\textbf{Expected Output:} & Monster object in valid initial state\\
+\hline
+\textbf{Name:} & Dice-Math 1\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & 1 1-sided die\\
+\textbf{Expected Output:} & Sum of values of 1\\
+\hline
+\textbf{Name:} & Dice-Math 2\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & 2 1-sided die\\
+\textbf{Expected Output:} & Sum of values of 2\\
+\hline
+\textbf{Name:} & Dice-Math 3\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & 1 2-sided die\\
+\textbf{Expected Output:} & 1 <= Sum of values <= 2\\
+\hline
+\textbf{Name:} & Dice-Math 4\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & 3 4-sided die\\
+\textbf{Expected Output:} & 3 <= Sum of values <= 12\\
+\hline
+\textbf{Name:} & Mob Armor Check\\
+\textbf{Initial State:} & Mob object\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification mob armor is in valid range\\
+\hline
+\textbf{Name:} & Mob HP Check 1\\
+\textbf{Initial State:} & Mob with given HP value\\
+\textbf{Input:} & HP value\\
+\textbf{Expected Output:} & Verification mob has correct HP value\\
+\hline
+\textbf{Name:} & Mob MaxHP Check\\
+\textbf{Initial State:} & Mob with given MaxHP value\\
+\textbf{Input:} & MaxHP value\\
+\textbf{Expected Output:} & Verification mob has correct MaxHP value\\
+\hline
+\textbf{Name:} & Mob Level Check\\
+\textbf{Initial State:} & Mob with given level value\\
+\textbf{Input:} & Level value\\
+\textbf{Expected Output:} & Verification mob has correct level value\\
+\hline
+\textbf{Name:} & Mob Location Check\\
+\textbf{Initial State:} & Mob with given location\\
+\textbf{Input:} & Coordinate\\
+\textbf{Expected Output:} & Verification mob has correct location\\
+\hline
+\textbf{Name:} & Mob Name Check\\
+\textbf{Initial State:} & Mob with given name\\
+\textbf{Input:} & Name value\\
+\textbf{Expected Output:} & Verification mob has correct name\\
+\hline
+\textbf{Name:} & Mob setMaxHP\\
+\textbf{Initial State:} & Mob with default MaxHP\\
+\textbf{Input:} & setMaxHP command with MaxHP value\\
+\textbf{Expected Output:} & mob with given MaxHP value\\
+\hline
+\textbf{Name:} & Mob setcurrentHP\\
+\textbf{Initial State:} & Mob with default currentHP\\
+\textbf{Input:} & setCurrentHP command with currentHP value\\
+\textbf{Expected Output:} & mob with given currentHP value\\
+\hline
+\textbf{Name:} & Mob Dead Check 1\\
+\textbf{Initial State:} & Living Mob object\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification mob is alive\\
+\hline
+\textbf{Name:} & Mob HP Check 2\\
+\textbf{Initial State:} & Living Mob object\\
+\textbf{Input:} & Hit command for >>> mob's current HP\\
+\textbf{Expected Output:} & Verification mob has HP <= 0\\
+\hline
+\textbf{Name:} & Mob Dead Check 2\\
+\textbf{Initial State:} & Dead mob object\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification mob is dead\\
+\hline
+\textbf{Name:} & Monster Construction\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & Symbol, coordinate\\
+\textbf{Expected Output:} & Monster object in valid initial state\\
+\hline
+\textbf{Name:} & Monster Flag/Invisibility\\
+\textbf{Initial State:} & Visible monster object\\
+\textbf{Input:} & SetFlag command to make monster invisible\\
+\textbf{Expected Output:} & Invisible monster object\\
+\hline
+\textbf{Name:} & Monster Aggrevate\\
+\textbf{Initial State:} & Idling, sleeping monster object\\
+\textbf{Input:} & Aggrevate command\\
+\textbf{Expected Output:} & Awake, chasing monster object\\
+\hline
+\textbf{Name:} & Monster Damage Calculation\\
+\textbf{Initial State:} & Monster object\\
+\textbf{Input:} & calculateDamage command\\
+\textbf{Expected Output:} & Correct amount of damage\\
+\hline
+\textbf{Name:} & Monster Hit Chance\\
+\textbf{Initial State:} & Monster and player objects\\
+\textbf{Input:} & calculateHitChange command\\
+\textbf{Expected Output:} & Hit chance in valid range\\
+\hline
+\textbf{Name:} & Monster Armor Check\\
+\textbf{Initial State:} & Monster object\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification that monster armor is in valid range\\
+\hline
+\textbf{Name:} & Invisible Monster Name Check\\
+\textbf{Initial State:} & Invisible uonster object\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification monster has hidden name\\
+\hline
+\textbf{Name:} & Visible Monster Name Check\\
+\textbf{Initial State:} & Invisible monster object\\
+\textbf{Input:} & RemoveFlag command to make monster invisible\\
+\textbf{Expected Output:} & Verification monster has real name\\
+\hline
+\textbf{Name:} & Monster Symbol/Level Association\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & Depth value\\
+\textbf{Expected Output:} & Set of symbols for monsters that are valid candidates for given depth\\
+\hline
+\textbf{Name:} & Monster Symbol/Treasure/Level Association\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & Depth value\\
+\textbf{Expected Output:} & Set of symbols for monsters that are valid candidates for given depth for a treasure room\\
 \hline
 \textbf{Name:} & \\
 \textbf{Initial State:} & \\
