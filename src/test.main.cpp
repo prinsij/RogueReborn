@@ -39,17 +39,17 @@ int main() {
 
 	std::vector<Testable*>* tests = new std::vector<Testable*>();
 	tests->push_back(new ArmorTest());
-	// tests->push_back(new AmuletTest());
-	// tests->push_back(new CoordTest());
-	// tests->push_back(new FeatureTest());
-	// tests->push_back(new FoodTest());
-	// tests->push_back(new GoldPileTest());
-	// tests->push_back(new ItemTest());
-	// tests->push_back(new ItemZoneTest());
-	// tests->push_back(new LevelTest());
-	// tests->push_back(new LevelGenTest());
-	// tests->push_back(new MobTest());
-	// tests->push_back(new MonsterTest());
+	tests->push_back(new AmuletTest());
+	tests->push_back(new CoordTest());
+	tests->push_back(new FeatureTest());
+	tests->push_back(new FoodTest());
+	tests->push_back(new GoldPileTest());
+	tests->push_back(new ItemTest());
+	tests->push_back(new ItemZoneTest());
+	tests->push_back(new LevelTest());
+	tests->push_back(new LevelGenTest());
+	tests->push_back(new MobTest());
+	tests->push_back(new MonsterTest());
 	// tests->push_back(new PlayerCharTest());
 	// tests->push_back(new PotionTest());
 	// tests->push_back(new RandomTest());
