@@ -35,6 +35,8 @@
 % Custom Commands
 
 \newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0em}}p{#1}}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0em}}p{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0em}}p{#1}}
 
 \newcounter{mnum}
 \newcommand{\mhprint}[1]{\addtocounter{mnum}{1} #1 & \textbf{M\themnum}}
@@ -43,6 +45,24 @@
 \newcommand{\newsection}[1]{
   \newpage
   \section{#1}
+}
+
+\newcommand{\nfrt}[1]{
+	\textit{NFRT #1}
+}
+
+\newcommand{\nfrtc}[3]{
+	\begin{center}
+		\def\arraystretch{1.6}
+		\begin{tabular}{| R{6em} L{23em} |}
+			\bottomrule
+			\multicolumn{2}{| c |}{\textbf{Non-Functional Requirement Test} \# #1 \textbf{Summary}}  \\
+			\hline
+			\textit{Description:} & #2 \\
+			\textit{Results:} & #3 \\
+			\toprule
+		\end{tabular}
+	\end{center}
 }
 
 % Title Page Elements
@@ -95,7 +115,7 @@
 \newsection{Introduction} \label{Section_Intro}
 
 	\subsection{Overview}
-	The primary objective of this document is to provide a comprehensive summary of the verification process with respect to the Rogue Reborn project.  Interested parties are welcome to analyze this paper as a means of evaluating the success of the final application regarding the requirements described in the \href{run:../SRS/SRS.pdf}{SRS}.  After reviewing the document, the reader should understand the strengths and weaknesses of the Rogue Project as it relates to the expectations of the client.
+	The primary objective of this document is to provide a comprehensive summary of the verification process with respect to the Rogue Reborn project.  Interested parties are welcome to analyze this paper as a means of evaluating the success of the final application regarding the requirements described in the \href{run:../SRS/SRS.pdf}{SRS} and tests prescribed in the \href{run:../TestPlan/TestPlan.pdf}{Test Plan}.  After reviewing the document, the reader should understand the strengths and weaknesses of the Rogue Project as it relates to the expectations of the client.
 
 	\subsection{Sections}
 	A brief description of each Test Report section is provided below:
@@ -117,7 +137,7 @@
 \newsection{Functional Requirements Evaluation} \label{Section_FR_Evaluation}
 	Overall, an evaluation of functional requirements reveals near, if not complete coverage. The tests written for the projects turned out to be quite useful, as many caught bugs or business-errors that would have otherwise gone unnoticed. Those will be discussed below. As for the rest of the functional requirements, many were mundane, general, or crucial enough to have already been satisfied earlier. Those will not be discussed, as their complete satisfaction has already been verified countless times.\\
 
-	The list below refers to each functional requirement by its numerical identifier, as listed in the System Requirements Specification. Please refer to the SRS if any confusion arises due to this.
+	The list below refers to each functional requirement by its numerical identifier, as listed in the System Requirements Specification. Please refer to the \href{run:../SRS/SRS.pdf}{SRS} document if any confusion arises.
 
 	\begin{itemize}
 		\item[] \textbf{FR.16}: When performing level tests, a strange anomaly led to one test constantly failing. The test revealed that the player, in fact, did not begin at the first level. Due to an off-by-one error and slight miscommunication between developers, the current level depth the player was on was $i$ in some places and $i+1$ in others. As soon as the test revealed this, the problem was remedied globally.
@@ -127,15 +147,26 @@
 
 
 \newsection{Non-Functional Requirements Evaluation} \label{Section_NFR_Evaluation}
-	Mikhail
+	The following subsections evaluate the significant non-functional qualities of Rogue Reborn.  To simplify notation, \textit{NFRT $i$} is used to denote ``Non-Functional Requirements Test $i$'' from the \href{run:../TestPlan/TestPlan.pdf}{Test Plan} document.  Note that the usability and playtesting surveys described in \nfrt{1}, \nfrt{2}, \nfrt{4}, \nfrt{7}, \nfrt{10} were not performed as a direct consequence of the time constraints imposed on the project (the \href{run:../../ProjectSchedule/rogue.gan}{Gantt Chart} schedules this survey to be released in early January, 2017).
 
-	\subsection{Usability}
-		Mikhail
+	\subsection{Usability and Aesthetics}
+		Overall, the visual appearance of the application was well-received by the Rogue Reborn stakeholders.  This was deduced through the interactions between the Rogue++ team and the \textit{SFWRENG 3XA3} instructor staff, as well as informal conversations with other colleagues.  Unfortunately, the usability survey described in \nfrt{1} will be carried out in the future, so the impressions of the general public are not yet known.\\
+
+		Since the usability of the original \textit{Rogue} was relatively poor due to its seemingly-arbitrary key bindings, the Rogue Reborn application made goals to improve this area.  Specifically, the application featured arrow key bindings for some of player character movements in order to accommodate a more standard and intuitive keyboard layout.  However, due to the plethora of other key bindings, the Rogue++ team was \textit{not} successful in alleviating this issue completely.  A summary of the remaining non-functional test \nfrt{3} is given below.
+
+		\nfrtc{3}
+		{All strings in the Rogue Reborn source code were extracted and placed in a text file, where a developer later corrected all indicated errors that were potentially associated with a GUI output using Microsoft Word.  The script that performed the string extraction is located under the \lstinline$src/misc$ under the name \href{run:../../src/misc/stringfinder.py}{stringfinder.py}.}
+		{The aforementioned script managed to located approximately 1400 strings.  After manually verifying the grammatical correctness and spelling of each string in Word, it was determined that the GUI output is free of linguistic errors.}
+
 	\subsection{Performance}
 		Mikhail
-	\subsection{etc.}
+
+	\subsection{Robustness and Maintainability}
 		Mikhail
 	
+	\subsection{Safety}
+		Mikhail
+
 \newsection{Comparison to Existing Implementation} \label{Section_Comparison}
 
 \newsection{Unit Testing} \label{Section_UT}
