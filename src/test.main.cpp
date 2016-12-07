@@ -42,7 +42,7 @@ int main() {
 	CoordTest().test();
 	FeatureTest().test();
 	FoodTest().test();
-	GoldPileTest().test();
+	//GoldPileTest().test();
 	//ItemTest().test();
 	//ItemZoneTest().test();
 	//LevelTest().test();
