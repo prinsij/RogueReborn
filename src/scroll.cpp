@@ -1,7 +1,7 @@
 /**
  * @file scroll.cpp
  * @author Team Rogue++
- * @date November 29, 2016
+ * @date December 06, 2016
  *
  * @brief Member definitions for the Scroll class
  */ 

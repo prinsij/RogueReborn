@@ -1,7 +1,7 @@
 /**
  * @file test.item.cpp
  * @author Team Rogue++
- * @date November 29, 2016
+ * @date December 06, 2016
  *
  * @brief Global members
  */ 
@@ -28,7 +28,7 @@ class ItemTest : public Testable {
 			std::vector<std::string> stringVector = {"A", "B", "C", "D"};
 			stringVector = Item::shuffleNameVector(stringVector);
 			assert(stringVector.size() == 4, "Shuffle Name Vector Check");
-			
+
 			assert(!item.isCursed(), "Item Cursed Check 1");
 			item.applyEffect(Item::CURSED);
 			assert(item.isCursed(), "Item Cursed Check 2");

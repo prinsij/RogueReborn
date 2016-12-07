@@ -1,7 +1,7 @@
 /**
  * @file test.levelgen.cpp
  * @author Team Rogue++
- * @date November 29, 2016
+ * @date December 06, 2016
  *
  * @brief Global members
  */ 
@@ -79,7 +79,7 @@ class LevelGenTest : public Testable {
 				assert(hasAtLeastOneGold, "Level has at least one gold pile");
 
 				//All other features (wands, etc.) are placed the same way as gold
-				
+
 				delete level;
 			}
 

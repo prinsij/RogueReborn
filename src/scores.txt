@@ -8,3 +8,7 @@
 0,1,fefman,Killed by a Ice Monster
 53,4,fef,Killed by a Hobgoblin
 4,1,Hector,Killed by a Ice Monster
+0,1,Test Char,retired
+0,1,Test Char,retired
+0,1,Test Char,retired
+0,1,Test Char,retired

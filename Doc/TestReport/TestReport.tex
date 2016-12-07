@@ -12,6 +12,7 @@
 \usepackage[round]{natbib}
 \usepackage[usenames, dvipsnames]{color}
 \usepackage{tikz}
+\usepackage{longtable}
 
 
 
@@ -73,6 +74,7 @@
 		\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 		\midrule
 		Dec 6 & 0.1 & Initial draft\\
+		Dec 6 & 0.2 & Automated Tests Up Through PlayerChar\\
 		\bottomrule
 	\end{tabularx}
 \end{table}
@@ -115,59 +117,487 @@ The following is a list of all system tests in the project.
 
 \begin{center}
 
-\begin{tabular}{ l | l }
-\hline
-\textbf{Name:} & \\
-\textbf{Initial State:} & \\
-\textbf{Input:} & \\
-\textbf{Expected Output:} & \\
-\hline
-\end{tabular}
-
-\begin{tabular}{ l | l }
+\begin{longtable}{ l | l }
 \hline
 \textbf{Name:} & Amulet Construction\\
 \textbf{Initial State:} & None\\
 \textbf{Input:} & Coordinate, context value\\
 \textbf{Expected Output:} & Amulet object in valid initial state\\
 \hline
-\end{tabular}
-
-\begin{tabular}{ l | l }
-\hline
 \textbf{Name:} & Armor Construction 1\\
 \textbf{Initial State:} & None\\
 \textbf{Input:} & Coordinate\\
 \textbf{Expected Output:} & Armor object in valid initial state\\
-\hline
-\end{tabular}
-
-\begin{tabular}{ l | l }
 \hline
 \textbf{Name:} & Armor Construction 2\\
 \textbf{Initial State:} & None\\
 \textbf{Input:} & Coordinate, context value, type value\\
 \textbf{Expected Output:} & Armor object in valid initial state\\
 \hline
-\end{tabular}
-
-\begin{tabular}{ l | l }
+\textbf{Name:} & Armor Identification\\
+\textbf{Initial State:} & Cursed Armor\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification that armor is identified\\
 \hline
 \textbf{Name:} & Armor Identification\\
 \textbf{Initial State:} & Cursed Armor\\
 \textbf{Input:} & None\\
 \textbf{Expected Output:} & Verification that armor is identified\\
 \hline
-\end{tabular}
-
-\begin{tabular}{ l | l }
-\hline
-\textbf{Name:} & Armor Identification\\
+\textbf{Name:} & Armor Curse\\
 \textbf{Initial State:} & Cursed Armor\\
 \textbf{Input:} & None\\
-\textbf{Expected Output:} & Verification that armor is identified\\
+\textbf{Expected Output:} & Verification that armor is cursed\\
 \hline
-\end{tabular}
+\textbf{Name:} & Armor Enchantment\\
+\textbf{Initial State:} & Cursed Armor\\
+\textbf{Input:} & Curse level\\
+\textbf{Expected Output:} & Verification that armor enchantment is correct\\
+\hline
+\textbf{Name:} & Armor Rating\\
+\textbf{Initial State:} & Cursed Armor\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification that armor rating is correct\\
+\hline
+\textbf{Name:} & Coordinate Ordering\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & (0,0) coordinate and (1,1) coordinate\\
+\textbf{Expected Output:} & Verification that (0,0) < (1,1)\\
+\hline
+\textbf{Name:} & Coordinate Equality\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & Two (0,0) coordinates\\
+\textbf{Expected Output:} & Verification that the two inputs are equal\\
+\hline
+\textbf{Name:} & Coordinate Inequality\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & (0,0) coordinate and (1,1) coordinate\\
+\textbf{Expected Output:} & Verification that the two inputs are not equal\\
+\hline
+\textbf{Name:} & Coordinate Addition\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & (2,3) coordinate and (1,2) coordinate\\
+\textbf{Expected Output:} & (3,5) coordinate\\
+\hline
+\textbf{Name:} & Coordinate Subtraction\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & (2,3) coordinate and (1,2) coordinate\\
+\textbf{Expected Output:} & (1,1) coordinate\\
+\hline
+\textbf{Name:} & Feature Construction\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & Symbol, coordinate, visibility, color\\
+\textbf{Expected Output:} & Feature object in valid initial state\\
+\hline
+\textbf{Name:} & Feature Symbol Check\\
+\textbf{Initial State:} & Feature with given symbol\\
+\textbf{Input:} & Symbol\\
+\textbf{Expected Output:} & Verification that feature's symbol matches given\\
+\hline
+\textbf{Name:} & Feature Invisibility Check\\
+\textbf{Initial State:} & Invisible feature\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification that feature is invisible\\
+\hline
+\textbf{Name:} & Feature Visibility Check\\
+\textbf{Initial State:} & Visible feature\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification that feature is visible\\
+\hline
+\textbf{Name:} & Feature Location Check\\
+\textbf{Initial State:} & Feature with given location\\
+\textbf{Input:} & Coordinate\\
+\textbf{Expected Output:} & Verification that feature's location matches given coordinate\\
+\hline
+\textbf{Name:} & Food Construction\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & Coordinate and context value\\
+\textbf{Expected Output:} & Food object in valid initial state\\
+\hline
+\textbf{Name:} & Food Eating\\
+\textbf{Initial State:} & Food and player objects\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification that food has increased the player's food life by an appropriate amount\\
+\hline
+\textbf{Name:} & GoldPile Construction\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & Coordinate, gold amount value\\
+\textbf{Expected Output:} & GoldPile object in valid initial state\\
+\hline
+\textbf{Name:} & GoldPile Quantity Check\\
+\textbf{Initial State:} & GoldPile with given amount of gold\\
+\textbf{Input:} & Amount of gold value\\
+\textbf{Expected Output:} & Verification that gold's amount matches given amount\\
+\hline
+\textbf{Name:} & Item Construction 1\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & Symbol, coordinate, context value, item class specifier, name value, psuedoname value, item type specifier, item stackability value, item throwability value, weight value\\
+\textbf{Expected Output:} & Item object in valid initial state\\
+\textbf{Name:} & Item Construction 2\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & Symbol, coordinate, context value, item class specifier, name value, psuedoname value, item type specifier, item stackability value, item throwability value, weight value\\
+\textbf{Expected Output:} & Item object in valid initial state\\
+\hline
+\textbf{Name:} & Name Vector Check\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & Vector of item names\\
+\textbf{Expected Output:} & Shuffled vector of item names\\
+\hline
+\textbf{Name:} & Item Curse Check\\
+\textbf{Initial State:} & Uncursed item\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification that item is uncursed\\
+\hline
+\textbf{Name:} & Item Curse/Effect Check 1\\
+\textbf{Initial State:} & Uncursed item to which the cursed effect has been applied\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification that item is cursed\\
+\hline
+\textbf{Name:} & Item Curse/Effect Check 2\\
+\textbf{Initial State:} & Cursed item whose curse effect has been removed\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification that item is uncursed\\
+\hline
+\textbf{Name:} & Item Unindentified Check\\
+\textbf{Initial State:} & Identified item\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification that item is unidentified\\
+\hline
+\textbf{Name:} & Item Identified Check\\
+\textbf{Initial State:} & Unidentified item\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification that item is identified\\
+\hline
+\textbf{Name:} & Item Display-Name Check 1\\
+\textbf{Initial State:} & Unidentified item\\
+\textbf{Input:} & Psuedoname\\
+\textbf{Expected Output:} & Verification that item's display name matches psuedoname\\
+\hline
+\textbf{Name:} & Item Display-Name Check 2\\
+\textbf{Initial State:} & Identified item\\
+\textbf{Input:} & True name\\
+\textbf{Expected Output:} & Verification that item's display name matches true name\\
+\hline
+\textbf{Name:} & ItemZone Containment Check 1\\
+\textbf{Initial State:} & ItemZone with 2 items\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification that ItemZone contains the first item\\
+\hline
+\textbf{Name:} & ItemZone Containment Check 2\\
+\textbf{Initial State:} & ItemZone with 2 items\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification that ItemZone contains the second item\\
+\hline
+\textbf{Name:} & ItemZone Empty Check\\
+\textbf{Initial State:} & ItemZone with 2 items\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification that ItemZone is not empty\\
+\hline
+\textbf{Name:} & ItemZone Size Check\\
+\textbf{Initial State:} & ItemZone with 2 items\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification that ItemZone's size is 2\\
+\hline
+\textbf{Name:} & ItemZone Keybind Check 1\\
+\textbf{Initial State:} & ItemZone with 2 items\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification that first item is bound to 'a' key\\
+\hline
+\textbf{Name:} & ItemZone Keybind Check 2\\
+\textbf{Initial State:} & ItemZone with 2 items\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification that second item is bound to 'b' key\\
+\hline
+\textbf{Name:} & ItemZone Contents Retrieval 1\\
+\textbf{Initial State:} & ItemZone with 2 items\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Item map with exactly 1 copy of first item\\
+\hline
+\textbf{Name:} & ItemZone Contents Retrieval 2\\
+\textbf{Initial State:} & ItemZone with 2 items\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Item map with exactly 1 copy of second item\\
+\hline
+\textbf{Name:} & ItemZone Removal\\
+\textbf{Initial State:} & ItemZone with 2 items\\
+\textbf{Input:} & Removal command\\
+\textbf{Expected Output:} & ItemZone with only second item\\
+\hline
+\textbf{Name:} & ItemZone Keybind Persistence\\
+\textbf{Initial State:} & ItemZone with first item removed\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification that second item is still bound to 'b'\\
+\hline
+\textbf{Name:} & ItemZone Weight Enforcement\\
+\textbf{Initial State:} & Empty ItemZone\\
+\textbf{Input:} & Attempt to add 500 pieces of armor to ItemZone\\
+\textbf{Expected Output:} & ItemZone with max-weight worth of armor\\
+\hline
+\textbf{Name:} & Level Construction\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & Depth, player object\\
+\textbf{Expected Output:} & Level object in valid initial state\\
+\hline
+\textbf{Name:} & Level Depth Check\\
+\textbf{Initial State:} & Level with given depth\\
+\textbf{Input:} & Depth value\\
+\textbf{Expected Output:} & Verification that level's depth matches given value\\
+\hline
+\textbf{Name:} & Level BFSPerp Diagonal Small\\
+\textbf{Initial State:} & Empty level object\\
+\textbf{Input:} & Pair of coordinates diagonally adjacent\\
+\textbf{Expected Output:} & Path between coordinates with expected length, utilizing taxicab movemen\\
+\hline
+\textbf{Name:} & Level BFSPerp Horizontal\\
+\textbf{Initial State:} & Empty level object\\
+\textbf{Input:} & Pair of coordinates with equal y-values\\
+\textbf{Expected Output:} & Path between coordinates with expected length, utilizing taxicab movemen\\
+\hline
+\textbf{Name:} & Level BFSPerp Vertical\\
+\textbf{Initial State:} & Empty level object\\
+\textbf{Input:} & Pair of coordinates with equal x-values\\
+\textbf{Expected Output:} & Path between coordinates with expected length, utilizing taxicab movemen\\
+\hline
+\textbf{Name:} & Level BFSDiag Horizontal\\
+\textbf{Initial State:} & Empty level object\\
+\textbf{Input:} & Pair of coordinates with equal y-values\\
+\textbf{Expected Output:} & Path between coordinates with expected length, utilizing orthogonal movement\\
+\hline
+\textbf{Name:} & Level BFSDiag Vertical\\
+\textbf{Initial State:} & Empty level object\\
+\textbf{Input:} & Pair of coordinates with equal x-values\\
+\textbf{Expected Output:} & Path between coordinates with expected length, utilizing orthogonal movement\\
+\hline
+\textbf{Name:} & Level BFSPerp Diagonal\\
+\textbf{Initial State:} & Empty level object\\
+\textbf{Input:} & Pair of coordinates on diagonal line\\
+\textbf{Expected Output:} & Path between coordinates with expected length, utilizing taxicab movement\\
+\hline
+\textbf{Name:} & Level Starting Position\\
+\textbf{Initial State:} & Empty level object\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Valid starting position coordinate\\
+\hline
+\textbf{Name:} & Level getAdjPassable\\
+\textbf{Initial State:} & Empty level object\\
+\textbf{Input:} & Coordinate\\
+\textbf{Expected Output:} & List of coordinates orthogonally adjacent to given coordinate\\
+\hline
+\textbf{Name:} & Level Path Generation\\
+\textbf{Initial State:} & Player object and generated level\\
+\textbf{Input:} & Series of path requests between random coordinates\\
+\textbf{Expected Output:} & Valid paths between locations\\
+\hline
+\textbf{Name:} & Level Connectedness\\
+\textbf{Initial State:} & Player object and generated level\\
+\textbf{Input:} & Series of path requests between all rooms in the level\\
+\textbf{Expected Output:} & Valid paths between each room\\
+\hline
+\textbf{Name:} & Level Staircase Check\\
+\textbf{Initial State:} & Player object and generated level\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification that level contains a staircase\\
+\hline
+\textbf{Name:} & Level GoldPile Check\\
+\textbf{Initial State:} & Player object and generated level\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification that level contains at least one goldpile\\
+\hline
+\textbf{Name:} & Monster Construction\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & Symbol, coordinate, armor value, HP value, exp value, level value, maxHP value, name value\\
+\textbf{Expected Output:} & Monster object in valid initial state\\
+\hline
+\textbf{Name:} & Dice-Math 1\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & 1 1-sided die\\
+\textbf{Expected Output:} & Sum of values of 1\\
+\hline
+\textbf{Name:} & Dice-Math 2\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & 2 1-sided die\\
+\textbf{Expected Output:} & Sum of values of 2\\
+\hline
+\textbf{Name:} & Dice-Math 3\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & 1 2-sided die\\
+\textbf{Expected Output:} & 1 <= Sum of values <= 2\\
+\hline
+\textbf{Name:} & Dice-Math 4\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & 3 4-sided die\\
+\textbf{Expected Output:} & 3 <= Sum of values <= 12\\
+\hline
+\textbf{Name:} & Mob Armor Check\\
+\textbf{Initial State:} & Mob object\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification mob armor is in valid range\\
+\hline
+\textbf{Name:} & Mob HP Check 1\\
+\textbf{Initial State:} & Mob with given HP value\\
+\textbf{Input:} & HP value\\
+\textbf{Expected Output:} & Verification mob has correct HP value\\
+\hline
+\textbf{Name:} & Mob MaxHP Check\\
+\textbf{Initial State:} & Mob with given MaxHP value\\
+\textbf{Input:} & MaxHP value\\
+\textbf{Expected Output:} & Verification mob has correct MaxHP value\\
+\hline
+\textbf{Name:} & Mob Level Check\\
+\textbf{Initial State:} & Mob with given level value\\
+\textbf{Input:} & Level value\\
+\textbf{Expected Output:} & Verification mob has correct level value\\
+\hline
+\textbf{Name:} & Mob Location Check\\
+\textbf{Initial State:} & Mob with given location\\
+\textbf{Input:} & Coordinate\\
+\textbf{Expected Output:} & Verification mob has correct location\\
+\hline
+\textbf{Name:} & Mob Name Check\\
+\textbf{Initial State:} & Mob with given name\\
+\textbf{Input:} & Name value\\
+\textbf{Expected Output:} & Verification mob has correct name\\
+\hline
+\textbf{Name:} & Mob setMaxHP\\
+\textbf{Initial State:} & Mob with default MaxHP\\
+\textbf{Input:} & setMaxHP command with MaxHP value\\
+\textbf{Expected Output:} & mob with given MaxHP value\\
+\hline
+\textbf{Name:} & Mob setcurrentHP\\
+\textbf{Initial State:} & Mob with default currentHP\\
+\textbf{Input:} & setCurrentHP command with currentHP value\\
+\textbf{Expected Output:} & mob with given currentHP value\\
+\hline
+\textbf{Name:} & Mob Dead Check 1\\
+\textbf{Initial State:} & Living Mob object\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification mob is alive\\
+\hline
+\textbf{Name:} & Mob HP Check 2\\
+\textbf{Initial State:} & Living Mob object\\
+\textbf{Input:} & Hit command for >>> mob's current HP\\
+\textbf{Expected Output:} & Verification mob has HP <= 0\\
+\hline
+\textbf{Name:} & Mob Dead Check 2\\
+\textbf{Initial State:} & Dead mob object\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification mob is dead\\
+\hline
+\textbf{Name:} & Monster Construction\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & Symbol, coordinate\\
+\textbf{Expected Output:} & Monster object in valid initial state\\
+\hline
+\textbf{Name:} & Monster Flag/Invisibility\\
+\textbf{Initial State:} & Visible monster object\\
+\textbf{Input:} & SetFlag command to make monster invisible\\
+\textbf{Expected Output:} & Invisible monster object\\
+\hline
+\textbf{Name:} & Monster Aggrevate\\
+\textbf{Initial State:} & Idling, sleeping monster object\\
+\textbf{Input:} & Aggrevate command\\
+\textbf{Expected Output:} & Awake, chasing monster object\\
+\hline
+\textbf{Name:} & Monster Damage Calculation\\
+\textbf{Initial State:} & Monster object\\
+\textbf{Input:} & calculateDamage command\\
+\textbf{Expected Output:} & Correct amount of damage\\
+\hline
+\textbf{Name:} & Monster Hit Chance\\
+\textbf{Initial State:} & Monster and player objects\\
+\textbf{Input:} & calculateHitChange command\\
+\textbf{Expected Output:} & Hit chance in valid range\\
+\hline
+\textbf{Name:} & Monster Armor Check\\
+\textbf{Initial State:} & Monster object\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification that monster armor is in valid range\\
+\hline
+\textbf{Name:} & Invisible Monster Name Check\\
+\textbf{Initial State:} & Invisible uonster object\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification monster has hidden name\\
+\hline
+\textbf{Name:} & Visible Monster Name Check\\
+\textbf{Initial State:} & Invisible monster object\\
+\textbf{Input:} & RemoveFlag command to make monster invisible\\
+\textbf{Expected Output:} & Verification monster has real name\\
+\hline
+\textbf{Name:} & Monster Symbol/Level Association\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & Depth value\\
+\textbf{Expected Output:} & Set of symbols for monsters that are valid candidates for given depth\\
+\hline
+\textbf{Name:} & Monster Symbol/Treasure/Level Association\\
+\textbf{Initial State:} & None\\
+\textbf{Input:} & Depth value\\
+\textbf{Expected Output:} & Set of symbols for monsters that are valid candidates for given depth for a treasure room\\
+\hline
+\textbf{Name:} & PlayerChar Initial Amulet Check\\
+\textbf{Initial State:} & Just initialized playerchar object\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification the game does not believe the player has the amulet\\
+\hline
+\textbf{Name:} & PlayerChar Initial HP Check\\
+\textbf{Initial State:} & Just initialized playerchar object\\
+\textbf{Input:} & None\\
+\textbf{Expected Output:} & Verification playerchar has full hp\\
+\hline
+\textbf{Name:} & PlayerChar Level-Up Exp\\
+\textbf{Initial State:} & Playerchar object at initial level\\
+\textbf{Input:} & Exp input into playerchar object\\
+\textbf{Expected Output:} & Playerchar object with increased level\\
+\hline
+\textbf{Name:} & PlayerChar Level-Up Manual\\
+\textbf{Initial State:} & Playerchar object\\
+\textbf{Input:} & Level-up command\\
+\textbf{Expected Output:} & Playerchar object with increased level\\
+\hline
+\textbf{Name:} & PlayerChar Damage\\
+\textbf{Initial State:} & Playerchar object at full hp\\
+\textbf{Input:} & Series of damage commands applied to playerchar object\\
+\textbf{Expected Output:} & Playerchar object with less than full hp\\
+\hline
+\textbf{Name:} & PlayerChar UnArmed 1\\
+\textbf{Initial State:} & Unarmed playerchar object\\
+\textbf{Input:} & calculateDamage command\\
+\textbf{Expected Output:} & 0 damage value\\
+\hline
+\textbf{Name:} & PlayerChar Armed\\
+\textbf{Initial State:} & Playerchar object armed with weapon\\
+\textbf{Input:} & calculateDamage command\\
+\textbf{Expected Output:} & Damage value > 0\\
+\hline
+\textbf{Name:} & PlayerChar Stow Weapon\\
+\textbf{Initial State:} & Playerchar object armed with uncursed weapon\\
+\textbf{Input:} & removeWeapon command\\
+\textbf{Expected Output:} & PlayerChar object unarmed\\
+\hline
+\textbf{Name:} & PlayerChar UnArmed 2\\
+\textbf{Initial State:} & Armed playerchar object\\
+\textbf{Input:} & removeWeapon command, then calculateDamage\\
+\textbf{Expected Output:} & 0 damage value\\
+\hline
+\textbf{Name:} & PlayerChar Remove Non-Armor\\
+\textbf{Initial State:} & Playerchar object with no armor\\
+\textbf{Input:} & removeArmor command\\
+\textbf{Expected Output:} & Boolean indicating failure to remove armor\\
+\hline
+\textbf{Name:} & PlayerChar Remove Armor\\
+\textbf{Initial State:} & Playerchar object with uncursed armor\\
+\textbf{Input:} & removeArmor command\\
+\textbf{Expected Output:} & Playerchar object without armor\\
+\hline
+
+
+
+\textbf{Name:} & \\
+\textbf{Initial State:} & \\
+\textbf{Input:} & \\
+\textbf{Expected Output:} & \\
+\hline
+
+\end{longtable}
 
 \end{center}
 		

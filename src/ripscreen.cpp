@@ -1,7 +1,7 @@
 /**
  * @file ripscreen.cpp
  * @author Team Rogue++
- * @date November 29, 2016
+ * @date December 06, 2016
  *
  * @brief Member definitions for the RIPScreen class
  */ 
@@ -125,7 +125,7 @@ RIPScreen::RIPScreen(PlayerChar* player,
 
 	// Flowers
 	for (int x = 40 - GRAVE_WIDTH/2 - 2 ; x <= 40 + GRAVE_WIDTH/2 + 2 ; x ++) {
-		if (Generator::intFromRange(0, 99) <= 15) {
+		if (Generator::randPercent() <= 15) {
 			flowers += "*";
 		} else {
 			flowers += " ";

@@ -1,7 +1,7 @@
 /**
  * @file test.monster.cpp
  * @author Team Rogue++
- * @date November 29, 2016
+ * @date December 06, 2016
  *
  * @brief Global members
  */ 
@@ -10,8 +10,8 @@
 #include <string>
 #include <vector>
 
-#include "include/playerchar.h"
 #include "include/monster.h"
+#include "include/playerchar.h"
 #include "test.testable.h"
 
 class MonsterTest : public Testable {
@@ -48,9 +48,9 @@ class MonsterTest : public Testable {
 			assert(monster.getName(player) == "Bat", "Monster Name Check 2");
 
 			assert(monster.getSymbolsForLevel(0).size() > 1, "Monster Symbol Level Check");
-			assert(monster.getSymbolsForTreasure(0).size() > 1, "Monster Treasure Level Check");	
-			
-			delete player;		
+			assert(monster.getSymbolsForTreasure(0).size() > 1, "Monster Treasure Level Check");
+
+			delete player;
 
 			comment("Finished Monster tests.");
 		}

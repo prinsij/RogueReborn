@@ -1,10 +1,10 @@
 /**
- * @file test.uistate.cpp
+ * @file test.itemzone.cpp
  * @author Team Rogue++
- * @date November 29, 2016
+ * @date December 06, 2016
  *
- * @brief Tests for the itemzone module
- */
+ * @brief Global members
+ */ 
 
 #include "include/armor.h"
 #include "include/coord.h"
@@ -34,10 +34,16 @@ class ItemZoneTest : public Testable {
 			assert(contents['b'].front() == pot2, "Second item should be bound to 'b', key");
 			assert(contents['a'].size() == 1, "Should only be 1 of first item");
 			assert(contents['b'].size() == 1, "Should only be 1 of second item");
+
 			zone.remove(pot);
+			delete pot;
+
 			contents = zone.getContents();
 			assert(contents.size() == 1, "First item should no longer be in the zone");
 			assert(contents['b'].front() == pot2, "Second item hotkey should not have changed");
+
+			zone.remove(pot2);
+			delete pot2;
 
 			std::vector<Armor*> armors;
 			for (int i = 0; i < 500; ++i) {

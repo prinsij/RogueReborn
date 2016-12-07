@@ -1,7 +1,7 @@
 /**
  * @file random.cpp
  * @author Team Rogue++
- * @date November 29, 2016
+ * @date December 06, 2016
  *
  * @brief Global members
  */ 
@@ -27,13 +27,17 @@ bool Generator::randBool() {
 	return rand() < 0.5;
 }
 
-Coord Generator::randPosition(Coord a, Coord b) {
-	return Coord(intFromRange(a[0], b[0]), intFromRange(a[1], b[1]));
+int Generator::randPercent() {
+	return std::uniform_int_distribution<>(0, 100)(gen);
 }
 
-template<typename T>
-void Generator::shuffle(std::vector<T>* s) {
-	std::random_shuffle(s->begin(), s->end());
+Coord Generator::randPosition(Coord a, Coord b) {
+	int minX = std::min(a[0], b[0]);
+	int maxX = std::max(a[0], b[0]);
+	int minY = std::min(a[1], b[1]);
+	int maxY = std::max(a[1], b[1]);
+
+	return Coord(intFromRange(minX, maxX), intFromRange(minY, maxY));
 }
 
 int Generator::nDx(int numDice, int numFaces) {
