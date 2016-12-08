@@ -116,9 +116,10 @@
 		12/06/16 & 0.3 & Added FR Evaluation\\
 		12/07/16 & 0.4 & Added Introduction\\
 		12/07/16 & 0.5 & Finished Automated Tests\\
-		12/07/16 & 0.6 & Added NFR Evaluation\\
-		12/07/16 & 0.7 & Added Unit Testing\\
-		12/08/16 & 0.8 & Added Changes Due to Testing\\
+		12/07/16 & 0.6 & Added Metrics and Comparison\\
+		12/07/16 & 0.7 & Added NFR Evaluation\\
+		12/07/16 & 0.8 & Added Unit Testing\\
+		12/08/16 & 0.9 & Added Changes Due to Testing\\
 		12/08/16 & 1.0 & Proofread and Editing\\
 		\bottomrule
 	\end{tabularx}
@@ -225,15 +226,14 @@
 
 \newsection{Comparison to Existing Implementation} \label{Section_Comparison}
 
-	According to all collected resources of the original implementation, there were no tests done to verify the accuracy of the original product. This is somewhat understandable, all things considered. After all, the original product was released in 1980, almost 40 years ago. Since then, standards of software development were transformed from infanthood to the rigorous forms they take today.\\
+	According to all collected resources of the original implementation, there were no tests done to verify the accuracy of the original product. This is somewhat understandable: the original \textit{Rogue} was released in 1980 (almost 40 years ago to date) when the discipline of software engineering was still in its infancy.  Since then, the standards of software development have evolved into the rigorous forms they take today.\\
 
-	As such, the tests we have written have nothing to be compared to. If there were tests to compare to, we would take a look at the following:\\
-
+	Given that no prior tests exist, there is nothing to compare.  However, if such tests were to exist, the Rogue++ team would consider the following:
 	\begin{itemize}
-		\item How does the coverage of the existing test cases compare to the coverage we implemented?
-		\item For cases where the modules/classes are similar in both versions, how do the tests compare? Are there any significant benefits or drawbacks to one or the other?
-		\item Does any one of the implementations completely neglect an aspect of another? Is the remade implementation missing something critical that the original did test for?
-		\item How are random tests approached by the existing implementation? Are random numbers ever used in the testing phase?
+		\item How does the coverage of the existing test cases compare to Rogue Reborn's coverage?
+		\item For cases where the modules are similar across both versions, how do the tests compare?  Are there any significant benefits or drawbacks between the approaches?
+		\item Do either of the implementations completely neglect an aspect of the other implementation?  Is Rogue Reborn missing a critical functionality test that the original included?
+		\item How are random tests approached by the existing implementation?  Are random numbers ever used in the testing phase?
 	\end{itemize}
 
 \newsection{Unit Testing} \label{Section_UT}
@@ -268,14 +268,14 @@
 
 	One area that the greatly benefited from the unit tests were the \hyperref[Section_M_Trace]{Item} modules, as numerous bugs were caught with respect to the initialization of particular variables (or lack thereof).  For example, there was an error where a disenchanted \hyperref[Section_M_Trace]{Armor} object would claim a completely nonsensical effective armor value since the enchantment variable was never initialized.  Another portion of the tests detected several logic flaws (e.g., the negation of a condition was accidentally checked) present in the effects of certain items.  For instance, the \textit{Wand of Cold} was reveled to deal critical damage to ice monsters and almost no damage to fire monsters as a consequence of a negated condition.\\
 
-	With respect to the non-functional testing, the most significant changes arose in the modules that interact with the file system.  In particular, the \hyperref[Section_M_Trace]{RipScreen} module was drastically improved by implementing input validation checks to detect anomalies in the high score record file.  Additionally, although the actual testing itself did not compel any changes, various GUI elements in Rogue Reborn were enhanced (such as the help screen and splash screen) in preparation for the usability tests to follow.\\
+	With respect to the non-functional testing, the most significant changes arose in the modules that interacted with the file system.  In particular, the \hyperref[Section_M_Trace]{RipScreen} module was drastically improved by implementing input validation checks to detect anomalies in the high score record file.  Additionally, although the actual testing itself did not compel any changes, various GUI elements in Rogue Reborn were enhanced (such as the help screen and splash screen) in preparation for future usability tests.\\
 
-	Aside from catching implementation mistakes, the testing process also influenced the architecture and design of the software system.  To facilitate unit testing, various modules such as \hyperref[Section_M_Trace]{PlayState} were revamped to improve modularization.  Other modules introduced blocks of code that were activated by a special \lstinline$DEBUG$ compiler directive; these sections either displayed debug information to standard output or modified conditionals to guarantee a particular trace through a function.  Finally, as mentioned in the \hyperref[Section_UT]{Unit Testing} section of this Test Report, the CI pipeline of the project was also modified to accommodate the execution of unit tests after each commit to the repository.
+	Aside from catching implementation mistakes, the testing process also influenced the architecture and design of the software system.  To facilitate unit testing, various modules such as \hyperref[Section_M_Trace]{PlayState} were revamped to improve modularization.  Other modules introduced blocks of code that were activated by a special \lstinline$#define DEBUG$ directive; these sections either displayed debug information to standard output or modified conditionals to guarantee a particular trace through a function.  Finally, as mentioned in the \hyperref[Section_UT]{Unit Testing} section of this document, the CI pipeline of the project was also modified to accommodate the execution of unit tests after each commit to the repository.
 
 \newsection{Automated Testing} \label{Section_Automated}
 
 	\subsection{Automated Testing Strategy}
-	With respect to the \hyperref[Section_UT]{Unit Testing} section of this document, a custom testing framework was developed for the Rogue Reborn project.  A series of files following the naming convention \lstinline$test.<Class Name>.cpp$ were created and contained the unit tests specific to the \lstinline$Class Name$ class.  Whenever a change was pushed to the Rogue Reborn repository, all of these tests were run and their corresponding output was analyzed by a Python script to determine if any failures occurred.
+	With respect to the \hyperref[Section_UT]{Unit Testing} section of this document, a custom testing framework was developed for the Rogue Reborn project.  A series of files following the naming convention \lstinline$test.<Class Name>.cpp$ were created and contained the unit tests specific to the \lstinline$<Class Name>$ class.  Whenever a change was pushed to the Rogue Reborn repository, all of these tests were run and their corresponding output was analyzed by a Python script to determine if any failures occurred.
 
 	\subsection{Specific System Tests}
 	The following is a list of all system tests in the project.
@@ -296,277 +296,277 @@
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Armor Construction 2\\
 				\textbf{Initial State:} & None\\
-				\textbf{Input:} & Coordinate, context value, type value\\
+				\textbf{Input:} & Coordinate, Context value, type value\\
 				\textbf{Expected Output:} & Armor object in valid initial state\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Armor Identification\\
 				\textbf{Initial State:} & Cursed Armor\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification that armor is identified\\[0.6em]
+				\textbf{Expected Output:} & Verification that Armor is identified\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Armor Curse\\
 				\textbf{Initial State:} & Cursed Armor\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification that armor is cursed\\[0.6em]
+				\textbf{Expected Output:} & Verification that Armor is cursed\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Armor Enchantment\\
 				\textbf{Initial State:} & Cursed Armor\\
 				\textbf{Input:} & Curse level\\
-				\textbf{Expected Output:} & Verification that armor enchantment is correct\\[0.6em]
+				\textbf{Expected Output:} & Verification that Armor enchantment is correct\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Armor Rating\\
 				\textbf{Initial State:} & Cursed Armor\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification that armor rating is correct\\[0.6em]
+				\textbf{Expected Output:} & Verification that Armor rating is correct\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Coordinate Ordering\\
 				\textbf{Initial State:} & None\\
-				\textbf{Input:} & (0,0) coordinate and (1,1) coordinate\\
-				\textbf{Expected Output:} & Verification that (0,0) < (1,1)\\[0.6em]
+				\textbf{Input:} & (0,0) Coordinate and (1,1) Coordinate\\
+				\textbf{Expected Output:} & Verification that (0,0) \textless (1,1)\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Coordinate Equality\\
 				\textbf{Initial State:} & None\\
-				\textbf{Input:} & Two (0,0) coordinates\\
+				\textbf{Input:} & Two (0,0) Coordinates\\
 				\textbf{Expected Output:} & Verification that the two inputs are equal\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Coordinate Inequality\\
 				\textbf{Initial State:} & None\\
-				\textbf{Input:} & (0,0) coordinate and (1,1) coordinate\\
+				\textbf{Input:} & (0,0) Coordinate and (1,1) Coordinate\\
 				\textbf{Expected Output:} & Verification that the two inputs are not equal\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Coordinate Addition\\
 				\textbf{Initial State:} & None\\
-				\textbf{Input:} & (2,3) coordinate and (1,2) coordinate\\
-				\textbf{Expected Output:} & (3,5) coordinate\\[0.6em]
+				\textbf{Input:} & (2,3) Coordinate and (1,2) Coordinate\\
+				\textbf{Expected Output:} & (3,5) Coordinate\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Coordinate Subtraction\\
 				\textbf{Initial State:} & None\\
-				\textbf{Input:} & (2,3) coordinate and (1,2) coordinate\\
+				\textbf{Input:} & (2,3) Coordinate and (1,2) Coordinate\\
 				\textbf{Expected Output:} & (1,1) coordinate\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Feature Construction\\
 				\textbf{Initial State:} & None\\
-				\textbf{Input:} & Symbol, coordinate, visibility, color\\
+				\textbf{Input:} & Symbol, Coordinate, visibility, TCODColor\\
 				\textbf{Expected Output:} & Feature object in valid initial state\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Feature Symbol Check\\
 				\textbf{Initial State:} & Feature with given symbol\\
 				\textbf{Input:} & Symbol\\
-				\textbf{Expected Output:} & Verification that feature's symbol matches given\\[0.6em]
+				\textbf{Expected Output:} & Verification that Feature's symbol matches given symbol\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Feature Invisibility Check\\
-				\textbf{Initial State:} & Invisible feature\\
+				\textbf{Initial State:} & Invisible Feature\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification that feature is invisible\\[0.6em]
+				\textbf{Expected Output:} & Verification that Feature is invisible\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Feature Visibility Check\\
-				\textbf{Initial State:} & Visible feature\\
+				\textbf{Initial State:} & Visible Feature\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification that feature is visible\\[0.6em]
+				\textbf{Expected Output:} & Verification that Feature is visible\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Feature Location Check\\
 				\textbf{Initial State:} & Feature with given location\\
 				\textbf{Input:} & Coordinate\\
-				\textbf{Expected Output:} & Verification that feature's location matches given coordinate\\[0.6em]
+				\textbf{Expected Output:} & Verification that Feature's location matches given Coordinate\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Food Construction\\
 				\textbf{Initial State:} & None\\
-				\textbf{Input:} & Coordinate and context value\\
+				\textbf{Input:} & Coordinate and Context value\\
 				\textbf{Expected Output:} & Food object in valid initial state\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Food Eating\\
-				\textbf{Initial State:} & Food and player objects\\
+				\textbf{Initial State:} & Food and PlayerChar objects\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification that food has increased the player's food life by an appropriate amount\\[0.6em]
+				\textbf{Expected Output:} & Verification that Food has increased the player character's food life by an appropriate amount\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & GoldPile Construction\\
 				\textbf{Initial State:} & None\\
-				\textbf{Input:} & Coordinate, gold amount value\\
+				\textbf{Input:} & Coordinate, gold amount\\
 				\textbf{Expected Output:} & GoldPile object in valid initial state\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & GoldPile Quantity Check\\
 				\textbf{Initial State:} & GoldPile with given amount of gold\\
 				\textbf{Input:} & Amount of gold value\\
-				\textbf{Expected Output:} & Verification that gold's amount matches given amount\\[0.6em]
+				\textbf{Expected Output:} & Verification that GoldPile's amount matches given amount\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Item Construction 1\\
 				\textbf{Initial State:} & None\\
-				\textbf{Input:} & Symbol, coordinate, context value, item class specifier, name value, psuedoname value, item type specifier, item stackability value, item throwability value, weight value\\
+				\textbf{Input:} & Symbol, Coordinate, Context value, class specifier, name value, psuedoname value, type specifier, stackability value, throwability value, weight value\\
 				\textbf{Expected Output:} & Item object in valid initial state\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Item Construction 2\\
 				\textbf{Initial State:} & None\\
-				\textbf{Input:} & Symbol, coordinate, context value, item class specifier, name value, psuedoname value, item type specifier, item stackability value, item throwability value, weight value\\
+				\textbf{Input:} & Symbol, Coordinate, context value, class specifier, name value, psuedoname value, type specifier, stackability value, throwability value, weight value\\
 				\textbf{Expected Output:} & Item object in valid initial state\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Name Vector Check\\
 				\textbf{Initial State:} & None\\
-				\textbf{Input:} & Vector of item names\\
-				\textbf{Expected Output:} & Shuffled vector of item names\\[0.6em]
+				\textbf{Input:} & Vector of Item names\\
+				\textbf{Expected Output:} & Shuffled vector of Item names\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Item Curse Check\\
-				\textbf{Initial State:} & Uncursed item\\
+				\textbf{Initial State:} & Uncursed Item\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification that item is uncursed\\[0.6em]
+				\textbf{Expected Output:} & Verification that Item is uncursed\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Item Curse/Effect Check 1\\
-				\textbf{Initial State:} & Uncursed item to which the cursed effect has been applied\\
+				\textbf{Initial State:} & Uncursed Item to which the cursed effect has been applied\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification that item is cursed\\[0.6em]
+				\textbf{Expected Output:} & Verification that Item is cursed\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Item Curse/Effect Check 2\\
-				\textbf{Initial State:} & Cursed item whose curse effect has been removed\\
+				\textbf{Initial State:} & Cursed Item whose curse effect has been removed\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification that item is uncursed\\[0.6em]
+				\textbf{Expected Output:} & Verification that Item is uncursed\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Item Unindentified Check\\
-				\textbf{Initial State:} & Identified item\\
+				\textbf{Initial State:} & Identified Item\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification that item is unidentified\\[0.6em]
+				\textbf{Expected Output:} & Verification that Item is unidentified\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Item Identified Check\\
-				\textbf{Initial State:} & Unidentified item\\
+				\textbf{Initial State:} & Unidentified Item\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification that item is identified\\[0.6em]
+				\textbf{Expected Output:} & Verification that Item is identified\\[0.6em]
 				\hline
-				\rule{0pt}{1.5em}\textbf{Name:} & Item Display-Name Check 1\\
-				\textbf{Initial State:} & Unidentified item\\
+				\rule{0pt}{1.5em}\textbf{Name:} & Item Display Name Check 1\\
+				\textbf{Initial State:} & Unidentified Item\\
 				\textbf{Input:} & Psuedoname\\
-				\textbf{Expected Output:} & Verification that item's display name matches psuedoname\\[0.6em]
+				\textbf{Expected Output:} & Verification that Item's display name matches psuedoname\\[0.6em]
 				\hline
-				\rule{0pt}{1.5em}\textbf{Name:} & Item Display-Name Check 2\\
-				\textbf{Initial State:} & Identified item\\
+				\rule{0pt}{1.5em}\textbf{Name:} & Item Display Name Check 2\\
+				\textbf{Initial State:} & Identified Item\\
 				\textbf{Input:} & True name\\
-				\textbf{Expected Output:} & Verification that item's display name matches true name\\[0.6em]
+				\textbf{Expected Output:} & Verification that Item's display name matches true name\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & ItemZone Containment Check 1\\
-				\textbf{Initial State:} & ItemZone with 2 items\\
+				\textbf{Initial State:} & ItemZone with 2 Items\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification that ItemZone contains the first item\\[0.6em]
+				\textbf{Expected Output:} & Verification that ItemZone contains the first Item\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & ItemZone Containment Check 2\\
-				\textbf{Initial State:} & ItemZone with 2 items\\
+				\textbf{Initial State:} & ItemZone with 2 Items\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification that ItemZone contains the second item\\[0.6em]
+				\textbf{Expected Output:} & Verification that ItemZone contains the second Item\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & ItemZone Empty Check\\
-				\textbf{Initial State:} & ItemZone with 2 items\\
+				\textbf{Initial State:} & ItemZone with 2 Items\\
 				\textbf{Input:} & None\\
 				\textbf{Expected Output:} & Verification that ItemZone is not empty\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & ItemZone Size Check\\
-				\textbf{Initial State:} & ItemZone with 2 items\\
+				\textbf{Initial State:} & ItemZone with 2 Items\\
 				\textbf{Input:} & None\\
 				\textbf{Expected Output:} & Verification that ItemZone's size is 2\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & ItemZone Keybind Check 1\\
-				\textbf{Initial State:} & ItemZone with 2 items\\
+				\textbf{Initial State:} & ItemZone with 2 Items\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification that first item is bound to 'a' key\\[0.6em]
+				\textbf{Expected Output:} & Verification that first Item is bound to 'a' key\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & ItemZone Keybind Check 2\\
-				\textbf{Initial State:} & ItemZone with 2 items\\
+				\textbf{Initial State:} & ItemZone with 2 Items\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification that second item is bound to 'b' key\\[0.6em]
+				\textbf{Expected Output:} & Verification that second Item is bound to 'b' key\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & ItemZone Contents Retrieval 1\\
-				\textbf{Initial State:} & ItemZone with 2 items\\
+				\textbf{Initial State:} & ItemZone with 2 Items\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Item map with exactly 1 copy of first item\\[0.6em]
+				\textbf{Expected Output:} & Item map with exactly 1 copy of first Item\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & ItemZone Contents Retrieval 2\\
-				\textbf{Initial State:} & ItemZone with 2 items\\
+				\textbf{Initial State:} & ItemZone with 2 Items\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Item map with exactly 1 copy of second item\\[0.6em]
+				\textbf{Expected Output:} & Item map with exactly 1 copy of second Item\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & ItemZone Removal\\
-				\textbf{Initial State:} & ItemZone with 2 items\\
+				\textbf{Initial State:} & ItemZone with 2 Items\\
 				\textbf{Input:} & Removal command\\
-				\textbf{Expected Output:} & ItemZone with only second item\\[0.6em]
+				\textbf{Expected Output:} & ItemZone with only second Item\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & ItemZone Keybind Persistence\\
-				\textbf{Initial State:} & ItemZone with first item removed\\
+				\textbf{Initial State:} & ItemZone with first Item removed\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification that second item is still bound to 'b'\\[0.6em]
+				\textbf{Expected Output:} & Verification that second Item is still bound to 'b'\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & ItemZone Weight Enforcement\\
 				\textbf{Initial State:} & Empty ItemZone\\
-				\textbf{Input:} & Attempt to add 500 pieces of armor to ItemZone\\
-				\textbf{Expected Output:} & ItemZone with max-weight worth of armor\\[0.6em]
+				\textbf{Input:} & Attempt to add 500 Armor instances to ItemZone\\
+				\textbf{Expected Output:} & ItemZone with max-weight worth of Armor\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Level Construction\\
 				\textbf{Initial State:} & None\\
-				\textbf{Input:} & Depth, player object\\
+				\textbf{Input:} & Depth, PlayerChar object\\
 				\textbf{Expected Output:} & Level object in valid initial state\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Level Depth Check\\
 				\textbf{Initial State:} & Level with given depth\\
 				\textbf{Input:} & Depth value\\
-				\textbf{Expected Output:} & Verification that level's depth matches given value\\[0.6em]
+				\textbf{Expected Output:} & Verification that Level's depth matches given value\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Level BFSPerp Diagonal Small\\
 				\textbf{Initial State:} & Empty level object\\
-				\textbf{Input:} & Pair of coordinates diagonally adjacent\\
-				\textbf{Expected Output:} & Path between coordinates with expected length, utilizing taxicab movement\\[0.6em]
+				\textbf{Input:} & Pair of Coordinates diagonally adjacent\\
+				\textbf{Expected Output:} & Path between Coordinates with expected length, utilizing taxicab movement\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Level BFSPerp Horizontal\\
 				\textbf{Initial State:} & Empty level object\\
-				\textbf{Input:} & Pair of coordinates with equal y-values\\
-				\textbf{Expected Output:} & Path between coordinates with expected length, utilizing taxicab movemen\\[0.6em]
+				\textbf{Input:} & Pair of Coordinates with equal y-values\\
+				\textbf{Expected Output:} & Path between Coordinates with expected length, utilizing taxicab movement\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Level BFSPerp Vertical\\
 				\textbf{Initial State:} & Empty level object\\
-				\textbf{Input:} & Pair of coordinates with equal x-values\\
-				\textbf{Expected Output:} & Path between coordinates with expected length, utilizing taxicab movemen\\[0.6em]
+				\textbf{Input:} & Pair of Coordinates with equal x-values\\
+				\textbf{Expected Output:} & Path between coordinates with expected length, utilizing taxicab movement\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Level BFSDiag Horizontal\\
 				\textbf{Initial State:} & Empty level object\\
-				\textbf{Input:} & Pair of coordinates with equal y-values\\
-				\textbf{Expected Output:} & Path between coordinates with expected length, utilizing orthogonal movement\\[0.6em]
+				\textbf{Input:} & Pair of Coordinates with equal y-values\\
+				\textbf{Expected Output:} & Path between Coordinates with expected length, utilizing orthogonal movement\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Level BFSDiag Vertical\\
-				\textbf{Initial State:} & Empty level object\\
-				\textbf{Input:} & Pair of coordinates with equal x-values\\
-				\textbf{Expected Output:} & Path between coordinates with expected length, utilizing orthogonal movement\\[0.6em]
+				\textbf{Initial State:} & Empty Level object\\
+				\textbf{Input:} & Pair of Coordinates with equal x-values\\
+				\textbf{Expected Output:} & Path between Coordinates with expected length, utilizing orthogonal movement\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Level BFSPerp Diagonal\\
-				\textbf{Initial State:} & Empty level object\\
-				\textbf{Input:} & Pair of coordinates on diagonal line\\
-				\textbf{Expected Output:} & Path between coordinates with expected length, utilizing taxicab movement\\[0.6em]
+				\textbf{Initial State:} & Empty Level object\\
+				\textbf{Input:} & Pair of Coordinates on diagonal line\\
+				\textbf{Expected Output:} & Path between Coordinates with expected length, utilizing taxicab movement\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Level Starting Position\\
-				\textbf{Initial State:} & Empty level object\\
+				\textbf{Initial State:} & Empty Level object\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Valid starting position coordinate\\[0.6em]
+				\textbf{Expected Output:} & Valid starting position Coordinate\\[0.6em]
 				\hline
-				\rule{0pt}{1.5em}\textbf{Name:} & Level getAdjPassable\\
-				\textbf{Initial State:} & Empty level object\\
+				\rule{0pt}{1.5em}\textbf{Name:} & Level Adjacent Passable\\
+				\textbf{Initial State:} & Empty Level object\\
 				\textbf{Input:} & Coordinate\\
-				\textbf{Expected Output:} & List of coordinates orthogonally adjacent to given coordinate\\[0.6em]
+				\textbf{Expected Output:} & List of Coordinates orthogonally adjacent to given coordinate\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Level Path Generation\\
-				\textbf{Initial State:} & Player object and generated level\\
-				\textbf{Input:} & Series of path requests between random coordinates\\
+				\textbf{Initial State:} & PlayerChar object and generated Level\\
+				\textbf{Input:} & Series of path requests between random Coordinates\\
 				\textbf{Expected Output:} & Valid paths between locations\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Level Connectedness\\
-				\textbf{Initial State:} & Player object and generated level\\
-				\textbf{Input:} & Series of path requests between all rooms in the level\\
-				\textbf{Expected Output:} & Valid paths between each room\\[0.6em]
+				\textbf{Initial State:} & PlayerChar object and generated Level\\
+				\textbf{Input:} & Series of path requests between all Rooms in the Level\\
+				\textbf{Expected Output:} & Valid paths between each Room\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Level Staircase Check\\
-				\textbf{Initial State:} & Player object and generated level\\
+				\textbf{Initial State:} & PlayerChar object and generated Level\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification that level contains a staircase\\[0.6em]
+				\textbf{Expected Output:} & Verification that Level contains a reachable Stairs object\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Level GoldPile Check\\
-				\textbf{Initial State:} & Player object and generated level\\
+				\textbf{Initial State:} & PlayerChar object and generated Level\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification that level contains at least one goldpile\\[0.6em]
+				\textbf{Expected Output:} & Verification that Level contains at least one GoldPile\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Monster Construction\\
 				\textbf{Initial State:} & None\\
-				\textbf{Input:} & Symbol, coordinate, armor value, HP value, exp value, level value, maxHP value, name value\\
+				\textbf{Input:} & Symbol, Coordinate, armor value, HP value, exp value, level value, maxHP value, name value\\
 				\textbf{Expected Output:} & Monster object in valid initial state\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Dice-Math 1\\
@@ -582,172 +582,172 @@
 				\rule{0pt}{1.5em}\textbf{Name:} & Dice-Math 3\\
 				\textbf{Initial State:} & None\\
 				\textbf{Input:} & 1 2-sided die\\
-				\textbf{Expected Output:} & 1 <= Sum of values <= 2\\[0.6em]
+				\textbf{Expected Output:} & 1 $\le$ Sum of values $\le$ 2\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Dice-Math 4\\
 				\textbf{Initial State:} & None\\
 				\textbf{Input:} & 3 4-sided die\\
-				\textbf{Expected Output:} & 3 <= Sum of values <= 12\\[0.6em]
+				\textbf{Expected Output:} & 3 $\le$ Sum of values $\le$ 12\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Mob Armor Check\\
 				\textbf{Initial State:} & Mob object\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification mob armor is in valid range\\[0.6em]
+				\textbf{Expected Output:} & Verification that Mob armor is in valid range\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Mob HP Check 1\\
 				\textbf{Initial State:} & Mob with given HP value\\
 				\textbf{Input:} & HP value\\
-				\textbf{Expected Output:} & Verification mob has correct HP value\\[0.6em]
+				\textbf{Expected Output:} & Verification tat Mob has correct HP value\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Mob MaxHP Check\\
 				\textbf{Initial State:} & Mob with given MaxHP value\\
 				\textbf{Input:} & MaxHP value\\
-				\textbf{Expected Output:} & Verification mob has correct MaxHP value\\[0.6em]
+				\textbf{Expected Output:} & Verification that Mob has correct MaxHP value\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Mob Level Check\\
 				\textbf{Initial State:} & Mob with given level value\\
 				\textbf{Input:} & Level value\\
-				\textbf{Expected Output:} & Verification mob has correct level value\\[0.6em]
+				\textbf{Expected Output:} & Verification that Mob has correct level value\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Mob Location Check\\
 				\textbf{Initial State:} & Mob with given location\\
 				\textbf{Input:} & Coordinate\\
-				\textbf{Expected Output:} & Verification mob has correct location\\[0.6em]
+				\textbf{Expected Output:} & Verification that Mob has correct location\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Mob Name Check\\
 				\textbf{Initial State:} & Mob with given name\\
 				\textbf{Input:} & Name value\\
-				\textbf{Expected Output:} & Verification mob has correct name\\[0.6em]
+				\textbf{Expected Output:} & Verification that Mob has correct name\\[0.6em]
 				\hline
-				\rule{0pt}{1.5em}\textbf{Name:} & Mob setMaxHP\\
+				\rule{0pt}{1.5em}\textbf{Name:} & Mob Set Max HP\\
 				\textbf{Initial State:} & Mob with default MaxHP\\
-				\textbf{Input:} & setMaxHP command with MaxHP value\\
-				\textbf{Expected Output:} & mob with given MaxHP value\\[0.6em]
+				\textbf{Input:} & \lstinline$setMaxHP$ command with MaxHP value\\
+				\textbf{Expected Output:} & Verification that Mob has given MaxHP value\\[0.6em]
 				\hline
-				\rule{0pt}{1.5em}\textbf{Name:} & Mob setcurrentHP\\
+				\rule{0pt}{1.5em}\textbf{Name:} & Mob Set Current HP\\
 				\textbf{Initial State:} & Mob with default currentHP\\
-				\textbf{Input:} & setCurrentHP command with currentHP value\\
-				\textbf{Expected Output:} & mob with given currentHP value\\[0.6em]
+				\textbf{Input:} & \lstinline$setCurrentHP$ command with currentHP value\\
+				\textbf{Expected Output:} & Verification that Mob has given currentHP value\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Mob Dead Check 1\\
 				\textbf{Initial State:} & Living Mob object\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification mob is alive\\[0.6em]
+				\textbf{Expected Output:} & Verification that Mob is alive\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Mob HP Check 2\\
 				\textbf{Initial State:} & Living Mob object\\
-				\textbf{Input:} & Hit command for >>> mob's current HP\\
-				\textbf{Expected Output:} & Verification mob has HP <= 0\\[0.6em]
+				\textbf{Input:} & Hit command for $\gg$ Mob's current HP\\
+				\textbf{Expected Output:} & Verification that Mob has HP $\le$ 0\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Mob Dead Check 2\\
-				\textbf{Initial State:} & Dead mob object\\
+				\textbf{Initial State:} & Dead Mob object\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification mob is dead\\[0.6em]
+				\textbf{Expected Output:} & Verification that Mob is dead\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Monster Construction\\
 				\textbf{Initial State:} & None\\
-				\textbf{Input:} & Symbol, coordinate\\
+				\textbf{Input:} & Symbol, Coordinate\\
 				\textbf{Expected Output:} & Monster object in valid initial state\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Monster Flag/Invisibility\\
-				\textbf{Initial State:} & Visible monster object\\
-				\textbf{Input:} & SetFlag command to make monster invisible\\
-				\textbf{Expected Output:} & Invisible monster object\\[0.6em]
+				\textbf{Initial State:} & Visible Monster object\\
+				\textbf{Input:} & Set Flag command to make Monster invisible\\
+				\textbf{Expected Output:} & Invisible Monster object\\[0.6em]
 				\hline
-				\rule{0pt}{1.5em}\textbf{Name:} & Monster Aggrevate\\
-				\textbf{Initial State:} & Idling, sleeping monster object\\
-				\textbf{Input:} & Aggrevate command\\
-				\textbf{Expected Output:} & Awake, chasing monster object\\[0.6em]
+				\rule{0pt}{1.5em}\textbf{Name:} & Monster Aggravate\\
+				\textbf{Initial State:} & Idling, sleeping Monster object\\
+				\textbf{Input:} & Aggravate command\\
+				\textbf{Expected Output:} & Awake, chasing Monster object\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Monster Damage Calculation\\
 				\textbf{Initial State:} & Monster object\\
-				\textbf{Input:} & calculateDamage command\\
+				\textbf{Input:} & Calculate Damage command\\
 				\textbf{Expected Output:} & Correct amount of damage\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Monster Hit Chance\\
-				\textbf{Initial State:} & Monster and player objects\\
-				\textbf{Input:} & calculateHitChange command\\
+				\textbf{Initial State:} & Monster and PlayerChar objects\\
+				\textbf{Input:} & Calculate Hit Chance command\\
 				\textbf{Expected Output:} & Hit chance in valid range\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Monster Armor Check\\
 				\textbf{Initial State:} & Monster object\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification that monster armor is in valid range\\[0.6em]
+				\textbf{Expected Output:} & Verification that Monster armor is in valid range\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Invisible Monster Name Check\\
-				\textbf{Initial State:} & Invisible uonster object\\
+				\textbf{Initial State:} & Invisible Monster object\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification monster has hidden name\\[0.6em]
+				\textbf{Expected Output:} & Verification that Monster has hidden name\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Visible Monster Name Check\\
-				\textbf{Initial State:} & Invisible monster object\\
-				\textbf{Input:} & RemoveFlag command to make monster invisible\\
-				\textbf{Expected Output:} & Verification monster has real name\\[0.6em]
+				\textbf{Initial State:} & Invisible Monster object\\
+				\textbf{Input:} & Remove Flag command to make Monster invisible\\
+				\textbf{Expected Output:} & Verification that Monster has real name\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Monster Symbol/Level Association\\
 				\textbf{Initial State:} & None\\
 				\textbf{Input:} & Depth value\\
-				\textbf{Expected Output:} & Set of symbols for monsters that are valid candidates for given depth\\[0.6em]
+				\textbf{Expected Output:} & Set of symbols for Monsters that are valid candidates for given depth\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Monster Symbol/Treasure/Level Association\\
 				\textbf{Initial State:} & None\\
 				\textbf{Input:} & Depth value\\
-				\textbf{Expected Output:} & Set of symbols for monsters that are valid candidates for given depth for a treasure room\\[0.6em]
+				\textbf{Expected Output:} & Set of symbols for Monsters that are valid candidates for given depth for a treasure room\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & PlayerChar Initial Amulet Check\\
-				\textbf{Initial State:} & Just initialized playerchar object\\
+				\textbf{Initial State:} & Just initialized PlayerChar object\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification the game does not believe the player has the amulet\\[0.6em]
+				\textbf{Expected Output:} & Verification the game does not believe the PlayerChar has the amulet\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & PlayerChar Initial HP Check\\
-				\textbf{Initial State:} & Just initialized playerchar object\\
+				\textbf{Initial State:} & Just initialized PlayerChar object\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification playerchar has full hp\\[0.6em]
+				\textbf{Expected Output:} & Verification PlayerChar has full hp\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & PlayerChar Level-Up Exp\\
-				\textbf{Initial State:} & Playerchar object at initial level\\
-				\textbf{Input:} & Exp input into playerchar object\\
-				\textbf{Expected Output:} & Playerchar object with increased level\\[0.6em]
+				\textbf{Initial State:} & PlayerChar object at initial level\\
+				\textbf{Input:} & Exp input into PlayerChar object\\
+				\textbf{Expected Output:} & PlayerChar object with increased level\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & PlayerChar Level-Up Manual\\
-				\textbf{Initial State:} & Playerchar object\\
+				\textbf{Initial State:} & PlayerChar object\\
 				\textbf{Input:} & Level-up command\\
-				\textbf{Expected Output:} & Playerchar object with increased level\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar object with increased level\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & PlayerChar Damage\\
-				\textbf{Initial State:} & Playerchar object at full hp\\
-				\textbf{Input:} & Series of damage commands applied to playerchar object\\
-				\textbf{Expected Output:} & Playerchar object with less than full hp\\[0.6em]
+				\textbf{Initial State:} & PlayerChar object at full HP\\
+				\textbf{Input:} & Series of damage commands applied to PlayerChar object\\
+				\textbf{Expected Output:} & PlayerChar object with less than full HP\\[0.6em]
 				\hline
-				\rule{0pt}{1.5em}\textbf{Name:} & PlayerChar UnArmed 1\\
-				\textbf{Initial State:} & Unarmed playerchar object\\
-				\textbf{Input:} & calculateDamage command\\
+				\rule{0pt}{1.5em}\textbf{Name:} & PlayerChar Unarmed 1\\
+				\textbf{Initial State:} & Unarmed PlayerChar object\\
+				\textbf{Input:} & Calculate Damage command\\
 				\textbf{Expected Output:} & 0 damage value\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & PlayerChar Armed\\
-				\textbf{Initial State:} & Playerchar object armed with weapon\\
-				\textbf{Input:} & calculateDamage command\\
+				\textbf{Initial State:} & PlayerChar object armed with Weapon\\
+				\textbf{Input:} & Calculate Damage command\\
 				\textbf{Expected Output:} & Damage value > 0\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & PlayerChar Stow Weapon\\
-				\textbf{Initial State:} & Playerchar object armed with uncursed weapon\\
-				\textbf{Input:} & removeWeapon command\\
+				\textbf{Initial State:} & PlayerChar object armed with uncursed weapon\\
+				\textbf{Input:} & Remove Weapon command\\
 				\textbf{Expected Output:} & PlayerChar object unarmed\\[0.6em]
 				\hline
-				\rule{0pt}{1.5em}\textbf{Name:} & PlayerChar UnArmed 2\\
-				\textbf{Initial State:} & Armed playerchar object\\
-				\textbf{Input:} & removeWeapon command, then calculateDamage\\
+				\rule{0pt}{1.5em}\textbf{Name:} & PlayerChar Unarmed 2\\
+				\textbf{Initial State:} & Armed PlayerChar object\\
+				\textbf{Input:} & Remove Weapon command, then Calculate Damage\\
 				\textbf{Expected Output:} & 0 damage value\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & PlayerChar Remove Non-Armor\\
-				\textbf{Initial State:} & Playerchar object with no armor\\
-				\textbf{Input:} & removeArmor command\\
-				\textbf{Expected Output:} & Boolean indicating failure to remove armor\\[0.6em]
+				\textbf{Initial State:} & PlayerChar object with no Armor\\
+				\textbf{Input:} & Remove Armor command\\
+				\textbf{Expected Output:} & Boolean indicating failure to remove Armor\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & PlayerChar Remove Armor\\
-				\textbf{Initial State:} & Playerchar object with uncursed armor\\
-				\textbf{Input:} & removeArmor command\\
-				\textbf{Expected Output:} & Playerchar object without armor\\[0.6em]
+				\textbf{Initial State:} & PlayerChar object with uncursed Armor\\
+				\textbf{Input:} & Remove Armor command\\
+				\textbf{Expected Output:} & PlayerChar object without Armor\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Potion Construction 1\\
 				\textbf{Initial State:} & None\\
@@ -756,83 +756,83 @@
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Potion Construction 2\\
 				\textbf{Initial State:} & None\\
-				\textbf{Input:} & Coordinate, item context value, item type specifier\\
+				\textbf{Input:} & Coordinate, Item context value, Item type specifier\\
 				\textbf{Expected Output:} & Potion object in valid initial state\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Potion of Strength\\
-				\textbf{Initial State:} & Player object\\
+				\textbf{Initial State:} & PlayerChar object\\
 				\textbf{Input:} & Potion of strength\\
-				\textbf{Expected Output:} & Player with strength increased by 1\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar with strength increased by 1\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Potion of Restore Strength\\
-				\textbf{Initial State:} & Player object with reduced strength\\
+				\textbf{Initial State:} & PlayerChar object with reduced strength\\
 				\textbf{Input:} & Potion of restore strength\\
-				\textbf{Expected Output:} & Player object with pre-reduction strength\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar object with pre-reduction strength\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Potion of Healing\\
-				\textbf{Initial State:} & Player object with full hp\\
+				\textbf{Initial State:} & PlayerChar object with full hp\\
 				\textbf{Input:} & Potion of healing\\
-				\textbf{Expected Output:} & Player object with maxHP increased by 1\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar object with maxHP increased by 1\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Potion of Extra Healing\\
-				\textbf{Initial State:} & Player object with full hp\\
+				\textbf{Initial State:} & PlayerChar object with full hp\\
 				\textbf{Input:} & Potion of extra healing\\
-				\textbf{Expected Output:} & Player object with maxHP increased by 2\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar object with maxHP increased by 2\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Potion of Poison\\
-				\textbf{Initial State:} & Player object with strength > 0\\
+				\textbf{Initial State:} & PlayerChar object with strength > 0\\
 				\textbf{Input:} & Potion of poison\\
-				\textbf{Expected Output:} & Player object with reduced strength\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar object with reduced strength\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Potion of Raise Level\\
-				\textbf{Initial State:} & Player object with less than max level\\
+				\textbf{Initial State:} & PlayerChar object with less than max level\\
 				\textbf{Input:} & Potion or raise level\\
-				\textbf{Expected Output:} & Player object with level + 1\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar object with level + 1\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Potion of Blindness\\
-				\textbf{Initial State:} & Player object without the blindness condition\\
+				\textbf{Initial State:} & PlayerChar object without the blindness condition\\
 				\textbf{Input:} & Potion of blindness\\
-				\textbf{Expected Output:} & Player object with the blindness condition\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar object with the blindness condition\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Potion of Hallucination\\
-				\textbf{Initial State:} & Player object without the hallucination condition\\
+				\textbf{Initial State:} & PlayerChar object without the hallucination condition\\
 				\textbf{Input:} & Potion of hallucination\\
-				\textbf{Expected Output:} & Player object with the hallucination condition\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar object with the hallucination condition\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Potion of Detect Monster\\
-				\textbf{Initial State:} & Player object without the detect-monsters condition\\
+				\textbf{Initial State:} & PlayerChar object without the detect-monsters condition\\
 				\textbf{Input:} & Potion of detect monsters\\
-				\textbf{Expected Output:} & Player object with the detect-monsters condition\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar object with the detect-monsters condition\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Potion of Detect Object\\
-				\textbf{Initial State:} & Player object without the detect-objects condition\\
+				\textbf{Initial State:} & PlayerChar object without the detect-objects condition\\
 				\textbf{Input:} & Potion of detect objects\\
-				\textbf{Expected Output:} & Player object with the detect-objects condition\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar object with the detect-objects condition\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Potion of Confusion\\
-				\textbf{Initial State:} & Player object without the confusion condition\\
+				\textbf{Initial State:} & PlayerChar object without the confusion condition\\
 				\textbf{Input:} & Potion of confusion\\
-				\textbf{Expected Output:} & Player object with the confusion condition\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar object with the confusion condition\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Potion of Confusion\\
-				\textbf{Initial State:} & Player object without the confusion condition\\
+				\textbf{Initial State:} & PlayerChar object without the confusion condition\\
 				\textbf{Input:} & Potion of confusion\\
-				\textbf{Expected Output:} & Player object with the confusion condition\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar object with the confusion condition\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Potion of Levitation\\
-				\textbf{Initial State:} & Player object without the levitation condition\\
+				\textbf{Initial State:} & PlayerChar object without the levitation condition\\
 				\textbf{Input:} & Potion of levitation\\
-				\textbf{Expected Output:} & Player object with the levitation condition\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar object with the levitation condition\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Potion of Haste\\
-				\textbf{Initial State:} & Player object without the haste condition\\
+				\textbf{Initial State:} & PlayerChar object without the haste condition\\
 				\textbf{Input:} & Potion of haste\\
-				\textbf{Expected Output:} & Player object with the haste condition\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar object with the haste condition\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Potion of See-Invisible\\
-				\textbf{Initial State:} & Player object without the invisible-sight condition\\
+				\textbf{Initial State:} & PlayerChar object without the invisible-sight condition\\
 				\textbf{Input:} & Potion of invisible\\
-				\textbf{Expected Output:} & Player object with the invisible-sight condition\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar object with the invisible-sight condition\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Random Range 1\\
 				\textbf{Initial State:} & None\\
@@ -847,27 +847,27 @@
 				\rule{0pt}{1.5em}\textbf{Name:} & Random Range 3\\
 				\textbf{Initial State:} & None\\
 				\textbf{Input:} & Upper and lower bounds 0,60, repeated 40 times\\
-				\textbf{Expected Output:} & 0 <= result <= 60\\[0.6em]
+				\textbf{Expected Output:} & 0 $\le$ result $\le$ 60\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Random Float\\
 				\textbf{Initial State:} & None\\
 				\textbf{Input:} & 40 repeats\\
-				\textbf{Expected Output:} & 0 <= result <= 1\\[0.6em]
+				\textbf{Expected Output:} & 0 $\le$ result $\le$ 1\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Random Boolean\\
 				\textbf{Initial State:} & None\\
 				\textbf{Input:} & 10 repeats\\
-				\textbf{Expected Output:} & Both true and false are generated\\[0.6em]
+				\textbf{Expected Output:} & Both \lstinline$true$ and \lstinline$false$ are generated\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Random Percent\\
 				\textbf{Initial State:} & None\\
 				\textbf{Input:} & 40 repeats\\
-				\textbf{Expected Output:} & 0 <= result <= 100\\[0.6em]
+				\textbf{Expected Output:} & 0 $\le$ result $\le$ 100\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Random Position\\
 				\textbf{Initial State:} & None\\
-				\textbf{Input:} & Two coordinates, as top-left and bottom-right of rectangle, 10 repeats\\
-				\textbf{Expected Output:} & Random coordinates within the bounds\\[0.6em]
+				\textbf{Input:} & Two Coordinates (top-left and bottom-right of rectangle)\\
+				\textbf{Expected Output:} & Random Coordinate within bounds\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Ring Construction 1\\
 				\textbf{Initial State:} & None\\
@@ -876,108 +876,108 @@
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Ring Construction 2\\
 				\textbf{Initial State:} & None\\
-				\textbf{Input:} & Coordinate, item context value, type identifier\\
+				\textbf{Input:} & Coordinate, Item context value, type identifier\\
 				\textbf{Expected Output:} & Ring object with valid initial state\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Ring of Stealth\\
-				\textbf{Initial State:} & Player object without stealth condition\\
+				\textbf{Initial State:} & PlayerChar object without stealth condition\\
 				\textbf{Input:} & Ring of stealth\\
-				\textbf{Expected Output:} & Player object with the stealth condition\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar object with the stealth condition\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Ring of Stealth Deactivate\\
-				\textbf{Initial State:} & Player object with ring of stealth\\
+				\textbf{Initial State:} & PlayerChar object with ring of stealth\\
 				\textbf{Input:} & Remove ring\\
-				\textbf{Expected Output:} & Player object without the stealth condition\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar object without the stealth condition\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Ring of Teleportation\\
-				\textbf{Initial State:} & Player object without random teleportation condition\\
+				\textbf{Initial State:} & PlayerChar object without random teleportation condition\\
 				\textbf{Input:} & Ring of teleportation\\
-				\textbf{Expected Output:} & Player object with the random teleportation condition\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar object with the random teleportation condition\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Ring of Teleportation Deactivate\\
-				\textbf{Initial State:} & Player object with ring of teleportation\\
+				\textbf{Initial State:} & PlayerChar object with ring of teleportation\\
 				\textbf{Input:} & Remove ring\\
-				\textbf{Expected Output:} & Player object without the random teleportation condition\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar object without the random teleportation condition\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Ring of Regeneration\\
-				\textbf{Initial State:} & Player object without regeneration condition\\
+				\textbf{Initial State:} & PlayerChar object without regeneration condition\\
 				\textbf{Input:} & Ring of regeneration\\
-				\textbf{Expected Output:} & Player object with the regeneration condition\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar object with the regeneration condition\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Ring of Regeneration Deactivate\\
-				\textbf{Initial State:} & Player object with ring of regeneration\\
-				\textbf{Input:} & Remove ring\\
-				\textbf{Expected Output:} & Player object without the regeneration condition\\[0.6em]
+				\textbf{Initial State:} & PlayerChar object with ring of regeneration\\
+				\textbf{Input:} & Remove Ring\\
+				\textbf{Expected Output:} & PlayerChar object without the regeneration condition\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Ring of Digestion\\
-				\textbf{Initial State:} & Player object without digestion condition\\
+				\textbf{Initial State:} & PlayerChar object without digestion condition\\
 				\textbf{Input:} & Ring of digestion\\
-				\textbf{Expected Output:} & Player object with the digestion condition\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar object with the digestion condition\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Ring of Digestion Deactivate\\
-				\textbf{Initial State:} & Player object with ring of digestion\\
-				\textbf{Input:} & Remove ring\\
-				\textbf{Expected Output:} & Player object without the digestion condition\\[0.6em]
+				\textbf{Initial State:} & PlayerChar object with ring of digestion\\
+				\textbf{Input:} & Remove Ring\\
+				\textbf{Expected Output:} & PlayerChar object without the digestion condition\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Ring of Dexterity\\
-				\textbf{Initial State:} & Player object\\
+				\textbf{Initial State:} & PlayerChar object\\
 				\textbf{Input:} & Ring of dexterity\\
-				\textbf{Expected Output:} & Player object with dexterity increased by the appropriate amount\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar object with dexterity increased by the appropriate amount\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Ring of Dexterity Deactivate\\
-				\textbf{Initial State:} & Player object with ring of dexterity\\
+				\textbf{Initial State:} & PlayerChar object with ring of dexterity\\
 				\textbf{Input:} & Remove ring\\
-				\textbf{Expected Output:} & Player object with normal dexterity\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar object with normal dexterity\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Ring of Adornment\\
-				\textbf{Initial State:} & Player object\\
+				\textbf{Initial State:} & PlayerChar object\\
 				\textbf{Input:} & Ring of adornment\\
-				\textbf{Expected Output:} & Identical player object\\[0.6em]
+				\textbf{Expected Output:} & Identical PlayerChar object\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Ring of Adornment\\
-				\textbf{Initial State:} & Player object with ring of adornment\\
-				\textbf{Input:} & Remove ring\\
-				\textbf{Expected Output:} & Identical player object\\[0.6em]
+				\textbf{Initial State:} & PlayerChar object with ring of adornment\\
+				\textbf{Input:} & Remove Ring\\
+				\textbf{Expected Output:} & Identical PlayerChar object\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Ring of See-Invisible\\
-				\textbf{Initial State:} & Player object without the see-invisible condition\\
-				\textbf{Input:} & Ring of see-invisible\\
-				\textbf{Expected Output:} & Player object with the see-invisible condition\\[0.6em]
+				\textbf{Initial State:} & PlayerChar object without the see-invisible condition\\
+				\textbf{Input:} & Ring of See-Invisible\\
+				\textbf{Expected Output:} & PlayerChar object with the see-invisible condition\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Ring of See-Invisible Deactivate\\
-				\textbf{Initial State:} & Player object with ring of see-invisible\\
-				\textbf{Input:} & Remove ring\\
-				\textbf{Expected Output:} & Player object without the see-invisible condition\\[0.6em]
+				\textbf{Initial State:} & PlayerChar object with ring of see-invisible\\
+				\textbf{Input:} & Remove Ring\\
+				\textbf{Expected Output:} & PlayerChar object without the see-invisible condition\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Ring of Maintain-Armor\\
-				\textbf{Initial State:} & Player object without the maintain-armor condition\\
-				\textbf{Input:} & Ring of maintain-armor\\
-				\textbf{Expected Output:} & Player object with the maintain-armor condition\\[0.6em]
+				\textbf{Initial State:} & PlayerChar object without the maintain-armor condition\\
+				\textbf{Input:} & Ring of Maintain-Armor\\
+				\textbf{Expected Output:} & PlayerChar object with the maintain-armor condition\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Ring of Maintain-Armor Deactivate\\
-				\textbf{Initial State:} & Player object with ring of maintain-armor\\
-				\textbf{Input:} & Remove ring\\
-				\textbf{Expected Output:} & Player object without the maintain-armor condition\\[0.6em]
+				\textbf{Initial State:} & PlayerChar object with ring of maintain-armor\\
+				\textbf{Input:} & Remove Ring\\
+				\textbf{Expected Output:} & PlayerChar object without the maintain-armor condition\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Ring of Searching\\
-				\textbf{Initial State:} & Player object without the auto-search condition\\
-				\textbf{Input:} & Ring of searching\\
-				\textbf{Expected Output:} & Player object with the auto-search condition\\[0.6em]
+				\textbf{Initial State:} & PlayerChar object without the auto-search condition\\
+				\textbf{Input:} & Ring of Searching\\
+				\textbf{Expected Output:} & PlayerChar object with the auto-search condition\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Ring of Searching Deactivate\\
-				\textbf{Initial State:} & Player object with ring of searching\\
-				\textbf{Input:} & Remove ring\\
-				\textbf{Expected Output:} & Player object without the auto-search condition\\[0.6em]
+				\textbf{Initial State:} & PlayerChar object with ring of searching\\
+				\textbf{Input:} & Remove Ring\\
+				\textbf{Expected Output:} & PlayerChar object without the auto-search condition\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Room Construction Check 1\\
-				\textbf{Initial State:} & Randomly generated room\\
+				\textbf{Initial State:} & Randomly generated Room\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification that room's size is in valid range\\[0.6em]
+				\textbf{Expected Output:} & Verification that Room's size is in valid range\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Room Construction Check 2\\
-				\textbf{Initial State:} & Randomly generated room\\
+				\textbf{Initial State:} & Randomly generated Room\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification that room edges are within valid bounds\\[0.6em]
+				\textbf{Expected Output:} & Verification that Room edges are within valid bounds\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Scroll Construction 1\\
 				\textbf{Initial State:} & None\\
@@ -986,33 +986,33 @@
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Scroll Construction 2\\
 				\textbf{Initial State:} & None\\
-				\textbf{Input:} & Coordinate, item context value, type identifier\\
+				\textbf{Input:} & Coordinate, Item context value, type identifier\\
 				\textbf{Expected Output:} & Scroll object in valid initial state\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Scroll PseudoNames\\
 				\textbf{Initial State:} & Scrolls are uninitialized\\
-				\textbf{Input:} & initializeScrollNames command\\
+				\textbf{Input:} & Initialize Scroll Names command\\
 				\textbf{Expected Output:} & Vector of valid scroll psuedonames\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Scroll of Protect Armor\\
-				\textbf{Initial State:} & Player with cursed armor \\
-				\textbf{Input:} & Scroll of protect armor\\
-				\textbf{Expected Output:} & Player with uncursed armor with protect-armor effect\\[0.6em]
+				\textbf{Initial State:} & PlayerChar with cursed armor \\
+				\textbf{Input:} & Scroll of Protect Armor\\
+				\textbf{Expected Output:} & PlayerChar with uncursed Armor with protect-armor effect\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Scroll of Hold Monster\\
 				\textbf{Initial State:} & Monster without the held flag\\
-				\textbf{Input:} & Scroll of hold monster\\
+				\textbf{Input:} & Scroll of Hold Monster\\
 				\textbf{Expected Output:} & Monster with the held flag\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Scroll of Enchant Weapon\\
-				\textbf{Initial State:} & Player with weapon\\
-				\textbf{Input:} & Scroll of enchant weapon\\
-				\textbf{Expected Output:} & Player with uncursed weapon with higher enchant level\\[0.6em]
+				\textbf{Initial State:} & PlayerChar with weapon\\
+				\textbf{Input:} & Scroll of Enchant Weapon\\
+				\textbf{Expected Output:} & PlayerChar with uncursed Weapon with higher enchant level\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Scroll of Enchant Armor\\
-				\textbf{Initial State:} & Player with armor\\
-				\textbf{Input:} & Scroll of enchant armor\\
-				\textbf{Expected Output:} & Player with uncursed armor with higher enchant level\\[0.6em]
+				\textbf{Initial State:} & PlayerChar with armor\\
+				\textbf{Input:} & Scroll of Enchant Armor\\
+				\textbf{Expected Output:} & PlayerChar with uncursed Armor with higher enchant level\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Scroll of Identity\\
 				\textbf{Initial State:} & None\\
@@ -1020,198 +1020,198 @@
 				\textbf{Expected Output:} & No exceptions\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Scroll of Teleportation\\
-				\textbf{Initial State:} & Player at coordinate (0,0)\\
-				\textbf{Input:} & Scroll of teleportation\\
-				\textbf{Expected Output:} & Player at coordinate != (0,0)\\[0.6em]
+				\textbf{Initial State:} & PlayerChar at coordinate (0,0)\\
+				\textbf{Input:} & Scroll of Teleportation\\
+				\textbf{Expected Output:} & PlayerChar at coordinate $\ne$ (0,0)\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Scroll of Sleep\\
-				\textbf{Initial State:} & Player without the sleep condition\\
-				\textbf{Input:} & Scroll of sleep\\
-				\textbf{Expected Output:} & Player with the sleep condition\\[0.6em]
+				\textbf{Initial State:} & PlayerChar without the sleep condition\\
+				\textbf{Input:} & Scroll of Sleep\\
+				\textbf{Expected Output:} & PlayerChar with the sleep condition\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Scroll of Scare Monster\\
 				\textbf{Initial State:} & None\\
-				\textbf{Input:} & Scroll of scare monster\\
+				\textbf{Input:} & Scroll of Scare Monster\\
 				\textbf{Expected Output:} & No exceptions\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Scroll of Remove Curse\\
-				\textbf{Initial State:} & Player with cursed weapon\\
-				\textbf{Input:} & Scroll of remove curse\\
-				\textbf{Expected Output:} & Player with uncursed weapon\\[0.6em]
+				\textbf{Initial State:} & PlayerChar with cursed Weapon\\
+				\textbf{Input:} & Scroll of Remove Curse\\
+				\textbf{Expected Output:} & PlayerChar with uncursed Weapon\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Scroll of Create Monster\\
 				\textbf{Initial State:} & Level object\\
-				\textbf{Input:} & Scroll of create monster\\
-				\textbf{Expected Output:} & Level with 1 additional monster\\[0.6em]
+				\textbf{Input:} & Scroll of create Monster\\
+				\textbf{Expected Output:} & Level with 1 additional Monster\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Scroll of Aggravate Monster\\
-				\textbf{Initial State:} & Level with sleeping monsters\\
-				\textbf{Input:} & Scroll of aggravate monster\\
-				\textbf{Expected Output:} & Level with no sleeping monsters\\[0.6em]
+				\textbf{Initial State:} & Level with sleeping Monsters\\
+				\textbf{Input:} & Scroll of Aggravate Monster\\
+				\textbf{Expected Output:} & Level with no sleeping Monsters\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Scroll of Magic Mapping\\
-				\textbf{Initial State:} & Unrevealed level\\
-				\textbf{Input:} & Scroll of magic mapping\\
-				\textbf{Expected Output:} & Level where all tiles have been revealed\\[0.6em]
+				\textbf{Initial State:} & Unrevealed Level\\
+				\textbf{Input:} & Scroll of Magic Mapping\\
+				\textbf{Expected Output:} & Level where all Tiles have been revealed\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Scroll of Confuse Monster\\
-				\textbf{Initial State:} & Player without the confuse-monster condition\\
-				\textbf{Input:} & Scroll of confuse monster\\
-				\textbf{Expected Output:} & Player with the confuse-monster condition\\[0.6em]
+				\textbf{Initial State:} & PlayerChar without the confuse-monster condition\\
+				\textbf{Input:} & Scroll of Confuse Monster\\
+				\textbf{Expected Output:} & PlayerChar with the confuse-monster condition\\[0.6em]
 				\hline
-				\rule{0pt}{1.5em}\textbf{Name:} & Stair Construction\\
+				\rule{0pt}{1.5em}\textbf{Name:} & Stairs Construction\\
 				\textbf{Initial State:} & None\\
 				\textbf{Input:} & Coordinate, direction value\\
-				\textbf{Expected Output:} & Stair object in valid initial state\\[0.6em]
+				\textbf{Expected Output:} & Stairs object in valid initial state\\[0.6em]
 				\hline
-				\rule{0pt}{1.5em}\textbf{Name:} & Stair Direction Check\\
-				\textbf{Initial State:} & Stair constructed with direction\\
+				\rule{0pt}{1.5em}\textbf{Name:} & Stairs Direction Check\\
+				\textbf{Initial State:} & Stairs constructed with direction\\
 				\textbf{Input:} & Direction value\\
-				\textbf{Expected Output:} & Verification stair has given direction value\\[0.6em]
+				\textbf{Expected Output:} & Verification that Stairs has given direction value\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Floor Passability Check\\
 				\textbf{Initial State:} & Floor object\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification floor is passable\\[0.6em]
+				\textbf{Expected Output:} & Verification that Floor is passable\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Floor Symbol Check\\
 				\textbf{Initial State:} & Floor object\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification floor has correct symbol\\[0.6em]
+				\textbf{Expected Output:} & Verification that Floor has correct symbol\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Floor Transparency Check\\
 				\textbf{Initial State:} & Floor object\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification floor is transparent\\[0.6em]
+				\textbf{Expected Output:} & Verification that Floor is transparent\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Wall Passability Check\\
 				\textbf{Initial State:} & Wall object\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification wall is not passable\\[0.6em]
+				\textbf{Expected Output:} & Verification that Wall is not passable\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Wall Symbol Check\\
 				\textbf{Initial State:} & Wall object\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification wall has correct symbol\\[0.6em]
+				\textbf{Expected Output:} & Verification that Wall has correct symbol\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Wall Opacity Check\\
 				\textbf{Initial State:} & Wall object\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification wall is transparent\\[0.6em]
+				\textbf{Expected Output:} & Verification that Wall is transparent\\[0.6em]
 				\rule{0pt}{1.5em}\textbf{Name:} & Corridor Passability Check\\
 				\textbf{Initial State:} & Corridor object\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification corridor is passable\\[0.6em]
+				\textbf{Expected Output:} & Verification that Corridor is passable\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Corridor Symbol Check\\
 				\textbf{Initial State:} & Corridor object\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification corrido has correct symbol\\[0.6em]
+				\textbf{Expected Output:} & Verification that Corridor has correct symbol\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Corridor Transparency Check\\
 				\textbf{Initial State:} & Corridor object\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification corridor has special corridor transparency\\[0.6em]
+				\textbf{Expected Output:} & Verification that Corridor has special corridor transparency\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Door Passability Check\\
 				\textbf{Initial State:} & Door object\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification door is not passable\\[0.6em]
+				\textbf{Expected Output:} & Verification that Door is not passable\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Door Symbol Check\\
 				\textbf{Initial State:} & Door object\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification corridor has correct symbol\\[0.6em]
+				\textbf{Expected Output:} & Verification that Door has correct symbol\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Door Transparency Check\\
 				\textbf{Initial State:} & Door object\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification Door has special corridor transparency\\[0.6em]
+				\textbf{Expected Output:} & Verification that Door has special Corridor transparency\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Door Trap\\
-				\textbf{Initial State:} & Player and level\\
+				\textbf{Initial State:} & PlayerChar and Level\\
 				\textbf{Input:} & Door trap\\
-				\textbf{Expected Output:} & Player at a level with depth + 1\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar at a Level with depth + 1\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Rust Trap\\
-				\textbf{Initial State:} & Player with enchanted weapon\\
+				\textbf{Initial State:} & PlayerChar with enchanted Weapon\\
 				\textbf{Input:} & Rust trap\\
-				\textbf{Expected Output:} & Player with unenchanted weapon\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar with unenchanted Weapon\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Sleep Trap\\
-				\textbf{Initial State:} & Player without the sleep condition\\
+				\textbf{Initial State:} & PlayerChar without the sleep condition\\
 				\textbf{Input:} & Sleep trap\\
-				\textbf{Expected Output:} & Player with the sleep condition\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar with the sleep condition\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Bear Trap\\
-				\textbf{Initial State:} & Player without the immobilized condition\\
+				\textbf{Initial State:} & PlayerChar without the immobilized condition\\
 				\textbf{Input:} & Bear trap\\
-				\textbf{Expected Output:} & Player with the immobilized condition\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar with the immobilized condition\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Teleport Trap\\
-				\textbf{Initial State:} & Player\\
+				\textbf{Initial State:} & PlayerChar\\
 				\textbf{Input:} & Teleport trap\\
-				\textbf{Expected Output:} & Player at a different location\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar at a different location\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Dart Trap\\
-				\textbf{Initial State:} & Player\\
+				\textbf{Initial State:} & PlayerChar\\
 				\textbf{Input:} & Dart trap\\
-				\textbf{Expected Output:} & Player with less hp\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar with less HP\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Tunnel Digging\\
-				\textbf{Initial State:} & Level and pair of unconnected rooms\\
+				\textbf{Initial State:} & Level and pair of unconnected Rooms\\
 				\textbf{Input:} & Dig command\\
-				\textbf{Expected Output:} & Valid path between the two rooms\\[0.6em]
+				\textbf{Expected Output:} & Valid path between the two Rooms\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Open Inventory Screen\\
-				\textbf{Initial State:} & Playstate, player, empty level\\
+				\textbf{Initial State:} & Playstate, PlayerChar, empty Level\\
 				\textbf{Input:} & Inventory key\\
 				\textbf{Expected Output:} & Inventory screen\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Close Inventory Screen\\
-				\textbf{Initial State:} & Inventory screen, player, empty level\\
+				\textbf{Initial State:} & Inventory screen, PlayerChar, empty Level\\
 				\textbf{Input:} & Exit key\\
-				\textbf{Expected Output:} & Playstate\\[0.6em]
+				\textbf{Expected Output:} & PlayState\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Movement\\
-				\textbf{Initial State:} & Playstate, player, empty level\\
+				\textbf{Initial State:} & PlayState, player, empty Level\\
 				\textbf{Input:} & Movement key\\
-				\textbf{Expected Output:} & Player should be in expected location in the level\\[0.6em]
+				\textbf{Expected Output:} & PlayerChar should be in expected location in the Level\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Open Status Screen\\
-				\textbf{Initial State:} & Playstate, player, empty level\\
+				\textbf{Initial State:} & PlayState, PlayerChar, empty Level\\
 				\textbf{Input:} & Status key\\
 				\textbf{Expected Output:} & Status screen\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Exit Status Screen\\
-				\textbf{Initial State:} & Status Screen, player, empty level\\
+				\textbf{Initial State:} & Status Screen, PlayerChar, empty Level\\
 				\textbf{Input:} & Exit key\\
-				\textbf{Expected Output:} & Playstate\\[0.6em]
+				\textbf{Expected Output:} & PlayState\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & No Wand Zap\\
-				\textbf{Initial State:} & Playstate, player with no wand\\
+				\textbf{Initial State:} & PlayState, PlayerChar with no Wand\\
 				\textbf{Input:} & Zap key\\
-				\textbf{Expected Output:} & Unchanged playstate\\[0.6em]
+				\textbf{Expected Output:} & Unchanged playState\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Zap Wand Select\\
-				\textbf{Initial State:} & Playstate, player with wand, empty level \\
+				\textbf{Initial State:} & PlayState, PlayerChar with wand, empty Level \\
 				\textbf{Input:} & Zap key, then direction key\\
-				\textbf{Expected Output:} & Inventory Screen\\[0.6em]
+				\textbf{Expected Output:} & Inventory screen\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Zap Wand Fire 1\\
-				\textbf{Initial State:} & Inventory wand select\\
+				\textbf{Initial State:} & Inventory Wand select\\
 				\textbf{Input:} & Item select hotkey\\
-				\textbf{Expected Output:} & Playstate\\[0.6em]
+				\textbf{Expected Output:} & PlayState\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Zap Wand Fire 2\\
 				\textbf{Initial State:} & Inventory wand select\\
 				\textbf{Input:} & Item select hotkey\\
-				\textbf{Expected Output:} & wand with charges - 1\\[0.6em]
+				\textbf{Expected Output:} & Wand with charges - 1\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Game Quit\\
-				\textbf{Initial State:} & Playstate\\
+				\textbf{Initial State:} & PlayState\\
 				\textbf{Input:} & Quit key and confirmation key\\
-				\textbf{Expected Output:} & RIPScreen\\[0.6em]
+				\textbf{Expected Output:} & RipScreen\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Wand Construction 1\\
 				\textbf{Initial State:} & None\\
@@ -1220,62 +1220,62 @@
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Wand Construction 2\\
 				\textbf{Initial State:} & None\\
-				\textbf{Input:} & Coordinate, item context value, type specifier\\
+				\textbf{Input:} & Coordinate, Item context value, type specifier\\
 				\textbf{Expected Output:} & Wand in valid initial state\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Wand of Teleport Away\\
-				\textbf{Initial State:} & Player, nearby monster\\
-				\textbf{Input:} & Wand of teleport away\\
-				\textbf{Expected Output:} & Monster has distance to player >= 20\\[0.6em]
+				\textbf{Initial State:} & PlayerChar, nearby Monster\\
+				\textbf{Input:} & Wand of Teleport Away\\
+				\textbf{Expected Output:} & Monster has distance to PlayerChar $\ge$ 20\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Wand of Slow Monster\\
-				\textbf{Initial State:} & Player, monster without slowed flag\\
-				\textbf{Input:} & Wand of slow monster\\
+				\textbf{Initial State:} & PlayerChar, Monster without slowed flag\\
+				\textbf{Input:} & Wand of Slow Monster\\
 				\textbf{Expected Output:} & Monster has slowed flag\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Wand of Invisibility\\
-				\textbf{Initial State:} & Player, monster without invisible flag\\
-				\textbf{Input:} & Wand of invisibility\\
+				\textbf{Initial State:} & PlayerChar, Monster without invisible flag\\
+				\textbf{Input:} & Wand of Invisibility\\
 				\textbf{Expected Output:} & Monster with invisible flag\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Wand of Polymorph\\
-				\textbf{Initial State:} & Player, monster\\
-				\textbf{Input:} & Wand of polymorph\\
-				\textbf{Expected Output:} & Different monster at previous monster's locations\\[0.6em]
+				\textbf{Initial State:} & PlayerChar, Monster\\
+				\textbf{Input:} & Wand of Polymorph\\
+				\textbf{Expected Output:} & Different Monster at previous Monster's locations\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Wand of Haste Monster\\
-				\textbf{Initial State:} & Player, monster without haste flag\\
-				\textbf{Input:} & Wand of haste monster\\
+				\textbf{Initial State:} & PlayerChar, Monster without haste flag\\
+				\textbf{Input:} & Wand of Haste Monster\\
 				\textbf{Expected Output:} & Monster with haste flag\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Wand of Magic Missile\\
-				\textbf{Initial State:} & Player, monster\\
-				\textbf{Input:} & Wand of magic missile\\
-				\textbf{Expected Output:} & Monster with reduced hp\\[0.6em]
+				\textbf{Initial State:} & PlayerChar, Monster\\
+				\textbf{Input:} & Wand of Magic Missile\\
+				\textbf{Expected Output:} & Monster with reduced HP\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Wand of Cancellation\\
-				\textbf{Initial State:} & Player, monster without cancelled flag\\
-				\textbf{Input:} & Wand of cancellation\\
-				\textbf{Expected Output:} & Monster with cancelled flag\\[0.6em]
+				\textbf{Initial State:} & PlayerChar, Monster without cancelled flag\\
+				\textbf{Input:} & Wand of Cancellation\\
+				\textbf{Expected Output:} & Monster with canceled flag\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Wand of Do Nothing\\
-				\textbf{Initial State:} & Player, monster\\
-				\textbf{Input:} & Wand of do nothing\\
+				\textbf{Initial State:} & PlayerChar, Monster\\
+				\textbf{Input:} & Wand of Do Nothing\\
 				\textbf{Expected Output:} & No exceptions\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Wand of Drain Life\\
-				\textbf{Initial State:} & Player with reduced health, monster\\
-				\textbf{Input:} & Wand of drain life\\
-				\textbf{Expected Output:} & Player with increased health, monster with reduced health\\[0.6em]
+				\textbf{Initial State:} & PlayerChar with reduced HP, Monster\\
+				\textbf{Input:} & Wand of Drain Life\\
+				\textbf{Expected Output:} & PlayerChar with increased HP, Monster with reduced HP\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Wand of Cold\\
-				\textbf{Initial State:} & Player, monster\\
-				\textbf{Input:} & Wand of cold\\
+				\textbf{Initial State:} & PlayerChar, Monster\\
+				\textbf{Input:} & Wand of Cold\\
 				\textbf{Expected Output:} & No exceptions\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Wand of Fire\\
-				\textbf{Initial State:} & Player, monster\\
-				\textbf{Input:} & Wand of fire\\
+				\textbf{Initial State:} & PlayerChar, Monster\\
+				\textbf{Input:} & Wand of Fire\\
 				\textbf{Expected Output:} & No exceptions\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Weapon Construction 1\\
@@ -1285,28 +1285,28 @@
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Weapon Construction 2\\
 				\textbf{Initial State:} & None\\
-				\textbf{Input:} & Coordinate, item context value, type specifier\\
+				\textbf{Input:} & Coordinate, Item context value, type specifier\\
 				\textbf{Expected Output:} & Weapon in valid initial state\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Weapon Identification Check\\
-				\textbf{Initial State:} & Identified weapon\\
+				\textbf{Initial State:} & Identified Weapon\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification that weapon is identified\\[0.6em]
+				\textbf{Expected Output:} & Verification that Weapon is identified\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Weapon Curse Check\\
-				\textbf{Initial State:} & Cursed weapon\\
+				\textbf{Initial State:} & Cursed Weapon\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification that weapon is cursed\\[0.6em]
+				\textbf{Expected Output:} & Verification that Weapon is cursed\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Weapon Name Check\\
 				\textbf{Initial State:} & Weapon\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification that weapon has valid name\\[0.6em]
+				\textbf{Expected Output:} & Verification that Weapon has valid name\\[0.6em]
 				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Weapon Enchantment Check\\
-				\textbf{Initial State:} & Cursed weapon\\
+				\textbf{Initial State:} & Cursed Weapon\\
 				\textbf{Input:} & None\\
-				\textbf{Expected Output:} & Verification that weapon has expected enchantment values\\[0.6em]
+				\textbf{Expected Output:} & Verification that Weapon has expected enchantment values\\[0.6em]
 				\hline
 
 			\end{longtable}
@@ -1315,17 +1315,17 @@
 
 \newsection{Trace to Requirements} \label{Section_R_Trace}
 
-	The following table maps each implemented test file to a set of functional and non-functional requirements 
+	The following table maps each implemented test file to its corresponding set of functional and non-functional requirements. 
 
-	\begin{table}[h!]
+	\begin{table}[H] \label{TblMH}
 		\caption{\bf Test-Requirement Trace}
-		\label{TblMH}
-		\bigskip
 		\centering
-		\begin{longtable}{lr}
-			\hline
-			File & Related Requirement(s)\\
-			\hline
+		\bigskip
+		\def\arraystretch{1.04}
+		\begin{tabular}{l r}
+			\toprule
+			\bf File & \bf Related Requirement(s)\\
+			\midrule
 			test.amulet.cpp 		& FR.25\\
 			test.armor.cpp 			& FR.29, FR.34, FR.39,\\
 			test.coord.cpp 			& FR.17\\
@@ -1336,7 +1336,7 @@
 			test.itemzone.cpp 		& FR.5, FR.9, FR.26\\
 			test.level.cpp 			& FR.16-19\\
 			test.levelgen.cpp 		& FR.16-19\\
-			test.main.cpp 			& Put everything together\\
+			test.main.cpp 			& Runs Tests\\
 			test.mob.cpp 			& FR.37, FR.38, FR.39\\
 			test.monster.cpp 		& FR.35-39\\
 			test.playerchar.cpp 	& FR.9-15, FR.26-34, NFR.5\\
@@ -1346,26 +1346,26 @@
 			test.scroll.cpp 		& FR.5, FR.13, FR.14, FR.15, FR.25, FR.31\\\\
 			test.stairs.cpp 		& FR.18, FR.19\\
 			test.terrain.cpp 		& FR.13, FR.15, FR.18, FR.19, FR.23, FR.24\\
-			test.testable.cpp 		& Defines test-suite\\
-			test.testable.h 		& Defines test-suite\\
+			test.testable.cpp 		& Defines Test Structure\\
+			test.testable.h 		& Defines Test Structure\\
 			test.trap.cpp 			& FR.12, FR.15, FR.19, FR.20, FR.23, FR.24, FR.34\\
 			test.tunnel.cpp 		& FR.17, FR.19\\
 			test.uistate.cpp 		& FR.1-4, FR.6-10, NFR.1, NFR.3, NFR.5\\
 			test.wand.cpp 			& FR.5, FR.13, FR.14, FR.15, FR.25, FR.31\\
 			test.weapon.cpp 		& FR.5, FR.13, FR.14, FR.15, FR.25, FR.31\\
 			\hline
-		\end{longtable}
+		\end{tabular}
 	\end{table}
 
 \newsection{Trace to Modules} \label{Section_M_Trace}
 
-	The following table re-iterates the modules of the project, along with their respective domain and module ID. The module IDs are used to refer to modules in the trace. More about the modules can be found in the Module Guide.\\
+	The table below re-iterates the modules of the project (for the convenience of the reader), along with their respective domain and module ID; the module IDs are used to refer to modules in the trace.  More information about the modules can be found in the \href{run:../MG/MG.pdf}{Module Guide}.
 
-	\begin{table}[H]
+	\begin{table}[H] \label{TblMH}
 		\caption{\bf Module Hierarchy}
-		\label{TblMH}
-		\bigskip
 		\centering
+		\bigskip
+		\def\arraystretch{1.04}
 		\begin{tabular}{p{0.3\textwidth} p{0.5\textwidth} R{0.10\textwidth}}
 			\toprule
 			\textbf{Level 1} & \multicolumn{2}{l}{\textbf{Level 2}}\\
@@ -1404,19 +1404,20 @@
 		 \setcounter{mnum}{0}
 	\end{table}
 
-	%I am but a comment
+	% I am but a comment
 
-	The following table maps test files, which implement tests, to specific modules, given by their IDs.\\
+	\newpage
+	The following table maps test files, which implement unit tests, to their specific modules (denoted by their IDs).
 
-	\begin{table}[H]
+	\begin{table}[H]\label{TblTMT}
 		\caption{\bf Test-Module Trace}
-		\label{TblMH}
-		\bigskip
 		\centering
-		\begin{longtable}{lr}
-			\hline
-			File & Related Module(s)\\
-			\hline
+		\bigskip
+		\def\arraystretch{1.04}
+		\begin{tabular}{p{0.10\textwidth} R{0.90\textwidth}}
+			\toprule
+			\bf File & \bf Related Module(s)\\
+			\midrule
             test.amulet.cpp         & M7, M13, M15\\
             test.armor.cpp          & M5, M9, M11\\
             test.coord.cpp          & M2, M5, M6, M7, M16, M20\\
@@ -1427,35 +1428,36 @@
             test.itemzone.cpp       & M5, M6, M16, M17, M18\\
             test.level.cpp          & M5, M6, M10, M11, M16, M17, M20\\
             test.levelgen.cpp       & M5, M6, M10, M16, M17, M20, M21\\
-            test.main.cpp           & None (Puts everything together)\\
+            test.main.cpp           & None (Runs Tests)\\
             test.mob.cpp            & M9, M10, M11, M13, M15, M16\\
             test.monster.cpp        & M9, M10, M16\\
-            test.playerchar.cpp     & M5, M6, M9, M11, M12, M13, M15, M16, M17, M18, M19\\
+            test.playerchar.cpp     & M5, M6, M9, M11, M12, M13, $\hookleftarrow$\\
+                                    & M15, M16, M17, M18, M19\\
             test.potion.cpp         & M5, M6, M7, M10, M11, M17, M18\\
             test.ring.cpp           & M5, M6, M7, M10, M11, M17, M18\\
             test.room.cpp           & M6, M7, M16, M20\\
             test.scroll.cpp         & M5, M6, M7, M10, M11, M17, M18\\
             test.stairs.cpp         & M7, M17, M19, M21\\
             test.terrain.cpp        & M6, M7, M20, M21\\
-            test.testable.cpp       & Defines test-suite\\
-            test.testable.h         & Defines test-suite\\
+            test.testable.cpp       & Defines Test Structure\\
+            test.testable.h         & Defines Test Structure\\
             test.trap.cpp           & M6, M7, M11, M15, M17\\
             test.tunnel.cpp         & M5, M6, M16\\
             test.uistate.cpp        & M4, M8, M12, M13, M15, M19\\
             test.wand.cpp           & M5, M6, M7, M10, M11, M17, M18\\
             test.weapon.cpp         & M5, M6, M7, M10, M11, M17, M18\\
 			\hline
-		\end{longtable}
+		\end{tabular}
 	\end{table}
 
 \newsection{Code Coverage Metrics} \label{Section_Metrics}
-	By looking at the test-requirements matrix, and also cross-referencing the test-module trace above with the module-requirements trace given in the Module Guide, it is possible to determine exactly which functional and non-functional requirements were satisfied with the test cases we created.\\
+	Given the \hyperref[TblMH]{Test-Requirements} table, the \hyperref[TblTMT]{Test-Module} table, and the Module-Requirements trace given in the \href{run:../MG/MG.pdf}{Module Guide}, the referential transitivity property can be applied to determine exactly which functional and non-functional requirements were satisfied by the created test cases.\\
 
-	As can be expected, near \textbf{complete coverage} of both functional and non-functional requirements is achieved. Except for a few non-functional requirements, the modules and direct requirements reflected in the test cases offer a complete coverage of the requirements. Some (in particular, non-functional) requirements are nigh impossible to test using code. An example includes NFR.2: "The Rogue Reborn game shall be fun and entertaining." Whatever software exists that can determine such a thing would never pass the Turing test, and thus can be deemed an impossibility as of current technology. But while it is impossible to test with code, such a thing is easily testable with human playtesters.\\
+	With the exception of a few non-functional requirements, the implemented tests offered almost \textbf{complete coverage} of all product functional and non-functional requirements.  As the Rogue++ team discovered, several of the non-functional requirements were impractical to test in an automated fashion because computing the prevalence of certain subjective qualities in a product is extremely complicated (or at least well beyond the scope of Rogue Reborn). For example, NFR.2 states, "The Rogue Reborn game shall be fun and entertaining." While it is infeasible to test such characteristics with code, it can be trivially accomplished with human playtesters.  Along with NFR.2, various other non-functional requirements that were too difficult to automatically assert in software were verified by other means, namely manual human labor.\\
 
-	Along with NFR.2, several non-functional requirements were not feasible to assert with software, but all were correctly proven by other means, most of which involved manual human labor.\\
+	Interestingly, the Rogue++ team also encountered a few requirements where the achievable target was difficult to materialize but still algorithmic and computational in nature.  A prime example includes the luminosity constraint which ruled that no two consecutive frames may have a change in contrast greater than \tplink{LUMINOSITY\_DELTA}.  To measure this properly, the developer team wrote a Python script to analyze two static screenshots of the game.  This program calculated the pixel-accurate luminosity of each screenshot and used the calculation proposed in the non-functional requirement to arrive at a final answer.\\
 
-	To expand on the previous statements, we encountered some requirements where the achievable target was difficult to materialize, but still algorithmic and computational in nature. A prime example of this is the luminosity constraint, which ruled that no two consecutive frames may have a change in brightness greater than some defined delta. In order to properly measure this, we had to go outside of the program, and write a separate script to do the hard work. We used python to calculate the pixel-accurate luminosity of some key screenshots, and using the calculation proposed by the non-functional requirement, arrived at correct results. The results were deemed close enough to the predefined delta, which itself was based more or less on our intuition.
+	Static code coverage metrics were not utilized in Rogue Reborn due to the sheer volume of the code base and the state complexity of various modules.
 
 \newpage
 \bibliographystyle{plainnat}
