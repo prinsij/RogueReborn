@@ -1,7 +1,7 @@
 /**
  * @file test.item.cpp
  * @author Team Rogue++
- * @date December 07, 2016
+ * @date December 08, 2016
  *
  * @brief Member definitions for the ItemTest class
  */ 
@@ -14,6 +14,9 @@
 #include "include/item.h"
 #include "test.testable.h"
 
+/**
+ * @brief      Tests the Item class.
+ */
 class ItemTest : public Testable {
 	public:
 		ItemTest(){}

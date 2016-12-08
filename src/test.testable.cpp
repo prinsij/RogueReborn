@@ -1,7 +1,7 @@
 /**
  * @file test.testable.cpp
  * @author Team Rogue++
- * @date December 07, 2016
+ * @date December 08, 2016
  *
  * @brief Global members
  */ 
@@ -11,6 +11,13 @@
 #include <vector>
 
 #include "test.testable.h"
+
+Testable::Testable(){}
+Testable::~Testable(){}
+
+void Testable::test() {
+	std::cout << "TESTER # Test is not implemented yet." << std::endl;
+}
 
 void Testable::assert(bool condition, std::string comment) {
 	if (!condition){
@@ -25,8 +32,3 @@ void Testable::comment(std::string comment){
 		std::cout << "TESTER # " << comment << std::endl;
 	}
 }
-
-void Testable::test() {
-	std::cout << "TESTER # Test is not implemented yet." << std::endl;
-}
-Testable::~Testable(){}

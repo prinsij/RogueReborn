@@ -1,7 +1,7 @@
 /**
  * @file test.potion.cpp
  * @author Team Rogue++
- * @date December 07, 2016
+ * @date December 08, 2016
  *
  * @brief Member definitions for the PotionTest class
  */ 
@@ -15,6 +15,9 @@
 #include "include/potion.h"
 #include "test.testable.h"
 
+/**
+ * @brief      Tests the Potion class.
+ */
 class PotionTest : public Testable {
 	public:
 		PotionTest(){}

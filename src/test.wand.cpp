@@ -1,7 +1,7 @@
 /**
  * @file test.wand.cpp
  * @author Team Rogue++
- * @date December 07, 2016
+ * @date December 08, 2016
  *
  * @brief Member definitions for the WandTest class
  */ 
@@ -16,6 +16,9 @@
 #include "include/wand.h"
 #include "test.testable.h"
 
+/**
+ * @brief      Tests the Wand class.
+ */
 class WandTest : public Testable {
 	public:
 		WandTest(){}

@@ -1,7 +1,7 @@
 /**
  * @file test.terrain.cpp
  * @author Team Rogue++
- * @date December 07, 2016
+ * @date December 08, 2016
  *
  * @brief Member definitions for the TerrainTest class
  */ 
@@ -14,14 +14,12 @@
 #include "include/tiles.h"
 #include "test.testable.h"
 
+/**
+ * @brief      Tests the Terrain class.
+ */
 class TerrainTest : public Testable {
 	public:
 		TerrainTest(){}
-
-		//visible
-		//passable
-		//color
-		//char
 
 		void test(){
 

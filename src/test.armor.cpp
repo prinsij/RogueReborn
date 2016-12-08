@@ -1,7 +1,7 @@
 /**
  * @file test.armor.cpp
  * @author Team Rogue++
- * @date December 07, 2016
+ * @date December 08, 2016
  *
  * @brief Member definitions for the ArmorTest class
  */ 
@@ -15,6 +15,9 @@
 #include "include/playerchar.h"
 #include "test.testable.h"
 
+/**
+ * @brief      Tests the Armor class.
+ */
 class ArmorTest : public Testable {
 	public:
 		ArmorTest(){}

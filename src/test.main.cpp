@@ -1,16 +1,15 @@
 /**
  * @file test.main.cpp
  * @author Team Rogue++
- * @date December 07, 2016
+ * @date December 08, 2016
  *
  * @brief Global members
  */ 
 
 #include <vector>
 
-#include "test.testable.h"
-#include "test.armor.cpp"
 #include "test.amulet.cpp"
+#include "test.armor.cpp"
 #include "test.coord.cpp"
 #include "test.feature.cpp"
 #include "test.food.cpp"
@@ -29,14 +28,17 @@
 #include "test.scroll.cpp"
 #include "test.stairs.cpp"
 #include "test.terrain.cpp"
+#include "test.testable.h"
 #include "test.trap.cpp"
 #include "test.tunnel.cpp"
 #include "test.uistate.cpp"
 #include "test.wand.cpp"
 #include "test.weapon.cpp"
 
+/**
+ * @brief      Invokes the unit tests.
+ */
 int main() {
-
 	ArmorTest().test();
 	AmuletTest().test();
 	CoordTest().test();
@@ -62,8 +64,6 @@ int main() {
 	WandTest().test();
 	WeaponTest().test();
 	UIStateTest().test();
-
-	
 
 	return 0;
 }
