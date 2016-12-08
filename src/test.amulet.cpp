@@ -6,6 +6,7 @@
  * @brief Member definitions for the AmuletTest class
  */ 
 
+#include <exception>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -20,8 +21,13 @@ class AmuletTest : public Testable {
 		void test(){
 			comment("Commencing Amulet tests...");
 
-			Amulet amuletCon = Amulet(Coord(0,0), Item::FLOOR);
-			assert(true, "Created Amulet");
+			try {
+				auto amuletCon = new Amulet(Coord(0,0), Item::FLOOR);
+				delete amuletCon;
+				assert(true, "Created Amulet");
+			} catch (const std::exception& e) {
+				assert(false, "Failure to create amulet");
+			}
 
 			comment("Finished Amulet tests.");
 		}
