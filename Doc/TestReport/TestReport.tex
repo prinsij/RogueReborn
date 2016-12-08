@@ -18,7 +18,9 @@
 \usepackage{tikz}
 \usepackage{longtable}
 
+
 % Setup
+
 
 \hypersetup{
 	colorlinks,
@@ -37,24 +39,19 @@
 	breaklines=true
 }
 
+
 % Custom Commands
+
 
 \newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0em}}p{#1}}
 \newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0em}}p{#1}}
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0em}}p{#1}}
 
 \newcounter{mnum}
-\newcommand{\mhprint}[2]{\addtocounter{mnum}{1} #1 & \textbf{M#2}}
+%\newcommand{\mhprint}[2]{\addtocounter{mnum}{1} #1 & \textbf{M#2}}
 \newcommand{\mdprint}[1]{\addtocounter{mnum}{1} #1 & \textbf{M\themnum}}
 
-\newcommand{\newsection}[1]{
-  \newpage
-  \section{#1}
-}
-
-\newcommand{\nfrt}[1]{
-	NFRT #1
-}
+\newcommand{\newsection}[1]{\newpage\section{#1}}
 
 \newcommand{\nfrtc}[3]{
 	\begin{table}[H]
@@ -71,11 +68,11 @@
 	\end{table}
 }
 
-\newcommand{\tplink}[1]{
-	 \href{run:../TestPlan/TestPlan.pdf}{#1}
-}
+\newcommand{\tplink}[1]{\href{run:../TestPlan/TestPlan.pdf}{#1}}
+
 
 % Title Page Elements
+
 
 \title{SE 3XA3: Test Plan\\Rogue Reborn}
 
@@ -90,12 +87,13 @@
 \date{Due Thursday, December 8\textsuperscript{th}, 2016}
 
 \input{../Comments}
-\pagenumbering{arabic}
 
 \begin{document}
+\pagenumbering{arabic}
 
 
 % Document Summary
+
 
 \maketitle
 
@@ -120,18 +118,23 @@
 		12/07/16 & 0.5 & Finished Automated Tests\\
 		12/07/16 & 0.6 & Added NFR Evaluation\\
 		12/07/16 & 0.7 & Added Unit Testing\\
-		12/07/16 & 0.8 & Added Changes Due to Testing\\
+		12/08/16 & 0.8 & Added Changes Due to Testing\\
+		12/08/16 & 1.0 & Proofread and Editing\\
 		\bottomrule
 	\end{tabularx}
 \end{table}
 
+
+% Document Content
+
+
 \newsection{Introduction} \label{Section_Intro}
 
 	\subsection{Overview}
-	The primary objective of this document is to provide a comprehensive summary of the verification process with respect to the Rogue Reborn project.  Interested parties are welcome to analyze this paper as a means of evaluating the success of the final application regarding the requirements described in the \href{run:../SRS/SRS.pdf}{SRS} and tests prescribed in the \href{run:../TestPlan/TestPlan.pdf}{Test Plan}.  After reviewing the document, the reader should understand the strengths and weaknesses of the Rogue Project as it relates to the expectations of the client.
+	The primary objective of this document is to provide a comprehensive report detailing the results of the verification process applied to the Rogue Reborn project.  Interested parties are welcome to analyze this paper as a means of evaluating the success of the final application with respect to the requirements described in the \href{run:../SRS/SRS.pdf}{SRS} and tests prescribed in the \href{run:../TestPlan/TestPlan.pdf}{Test Plan}.  After reviewing the document, the reader should understand the strengths and weaknesses of the Rogue Reborn project relative to the expectations of the client.
 
 	\subsection{Sections}
-	A brief description of each Test Report section is provided below:
+	A brief description of the Test Reports sections is provided below:
 
 	\begin{itemize}
 		\item [] \hyperref[Section_Intro]{\S 1} Brief overview of the Test Report
@@ -148,20 +151,29 @@
 	\end{itemize}
 
 \newsection{Functional Requirements Evaluation} \label{Section_FR_Evaluation}
-	Overall, an evaluation of functional requirements reveals near, if not complete coverage. The tests written for the projects turned out to be quite useful, as many caught bugs or business-errors that would have otherwise gone unnoticed. Those will be discussed below. As for the rest of the functional requirements, many were mundane, generic, or crucial enough to have already been satisfied before tests were considered. Those will not be discussed, as their complete satisfaction has already been verified countless times.\\
+	With the implementation of the application drawing to close, it can be witnessed that Rogue Reborn is functionally complete.  One of the primary driving forces behind reaching is goal is the elaborate unit testing suite.  It was discovered that most of these tests were quite useful and discovered bugs as well as logic errors that might have otherwise gone unnoticed; these tests are discussed below.  However, there were also many tests that were relatively mundane, generic, or crucial enough to have already been satisfied before testing was even considered.  As a result, those tests will not be explicitly mentioned given that their complete satisfaction has already been verified countless times.\\
 
-	The list below refers to each functional requirement by its numerical identifier, as listed in the System Requirements Specification. Please refer to the \href{run:../SRS/SRS.pdf}{SRS} document if any confusion arises.
+	The list below refers to each functional requirement by its numerical identifier, as listed in the \href{run:../SRS/SRS.pdf}{SRS}.
 
 	\begin{itemize}
-		\item[] \textbf{FR.16}: When performing level tests, a strange anomaly led to one test constantly failing. The test revealed that the player, in fact, did not begin at the first level. Due to an off-by-one error and slight miscommunication between developers, the current level depth the player was on was $i$ in some places and $i+1$ in others. As soon as the test revealed this, the problem was remedied globally.
-		\item[] \textbf{FR.19}: Whenever the player uncovers a new dungeon level (including the very first level), an algorithm decides on a position in which to place the user initially. This algorithm while appearing flawless, actually had a very slight chance of placing the player in an unreachable location, surrounded by walls, doomed forever. With the automatic tests running thousands upon thousands of simulations, the bug was quickly revealed, and remedied.
-		\item[] \textbf{FR.35}: Some monsters in Rogue Reborn follow a simple AI consisting of steps such as: Look for the player, chase the player, and if you can, hit the player. This is a very simple and easily-implemented AI to both invent and implement, but the enemies in Rogue Reborn go beyond such simple schemes. Some monsters do not seek to kill the player, but rather steal their precious items. One such pest is the Leprechaun, known as the symbol "L". The Leprechaun necessitated the implementation of a variety of methods that were previously unneeded, such as $getNearestGold()$. The testing of this function revealed some very serious performance issues in the pathfinding algorithm used throughout the project, in which infinite path traces were possible. It also revealed another bug in which the coordinates of several level features (items mostly) were accidentally set to 0, rendering them impossible to reach by pathfinding and once again causing a pathfinding failure. This was due to the assumption that all items are placed on reachable blocks. Fortunately, thanks to the various tests we implemented, these bugs were caught and fixed.
-		\item[] \textbf{FR.39}: Working with C++ has its benefits, but also its drawbacks. An anomaly in the way C++ handles integers revealed a very serious bug in the code, in which player armor could reach utterly ridiculous values, rendering the player effectively invincible. By simulating every possibility of armor that can be made, this bug was caught and patched. To elaborate, the reason the bug even existed was because an unsigned integer was allowed to be reduced to a negative value, which of course means that it was not reduced to a negative number and instead went to the highest value an integer can be.
+		\item[] \textbf{FR.16}: While performing tests over the \hyperref[Section_M_Trace]{Level} module, a strange anomaly led to one test constantly failing.  This test later revealed that the player character did not actually begin at the first level.  Due to an off-by-one error and slight miscommunication between developers, the current level depth of the player character was $i$ in some places and $i+1$ in others. As soon as this bug was uncovered, the problem was remedied globally across the code.
+
+		\item[] \textbf{FR.19}: Whenever the player uncovers a new dungeon level (including the very first level), an algorithm decides on the player character's initial position.  Although this algorithm appeared flawless in the past, there was actually a slight chance of placing the player character in an unreachable location, (i.e., surrounded by walls and therefore doomed forever).  With the automatic tests running thousands upon thousands of simulations, this glitch was quickly exposed and resolved.
+
+		\item[] \textbf{FR.35}: Some monsters in Rogue Reborn follow a simple AI decision algorithm consisting of steps such as:
+		\begin{enumerate}
+			\item Check if the monster is sleeping or passive 
+			\item If the monster is aggravated, attempt to chase the player character
+			\item If the monster is aggravated and adjacent to the player character, attempt to hit the player character
+		\end{enumerate}
+		Although this is a very simple recipe and is easy to both invent and implement, several enemies in Rogue Reborn go beyond such simple schemes.  For instance, some monsters do not seek to kill the player character, but rather steal their precious items or gold.  One such pest is the Leprechaun (depicted by the ``L'' symbol).  The Leprechaun necessitated the implementation of a variety of new methods, such as \lstinline$getNearestGold()$.  The tests related to this function revealed some very serious performance issues in the pathfinding algorithm used throughout the project, such as infinite path traces.  It also revealed another bug in which the coordinates of several level features (items mostly) were accidentally set to \lstinline$(0,0)$, rendering them impossible to reach.  These issues were due in part by the assumption that all items are placed on tiles reachable from the player character.  Fortunately, thanks to the various tests that were implemented, these bugs were fixed.
+
+		\item[] \textbf{FR.39}: Working with C++ was extremely beneficial in some respects, but also possessed some drawbacks.  An anomaly in the way C++ handles integers revealed a very serious bug in the code, in which the player character's armor could reach ridiculous high values and essentially render them invincible.  By simulating every possible \hyperref[Section_M_Trace]{Armor} that can be instantiated, this bug was caught and patched.  To elaborate, the bug existed because a particular integer had a possibility of never being assigned a value.
 	\end{itemize}
 
 
 \newsection{Non-Functional Requirements Evaluation} \label{Section_NFR_Evaluation}
-	The following subsections evaluate the significant non-functional qualities of Rogue Reborn.  To simplify notation, \nfrt{$i$} is used to denote ``Non-Functional Requirements Test \# $i$'' from the \href{run:../TestPlan/TestPlan.pdf}{Test Plan} document.  Unfortunately, the usability and playtesting surveys referenced in NFRT 1, NFRT 2, NFRT 4, NFRT 7, NFRT 9, NFRT 10, NFRT 12, and NFRT 14 were not performed as a direct consequence of the time constraints imposed on the project (the \href{run:../../ProjectSchedule/rogue.gan}{Gantt Chart} schedules this survey to be released in early January 2017).  Another hindering factor is the sophisticated software environment required for compilation: publicly distributing a single executable file is not feasible since Rogue Reborn makes use of a library that exclusively compiles for Linux at the present moment.  Despite these inconveniences, an effort has been made to mention several weaker versions of these tests under their corresponding sections.
+	The following subsections evaluate the significant non-functional qualities of Rogue Reborn.  To simplify notation, NFRT $i$ is used to denote ``Non-Functional Requirements Test \# $i$'' from the \href{run:../TestPlan/TestPlan.pdf}{Test Plan} document.  Unfortunately, the usability and playtesting surveys referenced in NFRT 1, NFRT 2, NFRT 4, NFRT 7, NFRT 9, NFRT 10, NFRT 12, and NFRT 14 were not performed as a direct consequence of the time constraints imposed on the project (the \href{run:../../ProjectSchedule/rogue.gan}{Gantt Chart} schedules this survey to be released in early January 2017).  Another hindering factor is the sophisticated software environment required for compilation: publicly distributing a single executable file is not feasible since Rogue Reborn makes use of a library that exclusively compiles for Linux at the present moment.  Despite these inconveniences, an effort has been made to mention several weaker versions of these tests under their corresponding sections.
 
 	\subsection{Usability and Aesthetics}
 		Overall, the visual appearance of the application was well-received and was universally praised as an improvement over the original \textit{Rogue}.  This conclusion was derived from the interactions between the Rogue++ team and the \textit{SFWRENG 3XA3} instructor staff, as well as informal conversations with other colleagues.  Unfortunately, the usability survey described in NFRT 1 will be carried out in the future, so the impressions of the general public are not yet known.\\
@@ -186,13 +198,13 @@
 			{The aforementioned script identified approximately 170 candidate declarations.  Among these, there were no obvious candidates for integer overflow.}
 
 	\subsection{Robustness, Maintainability, and Compatibility}
-		As discussed during the formal presentation, the Rogue Reborn project excelled in the domains of robustness and maintainability.  One justification for this claim is that the developers implemented a CI (Continuous Integration) pipeline to immediately flag deficient commits.  In addition, compiling the Rogue Reborn source code did not generate any warnings and the system documentation is thorough, expansive, and relevant.  That being said, Rogue Reborn has yet to be released in the playtester community.  As such, it is likely that several undiscovered bugs still reside within the code base.\\
+		As discussed during the formal presentation, the Rogue Reborn project excelled in the domains of robustness and maintainability.  One justification for this claim is that the developers implemented a CI (Continuous Integration) pipeline to immediately flag deficient commits.  In addition, compiling the Rogue Reborn source code did not generate any warnings and the system documentation is thorough, expansive, and relevant.  That being said, Rogue Reborn has yet to be released to the playtester community.  As such, it is likely that several undiscovered bugs still reside within the code base.\\
 
 		Regarding compatibility, the project was significantly less successful: only Linux distributions are supported and SDL (Simple Directmedia Layer) must be installed on the developer's machine to compile the application ~\citep{SDLHome}.  As well, the compilation and execution of Rogue Reborn was only tested on Intel x64 processors (the application is not tested on other brands or architectures). With respect to the \href{run:../TestPlan/TestPlan.pdf}{Test Plan}, a report detailing NFRT 8, NFRT 11, and NFRT 13 is conveyed below.
 
 		\nfrtc {8}
 			{The high score file was manually edited by a developer to include more than \tplink{HIGH\_SCORE\_CAPACITY} records.}
-			{Only the top \tplink{HIGH\_SCORE\_CAPACITY} records with the highest score were displayed on the \hyperref[Section_M_Trace]{RipScreen} module; the rest of the records were internally acknowledged but otherwise ignored.}
+			{Only the top \tplink{HIGH\_SCORE\_CAPACITY} records with the highest score were displayed on the \hyperref[Section_M_Trace]{RIP Screen}; the rest of the records were internally acknowledged but otherwise ignored.}
 
 		\nfrtc {11}
 			{All documented ``Bug'' issues on the Rogue Reborn GitLab page were examined to ensure they were closed within 30 days of their creation.}
@@ -200,7 +212,7 @@
 
 		\nfrtc {13}
 			{The high score file was manually edited by a developer such that several records violated the expected record format.}
-			{All valid records were processed displayed on the \hyperref[Section_M_Trace]{RipScreen} module; the nonsensical records were internally acknowledged but otherwise ignored.}
+			{All valid records were processed and displayed on the \hyperref[Section_M_Trace]{RUP Screen}; the nonsensical records were internally acknowledged but otherwise ignored.}
 
 	\subsection{Legality and Safety}
 		Every public software project should include a license to govern the software's terms of use, development, and distribution.  Rogue Reborn was no exception and thus contained the \href{run:../../LICENSE.txt}{licensing agreement} from the original \textit{Rogue}.\\
