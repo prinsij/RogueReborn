@@ -48,17 +48,17 @@
 }
 
 \newcommand{\nfrt}[1]{
-	\textit{NFRT #1}
+	NFRT #1
 }
 
 \newcommand{\nfrtc}[3]{
 	\begin{center}
 		\def\arraystretch{1.6}
-		\begin{tabular}{| R{6em} L{23em} |}
+		\begin{tabular}{ R{5.5em} L{25em} }
 			\bottomrule
-			\multicolumn{2}{| c |}{\textbf{Non-Functional Requirement Test} \# #1 \textbf{Summary}}  \\
+			\multicolumn{2}{ c }{\textbf{Non-Functional Requirement Test} \# #1 \textbf{Summary}}  \\
 			\hline
-			\textit{Description:} & #2 \\
+			\textit{Summary:} & #2 \\
 			\textit{Results:} & #3 \\
 			\toprule
 		\end{tabular}
@@ -147,19 +147,32 @@
 
 
 \newsection{Non-Functional Requirements Evaluation} \label{Section_NFR_Evaluation}
-	The following subsections evaluate the significant non-functional qualities of Rogue Reborn.  To simplify notation, \textit{NFRT $i$} is used to denote ``Non-Functional Requirements Test $i$'' from the \href{run:../TestPlan/TestPlan.pdf}{Test Plan} document.  Note that the usability and playtesting surveys described in \nfrt{1}, \nfrt{2}, \nfrt{4}, \nfrt{7}, \nfrt{10} were not performed as a direct consequence of the time constraints imposed on the project (the \href{run:../../ProjectSchedule/rogue.gan}{Gantt Chart} schedules this survey to be released in early January, 2017).
+	The following subsections evaluate the significant non-functional qualities of Rogue Reborn.  To simplify notation, \nfrt{$i$} is used to denote ``Non-Functional Requirements Test $i$'' from the \href{run:../TestPlan/TestPlan.pdf}{Test Plan} document.  Note that the usability and playtesting surveys described in \nfrt{1}, \nfrt{2}, \nfrt{4}, \nfrt{7}, and \nfrt{10} were not performed as a direct consequence of the time constraints imposed on the project (the \href{run:../../ProjectSchedule/rogue.gan}{Gantt Chart} schedules this survey to be released in early January, 2017) in addition to the sophisticated software environment required for compilation.  Distributing a single executable file is also currently infeasible, as Rogue Reborn makes use of a library that exclusively compiles for Linux at the present moment.
 
 	\subsection{Usability and Aesthetics}
 		Overall, the visual appearance of the application was well-received by the Rogue Reborn stakeholders.  This was deduced through the interactions between the Rogue++ team and the \textit{SFWRENG 3XA3} instructor staff, as well as informal conversations with other colleagues.  Unfortunately, the usability survey described in \nfrt{1} will be carried out in the future, so the impressions of the general public are not yet known.\\
 
-		Since the usability of the original \textit{Rogue} was relatively poor due to its seemingly-arbitrary key bindings, the Rogue Reborn application made goals to improve this area.  Specifically, the application featured arrow key bindings for some of player character movements in order to accommodate a more standard and intuitive keyboard layout.  However, due to the plethora of other key bindings, the Rogue++ team was \textit{not} successful in alleviating this issue completely.  A summary of the remaining non-functional test \nfrt{3} is given below.
+		Since the usability of the original \textit{Rogue} was relatively poor due to its seemingly-arbitrary key bindings, the Rogue Reborn application made goals to improve this area.  Specifically, the application featured arrow key bindings for some of player character movements in order to accommodate a more standard and intuitive keyboard layout.  However, due to the plethora of other key bindings, the Rogue++ team was \textit{not} successful in alleviating this issue completely.  A summary of \nfrt{3} is given below.
 
-		\nfrtc{3}
-		{All strings in the Rogue Reborn source code were extracted and placed in a text file, where a developer later corrected all indicated errors that were potentially associated with a GUI output using Microsoft Word.  The script that performed the string extraction is located under the \lstinline$src/misc$ under the name \href{run:../../src/misc/stringfinder.py}{stringfinder.py}.}
-		{The aforementioned script managed to located approximately 1400 strings.  After manually verifying the grammatical correctness and spelling of each string in Word, it was determined that the GUI output is free of linguistic errors.}
+		\nfrtc {3}
+			{All strings in the Rogue Reborn source code were extracted and placed in a text file, where a developer examined all indicated errors that were potentially associated with a GUI output using Microsoft Word.  The script that performed the string extraction is located in the \lstinline$src/misc$  directory under the name \href{run:../../src/misc/stringfinder.py}{stringfinder.py}.}
+			{The aforementioned script managed to locate approximately 1400 strings.  After manually verifying the grammatical correctness and spelling of each string in Word, it was determined that the GUI output is free of linguistic errors.}
 
 	\subsection{Performance}
-		Mikhail
+		In general, the technical performance of the Rogue Reborn client was greatly enhanced by the developers' decision to use C++ as opposed to Python or Java.  Consequently, the application averaged around 120 FPS (Frames Per Second) and delivered a smooth experience while on a VM (Virtual Machine).  During the final stages of development, the Rogue++ team decided to profile the application using the GDB (GNU Debugger) with respect to peak memory usage and pleasantly discovered that the maximum amount of RAM allocated to Rogue Reborn was 1 MB. 
+
+		A synopsis of the relevant tests (\nfrt{5} and \nfrt{6}) is portrayed below.
+
+		\nfrtc {5}
+			{The Rogue Reborn application was compiled with a special debug parameter; this enabled particular sections of the MasterController module to use a StopWatch implementation to measure the average maximum execution time between successive frames.}
+			{On average, the execution time between successive user actions appeared to stabilize around 20 ms.  Clearly, this is appreciably lower than the maximum allowable delay of $\sim$ 30 ms.}
+
+		\nfrtc {6}
+			{The following regular expression was applied over the source code to extract all integer-typed declarations: \newline
+				{\centering \lstinline$(unsigned|int|long)\\s+[A-Za-z]+\\s*(,|;|=.*)\\s*$ \newline}
+			 An associated script to perform the declaration extraction was also created and is located in the \lstinline$src/misc$ directory under the name \href{run:../../src/misc/intdeclare.py}{intdeclare.py}.}
+			{The aforementioned script managed to locate approximately 170 candidate declarations (there were several false positives).  Among these, there were no obvious candidates for integer overflow.}
+
 
 	\subsection{Robustness and Maintainability}
 		Mikhail
