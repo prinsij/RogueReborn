@@ -63,7 +63,5 @@ int main() {
 	WeaponTest().test();
 	UIStateTest().test();
 
-	
-
 	return 0;
 }
