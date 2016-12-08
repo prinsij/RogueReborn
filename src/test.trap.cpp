@@ -1,11 +1,12 @@
 /**
  * @file test.trap.cpp
  * @author Team Rogue++
- * @date December 06, 2016
+ * @date December 07, 2016
  *
- * @brief Global members
+ * @brief Member definitions for the TrapTest class
  */ 
 
+#include <exception>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -23,8 +24,12 @@ class TrapTest : public Testable {
 		void test(){
 			comment("Commencing Trap tests...");
 
-			Trap trapCon = Trap(Coord(0,0), 0, false);
-			assert(true, "Created Trap");
+			try {
+				Trap trapCon = Trap(Coord(0,0), 0, false);
+				assert(true, "Created Trap");
+			} catch (const std::exception& e) {
+				assert(false, "Failure creating Trap");
+			}
 
 			std::vector<Trap> traps;
 

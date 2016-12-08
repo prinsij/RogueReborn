@@ -14,6 +14,9 @@
 
 % Colour Scheme
 
+\definecolor{RevisionColour}{rgb}{0.0, 0.5, 0.2}
+\newcommand{\rev}[1]{\textcolor{RevisionColour}{#1}}
+
 \hypersetup{
     colorlinks,
     citecolor=blue,
@@ -93,6 +96,7 @@
 			10/11/16 & 0.6 & Added 4.9,4.10, and 2.1.* \\
 			10/11/16 & 0.7 & Proofread and Editing \\
 			10/11/16 & 0.8 & Additional Editing \\
+			\rev{12/06/2016} & \rev{1.0} & \rev{Revision 1 Update}\\
 		\bottomrule
 	\end{tabularx}
 \end{table}
@@ -180,19 +184,28 @@ This document describes the requirements for the Rogue Reborn project.  The temp
 		The final contextual aspect to consider is the thematic inspirations of \textit{Rogue}. \textit{Rogue} takes place in a realm of fantasy, inspired by the high-fantasy settings of Dungeons and Dragons, which itself has drawn much from various narratives, such as Tolkien's \textit{The Lord of the Rings}, \textit{The Hobbit}, and \textit{The Silmarillion}.  Since the release of \textit{Rogue}, many modern pieces in the same thematic genre have been released, such as George R. R. Martin's \textit{A Song of Ice and Fire}, and the collective works of R.A. Salvatore.  The influence of these new works can be found in extensions over the original \textit{Rogue}, such as \textit{Moria} from 1983.
 
 		\subsubsection{Work Partitioning}
-		\textcolor{red}{ This is not quite what this section is for, see "volere Template16" in the course repo for more information - CM} \\
-		The below table illustrates the events of the system:\\
+		%\textcolor{red}{ This is not quite what this section is for, see "volere Template16" in the course repo for more information - CM} \\
+		
+		\rev{The table below illustrates the events of the system:}\\
 		\vspace{5mm}
-		\begin{tabular}{c | c | c }
-			Event & Input System & Response \\
-			\midrule
-			user presses key & libtcod detects keypress & system updates model and/or transitions ui \\
-			playerchar dies & system detects death & system reads and updates high scores \\
-			gameworld updates & system detects change & system renders onto virtual console \\
-			game prompts user & system detects UI change & system transitions to prompt state
-		\end{tabular}
+		
+		\begin{table}
+			\centering
+			\begin{tabular}{C{9.8em} | C{9.8em} | C{9.8em} }
+				\bf \rev{Event} & \bf \rev{Input System} & \bf \rev{Response} \\
+				\hline
+				\rev{User presses key} & \rev{\textit{libtcod} detects key press} & \rev{System updates model and/or transitions UI} \\
+				\hline
+				\rev{Player character dies} & \rev{System detects death} & \rev{System reads and updates high scores} \\
+				\hline
+				\rev{Game world updates} & \rev{System detects change} & \rev{System renders onto virtual console} \\
+				\hline
+				\rev{Game prompts user} & \rev{System detects UI change} & \rev{System transitions to prompt state}
+			\end{tabular}
+		\end{table}
+
 		\vspace{5mm}
-		The below flowchart illustrates the high level flow of the application:
+		\rev{The following flowchart depicts the high level flow of the application:}\\
 
 		\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black, fill=red!30]
 		\tikzstyle{io} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=2cm, minimum height=1cm, text centered, draw=black, fill=blue!30]
@@ -254,7 +267,7 @@ This document describes the requirements for the Rogue Reborn project.  The temp
 				\freq{The player character shall be able to walk to adjacent cells.}\\
 				\freq{The player character shall be able to open and close doors.}\\
 				\freq{The player character shall be able to fall under status effects.}\\
-				\freq{The player character shall activate a trap every time they walk onto the cell with the trap.}\\
+				\freq{\rev{The player character shall have a random chance to activate a trap every time they walk onto the cell with the trap.}}\\
 			\end{tabular}
 
 		\subsubsection{The Dungeon}
@@ -275,7 +288,7 @@ This document describes the requirements for the Rogue Reborn project.  The temp
 			\begin{tabular}{p{0.1\linewidth}p{0.9\linewidth}}
 				\freq{The game shall maintain an inventory of the player character's collected items.}\\
 				\freq{The player character shall be able to view the inventory.}\\
-				\freq{The game shall limit the player character's inventory based on the weight of its contents.}\\
+				\freq{\rev{The game shall limit the player character's inventory to \hyperref[symbolicParameters]{MAX\_WEIGHT} units based on the weight of its contents.}}\\
 				\freq{The player character shall be able to add, drop, use, hold, throw, and remove objects from their inventory.}\\
 				\freq{Scrolls, rings, and wands shall have meaningless names until they are identified.}\\
 				\freq{Scrolls, rings, and wands shall be usable.}\\
@@ -315,17 +328,17 @@ This document describes the requirements for the Rogue Reborn project.  The temp
 			\spec{The Rogue Reborn game shall be easy to learn and play.}{Users may prematurely lose interest in the game if the controls are difficult or frustrating.}{The game must use an intuitive keyboard layout and possess an in-game mechanism to view all key bindings.}
 			
 		\subsubsection {Understandability and Politeness Requirements}
-			There are no significant requirements that are applicable to this category.
+			There are no significant requirements that are applicable to this category.  \rev{The Learning Requirements category describes a requirement that is related to this section.}
 
 		\subsubsection {Accessibility Requirements}
 			As the original is entirely a turn-based game, it is accessible to individuals with physical disabilities affecting their manual dexterity. This project will maintain that feature. The original uses a native terminal which has effective integration with screen-reading programs used by individuals with visual disabilities. As libtcod uses a graphical terminal, this feature has been dropped. In addition, no special effort will be made to integrate mice or unusual input devices.
 
 	\subsection{Performance Requirements}
 		\subsubsection{Speed and Latency Requirements}
-			\spec{The Rogue Reborn game shall appear responsive to user input.}{Slow update times may induce frustration.}{On average, the game UI must be updated within at least \hyperref[symbolicParameters]{RESPONSE\_SPEED} milliseconds of a visible user action.}
+			\spec{The Rogue Reborn game shall appear responsive to user input.}{Slow update times may induce frustration.}{On average, the game UI must be updated within at least \hyperref[symbolicParameters]{RESPONSE\_SPEED} milliseconds \rev{(a few additional milliseconds is acceptable)} of a visible user action.}
 			
 		\subsubsection{Safety-Critical Requirements}
-			There are no significant requirements that are applicable to this category.
+			There are no significant requirements that are applicable to this category.  \rev{It is assumed that any safety-critical aspects related to this system will be handled by the immediate software environment.}
 
 		\subsubsection{Precision or Accuracy Requirements}
 			\spec{The Rogue Reborn game shall use integer types with an appropriate level of precision.}{Integer overflow may cause unexpected behaviour.}{All integer values in the game with an unknown upper bound must be at least 32 bits in size.}
@@ -334,16 +347,16 @@ This document describes the requirements for the Rogue Reborn project.  The temp
 			\spec{The Rogue Reborn game shall not crash under normal operating circumstances.}{Frequent crashes may frustrate users and diminish their experience.}{Every reproducible event that causes the game to crash must be documented, root-caused, and resolved.}
 
 		\subsubsection{Robustness or Fault-Tolerance Requirements}
-			There are no significant requirements that are applicable to this category.
+			There are no significant requirements that are applicable to this category.  \rev{Given the expansive nature of \textit{Rogue} and the relatively short lifespan of Rogue Reborn, this category falls beyond the scope of the project.}
 
 		\subsubsection{Capacity Requirements}
 			\spec{The Rogue Reborn game shall be able to record the high scores of up to \hyperref[symbolicParameters]{HIGH\_SCORE\_CAPACITY} users.}{Allows for a variety of users to directly compete against one another.}{The game must be able to load and display the high scores of \hyperref[symbolicParameters]{HIGH\_SCORE\_CAPACITY} previous performances.}
 
 		\subsubsection{Scalability or Extensibility Requirements}
-			There are no significant requirements that are applicable to this category.
+			There are no significant requirements that are applicable to this category.  \rev{Given the relatively short lifespan of Rogue Reborn, this category falls beyond the scope of the project.}
 
 		\subsubsection{Longevity Requirements}
-			There are no significant requirements that are applicable to this category.
+			There are no significant requirements that are applicable to this category.  \rev{Given the relatively short lifespan of Rogue Reborn, this category falls beyond the scope of the project.}
 
 	\subsection{Operational and Environmental Requirements}
 
@@ -351,13 +364,13 @@ This document describes the requirements for the Rogue Reborn project.  The temp
 			\spec{The Rogue Reborn game shall successfully run on any modern laptop or desktop computer with an Intel x64 processor.}{Most potential users will have access to this hardware environment.}{The game must display stable behaviour on a computer with an Intel x64 processor (equipped with a keyboard, mouse, and monitor).}
 
 		\subsubsection{Requirements for Interfacing with Adjacent Systems}
-			There are no significant requirements that are applicable to this category.
+			There are no significant requirements that are applicable to this category.  \rev{Rogue Reborn is expected to execute as a stand-alone application.}
 
 		\subsubsection{Productization Requirements}
 			\spec{The Rogue Reborn game shall be distributed as a compressed folder containing a single executable file along with any necessary licenses.}{This is a simple approach to the distribution process.}{The game must be distributed as a folder containing a collection of applicable licenses in addition to a single executable file that is able to run on a fresh system without any external dependencies.}
 
 		\subsubsection{Release Requirements}
-			There are no significant requirements that are applicable to this category.
+			There are no significant requirements that are applicable to this category.  \rev{Given the relatively short lifespan (especially after the development phase) of Rogue Reborn, this category falls beyond the scope of the project.}
 
 	\subsection{Maintainability and Support Requirements}
 
@@ -365,26 +378,26 @@ This document describes the requirements for the Rogue Reborn project.  The temp
 			\spec{All reported bugs shall be resolved within a month of their submission.}{Immediately concentrating effort on subcritical bugs may distract developers.}{Every incident featured in the GitLab ITS must be closed within a month of its creation.}
 
 		\subsubsection{Supportability Requirements}
-			There are no significant requirements that are applicable to this category.
+			There are no significant requirements that are applicable to this category.  \rev{Given the relatively short lifespan (especially after the development phase) of Rogue Reborn, this category falls beyond the scope of the project.}
 
 		\subsubsection{Adaptability Requirements}
 			\spec{The Rogue Reborn game shall successfully run on a modern 64-bit Linux operating system.}{It is assumed that the product testers and consumers will have access to a 64-bit Linux operating system.}{The game must display stable behaviour on a 64-bit Ubuntu distribution.}
 
 	\subsection{Security Requirements}
 		\subsubsection{Access Requirements}
-			There are no significant requirements that are applicable to this category.
+			There are no significant requirements that are applicable to this category.  \rev{Given that Rogue Reborn does not handle sensitive data, this category falls beyond the scope of the project.}
 
 		\subsubsection{Integrity Requirements}
 			\spec{The Rogue Reborn game shall verify the validity of the saved high score file before displaying its contents.}{Malicious users may attempt to inject false records into this file.}{The game must display no previous high scores if it detects a flaw in the records file.}
 
 		\subsubsection{Privacy Requirements}
-			There are no significant requirements that are applicable to this category.
+			There are no significant requirements that are applicable to this category.  \rev{Given that Rogue Reborn does not handle sensitive data, this category falls beyond the scope of the project.}
 
 		\subsubsection{Audit Requirements}
-			There are no significant requirements that are applicable to this category.
+			There are no significant requirements that are applicable to this category.  \rev{Given that Rogue Reborn does not handle sensitive data, this category falls beyond the scope of the project.}
 
 		\subsubsection{Immunity Requirements}
-			There are no significant requirements that are applicable to this category.
+			There are no significant requirements that are applicable to this category.  \rev{Given that Rogue Reborn does not handle sensitive data, this category falls beyond the scope of the project.}
 
 	\subsection{Cultural Requirements}
 		There are no significant requirements that are applicable to this category, since Rogue Reborn does not modify any cultural aspects from the original \textit{Rogue}.
@@ -394,7 +407,7 @@ This document describes the requirements for the Rogue Reborn project.  The temp
 			\spec{The Rogue Reborn game shall be distributed with an accompanying \href{../../LICENSE.txt}{LICENSE.txt} file.}{This license must be distributed with projects that are a modification of the original \textit{Rogue} source code.}{The corresponding \href{../../LICENSE.txt}{LICENSE.txt} file is included in the distribution package.}
 
 		\subsubsection{Standards Requirements}
-			There are no significant requirements that are applicable to this category.
+			There are no significant requirements that are applicable to this category.  \rev{Given that Rogue Reborn is a unique IP and does not conform to the standards of a parent entity, this category falls beyond the scope of the project.}
 
 	\subsection{Health and Safety Requirements}
 		\spec{The Rogue Reborn game shall not contain visual sequences that are likely to trigger seizures.}{Individuals with photosensitive epilepsy may feel disoriented, uncomfortable, or unwell ~\citep{PhotosensitiveEpilepsy}.}{The average luminosity of the game UI cannot change by more than \hyperref[symbolicParameters]{LUMINOSITY\_DELTA} between two successive frames.}
@@ -496,6 +509,7 @@ This document describes the requirements for the Rogue Reborn project.  The temp
 			HEIGHT\_RESOLUTION & 400 \\
 			VIEW\_DISTANCE & 2 \\
 			START\_LEVEL & 1 \\
+			\rev{MAX\_WEIGHT} & \rev{36} \\
 			MINIMUM\_ENTERTAINMENT\_TIME & 20 \\
 			MINIMUM\_RESPONSE\_SPEED & 30 \\
 			HIGH\_SCORE\_CAPACITY & 15 \\

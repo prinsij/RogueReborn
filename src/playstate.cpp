@@ -1,7 +1,7 @@
 /**
  * @file playstate.cpp
  * @author Team Rogue++
- * @date December 06, 2016
+ * @date December 07, 2016
  *
  * @brief Member definitions for the PlayState class
  */ 
@@ -868,6 +868,10 @@ UIState* PlayState::attemptPutOn(int turnTime) {
 void PlayState::handleWizardry(TCOD_key_t key) {
 	if (key.c == '}') {
 		int currDepth = level->getDepth();
+		if (currDepth == NUM_LEVELS) {
+			player->appendLog("You dare not descend deeper into the dungeon");
+			return;
+		}
 		delete level;
 		level = new Level(currDepth+1, player);
 		level->registerMob(player);

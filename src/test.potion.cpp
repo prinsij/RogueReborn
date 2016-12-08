@@ -1,11 +1,12 @@
 /**
  * @file test.potion.cpp
  * @author Team Rogue++
- * @date December 06, 2016
+ * @date December 07, 2016
  *
- * @brief Global members
+ * @brief Member definitions for the PotionTest class
  */ 
 
+#include <exception>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -21,10 +22,14 @@ class PotionTest : public Testable {
 		void test(){
 			comment("Commencing Potion tests...");
 
-			Potion potionCon = Potion(Coord(0,0));
-			assert(true, "Created Potion (1)");
-			Potion potionCon2 = Potion(Coord(0,0), Item::FLOOR, 0);
-			assert(true, "Created Potion (2)");
+			try {
+				Potion potionCon = Potion(Coord(0,0));
+				assert(true, "Created Potion (1)");
+				Potion potionCon2 = Potion(Coord(0,0), Item::FLOOR, 0);
+				assert(true, "Created Potion (2)");
+			} catch (const std::exception& e) {
+				assert(false, "Failure creating Potion");
+			}
 
 			std::vector<Potion> potions;
 			std::vector<PlayerChar> players;

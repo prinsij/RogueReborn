@@ -1,17 +1,16 @@
 /**
  * @file test.main.cpp
  * @author Team Rogue++
- * @date December 06, 2016
+ * @date December 07, 2016
  *
  * @brief Global members
  */ 
 
-#include <iostream>
-#include <string>
 #include <vector>
 
-#include "test.amulet.cpp"
+#include "test.testable.h"
 #include "test.armor.cpp"
+#include "test.amulet.cpp"
 #include "test.coord.cpp"
 #include "test.feature.cpp"
 #include "test.food.cpp"
@@ -30,7 +29,6 @@
 #include "test.scroll.cpp"
 #include "test.stairs.cpp"
 #include "test.terrain.cpp"
-#include "test.testable.h"
 #include "test.trap.cpp"
 #include "test.tunnel.cpp"
 #include "test.uistate.cpp"
@@ -39,36 +37,33 @@
 
 int main() {
 
-	std::vector<Testable*> tests = {new ArmorTest(),
-									new AmuletTest(),
-									new CoordTest(),
-									new FeatureTest(),
-									new FoodTest(),
-									new GoldPileTest(),
-									new ItemTest(),
-									new ItemZoneTest(),
-									new LevelTest(),
-									new LevelGenTest(),
-									new MobTest(),
-									new MonsterTest(),
-									new PlayerCharTest(),
-									new PotionTest(),
-									new RandomTest(),
-									new RingTest(),
-									new RoomTest(),
-									new ScrollTest(),
-									new StairsTest(),
-									new TerrainTest(),
-									new TrapTest(),
-									new TunnelTest(),
-									new WandTest(),
-									new WeaponTest(),
-									new UIStateTest()};
+	ArmorTest().test();
+	AmuletTest().test();
+	CoordTest().test();
+	FeatureTest().test();
+	FoodTest().test();
+	GoldPileTest().test();
+	ItemTest().test();
+	ItemZoneTest().test();
+	LevelTest().test();
+	LevelGenTest().test();
+	MobTest().test();
+	MonsterTest().test();
+	PlayerCharTest().test();
+	PotionTest().test();
+	RandomTest().test();
+	RingTest().test();
+	RoomTest().test();
+	ScrollTest().test();
+	StairsTest().test();
+	TerrainTest().test();
+	TrapTest().test();
+	TunnelTest().test();
+	WandTest().test();
+	WeaponTest().test();
+	UIStateTest().test();
 
-	for (Testable* t : tests){
-		t->test();
-		delete t;
-	}
+	
 
 	return 0;
 }

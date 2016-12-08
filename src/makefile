@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -O1 -g -I./libtcod/include -L. -ltcod -ltcodxx -Wl,-rpath=. -Wall -std=c++11
+CXXFLAGS = -O1 -g -I./libtcod/include -L. -Wl,-rpath=. -Wall -std=c++11
 LDFLAGS = 
 TARGET = RogueReborn.exe
 TESTTARGET = Test.exe

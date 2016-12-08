@@ -1,11 +1,12 @@
 /**
  * @file test.weapon.cpp
  * @author Team Rogue++
- * @date December 06, 2016
+ * @date December 07, 2016
  *
- * @brief Global members
+ * @brief Member definitions for the WeaponTest class
  */ 
 
+#include <exception>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -21,10 +22,14 @@ class WeaponTest : public Testable {
 		void test(){
 			comment("Commencing Weapon tests...");
 
-			Weapon weaponCon = Weapon(Coord(0,0));
-			assert(true, "Created Weapon (1)");
-			Weapon weaponCon2 = Weapon(Coord(0,0), Item::FLOOR, 0);
-			assert(true, "Created Weapon (2)");
+			try {
+				Weapon weaponCon = Weapon(Coord(0,0));
+				assert(true, "Created Weapon (1)");
+				Weapon weaponCon2 = Weapon(Coord(0,0), Item::FLOOR, 0);
+				assert(true, "Created Weapon (2)");
+			} catch (const std::exception& e) {
+				assert(false, "Failure creating Potion");
+			}
 
 			Weapon weapon = Weapon(Coord(0,0), Item::FLOOR, 5);
 			weapon.setEnchantments(-1, -2);

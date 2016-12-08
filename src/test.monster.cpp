@@ -1,11 +1,12 @@
 /**
  * @file test.monster.cpp
  * @author Team Rogue++
- * @date December 06, 2016
+ * @date December 07, 2016
  *
- * @brief Global members
+ * @brief Member definitions for the MonsterTest class
  */ 
 
+#include <exception>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -21,8 +22,14 @@ class MonsterTest : public Testable {
 		void test(){
 			comment("Commencing Monster tests...");
 
+			try {
+				Monster monster = Monster('B', Coord(0,0));
+				assert(true, "Created Monster");
+			} catch (const std::exception& e) {
+				assert(false, "Failure creating Monster");
+			}
+
 			Monster monster = Monster('B', Coord(0,0));
-			assert(true, "Created Monster");
 
 			monster.awake = false;
 			monster.chasing = false;

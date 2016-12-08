@@ -1,11 +1,12 @@
 /**
  * @file test.mob.cpp
  * @author Team Rogue++
- * @date December 06, 2016
+ * @date December 07, 2016
  *
- * @brief Global members
+ * @brief Member definitions for the MobTest class
  */ 
 
+#include <exception>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -21,14 +22,20 @@ class MobTest : public Testable {
 		void test(){
 			comment("Commencing Mob tests...");
 
-			Mob* mob = new Monster('B', Coord(0,0));
-			mob->armor = 5;
-			mob->currentHP = 20;
-			mob->exp = 10;
-			mob->level = 2;
-			mob->maxHP = 20;
-			mob->name = "name";
-			assert(true, "Created Mob");
+			Mob* mob;
+			try {
+				mob = new Monster('B', Coord(0,0));
+				mob->armor = 5;
+				mob->currentHP = 20;
+				mob->exp = 10;
+				mob->level = 2;
+				mob->maxHP = 20;
+				mob->name = "name";
+				assert(true, "Created Mob");
+			} catch (const std::exception& e) {
+				assert(false, "Failure creating Mob");
+				return;
+			}
 
 			assert(Mob::diceSum(1, 1) == 1, "Dice Sum Check 1");
 			assert(Mob::diceSum(2, 1) == 2, "Dice Sum Check 2");

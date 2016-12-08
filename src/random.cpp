@@ -1,7 +1,7 @@
 /**
  * @file random.cpp
  * @author Team Rogue++
- * @date December 06, 2016
+ * @date December 07, 2016
  *
  * @brief Global members
  */ 
@@ -16,6 +16,9 @@ std::mt19937 Generator::gen = std::mt19937(std::random_device()());
 
 //inclusive
 int Generator::intFromRange(int lower, int upper) {
+	if (upper <= lower) {
+		return lower;
+	}
 	return std::uniform_int_distribution<>(lower, upper)(gen);
 }
 

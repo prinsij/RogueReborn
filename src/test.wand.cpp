@@ -1,11 +1,12 @@
 /**
  * @file test.wand.cpp
  * @author Team Rogue++
- * @date December 06, 2016
+ * @date December 07, 2016
  *
- * @brief Global members
+ * @brief Member definitions for the WandTest class
  */ 
 
+#include <exception>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -22,10 +23,14 @@ class WandTest : public Testable {
 		void test(){
 			comment("Commencing Wand tests...");
 
-			Wand wandCon = Wand(Coord(0,0));
-			assert(true, "Created Wand (1)");
-			Wand wandCon2 = Wand(Coord(0,0), Item::FLOOR, 0);
-			assert(true, "Created Wand (2)");
+			try {
+				Wand wandCon = Wand(Coord(0,0));
+				assert(true, "Created Wand (1)");
+				Wand wandCon2 = Wand(Coord(0,0), Item::FLOOR, 0);
+				assert(true, "Created Wand (2)");
+			} catch (const std::exception& e) {
+				assert(false, "Failure creating Wand");
+			}
 
 			std::vector<Wand> wands;
 			std::vector<Monster> monsters;
@@ -50,7 +55,7 @@ class WandTest : public Testable {
 
 			level.registerMob(&monsters[3]);
 			wands[3].activate(&level, &monsters[3]);
-			assert (level.monsterAt(Coord(1,0)), "Wand of Polymorph");
+			assert (level.monsterAt(Coord(1,0)) != &monsters[3], "Wand of Polymorph");
 
 			wands[4].activate(&level, &monsters[4]);
 			assert (monsters[4].hasFlag(Monster::HASTED), "Wand of Haste Monster");
@@ -62,19 +67,31 @@ class WandTest : public Testable {
 			wands[6].activate(&level, &monsters[6]);
 			assert (monsters[6].hasFlag(Monster::CANCELLED), "Wand of Cancellation");
 
-			wands[7].activate(&level, &monsters[7]);
-			assert (true, "Wand of Do Nothing");
+			try {
+				wands[7].activate(&level, &monsters[7]);
+				assert (true, "Wand of Do Nothing");
+			} catch (const std::exception& e) {
+				assert(false, "Exception during Wand of Do Nothing");
+			}
 
 			int playerHP8 = player.getHP();
 			int monstersHP8 = monsters[8].getHP();
 			wands[8].activate(&level, &monsters[8]);
 			assert (player.getHP() < playerHP8 && monsters[8].getHP() < monstersHP8, "Wand of Drain Life");
 
-			wands[9].activate(&level, &monsters[9]);
-			assert (true, "Wand of Cold");
+			try {
+				wands[9].activate(&level, &monsters[9]);
+				assert (true, "Wand of Cold");
+			} catch (const std::exception& e) {
+				assert(false, "Exception during Wand of Cold");
+			}
 
-			wands[10].activate(&level, &monsters[10]);
-			assert (true, "Wand of Fire");
+			try {
+				wands[10].activate(&level, &monsters[10]);
+				assert (true, "Wand of Fire");
+			} catch (const std::exception& e) {
+				assert(false, "Exception during Wand of Fire");
+			}
 
 
 			comment("Finished Wand tests.");
