@@ -18,3 +18,5 @@
 0,1,Man,Killed by a Ice Monster
 0,1,Test Char,retired
 0,1,Test Char,retired
+0,1,Test Char,retired
+55,1,Boromir,Killed by a Hobgoblin
