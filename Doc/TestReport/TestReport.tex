@@ -1356,7 +1356,7 @@
 
 \newsection{Trace to Modules} \label{Section_M_Trace}
 
-	The table below re-iterates the modules of the project (for the convenience of the reader), along with their respective domain and module ID; the module IDs are used to refer to modules in the trace.  More information about the modules can be found in the \href{run:../MG/MG.pdf}{Module Guide}.
+	The table below re-iterates the modules of the project (for the convenience of the reader), along with their respective domain and module ID; the module IDs are used to refer to modules in the trace.  More information about the modules can be found in the \href{run:../Design/MG/MG.pdf}{Module Guide}.
 
 	\begin{table}[H] \label{TblMH}
 		\caption{\bf Module Hierarchy}
@@ -1448,7 +1448,7 @@
 	\end{table}
 
 \newsection{Code Coverage Metrics} \label{Section_Metrics}
-	Given the \hyperref[TblMH]{Test-Requirements} table, the \hyperref[TblTMT]{Test-Module} table, and the Module-Requirements trace given in the \href{run:../MG/MG.pdf}{Module Guide}, the referential transitivity property can be applied to determine exactly which functional and non-functional requirements were satisfied by the created test cases.\\
+	Given the \hyperref[TblMH]{Test-Requirements} table, the \hyperref[TblTMT]{Test-Module} table, and the Module-Requirements trace given in the \href{run:../Design/MG/MG.pdf}{Module Guide}, the referential transitivity property can be applied to determine exactly which functional and non-functional requirements were satisfied by the created test cases.\\
 
 	With the exception of a few non-functional requirements, the implemented tests offered almost \textbf{complete coverage} of all product functional and non-functional requirements.  As the Rogue++ team discovered, several of the non-functional requirements were impractical to test in an automated fashion because computing the prevalence of certain subjective qualities in a product is extremely complicated (or at least well beyond the scope of Rogue Reborn). For example, NFR.2 states, "The Rogue Reborn game shall be fun and entertaining." While it is infeasible to test such characteristics with code, it can be trivially accomplished with human playtesters.  Along with NFR.2, various other non-functional requirements that were too difficult to automatically assert in software were verified by other means, namely manual human labor.\\
 
