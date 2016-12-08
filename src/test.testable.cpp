@@ -12,9 +12,6 @@
 
 #include "test.testable.h"
 
-Testable::Testable(){}
-Testable::~Testable(){}
-
 void Testable::test() {
 	std::cout << "TESTER # Test is not implemented yet." << std::endl;
 }

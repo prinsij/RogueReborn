@@ -17,9 +17,6 @@
  */
 class Testable {
 	public:
-		virtual Testable();
-		virtual ~Testable();
-
 		/**
  		  * @brief      Test entry point.
  		  */
