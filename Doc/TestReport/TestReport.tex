@@ -59,7 +59,7 @@
 			\bottomrule
 			\multicolumn{2}{ c }{\textbf{Non-Functional Requirement Test} \# #1 \textbf{Report}}  \\
 			\hline
-			\textit{Summary:} & #2 \\
+			\textit{Execution:} & #2 \\
 			\textit{Results:} & #3 \\
 			\toprule
 		\end{tabular}
@@ -154,51 +154,55 @@
 
 
 \newsection{Non-Functional Requirements Evaluation} \label{Section_NFR_Evaluation}
-	The following subsections evaluate the significant non-functional qualities of Rogue Reborn.  To simplify notation, \nfrt{$i$} is used to denote ``Non-Functional Requirements Test $i$'' from the \href{run:../TestPlan/TestPlan.pdf}{Test Plan} document.  Note that the usability and playtesting surveys described in \nfrt{1}, \nfrt{2}, \nfrt{4}, \nfrt{7}, \nfrt{9}, \nfrt{10}, \nfrt{12}, \nfrt{14} were not performed as a direct consequence of the time constraints imposed on the project (the \href{run:../../ProjectSchedule/rogue.gan}{Gantt Chart} schedules this survey to be released in early January, 2017) in addition to the sophisticated software environment required for compilation.  Distributing a single executable file is also currently infeasible, as Rogue Reborn makes use of a library that exclusively compiles for Linux at the present moment.  However, despite this inconvenience, several weaker versions of the tests are mentioned under their corresponding sections.
+	The following subsections evaluate the significant non-functional qualities of Rogue Reborn.  To simplify notation, \nfrt{$i$} is used to denote ``Non-Functional Requirements Test \# $i$'' from the \href{run:../TestPlan/TestPlan.pdf}{Test Plan} document.  Unfortunately, the usability and playtesting surveys referenced in NFRT 1, NFRT 2, NFRT 4, NFRT 7, NFRT 9, NFRT 10, NFRT 12, and NFRT 14 were not performed as a direct consequence of the time constraints imposed on the project (the \href{run:../../ProjectSchedule/rogue.gan}{Gantt Chart} schedules this survey to be released in early January 2017).  Another hindering factor is the sophisticated software environment required for compilation: publicly distributing a single executable file is not feasible since Rogue Reborn makes use of a library that exclusively compiles for Linux at the present moment.  Despite these inconveniences, an effort has been made to mention several weaker versions of these tests under their corresponding sections.
 
 	\subsection{Usability and Aesthetics}
-		Overall, the visual appearance of the application was well-received by the Rogue Reborn stakeholders.  This was deduced through the interactions between the Rogue++ team and the \textit{SFWRENG 3XA3} instructor staff, as well as informal conversations with other colleagues.  Unfortunately, the usability survey described in \nfrt{1} will be carried out in the future, so the impressions of the general public are not yet known.\\
+		Overall, the visual appearance of the application was well-received and was universally praised as an improvement over the original \textit{Rogue}.  This conclusion was derived from the interactions between the Rogue++ team and the \textit{SFWRENG 3XA3} instructor staff, as well as informal conversations with other colleagues.  Unfortunately, the usability survey described in NFRT 1 will be carried out in the future, so the impressions of the general public are not yet known.\\
 
-		Since the usability of the original \textit{Rogue} was relatively poor due to its seemingly-arbitrary key bindings, the Rogue Reborn application made goals to improve this area.  Specifically, the application featured arrow key bindings for some of player character movements in order to accommodate a more standard and intuitive keyboard layout.  However, due to the plethora of other key bindings, the Rogue++ team was \textit{not} successful in alleviating this issue completely.  A report detailing \nfrt{3} is given below.
+		Since the usability of the original \textit{Rogue} was relatively poor due to its arbitrary key bindings, the Rogue++ team took deliberate actions to improve this area.  Specifically, the application featured arrow key bindings for the player character movements in order to accommodate a more standard and intuitive keyboard layout.  Additionally, Rogue Reborn featured a convenient help menu inside the game that listed all actionable keys and their corresponding interpretations.  However, due to the sheer quantity of key bindings, Rogue Reborn was \textit{not} successful in alleviating this issue completely.  With respect to the \href{run:../TestPlan/TestPlan.pdf}{Test Plan}, a report detailing NFRT 3 is given below.
 
 		\nfrtc {3}
-			{All strings in the Rogue Reborn source code were extracted and stored in a text file for later inspection with Microsoft Word.  The Python script used to generate the text file is located at \href{run:../../src/misc/stringfinder.py}{src/misc/stringfinder.py}.}
-			{The aforementioned script discovered approximately 1400 strings.  After manually verifying the grammatical correctness and spelling of each string in Word, it was determined that the GUI output is free of linguistic errors.}
+			{All strings in the Rogue Reborn source code were programmatically extracted and stored in a text file for later inspection with Microsoft Word.  The Python script used to populate the text file is located at \href{run:../../src/misc/strextract.py}{src/misc/strextract.py}.}
+			{The aforementioned script discovered approximately 1400 strings.  After manually verifying the grammatical correctness and spelling of each string, it was determined that the GUI output is free of linguistic errors.}
 
 	\subsection{Performance}
-		In general, the technical performance of the Rogue Reborn client was greatly enhanced by the developers' decision to use C++ as opposed to Python or Java.  Consequently, the application averaged around 120 FPS (Frames Per Second) and delivered a smooth experience while on a VM (Virtual Machine).  During the final stages of development, the Rogue++ team decided to profile the application using the GDB (GNU Debugger) with respect to peak memory usage and pleasantly discovered that the maximum amount of RAM allocated to Rogue Reborn was 1 MB.  A report detailing \nfrt{5} and \nfrt{6} is portrayed below.
+		In general, the technical performance of the Rogue Reborn client was exceptional as a consequence of the developers' decision to use C++ as opposed to a less efficient language such as Python or Java.  According to \textit{libtcod}, the application managed to average over 120 FPS (Frames Per Second) and delivered a smooth experience even while on a VM (Virtual Machine).  During the final stages of development, the Rogue++ team decided to profile the application using the GDB (GNU Debugger) with respect to peak memory usage and pleasantly discovered that the maximum amount of RAM consumed by Rogue Reborn was 1 MB.  With respect to the \href{run:../TestPlan/TestPlan.pdf}{Test Plan}, a report detailing NFRT 5 and NFRT 6 is portrayed below.
 
 		\nfrtc {5}
 			{The Rogue Reborn application was compiled with a special debug parameter that enabled particular sections of the MasterController module to measure the average maximum execution time between successive frames.}
-			{On average, the execution time between successive user actions appeared to stabilize around 20 ms.  Clearly, this is appreciably lower than the maximum allowable delay of \tplink{MINIMUM\_RESPONSE\_SPEED} ($\sim$ 30 ms).}
+			{The average execution time between successive user actions appeared to stabilize around 20 ms.  Clearly, this is appreciably lower than the maximum allowable delay of \tplink{MINIMUM\_RESPONSE\_SPEED} (currently $\sim$ 30 ms).}
 
 		\nfrtc {6}
-			{The following regular expression was applied over the source code to extract all integer-typed declarations: \newline
+			{The following regular expression was applied across the source code to extract all integer-typed declarations: \newline
 				{\centering \lstinline$(unsigned|int|long)\\s+[A-Za-z]+\\s*(,|;|=.*)\\s*$ \newline}
 			 The Python script that performed the declaration extraction is located at \href{run:../../src/misc/intdeclare.py}{src/misc/intdeclare.py}.}
-			{The aforementioned script managed to locate approximately 170 candidate declarations (there were several false positives).  Among these, there were no obvious candidates for integer overflow.}
+			{The aforementioned script identified approximately 170 candidate declarations.  Among these, there were no obvious candidates for integer overflow.}
 
 	\subsection{Robustness, Maintainability, and Compatibility}
-		As discussed during the formal presentation, the project excelled in the domains of robustness and maintainability.  One justification for this claim is that the Rogue Reborn project implemented a continuous integration (CI) pipeline to flag deficient commits.  In addition, the compilation process did not generate any warnings and the documentation for the system was thorough, expansive, and relevant.  Regarding compatibility, the project did not fair as well since the only Linux distributions are supported and an external library must installed to compile the application.  A report detailing \nfrt{8}, \nfrt{11}, and \nfrt{13} is conveyed below.
+		As discussed during the formal presentation, the Rogue Reborn project excelled in the domains of robustness and maintainability.  One justification for this claim is that the developers implemented a CI (Continuous Integration) pipeline to immediately flag deficient commits.  In addition, compiling the Rogue Reborn source code did not generate any warnings and the system documentation is thorough, expansive, and relevant.  That being said, Rogue Reborn has yet to be released in the playtester community.  As such, it is likely that several undiscovered bugs still reside within the code base.\\
+
+		Regarding compatibility, the project was significantly less successful: only Linux distributions are supported and SDL (Simple Directmedia Layer) must be installed on the developer's machine to compile the application ~\citep{SDLHome}.  As well, the compilation and execution of Rogue Reborn was only tested on Intel x64 processors (the application is not tested on other brands or architectures). With respect to the \href{run:../TestPlan/TestPlan.pdf}{Test Plan}, a report detailing NFRT 8, NFRT 11, and NFRT 13 is conveyed below.
 
 		\nfrtc {8}
 			{The high score file was manually edited by a developer to include more than \tplink{HIGH\_SCORE\_CAPACITY} records.}
-			{Only the top \tplink{HIGH\_SCORE\_CAPACITY} records were displayed on the RipScreen module; the rest of the records were internally acknowledged but otherwise ignored.}
+			{Only the top \tplink{HIGH\_SCORE\_CAPACITY} records with the highest score were displayed on the \href{run:../Design/MG/MG.pdf}{RipScreen} module; the rest of the records were internally acknowledged but otherwise ignored.}
 
 		\nfrtc {11}
-			{All documented ``Bug'' issues on the Rogue Reborn GitLab page should be resolved within 30 days of their creation.}
-			{Presently, 10 issues were filed under the ``Bug'' label; all of these entries were closed within two weeks of their posting.}
+			{All documented ``Bug'' issues on the Rogue Reborn GitLab page were examined to ensure they were closed within 30 days of their creation.}
+			{A total of 10 issues were discovered under the ``Bug'' label; all of these entries were closed within two weeks of their posting.}
 
 		\nfrtc {13}
 			{The high score file was manually edited by a developer such that several records violated the expected record format.}
-			{All valid records were processed displayed on the RipScreen module; the nonsensical records were internally acknowledged but otherwise ignored.}
+			{All valid records were processed displayed on the \href{run:../Design/MG/MG.pdf}{RipScreen} module; the nonsensical records were internally acknowledged but otherwise ignored.}
 
 	\subsection{Legality and Safety}
-		Naturally, every public software project includes a license to govern the software's terms of use, development, and distribution.  Rogue Reborn is no exception and contains the \href{run:../../LICENSE.txt}{licensing agreement} from the original \textit{Rogue} distribution.  From a health and safety perspective, the Rogue++ team was primarily concerned with accidentally inducing a seizure in a user by displaying a large contrast difference between two successive frames.  A report detailing \nfrt{15} is pictured below.
+		Every public software project should include a license to govern the software's terms of use, development, and distribution.  Rogue Reborn was no exception and thus contained the \href{run:../../LICENSE.txt}{licensing agreement} from the original \textit{Rogue}.\\
+
+		Regarding health and safety, the Rogue++ team was primarily concerned with the possibility of inducing a seizure by displaying two successive frames with excessively different contrasts.  With respect to the \href{run:../TestPlan/TestPlan.pdf}{Test Plan}, a report detailing NFRT 15 is pictured below.
 
 	\nfrtc {15}
-			{Two consecutive frames with the largest presumable change in contrast were captured and later processed with a Python script to compute their monochrome luminosity.  The directory corresponding to this test is located at \href{run:../../src/misc/luminosity}{src/misc/luminosity}.}
-			{The first provided screenshot was characterized by an average luminosity of 0.03105, while the other possessed an average luminosity of 0.59774.  Since the difference between these two values (0.56669) is less than \tplink{LUMINOSITY\_DELTA}, the application is relatively safe for epileptic users (although a cautionary notice should be included in the distribution package).}
+			{Two consecutive frames with the largest estimated contrast difference were captured and later processed with a Python script to compute their respective monochrome luminosities.  All resources pertaining to this test are located in the \href{run:../../src/misc/luminosity}{src/misc/luminosity} directory.}
+			{The output of \href{run:../../src/misc/luminosity/lumtester.py}{lumtester.py} indicated that the frame illustrated in \href{run:../../src/misc/luminosity/minlum.png}{minlum.png} was characterized by an average luminosity of 0.03105, while the \href{run:../../src/misc/luminosity/maxlum.png}{maxlum.png} frame possessed an average luminosity of 0.59774.  Since the difference between these two values is 0.56669 and is therefore less than \tplink{LUMINOSITY\_DELTA}, the application is relatively safe for epileptic users (although a cautionary notice should be included in the final distribution package).}
 
 \newsection{Comparison to Existing Implementation} \label{Section_Comparison}
 
@@ -1410,8 +1414,8 @@
 
 	To expand on the previous statements, we encountered some requirements where the achievable target was difficult to materialize, but still algorithmic and computational in nature. A prime example of this is the luminosity constraint, which ruled that no two consecutive frames may have a change in brightness greater than some defined delta. In order to properly measure this, we had to go outside of the program, and write a separate script to do the hard work. We used python to calculate the pixel-accurate luminosity of some key screenshots, and using the calculation proposed by the non-functional requirement, arrived at correct results. The results were deemed close enough to the predefined delta, which itself was based more or less on our intuition.
 
-%\bibliographystyle{plainnat}
-
-%\bibliography{TestReport2}
+\newpage
+\bibliographystyle{plainnat}
+\bibliography{TestReport}
 
 \end{document}
