@@ -29,7 +29,12 @@
 }
 
 \lstset{
-	basicstyle=\ttfamily\footnotesize
+	language=C++,
+	basicstyle=\ttfamily\small,
+	keywordstyle=\color{blue},
+	stringstyle=\color{orange}\ttfamily,
+	commentstyle=\color{OliveGreen}\ttfamily,
+	breaklines=true
 }
 
 % Custom Commands
@@ -114,6 +119,7 @@
 		12/07/16 & 0.4 & Introduction\\
 		12/07/16 & 0.5 & Finished Automated Tests\\
 		12/07/16 & 0.6 & Non-Functional Requirements Evaluation\\
+		12/07/16 & 0.7 & Unit Testing\\
 		\bottomrule
 	\end{tabularx}
 \end{table}
@@ -185,7 +191,7 @@
 
 		\nfrtc {8}
 			{The high score file was manually edited by a developer to include more than \tplink{HIGH\_SCORE\_CAPACITY} records.}
-			{Only the top \tplink{HIGH\_SCORE\_CAPACITY} records with the highest score were displayed on the \href{run:../Design/MG/MG.pdf}{RipScreen} module; the rest of the records were internally acknowledged but otherwise ignored.}
+			{Only the top \tplink{HIGH\_SCORE\_CAPACITY} records with the highest score were displayed on the \hyperref[Section_M_Trace]{RipScreen} module; the rest of the records were internally acknowledged but otherwise ignored.}
 
 		\nfrtc {11}
 			{All documented ``Bug'' issues on the Rogue Reborn GitLab page were examined to ensure they were closed within 30 days of their creation.}
@@ -193,7 +199,7 @@
 
 		\nfrtc {13}
 			{The high score file was manually edited by a developer such that several records violated the expected record format.}
-			{All valid records were processed displayed on the \href{run:../Design/MG/MG.pdf}{RipScreen} module; the nonsensical records were internally acknowledged but otherwise ignored.}
+			{All valid records were processed displayed on the \hyperref[Section_M_Trace]{RipScreen} module; the nonsensical records were internally acknowledged but otherwise ignored.}
 
 	\subsection{Legality and Safety}
 		Every public software project should include a license to govern the software's terms of use, development, and distribution.  Rogue Reborn was no exception and thus contained the \href{run:../../LICENSE.txt}{licensing agreement} from the original \textit{Rogue}.\\
@@ -218,18 +224,36 @@
 	\end{itemize}
 
 \newsection{Unit Testing} \label{Section_UT}
-	Mikhail
+	As a means of verifying the implementation of various functions and components, the Rogue++ developers devised a suite of unit tests.  Unit testing was employed as a consequence of its superior ability to localize errors and encourage contributors to write code that is highly modular and relatively free of side effects.  Broadly speaking, the Rogue Reborn unit tests were designed to gain confidence in the code with respect to the satisfaction of the functional requirements.\\
+
+	To mitigate the significant overhead of integrating a professional unit testing framework, the Rogue Reborn team decided to code their own custom test runner.  The implemented solution required for all tests to extend an abstract class \href{run:../../src/test.testable.h}{\lstinline$Testable$} with the interface described in \hyperref[Figure_Testable]{Figure 1}.  This restriction enabled the test driver class \href{run:../../src/test.main.cpp}{\lstinline$test.main.cpp$} to invoke all of the concrete unit test classes in a uniform manner.  In addition, to ensure that the unit tests remained relevant and visible throughout development, the CI pipeline included a stage to build, run, and evaluate the output of the testing executable.
+
+	\begin{figure}[H] \label{Figure_Testable}
+		\caption{\bf Testable Class Interface}
+		\centering
+		\begin{lstlisting}[language=C++]
+ class Testable {
+    public:
+       virtual Testable();
+       virtual ~Testable();
+
+       // Test entry point
+       virtual void test() = 0;
+            
+       void assert(bool condition, std::string comment);
+       void comment(std::string comment);
+ };
+		\end{lstlisting}
+	\end{figure} 
+
+	The coverage of the tests encompassed all item abilities, various player actions and monster mechanics, virtually all level generation and processing algorithms, and even several UI functions.  Each assertion was also complemented with a comment to explain the purpose of the test.  For the convenience of the reader, a descriptive summary of every implemented test is included in the \hyperref[Section_Automated]{Automated Testing} section of this report.\\
+
+	On the whole, these tests served well to guarantee a minimal level of functionality for each documented feature across various builds.  Naturally, the suite did not consider the non-functional requirements of the project since these qualities are much more practical to test manually.
 
 \newsection{Changes Due to Testing} \label{Section_Changes}
 	Mikhail
 
 \newsection{Automated Testing} \label{Section_Automated}
-
-	\subsection{Automated Testing Strategy}
-	For this project we elected not to use a 3rd party testing library. We made this decision to ease configuration/installation problems and reduce our dependencies, as we judged it would not be necessary. Instead a series of files (labeled test.foobar.cpp) in the repository hold tests, which are run by our custom test runner. These automated tests are run on command by executing the produced executable, or by the continuous integration script run whenever changes are pushed to the central repository. The results of these tests are automatically reported, resulting in a failed or successful build.
-
-	\subsection{Specific System Tests}
-	The following is a list of all automated tests in the project.
 
 	\subsection{Automated Testing Strategy}
 	For this project we elected not to use a 3rd party testing library. We made this decision to ease configuration/installation problems and reduce our dependencies, as we judged it would not be necessary. Instead a series of files (labeled test.foobar.cpp) in the repository hold tests, which are run by our custom test runner. These automated tests are run on command by executing the produced executable, or by the continuous integration script run whenever changes are pushed to the central repository. The results of these tests are automatically reported, resulting in a failed or successful build.
