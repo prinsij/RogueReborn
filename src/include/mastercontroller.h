@@ -21,7 +21,14 @@ class MasterController {
 		 *  needed for constructor
 		 */
 		MasterController();
-		/** Main game loop */
+		/** Main game loop.
+		 * Treats the game as a state machine, where each
+		 * state is UIState. First calls the draw() method
+		 * on the current state, then the handleInput() method,
+		 * from which it retrieves the next state. If the next state
+		 * is different, it deletes the current and swaps it
+		 * out. This loop repeats for each frame of the game.
+		 */
 		void run();
 	private:
 		/** Current interface state */

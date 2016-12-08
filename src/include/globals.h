@@ -26,3 +26,5 @@ constexpr int SCREEN_WIDTH = 80,
 			  SCREEN_HEIGHT = 40;
 const std::string VICTORY_STR = "Retrieved the Amulet of Yendor";
 const int DISAPPEAR_DELAY = -1;
+constexpr char DOOR_OPEN = '-';
+constexpr char DOOR_CLOSED = '+';

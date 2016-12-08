@@ -29,8 +29,11 @@ class InvScreen : public UIState {
 		/** Constructor.
 		 * We take the playerchar and level so
 		 * we can restore them once gameplay
-		 * resumes.
-		 * Includes filter for inventory and function for desired return state.
+		 * resumes. Includes filter for inventory and
+		 * function for desired return state. For
+		 * example, we might receive a filter for potions,
+		 * and a function that returns a uistate that will
+		 * quaff the potion we give it.
 		 */
 		InvScreen(PlayerChar*, Level*, filtFunc, transFunc, bool, std::string prompt="");
 		/** Draw the inventory.
@@ -39,7 +42,9 @@ class InvScreen : public UIState {
 		 * of undiscovered items.
 		 */
 		void draw(TCODConsole*);
-		/** Handle input (just the quit key). */
+		/** Handle input, which consists of the
+		 *  quit command and item specific hotkeys.
+		 */
 		UIState* handleInput(TCOD_key_t);
 	private:
 		/** Reference to player for when gameplay resumes. */

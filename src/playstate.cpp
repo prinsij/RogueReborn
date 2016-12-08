@@ -306,19 +306,21 @@ Room* PlayState::updateMap() {
 }
 
 void PlayState::draw(TCODConsole* con) {
-	// Draw terrain
 	bool blinded = currRoom == NULL
- 		|| currRoom->getDark() == Room::DARK
- 		|| player->hasCondition(PlayerChar::BLIND);
+		|| currRoom->getDark() == Room::DARK
+		|| player->hasCondition(PlayerChar::BLIND);
 	bool halluc = player->hasCondition(PlayerChar::HALLUCINATING);
- 	unsigned int hallucChar = time(NULL) % HALLUC_CHARS.size();
+	unsigned int hallucChar = time(NULL) % HALLUC_CHARS.size();
+	// Need the time for the hallucination effect
 	struct timeval tp;
 	gettimeofday(&tp, NULL);
 	long int milli = tp.tv_sec * 1000 + tp.tv_usec/1000;
+	// Iterate over every coordinate in the level
 	for (auto x=0; x < level->getSize()[0]; x++) {
 		for (auto y=0; y < level->getSize()[1]; y++) {
 			auto mapPos = Coord(x, y);
 			Terrain& terrain = (*level)[mapPos];
+			// Terrain currently or in the past seen
 			if (terrain.isSeen() == Terrain::Seen) {
 				auto scrPos = mapPos.asScreen();
 				Feature* featAt = NULL;
@@ -332,10 +334,12 @@ void PlayState::draw(TCODConsole* con) {
 						}
 					}
 				}
+				// No feature here, so render the tile underneath instead
 				if (featAt == NULL) {
 					con->putChar(scrPos[0], scrPos[1], terrain.getSymbol());
 					con->setCharForeground(scrPos[0], scrPos[1], terrain.getColor());
 				} else {
+					// Render a randomized character if the player is hallucinating
 					if (halluc) {
 						con->putChar(scrPos[0], scrPos[1], HALLUC_CHARS[hallucChar]);
 						hallucChar = hallucChar < HALLUC_CHARS.size() ? hallucChar+1 : 0;
@@ -344,16 +348,21 @@ void PlayState::draw(TCODConsole* con) {
 					}
 				}
 				// Previously but not currently seen
+				// so grey it out
 				if (mapPos.distanceTo(player->getLocation(), false) > 1
 						&& (blinded || currRoom == NULL || !currRoom->contains(mapPos, 1))) {
 					con->setCharForeground(scrPos[0], scrPos[1], terrain.getColor()*.5);
 				// Currently in view
 				// mobs can't be in unpassable terrain, so don't worry about unpassable tiles
 				} else if (terrain.isPassable() == Terrain::Passable) {
+					// If hallucinating draw a random character and
+					// don't care about color
 					if (halluc) {
 						Mob* mob = level->monsterAt(mapPos);
 						if (mob != NULL) {
 							Monster* monster = dynamic_cast<Monster*>(mob);
+							// If the player doesn't have a special power, we
+							// don't render invisible monsters
 							if (monster != NULL
 									&& !player->hasCondition(PlayerChar::SEE_INVISIBLE) 
 									&& monster->hasFlag(Monster::INVISIBLE)) {
@@ -362,10 +371,13 @@ void PlayState::draw(TCODConsole* con) {
 							con->putChar(scrPos[0], scrPos[1], HALLUC_CHARS[hallucChar]);
 							hallucChar = hallucChar < HALLUC_CHARS.size() ? hallucChar+1 : 0;
 						}
+					// Put the specific mob character, and use their specific color
 					} else {
 						Mob* mob = level->monsterAt(mapPos);
 						if (mob != NULL) {
 							Monster* monster = dynamic_cast<Monster*>(mob);
+							// If the player doesn't have a special power, we
+							// don't render invisible monsters
 							if (monster != NULL
 									&& !player->hasCondition(PlayerChar::SEE_INVISIBLE) 
 									&& monster->hasFlag(Monster::INVISIBLE)) {
@@ -376,6 +388,8 @@ void PlayState::draw(TCODConsole* con) {
 						}
 					}
 				}
+				// Two axises of fore/back-ground color, where a cosine
+				// wave of color travels.
 				if (halluc) {
 					con->setCharForeground(scrPos[0], scrPos[1],
 											TCODColor::lerp(TCODColor::orange, TCODColor::purple,
@@ -387,9 +401,11 @@ void PlayState::draw(TCODConsole* con) {
 			}
 		}
 	}
+	// Draw the log
 	if (player->getLog().size() > 0) {
 		con->print(0, 0, player->getLog().back().c_str());
 	}
+	// Draw the helpless alert
 	if (player->hasCondition(PlayerChar::SLEEPING)) {
 		con->print(PROMPTX, PROMPTY, HELPLESS_MSG);
 		auto ppos = player->getLocation().asScreen();
@@ -463,7 +479,6 @@ UIState* PlayState::attemptWear(int turnTime) {
 
 UIState* PlayState::attemptTakeOff(int turnTime) {
 	auto armor = player->getArmor();
-	// check for curses TODO
 	if (armor != NULL) {
 		level->pushMob(player, turnTime);
 		if (player->removeArmor()) {
@@ -520,6 +535,9 @@ UIState* PlayState::attemptRemove(int turnTime) {
 }
 
 UIState* PlayState::toggleSaveFlag() {
+	// The player sets the save flag to indicates
+	// they want to save the game at the next level
+	// transition
 	player->setSaveFlag(!player->getSaveFlag());
 	if (player->getSaveFlag()) {
 		player->appendLog(SAVE_ON_MSG);
@@ -589,21 +607,22 @@ UIState* PlayState::attemptSearch(int turnTime) {
 
 UIState* PlayState::attemptMove(Coord newPos, TCOD_key_t key, int turnTime) {
 	auto& tile = level->tileAt(newPos);
-	if (tile.getSymbol() == '+') {
-		if (key.shift) {
-			tile.setPassable(Terrain::Blocked);
-			tile.setSymbol('-');
-			player->appendLog(OPEN_DOOR_MSG);
-		}
+	// Player opens doors in their way,
+	// and with the shift key can close them
+	if (tile.getSymbol() == DOOR_CLOSED) {
 		tile.setPassable(Terrain::Passable);
-		tile.setSymbol('-');
+		tile.setSymbol(DOOR_OPEN);
 		player->appendLog(OPEN_DOOR_MSG);
-	} else if (tile.getSymbol() == '-' && key.shift && level->monsterAt(newPos) == NULL) {
+		return this;
+	} else if (tile.getSymbol() == DOOR_OPEN
+				&& key.shift
+				&& level->monsterAt(newPos) == NULL) {
 		tile.setPassable(Terrain::Blocked);
-		tile.setSymbol('+');
+		tile.setSymbol(DOOR_CLOSED);
 		player->appendLog(CLOSE_DOOR_MSG);
 		return this;
 	}
+	// Attack a monster if there is one at the new spot
 	Mob* mob = level->monsterAt(newPos);
 	if (mob != NULL) {
 		player->attack((Monster*) mob);
@@ -613,10 +632,12 @@ UIState* PlayState::attemptMove(Coord newPos, TCOD_key_t key, int turnTime) {
 			delete mob;
 		}
 		level->pushMob(player, turnTime);
+	// Else if the position is open, move there
 	} else if ((*level)[newPos].isPassable()) {
 		player->move(newPos, level);
 		level->pushMob(player, turnTime);
 		currRoom = updateMap();
+		// Loop over all features at the location
 		bool search;
 		do {
 			search = false;
@@ -624,6 +645,7 @@ UIState* PlayState::attemptMove(Coord newPos, TCOD_key_t key, int turnTime) {
 				if (feat->getLocation() != newPos) {
 					continue;
 				}
+				// Pickup any loose items
 				Item* i = dynamic_cast<Item*>(feat);
 				if (i != NULL) {
 					if (player->pickupItem(i)) {
@@ -632,6 +654,7 @@ UIState* PlayState::attemptMove(Coord newPos, TCOD_key_t key, int turnTime) {
 						break;
 					}
 				}
+				// Pickup any loose gold
 				GoldPile* gp = dynamic_cast<GoldPile*>(feat);
 				if (gp != NULL) {
 					player->collectGold(gp);
@@ -640,7 +663,7 @@ UIState* PlayState::attemptMove(Coord newPos, TCOD_key_t key, int turnTime) {
 					search = true;
 					break;
 				}
-
+				// Trigger any traps
 				Trap* tr = dynamic_cast<Trap*>(feat);
 				if (tr != NULL){
 					auto next = tr->activate(player, level);
