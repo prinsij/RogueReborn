@@ -87,7 +87,7 @@
 	\end{tabular}
 }
 
-\date{Due Wednesday, December 7\textsuperscript{th}, 2016}
+\date{Due Thursday, December 8\textsuperscript{th}, 2016}
 
 \input{../Comments}
 \pagenumbering{arabic}
@@ -107,19 +107,20 @@
 
 \newpage
 \listoffigures
-\begin{table}[bp]
+\begin{table}[bp!]
 	\caption{\bf Revision History}
 	\bigskip
 	\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 		\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 		\midrule
 		12/06/16 & 0.1 & Initial Draft\\
-		12/06/16 & 0.2 & Automated Tests To PlayerChar\\
-		12/06/16 & 0.3 & Functional Requirements Evaluation\\
-		12/07/16 & 0.4 & Introduction\\
+		12/06/16 & 0.2 & Added Automated Tests To PlayerChar\\
+		12/06/16 & 0.3 & Added FR Evaluation\\
+		12/07/16 & 0.4 & Added Introduction\\
 		12/07/16 & 0.5 & Finished Automated Tests\\
-		12/07/16 & 0.6 & Non-Functional Requirements Evaluation\\
-		12/07/16 & 0.7 & Unit Testing\\
+		12/07/16 & 0.6 & Added NFR Evaluation\\
+		12/07/16 & 0.7 & Added Unit Testing\\
+		12/07/16 & 0.8 & Added Changes Due to Testing\\
 		\bottomrule
 	\end{tabularx}
 \end{table}
@@ -226,7 +227,7 @@
 \newsection{Unit Testing} \label{Section_UT}
 	As a means of verifying the implementation of various functions and components, the Rogue++ developers devised a suite of unit tests.  Unit testing was employed as a consequence of its superior ability to localize errors and encourage contributors to write code that is highly modular and relatively free of side effects.  Broadly speaking, the Rogue Reborn unit tests were designed to gain confidence in the code with respect to the satisfaction of the functional requirements.\\
 
-	To mitigate the significant overhead of integrating a professional unit testing framework, the Rogue Reborn team decided to code their own custom test runner.  The implemented solution required for all tests to extend an abstract class \href{run:../../src/test.testable.h}{\lstinline$Testable$} with the interface described in \hyperref[Figure_Testable]{Figure 1}.  This restriction enabled the test driver class \href{run:../../src/test.main.cpp}{\lstinline$test.main.cpp$} to invoke all of the concrete unit test classes in a uniform manner.  In addition, to ensure that the unit tests remained relevant and visible throughout development, the CI pipeline included a stage to build, run, and evaluate the output of the testing executable.
+	To mitigate the dependencies and significant overhead of integrating a professional unit testing framework, the Rogue Reborn team decided to code their own custom test runner.  The implemented solution required all tests to extend an abstract class \href{run:../../src/test.testable.h}{\lstinline$Testable$} with the interface described in \hyperref[Figure_Testable]{Figure 1}.  This restriction enabled the test driver \href{run:../../src/test.main.cpp}{\lstinline$test.main.cpp$} to invoke all of the concrete unit test classes in a uniform manner.  Finally, to ensure that the unit tests remained relevant and visible throughout development, the CI pipeline included a stage to build, run, and evaluate the output of the testing executable.
 
 	\begin{figure}[H] \label{Figure_Testable}
 		\caption{\bf Testable Class Interface}
@@ -246,17 +247,23 @@
 		\end{lstlisting}
 	\end{figure} 
 
-	The coverage of the tests encompassed all item abilities, various player actions and monster mechanics, virtually all level generation and processing algorithms, and even several UI functions.  Each assertion was also complemented with a comment to explain the purpose of the test.  For the convenience of the reader, a descriptive summary of every implemented test is included in the \hyperref[Section_Automated]{Automated Testing} section of this report.\\
+	Regarding coverage, the tests encompassed all item types and abilities, various player actions and monster mechanics, virtually all level generation and processing algorithms, and even several UI functions.  As depicted in \hyperref[Figure_Testable]{Figure 1}, each test assertion was also complemented with a comment to explain the purpose of the test.  For the convenience of the reader, a descriptive summary of every implemented test is included in the \hyperref[Section_Automated]{Automated Testing} section of this report.\\
 
-	On the whole, these tests served well to guarantee a minimal level of functionality for each documented feature across various builds.  Naturally, the suite did not consider the non-functional requirements of the project since these qualities are much more practical to test manually.
+	On the whole, these tests served to guarantee a minimal level of functionality for each documented feature across the builds.  Naturally, the suite did not consider the non-functional requirements of the project since these qualities lend themselves better to manual testing.  
 
 \newsection{Changes Due to Testing} \label{Section_Changes}
-	Mikhail
+	Since the Rogue++ developers did not embrace a TDD (Test-Driven Development) methodology, all of the unit tests were designed to catch flaws in existing code rather than guide the development of new code.  As such, the  unit testing phase of the Rogue Reborn application did not spawn any new features but instead served to minimize the quantity of programming errors.\\
+
+	One area that the greatly benefited from the unit tests were the \hyperref[Section_M_Trace]{Item} modules, as numerous bugs were caught with respect to the initialization of particular variables (or lack thereof).  For example, there was an error where a disenchanted \hyperref[Section_M_Trace]{Armor} object would claim a completely nonsensical effective armor value since the enchantment variable was never initialized.  Another portion of the tests detected several logic flaws (e.g., the negation of a condition was accidentally checked) present in the effects of certain items.  For instance, the \textit{Wand of Cold} was reveled to deal critical damage to ice monsters and almost no damage to fire monsters as a consequence of a negated condition.\\
+
+	With respect to the non-functional testing, the most significant changes arose in the modules that interact with the file system.  In particular, the \hyperref[Section_M_Trace]{RipScreen} module was drastically improved by implementing input validation checks to detect anomalies in the high score record file.  Additionally, although the actual testing itself did not compel any changes, various GUI elements in Rogue Reborn were enhanced (such as the help screen and splash screen) in preparation for the usability tests to follow.\\
+
+	Aside from catching implementation mistakes, the testing process also influenced the architecture and design of the software system.  To facilitate unit testing, various modules such as \hyperref[Section_M_Trace]{PlayState} were revamped to improve modularization.  Other modules introduced blocks of code that were activated by a special \lstinline$DEBUG$ compiler directive; these sections either displayed debug information to standard output or modified conditionals to guarantee a particular trace through a function.  Finally, as mentioned in the \hyperref[Section_UT]{Unit Testing} section of this Test Report, the CI pipeline of the project was also modified to accommodate the execution of unit tests after each commit to the repository.
 
 \newsection{Automated Testing} \label{Section_Automated}
 
 	\subsection{Automated Testing Strategy}
-	For this project we elected not to use a 3rd party testing library. We made this decision to ease configuration/installation problems and reduce our dependencies, as we judged it would not be necessary. Instead a series of files (labeled test.foobar.cpp) in the repository hold tests, which are run by our custom test runner. These automated tests are run on command by executing the produced executable, or by the continuous integration script run whenever changes are pushed to the central repository. The results of these tests are automatically reported, resulting in a failed or successful build.
+	With respect to the \hyperref[Section_UT]{Unit Testing} section of this document, a custom testing framework was developed for the Rogue Reborn project.  A series of files following the naming convention \lstinline$test.<Class Name>.cpp$ were created and contained the unit tests specific to the \lstinline$Class Name$ class.  Whenever a change was pushed to the Rogue Reborn repository, all of these tests were run and their corresponding output was analyzed by a Python script to determine if any failures occurred.
 
 	\subsection{Specific System Tests}
 	The following is a list of all system tests in the project.
