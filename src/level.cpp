@@ -245,13 +245,15 @@ void Level::generate() {
 							  Generator::intFromRange(0, Y_SIZE-1));
 		if (tileAt(randPos).isPassable() == Terrain::Passable && !monsterAt(randPos)) {
 			std::vector<char> monsterSymbols = Monster::getSymbolsForLevel(depth);
-			char monsterSymbol = monsterSymbols[Generator::intFromRange(0, monsterSymbols.size() - 1)];
+			if (monsterSymbols.size() > 0) {
+				char monsterSymbol = monsterSymbols[Generator::intFromRange(0, monsterSymbols.size() - 1)];
 
-			Mob* m = new Monster(monsterSymbol, randPos);
+				Mob* m = new Monster(monsterSymbol, randPos);
 #ifdef DEBUG
-			std::cout << "Creating " << m->getName() << " at: " << randPos.toString() << std::endl;
+				std::cout << "Creating " << m->getName() << " at: " << randPos.toString() << std::endl;
 #endif
-			registerMob(m);
+				registerMob(m);
+			}
 		}
 	}
 	// Place staircase

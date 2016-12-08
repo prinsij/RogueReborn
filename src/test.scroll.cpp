@@ -6,6 +6,7 @@
  * @brief Member definitions for the ScrollTest class
  */ 
 
+#include <exception>
 #include <iostream>
 #include <string>
 #include <tuple>
@@ -29,10 +30,14 @@ class ScrollTest : public Testable {
 
 			comment("Commencing Scroll tests...");
 
-			Scroll scrollCon = Scroll(Coord(0,0));
-			assert(true, "Created Scroll (1)");
-			Scroll scrollCon2 = Scroll(Coord(0,0), Item::FLOOR, 0);
-			assert(true, "Created Scroll (2)");
+			try {
+				Scroll scrollCon = Scroll(Coord(0,0));
+				assert(true, "Created Scroll (1)");
+				Scroll scrollCon2 = Scroll(Coord(0,0), Item::FLOOR, 0);
+				assert(true, "Created Scroll (2)");
+			} catch (const std::exception& e) {
+				assert(false, "Failure creating Scroll");
+			}
 
 			bool goodLength = true;
 			for (std::string scrollName : Scroll::initializeScrollNames()) {

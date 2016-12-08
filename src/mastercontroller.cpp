@@ -21,7 +21,7 @@
 MasterController::MasterController()
 	: currState(new MainMenu())
 {}
-
+#define DEBUG
 void MasterController::run() {
     std::cout << "Welcome to Rogue Reborn!" << std::endl;
     TCODConsole::setCustomFont("assets/terminal-large.png");
@@ -37,6 +37,8 @@ void MasterController::run() {
 #ifdef DEBUG
 	int maxFrameTime = 0;
 	int frameCount = 0;
+	unsigned int maxFrameTimeTotal = 0;
+	unsigned int maxFramePrintCount = 0;
 	// current timestamp in millsec
 	struct timeval tp;
 	gettimeofday(&tp, NULL);
@@ -48,8 +50,10 @@ void MasterController::run() {
 		auto newFrame = tp.tv_sec * 1000 + tp.tv_usec / 1000;
 		if (maxFrameTime < newFrame-previousFrame || ++frameCount == 100) {
 			maxFrameTime = newFrame-previousFrame;
-			std::cout << "frame time (ms): " << maxFrameTime << "\n";
 			frameCount = 0;
+			maxFrameTimeTotal += maxFrameTime;
+			//std::cout << "frame time (ms): " << maxFrameTime << "\n";
+			std::cout << "Average Maximum Time (ms): " << maxFrameTimeTotal/++maxFramePrintCount << "\n";
 		}
 		previousFrame = newFrame;
 #endif

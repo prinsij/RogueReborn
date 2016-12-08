@@ -6,6 +6,7 @@
  * @brief Member definitions for the FoodTest class
  */ 
 
+#include <exception>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -21,8 +22,12 @@ class FoodTest : public Testable {
 		void test(){
 			comment("Commencing Food tests...");
 
-			Food foodCon = Food(Coord(0,0), Item::FLOOR);
-			assert(true, "Created Food");
+			try {
+				Food foodCon = Food(Coord(0,0), Item::FLOOR);
+				assert(true, "Created Food");
+			} catch (const std::exception& e) {
+				assert(false, "Failure creating Food");
+			}
 
 			for (int i = 0 ; i < 10 ; i ++) {
 				PlayerChar player = PlayerChar(Coord(0,0), "Player " + std::to_string(i));
