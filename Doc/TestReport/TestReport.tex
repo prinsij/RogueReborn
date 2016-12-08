@@ -52,7 +52,8 @@
 }
 
 \newcommand{\nfrtc}[3]{
-	\begin{center}
+	\begin{table}[H]
+		\centering
 		\def\arraystretch{1.6}
 		\begin{tabular}{ R{5.5em} L{25em} }
 			\bottomrule
@@ -62,7 +63,7 @@
 			\textit{Results:} & #3 \\
 			\toprule
 		\end{tabular}
-	\end{center}
+	\end{table}
 }
 
 % Title Page Elements
@@ -148,7 +149,7 @@
 
 
 \newsection{Non-Functional Requirements Evaluation} \label{Section_NFR_Evaluation}
-	The following subsections evaluate the significant non-functional qualities of Rogue Reborn.  To simplify notation, \nfrt{$i$} is used to denote ``Non-Functional Requirements Test $i$'' from the \href{run:../TestPlan/TestPlan.pdf}{Test Plan} document.  Note that the usability and playtesting surveys described in \nfrt{1}, \nfrt{2}, \nfrt{4}, \nfrt{7}, and \nfrt{10} were not performed as a direct consequence of the time constraints imposed on the project (the \href{run:../../ProjectSchedule/rogue.gan}{Gantt Chart} schedules this survey to be released in early January, 2017) in addition to the sophisticated software environment required for compilation.  Distributing a single executable file is also currently infeasible, as Rogue Reborn makes use of a library that exclusively compiles for Linux at the present moment.
+	The following subsections evaluate the significant non-functional qualities of Rogue Reborn.  To simplify notation, \nfrt{$i$} is used to denote ``Non-Functional Requirements Test $i$'' from the \href{run:../TestPlan/TestPlan.pdf}{Test Plan} document.  Note that the usability and playtesting surveys described in \nfrt{1}, \nfrt{2}, \nfrt{4}, \nfrt{7}, \nfrt{9}, \nfrt{10}, and \nfrt{12} were not performed as a direct consequence of the time constraints imposed on the project (the \href{run:../../ProjectSchedule/rogue.gan}{Gantt Chart} schedules this survey to be released in early January, 2017) in addition to the sophisticated software environment required for compilation.  Distributing a single executable file is also currently infeasible, as Rogue Reborn makes use of a library that exclusively compiles for Linux at the present moment.
 
 	\subsection{Usability and Aesthetics}
 		Overall, the visual appearance of the application was well-received by the Rogue Reborn stakeholders.  This was deduced through the interactions between the Rogue++ team and the \textit{SFWRENG 3XA3} instructor staff, as well as informal conversations with other colleagues.  Unfortunately, the usability survey described in \nfrt{1} will be carried out in the future, so the impressions of the general public are not yet known.\\
@@ -174,9 +175,8 @@
 			 An associated script to perform the declaration extraction was also created and is located in the \lstinline$src/misc$ directory under the name \href{run:../../src/misc/intdeclare.py}{intdeclare.py}.}
 			{The aforementioned script managed to locate approximately 170 candidate declarations (there were several false positives).  Among these, there were no obvious candidates for integer overflow.}
 
-
-	\subsection{Robustness and Maintainability}
-		Mikhail
+	\subsection{Robustness, Maintainability, and Compatibility}
+		As discussed during the formal presentation, the project excelled in the domains of robustness and maintainability.  One justification for this claim is that the Rogue Reborn project implemented a continuous integration (CI) pipeline to flag deficient commits.  In addition, the compilation process did not generate any warnings and the documentation for the system was thorough, expansive, and relevant.  Regarding compatibility, the project did not fair as well since the only Linux distributions are supported and an external library must installed to compile the application.  
 	
 	\subsection{Safety}
 		Mikhail
@@ -327,6 +327,7 @@
 				\textbf{Initial State:} & None\\
 				\textbf{Input:} & Symbol, coordinate, context value, item class specifier, name value, psuedoname value, item type specifier, item stackability value, item throwability value, weight value\\
 				\textbf{Expected Output:} & Item object in valid initial state\\[0.6em]
+				\hline
 				\rule{0pt}{1.5em}\textbf{Name:} & Item Construction 2\\
 				\textbf{Initial State:} & None\\
 				\textbf{Input:} & Symbol, coordinate, context value, item class specifier, name value, psuedoname value, item type specifier, item stackability value, item throwability value, weight value\\
