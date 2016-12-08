@@ -40,7 +40,7 @@
 
 \newcounter{mnum}
 \newcommand{\mhprint}[2]{\addtocounter{mnum}{1} #1 & \textbf{M#2}}
-\newcommand{\mdprint}[1]{\addtocounter{mnum}{1} #1 (M\themnum)}
+\newcommand{\mdprint}[1]{\addtocounter{mnum}{1} #1 & \textbf{M\themnum}}
 
 \newcommand{\newsection}[1]{
   \newpage
@@ -90,22 +90,6 @@
 \maketitle
 
 \newpage
-\begin{table}[bp]
-	\caption{\bf Revision History}
-	\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
-		\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
-		\midrule
-		12/06/16 & 0.1 & Initial draft\\
-		12/06/16 & 0.2 & Automated Tests Up Through PlayerChar\\
-		12/06/16 & 0.3 & Functional requirements eval\\
-		12/06/16 & 0.3 & Functional Requirements Evaluation\\
-		12/07/16 & 0.4 & Introduction\\
-		12/07/16 & 0.5 & Last of Automated Tests\\
-		\bottomrule
-	\end{tabularx}
-\end{table}
-
-\newpage
 \tableofcontents
 
 \newpage
@@ -113,6 +97,20 @@
 
 \newpage
 \listoffigures
+\begin{table}[bp]
+	\caption{\bf Revision History}
+	\bigskip
+	\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
+		\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
+		\midrule
+		12/06/16 & 0.1 & Initial Draft\\
+		12/06/16 & 0.2 & Automated Tests To PlayerChar\\
+		12/06/16 & 0.3 & Functional Requirements Evaluation\\
+		12/07/16 & 0.4 & Introduction\\
+		12/07/16 & 0.5 & Finished Automated Tests\\
+		\bottomrule
+	\end{tabularx}
+\end{table}
 
 \newsection{Introduction} \label{Section_Intro}
 
@@ -1275,7 +1273,7 @@ The following is a list of all automated tests in the project.
 
 	The following table re-iterates the modules of the project, along with their respective domain and module ID. The module IDs are used to refer to modules in the trace. More about the modules can be found in the Module Guide.\\
 
-	\begin{table}[h!]
+	\begin{table}[H]
 		\caption{\bf Module Hierarchy}
 		\label{TblMH}
 		\bigskip
@@ -1285,34 +1283,34 @@ The following is a list of all automated tests in the project.
 			\textbf{Level 1} & \multicolumn{2}{l}{\textbf{Level 2}}\\
 			\midrule
 
-			\multirow{2}{0.3\textwidth}{Hardware-Hiding Module}
-			& \mhprint{BasicIO}{1}\\
-			& \mhprint{Doryen}{2}\\
-			& \mhprint{Input Format}{3}\\
+			\multirow{1}{0.3\textwidth}{Hardware-Hiding Module}
+			& \mdprint{BasicIO}\\
+			& \mdprint{Doryen}\\
+			& \mdprint{Input Format}\\
 			\midrule
 
-			\multirow{6}{0.3\textwidth}{Behaviour-Hiding Module}
-			& \mhprint{External}{4}\\
-			& \mhprint{Item}{5}\\
-			& \mhprint{Level}{6}\\
-			& \mhprint{LevelGen}{7}\\
-			& \mhprint{MainMenu}{8}\\            
-			& \mhprint{Mob}{18}\\  
-			& \mhprint{Monster}{9}\\
-			& \mhprint{PlayerChar}{10}\\
-			& \mhprint{RipScreen}{11}\\
-			& \mhprint{PlayState}{12}\\
-			& \mhprint{SaveScreen}{21}\\
-			& \mhprint{UIState}{13}\\
+			\multirow{1}{0.3\textwidth}{Behaviour-Hiding Module}
+			& \mdprint{External}\\
+			& \mdprint{Item}\\
+			& \mdprint{Level}\\
+			& \mdprint{LevelGen}\\
+			& \mdprint{MainMenu}\\            
+			& \mdprint{Mob}\\  
+			& \mdprint{Monster}\\
+			& \mdprint{PlayerChar}\\
+			& \mdprint{RipScreen}\\
+			& \mdprint{PlayState}\\
+			& \mdprint{SaveScreen}\\
+			& \mdprint{UIState}\\
 			\midrule
 
-			\multirow{9}{0.3\textwidth}{Software Decision Module}
-			& \mhprint{Coord}{14}\\
-			& \mhprint{Feature}{15}\\
-			& \mhprint{ItemZone}{16}\\          
-			& \mhprint{MasterController}{17}\\
-			& \mhprint{Random}{19}\\
-			& \mhprint{Terrain}{20}\\
+			\multirow{1}{0.3\textwidth}{Software Decision Module}
+			& \mdprint{Coord}\\
+			& \mdprint{Feature}\\
+			& \mdprint{ItemZone}\\          
+			& \mdprint{MasterController}\\
+			& \mdprint{Random}\\
+			& \mdprint{Terrain}\\
 			\bottomrule
 		\end{tabular}
 		 \setcounter{mnum}{0}
@@ -1322,7 +1320,7 @@ The following is a list of all automated tests in the project.
 
 	The following table maps test files, which implement tests, to specific modules, given by their IDs.\\
 
-	\begin{table}[h!]
+	\begin{table}[H]
 		\caption{\bf Test-Module Trace}
 		\label{TblMH}
 		\bigskip
@@ -1331,33 +1329,33 @@ The following is a list of all automated tests in the project.
 			\hline
 			File & Related Module(s)\\
 			\hline
-			test.amulet.cpp 		& M5, M7, M12\\
-			test.armor.cpp 			& M5, M10, M18\\
-			test.coord.cpp 			& M2,  	M6, M7, M14, M19\\
-			test.feature.cpp 		& M5, M15, M16, M10\\
-			test.food.cpp 			& M5, M6, M7, M10, M12\\
-			test.goldpile.cpp 		& M5, M6, M7, M9, M10, M15, M16\\
-			test.item.cpp 			& M5, M15\\
-			test.itemzone.cpp 		& M5, M6, M14, M15, M16\\
-			test.level.cpp 			& M5, M6, M9, M10, M14, M15, M19\\
-			test.levelgen.cpp 		& M5, M6, M9, M14, M15, M19, M20\\
-			test.main.cpp 			& None (Puts everything together)\\
-			test.mob.cpp 			& M9, M10, M12, M13, M14, M18\\
-			test.monster.cpp 		& M9, M14, M18\\
-			test.playerchar.cpp 	& M5, M6, M10, M11, M12, M13, M14, M15, M16, M17, M18\\
-			test.potion.cpp 		& M5, M6, M7, M9, M10, M15, M16\\
-			test.ring.cpp 			& M5, M6, M7, M9, M10, M15, M16\\
-			test.room.cpp 			& M6, M7, M14, M19\\
-			test.scroll.cpp 		& M5, M6, M7, M9, M10, M15, M16\\
-			test.stairs.cpp 		& M7, M15, M17, M20\\
-			test.terrain.cpp 		& M6, M7, M19, M20\\
-			test.testable.cpp 		& Defines test-suite\\
-			test.testable.h 		& Defines test-suite\\
-			test.trap.cpp 			& M6, M7, M10, M13, M15\\
-			test.tunnel.cpp 		& M6, M5, M14\\
-			test.uistate.cpp 		& M4, M8, M11, M12, M13, M17\\
-			test.wand.cpp 			& M5, M6, M7, M9, M10, M15, M16\\
-			test.weapon.cpp 		& M5, M6, M7, M9, M10, M15, M16\\
+            test.amulet.cpp         & M7, M13, M15\\
+            test.armor.cpp          & M5, M9, M11\\
+            test.coord.cpp          & M2, M5, M6, M7, M16, M20\\
+            test.feature.cpp        & M5, M11, M17, M18\\
+            test.food.cpp           & M5, M6, M7, M11, M13\\
+            test.goldpile.cpp       & M5, M6, M7, M10, M11, M17, M18\\
+            test.item.cpp           & M5, M17\\
+            test.itemzone.cpp       & M5, M6, M16, M17, M18\\
+            test.level.cpp          & M5, M6, M10, M11, M16, M17, M20\\
+            test.levelgen.cpp       & M5, M6, M10, M16, M17, M20, M21\\
+            test.main.cpp           & None (Puts everything together)\\
+            test.mob.cpp            & M9, M10, M11, M13, M15, M16\\
+            test.monster.cpp        & M9, M10, M16\\
+            test.playerchar.cpp     & M5, M6, M9, M11, M12, M13, M15, M16, M17, M18, M19\\
+            test.potion.cpp         & M5, M6, M7, M10, M11, M17, M18\\
+            test.ring.cpp           & M5, M6, M7, M10, M11, M17, M18\\
+            test.room.cpp           & M6, M7, M16, M20\\
+            test.scroll.cpp         & M5, M6, M7, M10, M11, M17, M18\\
+            test.stairs.cpp         & M7, M17, M19, M21\\
+            test.terrain.cpp        & M6, M7, M20, M21\\
+            test.testable.cpp       & Defines test-suite\\
+            test.testable.h         & Defines test-suite\\
+            test.trap.cpp           & M6, M7, M11, M15, M17\\
+            test.tunnel.cpp         & M5, M6, M16\\
+            test.uistate.cpp        & M4, M8, M12, M13, M15, M19\\
+            test.wand.cpp           & M5, M6, M7, M10, M11, M17, M18\\
+            test.weapon.cpp         & M5, M6, M7, M10, M11, M17, M18\\
 			\hline
 		\end{longtable}
 	\end{table}
