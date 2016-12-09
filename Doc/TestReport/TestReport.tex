@@ -226,15 +226,11 @@
 
 \newsection{Comparison to Existing Implementation} \label{Section_Comparison}
 
-	According to all collected resources of the original implementation, there were no tests done to verify the accuracy of the original product. This is somewhat understandable: the original \textit{Rogue} was released in 1980 (almost 40 years ago to date) when the discipline of software engineering was still in its infancy.  Since then, the standards of software development have evolved into the rigorous forms they take today.\\
+	From an enveloping perspective, the project is very much reminiscent of the original implementation. This successful correlation can be attributed to the satisfaction of the functional and non-functional requirements that were set at the start of the project, most of which were directly influenced by features of the original game. By noting key features of the original game and expressing them as functional requirements, we were able to define a very precise target for functionality. With the same technique being applied to the non-functionals, the project was made very well defined.\\
 
-	Given that no prior tests exist, there is nothing to compare.  However, if such tests were to exist, the Rogue++ team would consider the following:
-	\begin{itemize}
-		\item How does the coverage of the existing test cases compare to Rogue Reborn's coverage?
-		\item For cases where the modules are similar across both versions, how do the tests compare?  Are there any significant benefits or drawbacks between the approaches?
-		\item Do either of the implementations completely neglect an aspect of the other implementation?  Is Rogue Reborn missing a critical functionality test that the original included?
-		\item How are random tests approached by the existing implementation?  Are random numbers ever used in the testing phase?
-	\end{itemize}
+	Despite the similarities between the projects, there were some differences. Our implementation added several features to the game, which we feel added to the overall quality. One example of such improvements was color: the original game was colorless, and in today's standards could be considered tame, mundane, or even boring. This is of course untrue, as anyone who has played the original can tell, but we strongly feel that the colors of our implementation add life and flavor to the original. We detailed our expected improvements primarily as non-functional requirements, as those tended to have a more applicable scope to the changes we had in mind.\\
+
+	The combination of requirements based off of the original implementation and the faithful improvements we had made to the project led to a final result that is very similar to the original, but better. As a team we can truthfully say that we have taken the original product and improved it. It is Rogue - Reborn.
 
 \newsection{Unit Testing} \label{Section_UT}
 	As a means of verifying the implementation of various functions and components, the Rogue++ developers devised a suite of unit tests.  Unit testing was employed as a consequence of its superior ability to localize errors and encourage contributors to write code that is highly modular and relatively free of side effects.  Broadly speaking, the Rogue Reborn unit tests were designed to gain confidence in the code with respect to the satisfaction of the functional requirements.\\
@@ -1340,7 +1336,7 @@
 			test.potion.cpp 		& FR.5, FR.13, FR.14, FR.15, FR.25, FR.31\\
 			test.ring.cpp 			& FR.5, FR.13, FR.14, FR.15, FR.25, FR.31\\
 			test.room.cpp 			& FR.17, FR.18, FR.19, FR.21\\
-			test.scroll.cpp 		& FR.5, FR.13, FR.14, FR.15, FR.25, FR.31\\\\
+			test.scroll.cpp 		& FR.5, FR.13, FR.14, FR.15, FR.25, FR.31\\
 			test.stairs.cpp 		& FR.18, FR.19\\
 			test.terrain.cpp 		& FR.13, FR.15, FR.18, FR.19, FR.23, FR.24\\
 			test.testable.cpp 		& Defines Test Structure\\
